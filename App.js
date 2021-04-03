@@ -1,12 +1,17 @@
 import React from 'react';
 import type {Node} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import RootStack from './src/navigation/RootStack';
+import {Provider} from 'react-redux';
+import {storehere, persistor} from './src/redux/store';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App: () => Node = () => {
   return (
-    <SafeAreaView>
-      <Text>App</Text>
-    </SafeAreaView>
+    <Provider store={storehere}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RootStack />
+      </PersistGate>
+    </Provider>
   );
 };
 

@@ -11,6 +11,15 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		264D828F2617ACA800C1EE45 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264D828E2617ACA800C1EE45 /* File.swift */; };
+		26B52F852617B79D00A5A3CF /* GothamRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46441C145B2643BC85AFCF6C /* GothamRounded-Bold.otf */; };
+		26B52F862617B79D00A5A3CF /* GothamRounded-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75B9482E2E5442318A5DABA6 /* GothamRounded-BoldItalic.otf */; };
+		26B52F872617B79D00A5A3CF /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B08B22D468D9305580C /* GothamRounded-Book.otf */; };
+		26B52F882617B79D00A5A3CF /* GothamRounded-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 89AD9FAC50864EDB9594F4BF /* GothamRounded-BookItalic.otf */; };
+		26B52F892617B79D00A5A3CF /* GothamRounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F9DC32CB162B432DA60471A9 /* GothamRounded-Light.otf */; };
+		26B52F8A2617B79D00A5A3CF /* GothamRounded-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */; };
+		26B52F8B2617B79D00A5A3CF /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */; };
+		26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		91EDD0203BD5DD3611462675 /* libPods-toastgo-toastgoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */; };
 		DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2C998B38596D239FCA3457 /* libPods-toastgo.a */; };
@@ -30,6 +39,7 @@
 		00E356EE1AD99517003FC87E /* toastgoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = toastgoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* toastgoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = toastgoTests.m; sourceTree = "<group>"; };
+		08A618BE8F694F0C92E16B8F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* toastgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toastgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = toastgo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = toastgo/AppDelegate.m; sourceTree = "<group>"; };
@@ -37,13 +47,38 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = toastgo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = toastgo/main.m; sourceTree = "<group>"; };
 		17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-toastgoTests.release.xcconfig"; path = "Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests.release.xcconfig"; sourceTree = "<group>"; };
+		1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-LightItalic.otf"; path = "../assets/fonts/GothamRounded-LightItalic.otf"; sourceTree = "<group>"; };
 		2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-toastgo-toastgoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		264D828D2617ACA700C1EE45 /* toastgo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "toastgo-Bridging-Header.h"; sourceTree = "<group>"; };
+		264D828E2617ACA800C1EE45 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		27E6540A19D7363C597610A4 /* Pods-toastgo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo.debug.xcconfig"; path = "Target Support Files/Pods-toastgo/Pods-toastgo.debug.xcconfig"; sourceTree = "<group>"; };
+		2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-MediumItalic.otf"; path = "../assets/fonts/GothamRounded-MediumItalic.otf"; sourceTree = "<group>"; };
+		2881184490FD4087A44130F7 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		2E31BF7C32D647119EE11934 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		3742EC85BBA14DDB987D638A /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		393383342E3246E3B13D72B6 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		3E704C7BB43E43EB8A6A71CF /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		46441C145B2643BC85AFCF6C /* GothamRounded-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Bold.otf"; path = "../assets/fonts/GothamRounded-Bold.otf"; sourceTree = "<group>"; };
+		4B84710E063F4284A1458E0B /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		4CD75CB755FB7EF23533AAFA /* Pods-toastgo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo.release.xcconfig"; path = "Target Support Files/Pods-toastgo/Pods-toastgo.release.xcconfig"; sourceTree = "<group>"; };
+		7107C0C6F9904D4698F7DA7B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		75B9482E2E5442318A5DABA6 /* GothamRounded-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-BoldItalic.otf"; path = "../assets/fonts/GothamRounded-BoldItalic.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = toastgo/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		889D462C4B204517B92A517C /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		89AD9FAC50864EDB9594F4BF /* GothamRounded-BookItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-BookItalic.otf"; path = "../assets/fonts/GothamRounded-BookItalic.otf"; sourceTree = "<group>"; };
+		A1B42C68E24947B7AC2B9120 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		A1F99B08B22D468D9305580C /* GothamRounded-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Book.otf"; path = "../assets/fonts/GothamRounded-Book.otf"; sourceTree = "<group>"; };
+		AAC250DA926B4E9C97743F82 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Medium.otf"; path = "../assets/fonts/GothamRounded-Medium.otf"; sourceTree = "<group>"; };
+		BDFE37929D074DBDAE6BC8E4 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		BF222BB036D14786B7BEFFA0 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		CF2C998B38596D239FCA3457 /* libPods-toastgo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-toastgo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CBD3807C1932360DB6932A /* Pods-toastgo-toastgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-toastgoTests.debug.xcconfig"; path = "Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DCB5A25D3A794D2898C3C052 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F62E1F8E383E441B9627E96A /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		F9DC32CB162B432DA60471A9 /* GothamRounded-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Light.otf"; path = "../assets/fonts/GothamRounded-Light.otf"; sourceTree = "<group>"; };
+		FF422CDB853F4C388573A787 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +131,37 @@
 			name = toastgo;
 			sourceTree = "<group>";
 		};
+		169832A5171E4A31A97DC304 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				393383342E3246E3B13D72B6 /* AntDesign.ttf */,
+				3742EC85BBA14DDB987D638A /* Entypo.ttf */,
+				F62E1F8E383E441B9627E96A /* EvilIcons.ttf */,
+				A1B42C68E24947B7AC2B9120 /* Feather.ttf */,
+				08A618BE8F694F0C92E16B8F /* FontAwesome.ttf */,
+				889D462C4B204517B92A517C /* FontAwesome5_Brands.ttf */,
+				7107C0C6F9904D4698F7DA7B /* FontAwesome5_Regular.ttf */,
+				3E704C7BB43E43EB8A6A71CF /* FontAwesome5_Solid.ttf */,
+				2881184490FD4087A44130F7 /* Fontisto.ttf */,
+				BDFE37929D074DBDAE6BC8E4 /* Foundation.ttf */,
+				FF422CDB853F4C388573A787 /* Ionicons.ttf */,
+				BF222BB036D14786B7BEFFA0 /* MaterialCommunityIcons.ttf */,
+				4B84710E063F4284A1458E0B /* MaterialIcons.ttf */,
+				2E31BF7C32D647119EE11934 /* Octicons.ttf */,
+				DCB5A25D3A794D2898C3C052 /* SimpleLineIcons.ttf */,
+				AAC250DA926B4E9C97743F82 /* Zocial.ttf */,
+				46441C145B2643BC85AFCF6C /* GothamRounded-Bold.otf */,
+				75B9482E2E5442318A5DABA6 /* GothamRounded-BoldItalic.otf */,
+				A1F99B08B22D468D9305580C /* GothamRounded-Book.otf */,
+				89AD9FAC50864EDB9594F4BF /* GothamRounded-BookItalic.otf */,
+				F9DC32CB162B432DA60471A9 /* GothamRounded-Light.otf */,
+				1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */,
+				BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */,
+				2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,12 +182,15 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				264D828E2617ACA800C1EE45 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* toastgo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* toastgoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				843DF1E143F965526733E081 /* Pods */,
+				169832A5171E4A31A97DC304 /* Resources */,
+				264D828D2617ACA700C1EE45 /* toastgo-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -145,7 +214,6 @@
 				D8CBD3807C1932360DB6932A /* Pods-toastgo-toastgoTests.debug.xcconfig */,
 				17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -208,7 +276,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1230;
 					};
 				};
 			};
@@ -243,6 +311,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B52F852617B79D00A5A3CF /* GothamRounded-Bold.otf in Resources */,
+				26B52F862617B79D00A5A3CF /* GothamRounded-BoldItalic.otf in Resources */,
+				26B52F872617B79D00A5A3CF /* GothamRounded-Book.otf in Resources */,
+				26B52F882617B79D00A5A3CF /* GothamRounded-BookItalic.otf in Resources */,
+				26B52F892617B79D00A5A3CF /* GothamRounded-Light.otf in Resources */,
+				26B52F8A2617B79D00A5A3CF /* GothamRounded-LightItalic.otf in Resources */,
+				26B52F8B2617B79D00A5A3CF /* GothamRounded-Medium.otf in Resources */,
+				26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -412,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				264D828F2617ACA800C1EE45 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +508,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D8CBD3807C1932360DB6932A /* Pods-toastgo-toastgoTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -458,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = toastgoTests/Info.plist;
@@ -485,6 +564,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3AC3SQ8K49;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = toastgo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -498,6 +578,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = toastgo;
+				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -511,6 +592,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3AC3SQ8K49;
 				INFOPLIST_FILE = toastgo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -523,6 +605,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = toastgo;
+				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

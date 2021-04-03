@@ -1,0 +1,90 @@
+import React from 'react';
+import {Text, StyleSheet, Dimensions, SafeAreaView, Image} from 'react-native';
+import {Button} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {LOGIN} from '../redux/types';
+import Contacts from 'react-native-contacts';
+import axios from 'axios';
+import {GetMyProfile} from '../redux/MyProfileActions';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+function PermissionsAfterRegister({dispatch, route}) {
+  const {phone} = route.params;
+
+  async function GrabContacts() {
+    const contacts_here = await Contacts.getAllWithoutPhotos();
+    console.log(contacts_here);
+    axios
+      .post(
+        'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/contacts_list',
+        contacts_here,
+      )
+      .then(() => dispatch(GetMyProfile(phone)))
+      .catch(err => console.log(err));
+  }
+
+  return (
+    <SafeAreaView style={styles.view}>
+      <Button
+        title="ALLOW CONTACTS"
+        buttonStyle={styles.button}
+        titleStyle={styles.button_text}
+        onPress={() => {
+          GrabContacts();
+          dispatch({type: LOGIN});
+        }}
+      />
+      <Text style={styles.text}>
+        allowing your contacts helps you find your friends faster
+      </Text>
+      <Image
+        source={require('/Users/san/Desktop/toastgo/assets/clip-141.png')}
+        style={styles.graphic_here}
+      />
+    </SafeAreaView>
+  );
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogInClick: () => {
+      dispatch({type: LOGIN});
+    },
+  };
+};
+
+export default connect(mapDispatchToProps)(PermissionsAfterRegister);
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#50E3C2',
+    width: 300,
+    height: 50,
+    borderRadius: 25,
+  },
+  button_text: {
+    fontSize: 17,
+    fontFamily: 'GothamRounded-Medium',
+    color: '#050505',
+  },
+  view: {
+    flex: 1,
+    backgroundColor: '#050505',
+    flexDirection: 'column-reverse',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  text: {
+    fontSize: 17,
+    fontFamily: 'GothamRounded-Medium',
+    color: '#FFFFFF75',
+    textAlign: 'center',
+    marginHorizontal: windowWidth * 0.1,
+  },
+  graphic_here: {
+    width: windowWidth * 0.8,
+    height: windowHeight * 0.5,
+  },
+});
