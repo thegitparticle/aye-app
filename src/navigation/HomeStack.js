@@ -14,11 +14,23 @@ import HomeMainD from '../dummy/HomeMainD';
 import MyProfileScreen from '../screens/MyProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import SettingsScreen from '../screens/SettingsScreen';
+import {ClubDummyData} from '../dummy/ClubDummyData';
+import ClubChatScreen from '../screens/ClubChatScreen';
+import ClubFramesList from '../screens/ClubFramesList';
+import ClubHub from '../screens/ClubHub';
+import DirectFramesList from '../screens/DirectFramesList';
+import DirectChatScreen from '../screens/DirectChatScreen';
+import DirectHub from '../screens/DirectHub';
+import AddPeopleToClub from '../screens/AddPeopleToClub';
+import StartClub from '../screens/StartClub';
+import InvitePeopleToClub from '../screens/InvitePeopleToClub';
 
 const StackMain = createStackNavigator();
 //const HomeTabStack = createMaterialTopTabNavigator();
 const HereStack = createStackNavigator();
 const MyProfileStack = createStackNavigator();
+const ClubChatStack = createStackNavigator();
+const DirectChatStack = createStackNavigator();
 
 const test_config = {
   animation: 'spring',
@@ -53,6 +65,32 @@ function MyProfileModalScreens() {
   );
 }
 
+function ClubInteractionScreens() {
+  return (
+    <ClubChatStack.Navigator headerMode="none">
+      <ClubChatStack.Screen name="ClubChatScreen" component={ClubChatScreen} />
+      <ClubChatStack.Screen name="ClubFramesList" component={ClubFramesList} />
+      <ClubChatStack.Screen name="ClubHub" component={ClubHub} />
+    </ClubChatStack.Navigator>
+  );
+}
+
+function DirectInteractionScreens() {
+  return (
+    <DirectChatStack.Navigator headerMode="none">
+      <DirectChatStack.Screen
+        name="DirectChatScreen"
+        component={DirectChatScreen}
+      />
+      <DirectChatStack.Screen
+        name="DirectFramesList"
+        component={DirectFramesList}
+      />
+      <DirectChatStack.Screen name="DirectHub" component={DirectHub} />
+    </DirectChatStack.Navigator>
+  );
+}
+
 function HomeStack() {
   return (
     <StackMain.Navigator headerMode="none">
@@ -80,6 +118,61 @@ function HomeStack() {
           //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="AddPeopleToClub"
+        component={AddPeopleToClub}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="InvitePeopleToClub"
+        component={InvitePeopleToClub}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="StartClub"
+        component={StartClub}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="ClubInteractionScreens"
+        component={ClubInteractionScreens}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          headerShown: false,
+        }}
+      />
+      <StackMain.Screen
+        name="DirectInteractionScreens"
+        component={DirectInteractionScreens}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          headerShown: false,
         }}
       />
     </StackMain.Navigator>

@@ -10,12 +10,14 @@ import {
 import LiveClubComponent from './LiveClubComponent';
 import {ClubDummyData} from '../dummy/ClubDummyData';
 import {ListItem, Badge, Icon} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function LiveClubs({navigation, props}) {
+function LiveClubs(props) {
   //var live_clubs_data = props.ClubsData;
+  const navigation = useNavigation();
 
   return (
     <ScrollView style={styles.ScrollViewStyle}>
@@ -27,7 +29,21 @@ function LiveClubs({navigation, props}) {
               ? styles.ListItemContainerEven
               : styles.ListItemContainerOdd
           }
-          onPress={() => navigation.navigate('ClubsCoreStack')}>
+          onPress={() =>
+            navigation.navigate('ClubInteractionScreens', {
+              screen: 'ClubChatScreen',
+              params: {
+                clubNameHere: comp.club_name,
+                //channelIdHere: props.club_id.toString() + '_c',
+                channelIdHere: comp.pn_channel_id,
+                channelOnGoing: comp.on_going_frame,
+                channelStartTime: comp.start_time,
+                channelEndTime: comp.end_time,
+                clubID: comp.club_id,
+                //livePeople: livePeople, },
+              },
+            })
+          }>
           <ListItem.Content style={styles.ImagesContainer}>
             <LiveClubComponent Club={comp} />
           </ListItem.Content>

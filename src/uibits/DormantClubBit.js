@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 function DormantClubBit(props) {
   console.log(props.Club.club_image);
+  const navigation = useNavigation();
 
   function OnGoingFrameText(props) {
     if (props.Status) {
@@ -33,7 +35,9 @@ function DormantClubBit(props) {
   }
 
   return (
-    <View style={styles.overall_view}>
+    <Pressable
+      style={styles.overall_view}
+      onPress={() => navigation.navigate('ClubInteractionScreens')}>
       <FastImage
         source={{uri: props.Club.club_image}}
         style={styles.avatar_of_club}
@@ -44,7 +48,7 @@ function DormantClubBit(props) {
 
         <OnGoingFrameText Status={props.Club.on_going_frame} />
       </View>
-    </View>
+    </Pressable>
   );
 }
 

@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 function DirectBit(props) {
+  const navigation = useNavigation();
   function UnreadStatus(props) {
     if (props.Status) {
       return (
@@ -31,7 +33,9 @@ function DirectBit(props) {
   }
 
   return (
-    <View style={styles.overall_view}>
+    <Pressable
+      style={styles.overall_view}
+      onPress={() => navigation.navigate('DirectInteractionScreens')}>
       <FastImage
         source={{uri: props.Direct.avatar}}
         style={styles.avatar_of_club}
@@ -44,7 +48,7 @@ function DirectBit(props) {
 
         <UnreadStatus Status={props.Direct.on_going_frame} />
       </View>
-    </View>
+    </Pressable>
   );
 }
 

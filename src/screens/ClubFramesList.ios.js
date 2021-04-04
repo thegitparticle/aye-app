@@ -1,0 +1,748 @@
+import React, {useEffect, useState} from 'react';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  Image,
+} from 'react-native';
+import {Header, Icon, Badge} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {GetFrames} from '../redux/GetFramesActions';
+import dayjs from 'dayjs';
+import axios from 'axios';
+
+var statehere = {};
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
+
+function ClubFramesList({dispatch, navigation}) {
+  const [thisMonth, setThisMonth] = useState(); // actual month IRL
+  const [currentmonth, setCurrentmonth] = useState(); // string value of rendering month
+  const [monthnum, setMonthnum] = useState(); // num value of rendering month
+  const [date, setDate] = useState(); //today's date
+  const [currentyear, setCurrentYear] = useState(); //num value of rending year
+  const [thisyear, setThisYear] = useState();
+  useEffect(() => {
+    dispatch(GetFrames());
+  }, [dispatch]);
+
+  function LeftHeaderComponent() {
+    return (
+      <Icon
+        type="feather"
+        color="#fff"
+        name="command"
+        onPress={() => navigation.navigate('ClubHub')}
+      />
+    );
+  }
+
+  function RightHeaderComponent() {
+    return (
+      <Icon
+        type="feather"
+        color="#fff"
+        name="chevron-down"
+        onPress={() => navigation.navigate('Clubs')}
+      />
+    );
+  }
+
+  function CenterHeaderComponent() {
+    return (
+      <View style={styles.center_header_view}>
+        <Text style={styles.center_header_club_name}>Bohemian Grove</Text>
+        <View style={styles.center_header_people_view}>
+          <Image
+            style={styles.center_header_people_image}
+            source={{
+              uri: 'https://robohash.org/aliquidmaximedolor.png',
+            }}
+          />
+          <Image
+            style={styles.center_header_people_image}
+            source={{
+              uri: 'https://robohash.org/itaquefacilisinventore.jpg',
+            }}
+          />
+          <Image
+            style={styles.center_header_people_image}
+            source={{
+              uri: 'https://robohash.org/minusquisdolor.jpg',
+            }}
+          />
+          <Image
+            style={styles.center_header_people_image}
+            source={{
+              uri: 'https://robohash.org/idinrepellendus.png',
+            }}
+          />
+          <Image
+            style={styles.center_header_people_image}
+            source={{
+              uri: 'https://robohash.org/illumoptiomolestias.jpg',
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  function stringmonth(month, year) {
+    if (month === 0) {
+      return `JANUARY, ${year}`;
+    } else if (month === 1) {
+      return `FEBRUARY, ${year}`;
+    } else if (month === 2) {
+      return `MARCH, ${year}`;
+    } else if (month === 3) {
+      return `APRIL, ${year}`;
+    } else if (month === 4) {
+      return `MAY, ${year}`;
+    } else if (month === 5) {
+      return `JUNE, ${year}`;
+    } else if (month === 6) {
+      return `JULY, ${year}`;
+    } else if (month === 7) {
+      return `AUGUST, ${year}`;
+    } else if (month === 8) {
+      return `SEPTEMBER, ${year}`;
+    } else if (month === 9) {
+      return `OCTOBER, ${year}`;
+    } else if (month === 10) {
+      return `NOVEMBER, ${year}`;
+    } else if (month === 11) {
+      return `DECEMBER, ${year}`;
+    } else {
+      return;
+    }
+  }
+
+  useEffect(() => {
+    var month_here = dayjs().get('month');
+    var year_here = dayjs().get('year');
+    year_here = year_here - 2000;
+    setCurrentYear(year_here);
+    setThisYear(year_here);
+    setMonthnum(month_here);
+    setThisMonth(month_here + 1);
+    setCurrentmonth(stringmonth(month_here, year_here));
+    var date_here = dayjs().get('date');
+    setDate(date_here);
+  }, []);
+
+  function CalenderComponent() {
+    if (monthnum + 1 === thisMonth && currentyear === thisyear) {
+      return (
+        <View style={styles.month_container}>
+          <View style={styles.month_container_internal_view}>
+            <Icon
+              type="feather"
+              name="chevron-left"
+              onPress={() => {
+                if (monthnum === 0) {
+                  setMonthnum(11);
+                  setCurrentYear(currentyear - 1);
+                  setCurrentmonth(stringmonth(11, currentyear - 1));
+                } else {
+                  setMonthnum(monthnum - 1);
+                  setCurrentmonth(stringmonth(monthnum - 1, currentyear));
+                }
+              }}
+            />
+            <Text style={styles.monthtext}>{currentmonth}</Text>
+            <Icon type="feather" name="chevron-right" color="#00000050" />
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.month_container}>
+          <View style={styles.month_container_internal_view}>
+            <Icon
+              type="feather"
+              name="chevron-left"
+              onPress={() => {
+                if (monthnum === 0) {
+                  setMonthnum(11);
+                  setCurrentYear(currentyear - 1);
+                  setCurrentmonth(stringmonth(11, currentyear - 1));
+                } else {
+                  setMonthnum(monthnum - 1);
+                  setCurrentmonth(stringmonth(monthnum - 1, currentyear));
+                }
+              }}
+            />
+            <Text style={styles.monthtext}>{currentmonth}</Text>
+            <Icon
+              type="feather"
+              name="chevron-right"
+              onPress={() => {
+                if (monthnum === 11) {
+                  setCurrentYear(currentyear + 1);
+                  setMonthnum(0);
+                  setCurrentmonth(stringmonth(0, currentyear + 1));
+                } else {
+                  setMonthnum(monthnum + 1);
+                  setCurrentmonth(stringmonth(monthnum + 1, currentyear));
+                }
+              }}
+            />
+          </View>
+        </View>
+      );
+    }
+  }
+
+  function DatesBlock(props) {
+    var items = [];
+    var badge_style = props.BadgeStyle;
+
+    for (var i = props.MinDate; i <= props.MaxDate; i++) {
+      items.push(i);
+    }
+
+    const frames_list_here = [
+      {
+        id: 5,
+        live: false,
+        link:
+          'https://atto.scrolller.com/our-cabin-at-night-front-deck-looking-in-c03rpsh9hu-540x405.jpg',
+        month: 3,
+        date: 14,
+      },
+      {
+        id: 6,
+        live: false,
+        link:
+          'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+        month: 3,
+        date: 12,
+      },
+      {
+        id: 7,
+        live: false,
+        link:
+          'https://yocto.scrolller.com/fortaleza-state-of-cear-brazil-5nui74gqys-540x675.jpg',
+        month: 3,
+        date: 11,
+      },
+      {
+        id: 8,
+        live: false,
+        link:
+          'https://femto.scrolller.com/never-been-one-for-fancy-plating-so-i-present-to-7ffmwx8zjg-540x720.jpg',
+        month: 3,
+        date: 11,
+      },
+      {
+        id: 9,
+        live: false,
+        link:
+          'https://femto.scrolller.com/hot-chicken-amp-waffles-sandwich-bn3ksq4fjm-540x424.jpg',
+        month: 3,
+        date: 10,
+      },
+      {
+        id: 10,
+        live: false,
+        link:
+          'https://images.unsplash.com/photo-1608146127148-820b631b8f4c?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1Nnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+        month: 3,
+        date: 6,
+      },
+      {
+        id: 11,
+        live: false,
+        link: 'https://zepto.scrolller.com/never-fails-at8c5p47rg-540x304.jpg',
+        month: 3,
+        date: 3,
+      },
+      {
+        id: 12,
+        live: false,
+        link:
+          'https://zepto.scrolller.com/that-can-t-be-comfortable-5xlg7600x6-540x405.jpg',
+        month: 3,
+        date: 3,
+      },
+      {
+        id: 13,
+        live: false,
+        link:
+          'https://yocto.scrolller.com/dbz-style-anakin-skywalker-made-by-me-a7c4ae0vgs-540x720.jpg',
+        month: 3,
+        date: 2,
+      },
+      {
+        id: 14,
+        live: false,
+        link:
+          'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
+        month: 3,
+        date: 1,
+      },
+    ];
+
+    var grand_list = [];
+    const Generate_Grand_List = items.map(item => {
+      var ob = Object();
+      var ro = frames_list_here.filter(y => y.date === item).map(x => x.link);
+
+      ob.ro = ro;
+      ob.date = item;
+      grand_list.push(ob);
+    }, {});
+
+    Generate_Grand_List;
+    console.log(grand_list);
+
+    function WhatToRender(props) {
+      if (props.Item.ro.length !== 0) {
+        return (
+          <View style={styles.frame_thumbnail_on_strip_date_view}>
+            {props.Item.ro.map(item => (
+              <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
+                <Image
+                  source={{uri: item}}
+                  style={styles.frame_thumbnail_on_strip_image}
+                />
+                <Badge
+                  status="success"
+                  value={props.Item.date}
+                  containerStyle={
+                    styles.frame_thumbnail_date_badge_on_strip_container
+                  }
+                  badgeStyle={badge_style}
+                />
+              </View>
+            ))}
+          </View>
+        );
+      } else {
+        return <Text style={styles.date_on_strip_text}>{props.Item.date}</Text>;
+      }
+    }
+
+    return (
+      <View style={{flexDirection: 'column-reverse'}}>
+        {grand_list.map(item => (
+          <View style={styles.date_on_strip_view}>
+            <WhatToRender Item={item} />
+          </View>
+        ))}
+      </View>
+    );
+  }
+
+  function FrameStrip(props) {
+    if (monthnum + 1 === thisMonth && currentyear === thisyear) {
+      var month_here = monthnum + 1;
+      const default_list = [
+        {
+          id: 14,
+          live: false,
+          link:
+            'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
+          month: 3,
+          date: 1,
+        },
+        {
+          id: 6,
+          live: false,
+          link:
+            'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+          month: 3,
+          date: 12,
+        },
+      ];
+      const [framesThisMonth, setFramesThisMonth] = useState([default_list]);
+
+      var res = [];
+
+      useEffect(() => {
+        axios
+          .get(
+            'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/31/frames_list/' +
+              month_here,
+          )
+          .then(response => (res = response.data))
+          .then(() => setFramesThisMonth(res))
+          .then(console.log(res))
+          .catch(err => {
+            console.log(err);
+          });
+      }, []);
+
+      if (date < 11) {
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={date}
+                MinDate={1}
+                Render="this month 1"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+          </View>
+        );
+      } else if (date < 21) {
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={10}
+                MinDate={1}
+                Render="this month 1"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+            <View style={styles.frame_strip_block_2}>
+              <DatesBlock
+                MaxDate={date}
+                MinDate={11}
+                Render="this month 2"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+              />
+            </View>
+          </View>
+        );
+      } else if (date > 21) {
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={10}
+                MinDate={1}
+                Render="this month 1"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+            <View style={styles.frame_strip_block_2}>
+              <DatesBlock
+                MaxDate={20}
+                MinDate={11}
+                Render="this month 2"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+              />
+            </View>
+            <View style={styles.frame_strip_block_3}>
+              <DatesBlock
+                MaxDate={date}
+                MinDate={21}
+                Render="this month 3"
+                Frames={framesThisMonth}
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+              />
+            </View>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    } else {
+      const List31 = [0, 2, 4, 6, 7, 9, 11];
+      const List30 = [3, 5, 8, 10];
+
+      var month_here = monthnum + 1;
+      const default_list = [
+        {
+          id: 14,
+          live: false,
+          link:
+            'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
+          month: 3,
+          date: 1,
+        },
+        {
+          id: 6,
+          live: false,
+          link:
+            'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+          month: 3,
+          date: 12,
+        },
+      ];
+      const [framesThisMonth, setFramesThisMonth] = useState([default_list]);
+
+      var res = [];
+
+      useEffect(() => {
+        axios
+          .get(
+            'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/31/frames_list/' +
+              month_here,
+          )
+          .then(response => (res = response.data))
+          .then(() => setFramesThisMonth(res))
+          .then(console.log(res))
+          .catch(err => {
+            console.log(err);
+          });
+      }, []);
+
+      if (List31.includes(monthnum)) {
+        console.log(monthnum + 'odd months');
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={10}
+                MinDate={1}
+                Render="odd month 1"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+            <View style={styles.frame_strip_block_2}>
+              <DatesBlock
+                MaxDate={20}
+                MinDate={11}
+                Render="odd month 2"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+              />
+            </View>
+            <View style={styles.frame_strip_block_3}>
+              <DatesBlock
+                MaxDate={31}
+                MinDate={21}
+                Render="odd month 3"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+              />
+            </View>
+          </View>
+        );
+      } else if (List30.includes(monthnum)) {
+        console.log(monthnum + 'even months');
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={10}
+                MinDate={1}
+                Render="even month 1"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+            <View style={styles.frame_strip_block_2}>
+              <DatesBlock
+                MaxDate={20}
+                MinDate={11}
+                Render="even month 2"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+              />
+            </View>
+            <View style={styles.frame_strip_block_3}>
+              <DatesBlock
+                MaxDate={30}
+                MinDate={21}
+                Render="even month 3"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+              />
+            </View>
+          </View>
+        );
+      } else {
+        console.log(monthnum + 'else');
+        return (
+          <View style={styles.frame_strips_view}>
+            <View style={styles.frame_strip_block_1}>
+              <DatesBlock
+                MaxDate={10}
+                MinDate={1}
+                Render="feb month 1"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+              />
+            </View>
+            <View style={styles.frame_strip_block_2}>
+              <DatesBlock
+                MaxDate={20}
+                MinDate={11}
+                Render="feb month 2"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+              />
+            </View>
+            <View style={styles.frame_strip_block_3}>
+              <DatesBlock
+                MaxDate={28}
+                MinDate={21}
+                Render="feb month 3"
+                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+              />
+            </View>
+          </View>
+        );
+      }
+    }
+  }
+
+  return (
+    <View style={styles.view}>
+      <Header
+        backgroundColor="#050505"
+        containerStyle={styles.header_container}
+        barStyle="light-content">
+        <LeftHeaderComponent />
+        <CenterHeaderComponent />
+        <RightHeaderComponent />
+      </Header>
+      <CalenderComponent />
+      <ScrollView
+        style={styles.body_scroll_view}
+        contentContainerStyle={styles.body_scroll_view_content_container}>
+        <FrameStrip />
+      </ScrollView>
+    </View>
+  );
+}
+
+const mapStateToProps = state => {
+  statehere = state;
+  return statehere;
+};
+
+export default connect(mapStateToProps)(ClubFramesList);
+
+const styles = StyleSheet.create({
+  body_scroll_view: {
+    flex: 1,
+    backgroundColor: '#f1f4f9',
+    width: windowWidth,
+    ///borderRadius: 10,
+  },
+  body_scroll_view_content_container: {
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#050505',
+    alignItems: 'center',
+  },
+  view: {
+    flex: 1,
+    backgroundColor: '#06090e',
+  },
+  header_container: {borderBottomWidth: 0},
+  center_header_view: {flexDirection: 'column'},
+  center_header_club_name: {
+    color: '#fff',
+    fontFamily: 'GothamRounded-Bold',
+    fontSize: 21,
+  },
+  center_header_people_view: {
+    justifyContent: 'space-between',
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  center_header_people_image: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+  },
+  monthtext: {
+    fontFamily: 'GothamRounded-Bold',
+    fontSize: 17,
+    color: '#111111',
+  },
+  month_container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    width: windowWidth,
+    backgroundColor: '#f1f4f9',
+  },
+  month_container_internal_view: {
+    marginVertical: windowHeight * 0.021,
+    width: windowWidth * 0.9,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  frame_strips_view: {
+    flexDirection: 'row',
+    marginVertical: windowHeight * 0.05,
+    flex: 1,
+  },
+  frame_strip_block_1: {
+    backgroundColor: '#FF7272',
+    width: 32,
+    marginHorizontal: windowWidth * 0.1,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  frame_strip_block_2: {
+    backgroundColor: '#D079FF',
+    width: 32,
+    marginHorizontal: windowWidth * 0.1,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  frame_strip_block_3: {
+    backgroundColor: '#8DD384',
+    width: 32,
+    marginHorizontal: windowWidth * 0.1,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+
+  date_on_strip_view: {
+    //width: 32,
+    //height: 32,
+    backgroundColor: '#FFFFFF05',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginVertical: 40,
+  },
+  date_on_strip_text: {
+    fontFamily: 'GothamRounded-Book',
+    color: '#Fafafa50',
+    fontSize: 21,
+    //marginVertical: 40,
+  },
+  frame_thumbnail_on_strip_image: {
+    width: 80,
+    height: 80,
+    //marginVertical: 10,
+    borderRadius: 20,
+  },
+
+  frame_thumbnail_on_strip_date_view: {},
+  frame_thumbnail_on_strip_one_frame_view: {},
+
+  frame_thumbnail_date_badge_on_strip_container: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  frame_thumbnail_date_badge_on_strip_1: {
+    backgroundColor: '#FF7272',
+    borderWidth: 0,
+    width: 25,
+    height: 25,
+    borderRadius: 10,
+  },
+  frame_thumbnail_date_badge_on_strip_2: {
+    backgroundColor: '#D079FF',
+    borderWidth: 0,
+    width: 25,
+    height: 25,
+    borderRadius: 10,
+  },
+  frame_thumbnail_date_badge_on_strip_3: {
+    backgroundColor: '#8DD384',
+    borderWidth: 0,
+    width: 25,
+    height: 25,
+    borderRadius: 10,
+  },
+});
