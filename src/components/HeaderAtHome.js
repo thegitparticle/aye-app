@@ -3,12 +3,15 @@ import {View, Text, Dimensions, StyleSheet, Pressable} from 'react-native';
 import {Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
-function HeaderAtHome({navigation, dispatch}) {
+function HeaderAtHome({dispatch}) {
+  const navigation = useNavigation();
+
   function HeaderLeft() {
     return (
       <View style={styles.header_left_view_wrap}>
@@ -25,7 +28,7 @@ function HeaderAtHome({navigation, dispatch}) {
   function HeaderRight() {
     return (
       <View style={styles.header_right_view_wrap}>
-        <Pressable onPress={() => navigation.navigate('MyModalMyProfile')}>
+        <Pressable onPress={() => navigation.navigate('MyProfileModalScreens')}>
           <FastImage
             style={styles.header_right_image}
             source={{

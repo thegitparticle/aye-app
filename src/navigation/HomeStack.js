@@ -3,6 +3,7 @@ import {
   createStackNavigator,
   TransitionSpecs,
   CardStyleInterpolators,
+  TransitionPresets,
 } from '@react-navigation/stack';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import RootStackScreen from '../screens/RootStackScreen';
@@ -10,10 +11,14 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import ClubsHomeD from '../dummy/ClubsHome';
 import DirectsHomeD from '../dummy/DirectsHome';
 import HomeMainD from '../dummy/HomeMainD';
+import MyProfileScreen from '../screens/MyProfileScreen';
+import EditProfile from '../screens/EditProfile';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const StackMain = createStackNavigator();
-const HomeTabStack = createMaterialTopTabNavigator();
+//const HomeTabStack = createMaterialTopTabNavigator();
 const HereStack = createStackNavigator();
+const MyProfileStack = createStackNavigator();
 
 const test_config = {
   animation: 'spring',
@@ -35,6 +40,19 @@ function Here() {
   );
 }
 
+function MyProfileModalScreens() {
+  return (
+    <MyProfileStack.Navigator headerMode="none">
+      <MyProfileStack.Screen
+        name="MyProfileScreen"
+        component={MyProfileScreen}
+      />
+      <MyProfileStack.Screen name="EditProfile" component={EditProfile} />
+      <MyProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
+    </MyProfileStack.Navigator>
+  );
+}
+
 function HomeStack() {
   return (
     <StackMain.Navigator headerMode="none">
@@ -49,6 +67,19 @@ function HomeStack() {
             close: TransitionSpecs.TransitionIOSSpec,
           },
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="MyProfileModalScreens"
+        component={MyProfileModalScreens}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
         }}
       />
     </StackMain.Navigator>

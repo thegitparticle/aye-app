@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import HeaderAtHome from '../components/HeaderAtHome';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import ClubsHomeD from './ClubsHome';
@@ -38,6 +38,7 @@ function HomeMainD({dispatch, navigation}) {
       indicatorStyle={styles.tab_bar_indicator}
       style={styles.tab_bar}
       renderIcon={renderIconHere}
+      tabStyle={{backgroundColor: 'transparent'}}
     />
   );
 
@@ -61,12 +62,14 @@ export default HomeMainD;
 const styles = StyleSheet.create({
   overall_view: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
   tab_view: {
     flex: 1,
+    backgroundColor: '#fafafa',
   },
   tab_bar: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
     color: '#000',
     height: 60,
     justifyContent: 'center',

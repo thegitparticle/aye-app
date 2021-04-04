@@ -12,7 +12,7 @@ import FastImage from 'react-native-fast-image';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function ThreePersonLiveClub(props) {
+function ThreePeopleLiveClub(props) {
   const anim = useRef(new Animated.Value(1));
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function ThreePersonLiveClub(props) {
   );
 }
 
-export default ThreePersonLiveClub;
+export default ThreePeopleLiveClub;
 
 const styles = StyleSheet.create({
   AvatarStyleLiveClub: {

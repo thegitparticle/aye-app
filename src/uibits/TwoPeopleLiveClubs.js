@@ -12,7 +12,7 @@ import FastImage from 'react-native-fast-image';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function TwoPersonLiveClub(props) {
+function TwoPeopleLiveClub(props) {
   const anim = useRef(new Animated.Value(1));
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function TwoPersonLiveClub(props) {
   );
 }
 
-export default TwoPersonLiveClub;
+export default TwoPeopleLiveClub;
 
 const styles = StyleSheet.create({
   TwoLivePersonsView: {

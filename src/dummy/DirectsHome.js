@@ -1,12 +1,17 @@
 import React from 'react';
-import {View, Text, SafeAreaView, Pressable, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import HeaderAtHome from '../components/HeaderAtHome';
+import DirectsList from '../components/DirectsList';
+import NudgeToList from '../components/NudgeToList';
 
 function DirectsHomeD({dispatch}) {
   return (
-    <View style={styles.overall_view}>
-      <Text>Directs not Root</Text>
-    </View>
+    <ScrollView
+      style={styles.overall_view}
+      showsVerticalScrollIndicator={false}>
+      <DirectsList />
+      <NudgeToList />
+    </ScrollView>
   );
 }
 

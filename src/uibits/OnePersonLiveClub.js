@@ -37,16 +37,32 @@ function OnePersonLiveClub(props) {
   }, []);
 
   var imagesList = props.URLList;
-  return (
-    <View>
-      {imagesList.map(urlhere => (
+  console.log(imagesList);
+  var dummy_live_person = ['34']; // grab from pubnub
+
+  function RenderOnlyLivePeopleHere(props) {
+    if (dummy_live_person.includes(Object.keys(props.Member)[0])) {
+      var member_id = Object.keys(props.Member)[0];
+      console.log(Object.keys(props.Member));
+      console.log('xxxxxyyyzzz');
+      return (
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
-            source={{uri: urlhere}}
+            source={{uri: props.Member[member_id]}}
             style={styles.AvatarStyleLiveClub}
             size={68}
           />
         </Animated.View>
+      );
+    } else {
+      return <View />;
+    }
+  }
+
+  return (
+    <View>
+      {imagesList.map((item, index) => (
+        <RenderOnlyLivePeopleHere Member={item} />
       ))}
     </View>
   );
