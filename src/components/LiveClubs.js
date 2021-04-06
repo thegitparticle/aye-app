@@ -16,12 +16,14 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function LiveClubs(props) {
-  //var live_clubs_data = props.ClubsData;
+  var live_clubs_data_here = props.ClubsData;
+  // console.log(live_clubs_data_here);
+
   const navigation = useNavigation();
 
   return (
     <ScrollView style={styles.ScrollViewStyle}>
-      {ClubDummyData.map((comp, index) => (
+      {live_clubs_data_here.map((comp, index) => (
         <ListItem
           underlayColor="transparent"
           containerStyle={
@@ -40,7 +42,7 @@ function LiveClubs(props) {
                 channelStartTime: comp.start_time,
                 channelEndTime: comp.end_time,
                 clubID: comp.club_id,
-                //livePeople: livePeople, },
+                //livePeople: livePeople,
               },
             })
           }>

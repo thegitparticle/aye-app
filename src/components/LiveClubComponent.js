@@ -11,26 +11,71 @@ import {Badge} from 'react-native-elements';
 import OnePersonLiveClub from '../uibits/OnePersonLiveClub';
 import TwoPeopleLiveClub from '../uibits/TwoPeopleLiveClubs';
 import ThreePeopleLiveClub from '../uibits/ThreePeopleLiveClubs';
+import _ from 'lodash';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function LiveClubComponent(props) {
   var club_details = props.Club;
-  var imageslist = club_details.display_photos;
-  var numberofpeople = 1;
+  var live_members = props.LiveMembers;
+  var numberofpeople = live_members.length;
+  //console.log(numberofpeople + 'number people jaiho');
+
+  var all_members = club_details.display_photos;
+
   if (numberofpeople === 3) {
+    var imageslist = [];
+
+    _.forEach(live_members, function (value, key) {
+      var id_here = Number(value.uuid);
+      for (var i = 0; i < 2; i++) {
+        if (id_here === all_members[i].user_id) {
+          imageslist.push(all_members[i].display_pic);
+        }
+      }
+    });
     return <ThreePeopleLiveClub URLList={imageslist} />;
   } else if (numberofpeople === 1) {
+    var imageslist = [];
+
+    _.forEach(live_members, function (value, key) {
+      var id_here = Number(value.uuid);
+      for (var i = 0; i < 2; i++) {
+        if (id_here === all_members[i].user_id) {
+          imageslist.push(all_members[i].display_pic);
+        }
+      }
+    });
     return <OnePersonLiveClub URLList={imageslist} />;
   } else if (numberofpeople === 2) {
+    var imageslist = [];
+
+    _.forEach(live_members, function (value, key) {
+      var id_here = Number(value.uuid);
+      for (var i = 0; i < 2; i++) {
+        if (id_here === all_members[i].user_id) {
+          imageslist.push(all_members[i].display_pic);
+        }
+      }
+    });
     return <TwoPeopleLiveClub URLList={imageslist} />;
   } else {
+    var imageslist = [];
+
+    _.forEach(live_members, function (value, key) {
+      var id_here = Number(value.uuid);
+      for (var i = 0; i < 2; i++) {
+        if (id_here === all_members[i].user_id) {
+          imageslist.push(all_members[i].display_pic);
+        }
+      }
+    });
     return (
       <View>
         <ThreePeopleLiveClub URLList={imageslist} />
         <Badge
-          value={`+${props.LiveNumber - 3}`}
+          value={`+${numberofpeople - 3}`}
           badgeStyle={styles.extracountbadge}
           textStyle={styles.extracountbadgetext}
           containerStyle={styles.extracountbadgecontainer}

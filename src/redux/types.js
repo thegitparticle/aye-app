@@ -9,3 +9,4 @@ export const GET_FRAMES = 'GET_FRAMES';
 export const ADD_FRAMES = 'ADD_FRAMES';
 export const ADD_CLUBHUBDETAILS = 'ADD_CLUBHUBDETAILS';
 export const ADD_MYCIRCLE = 'ADD_MYCIRCLE';
+export const ADD_MYCLUBS = 'ADD_MYCLUBS';

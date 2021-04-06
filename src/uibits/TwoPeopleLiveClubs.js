@@ -39,7 +39,7 @@ function TwoPeopleLiveClub(props) {
   var imagesList = props.URLList;
   return (
     <View style={styles.TwoLivePersonsView}>
-      {imagesList.map(urlhere => (
+      {imagesList.map((urlhere, index) => (
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
             source={{uri: urlhere}}

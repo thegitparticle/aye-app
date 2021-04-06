@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     ],
   },
   logo_image: {
-    width: 250,
-    height: 208,
+    width: 274,
+    height: 200,
   },
 });

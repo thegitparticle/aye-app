@@ -5,8 +5,8 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 function DormantClubBit(props) {
-  console.log(props.Club.club_image);
   const navigation = useNavigation();
+  //console.log(props.Club);
 
   function OnGoingFrameText(props) {
     if (props.Status) {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,38 +7,125 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button, ListItem, Badge, Icon} from 'react-native-elements';
 import {ClubDummyData} from '../dummy/ClubDummyData';
 import LiveClubs from '../components/LiveClubs';
 import DormantClubs from '../components/DormantClubs';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {connect} from 'react-redux';
+import {GetMyClubs} from '../redux/MyClubsActions';
+import {usePubNub} from 'pubnub-react';
+import _ from 'lodash';
+import MyClubsCheckLiveStatus from '../pnstuff/MyClubsCheckLiveStatus';
+import DormantClubBit from '../uibits/DormantClubBit';
+
+var state_here = {};
 
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
-  const LiveClubsDataHere = [];
-  const DorClubsDataHere = [];
-  /*
-  useEffect(() => {
-    {
-      ClubDummyData.map(item => {
-        if (item.pn_live === true) {
-          LiveClubsDataHere.push(item);
-        } else {
-          DorClubsDataHere.push(item);
-        }
-      });
+  var my_clubs = ClubDummyData;
+  const pubnub = usePubNub();
+  const [resolved, setResolved] = useState(false);
+
+  var LiveClubsDataHere = [];
+
+  var DorClubsDataHere = [];
+
+  const [dor_clubs, setDorClubs] = useState([]);
+  const [live_clubs, setLiveClubs] = useState([]);
+  //const [dor_clubs, setDorClubs] = useState(new Set());
+
+  console.log(dor_clubs.length);
+  console.log(live_clubs.length);
+  //console.log(resolved);
+
+  function CheckLive() {
+    for (var i = 0; i < my_clubs.length; i++) {
+      const club_here = my_clubs[i];
+
+      pubnub.hereNow(
+        {
+          channels: [club_here.pn_channel_id],
+          includeUUIDs: true,
+          includeState: true,
+        },
+        (status, response) => {
+          //console.log(club_here.pn_channel_id);
+          if (response) {
+            if (response.totalOccupancy > 0) {
+              if (live_clubs.includes(club_here) === false) {
+                // setLiveClubs(live_clubs => [...live_clubs, club_here]);
+                setLiveClubs(live_clubs.concat(club_here));
+              }
+            } else if (response.totalOccupancy === 0) {
+              if (dor_clubs.includes(club_here) === false) {
+                setDorClubs(dor_clubs.concat(club_here));
+                //setDorClubs(new Set(dor_clubs).add(club_here));
+              }
+            } else {
+            }
+          }
+        },
+      );
     }
-  }, [ClubDummyData]);
-*/
-  //<LiveClubs ClubsData={ClubDummyData} />
+    setResolved(true);
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(GetMyClubs());
+      pubnub.unsubscribeAll();
+      CheckLive();
+    }, [dispatch]),
+  );
+
+  function RenderLiveClubsHere() {
+    //var my_clubs = state_here.MyClubsReducer.myclubs;
+
+    function RenderDor() {
+      return (
+        <View>
+          {dor_clubs.map((item, index) => (
+            <View>
+              <ListItem topDivider containerStyle={styles.list_item_container}>
+                <DormantClubBit Club={item} />
+              </ListItem>
+            </View>
+          ))}
+        </View>
+      );
+    }
+
+    function RenderLive() {
+      return (
+        <View>
+          {live_clubs.map((item, index) => (
+            <View>
+              <MyClubsCheckLiveStatus Club={item} PN={pubnub} Index={index} />
+            </View>
+          ))}
+        </View>
+      );
+    }
+    if (resolved) {
+      return (
+        <View>
+          <RenderLive />
+          <RenderDor />
+        </View>
+      );
+    } else {
+      return <View />;
+    }
+  }
+
+  //  <RenderLiveClubsHere />
   return (
     <ScrollView
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
-      <LiveClubs ClubsData={ClubDummyData} />
-      <DormantClubs />
+      <RenderLiveClubsHere />
       <Button
-        // raised
         buttonStyle={styles.start_club_button_style}
         containerStyle={styles.start_club_button_container_style}
         titleStyle={styles.start_club_button_title_style}
@@ -49,9 +136,19 @@ function ClubsHomeD({dispatch}) {
   );
 }
 
-export default ClubsHomeD;
+const mapStateToProps = state => {
+  state_here = state;
+  return state_here;
+};
+
+export default connect(mapStateToProps)(ClubsHomeD);
 
 const styles = StyleSheet.create({
+  list_item_container: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    borderColor: '#05050510',
+  },
   overall_view: {flex: 1},
   start_club_button_title_style: {
     fontFamily: 'GothamRounded-Medium',
@@ -70,3 +167,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#36b37e',
   },
 });
+
+/*
+
+/*
+  useEffect(() => {
+    {
+      ClubDummyData.map(item => {
+        if (item.pn_live === true) {
+          LiveClubsDataHere.push(item);
+        } else {
+          DorClubsDataHere.push(item);
+        }
+      });
+    }
+  }, [ClubDummyData]);
+*/
+//<LiveClubs ClubsData={ClubDummyData} />
