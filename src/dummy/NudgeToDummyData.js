@@ -12,13 +12,13 @@ export const NudgeToDummyData = [
     avatar: 'https://randomuser.me/api/portraits/women/17.jpg',
   },
   {
-    userid: 3,
-    name: 'Patricia JJ',
+    userid: 11,
+    name: 'Clark Dole',
     username: 'devioush',
     avatar: 'https://randomuser.me/api/portraits/women/70.jpg',
   },
   {
-    userid: 4,
+    userid: 41,
     name: 'lil Josh',
     username: 'peekpeek',
     avatar: 'https://randomuser.me/api/portraits/men/8.jpg',

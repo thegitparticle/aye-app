@@ -35,8 +35,8 @@ function ClubsHomeD({dispatch}) {
   const [live_clubs, setLiveClubs] = useState([]);
   //const [dor_clubs, setDorClubs] = useState(new Set());
 
-  console.log(dor_clubs.length);
-  console.log(live_clubs.length);
+  //console.log(dor_clubs.length);
+  //console.log(live_clubs.length);
   //console.log(resolved);
 
   function CheckLive() {

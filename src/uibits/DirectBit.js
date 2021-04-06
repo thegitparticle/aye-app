@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 function DirectBit(props) {
   const navigation = useNavigation();
+
   function UnreadStatus(props) {
     if (props.Status) {
       return (
@@ -37,13 +38,13 @@ function DirectBit(props) {
       style={styles.overall_view}
       onPress={() => navigation.navigate('DirectInteractionScreens')}>
       <FastImage
-        source={{uri: props.Direct.avatar}}
+        source={{uri: props.Direct.custom.other_user_image}}
         style={styles.avatar_of_club}
         size={68}
       />
       <View style={styles.text_block_view}>
         <Text style={styles.name_of_other_person}>
-          {props.Direct.full_name}
+          {props.Direct.custom.other_user_name}
         </Text>
 
         <UnreadStatus Status={props.Direct.on_going_frame} />

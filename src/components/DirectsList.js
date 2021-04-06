@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   View,
@@ -10,11 +10,39 @@ import {
 import DirectBit from '../uibits/DirectBit';
 import {DirectsDummyData} from '../dummy/DirectsDummyData';
 import {ListItem, Badge, Icon} from 'react-native-elements';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {usePubNub} from 'pubnub-react';
+import {connect} from 'react-redux';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
+var state_here = {};
+
 function DirectsList() {
+  const pubnub = usePubNub();
+  const [directsList, setDirectsList] = useState([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      pubnub.objects.getMemberships(
+        {
+          uuid: state_here.MyProfileReducer.myprofile.user.id,
+          include: {
+            channelFields: true,
+            customChannelFields: true,
+            customFields: true,
+          },
+          sort: {updated: 'desc'},
+        },
+        (status, response) => {
+          console.log(response.data);
+          setDirectsList(response.data);
+        },
+      );
+    }, []),
+  );
+
   function RenderItem(props) {
     return (
       <ListItem topDivider containerStyle={styles.list_item_container}>
@@ -25,14 +53,19 @@ function DirectsList() {
 
   return (
     <View style={styles.overall_view}>
-      {DirectsDummyData.map((item, index) => (
+      {directsList.map((item, index) => (
         <RenderItem Direct={item} />
       ))}
     </View>
   );
 }
 
-export default DirectsList;
+const mapStateToProps = state => {
+  state_here = state;
+  return state_here;
+};
+
+export default connect(mapStateToProps)(DirectsList);
 
 const styles = StyleSheet.create({
   overall_view: {
