@@ -37,7 +37,21 @@ function DormantClubBit(props) {
   return (
     <Pressable
       style={styles.overall_view}
-      onPress={() => navigation.navigate('ClubInteractionScreens')}>
+      onPress={() =>
+        navigation.navigate('ClubInteractionScreens', {
+          screen: 'ClubChatScreen',
+          params: {
+            clubNameHere: props.Club.club_name,
+            //channelIdHere: props.club_id.toString() + '_c',
+            channelIdHere: props.Club.pn_channel_id,
+            channelOnGoing: props.Club.on_going_frame,
+            channelStartTime: props.Club.start_time,
+            channelEndTime: props.Club.end_time,
+            clubID: props.Club.club_id,
+            livePeople: [],
+          },
+        })
+      }>
       <FastImage
         source={{uri: props.Club.club_image}}
         style={styles.avatar_of_club}

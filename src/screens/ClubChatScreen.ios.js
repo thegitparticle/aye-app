@@ -126,6 +126,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <Text style={styles.center_header_club_name}>
           {clubNameHere.substring(0, 13)}
         </Text>
+        <View style={styles.center_header_people_view}>
+          {liveWho.map(item => (
+            <Image
+              style={styles.center_header_people_image}
+              source={{
+                uri: 'https://robohash.org/aliquidmaximedolor.png',
+              }}
+            />
+          ))}
+        </View>
       </View>
     );
   }
@@ -272,33 +282,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         if (message) {
-          pubnub
-            .publish(
-              {
-                channel: channelsHere[0],
-                message: {
-                  test: message,
-                  //value: 42
-                },
-                file: {
-                  uri: cameraPicked,
-                  name: cameraPickedName,
-                  mimeType: cameraPickedMime,
-                },
-                meta: {type: 'b'},
-              },
-              function (status, response) {
-                StartFrame(response.timetoken);
-              },
-            )
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
-        } else {
-        }
-      } else {
-        if (message) {
-          pubnub
-            .sendFile({
+          pubnub.publish(
+            {
               channel: channelsHere[0],
               message: {
                 test: message,
@@ -310,17 +295,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 mimeType: cameraPickedMime,
               },
               meta: {type: 'b'},
-            })
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+            },
+            function (status, response) {
+              StartFrame(response.timetoken);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      if (message) {
-        pubnub
-          .sendFile({
+      } else {
+        if (message) {
+          pubnub.sendFile({
             channel: channelsHere[0],
             message: {
               test: message,
@@ -332,8 +318,29 @@ function ClubChatScreen({navigation, dispatch, route}) {
               mimeType: cameraPickedMime,
             },
             meta: {type: 'b'},
-          })
-          .catch(err => console.log(err));
+          });
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
+        } else {
+        }
+      }
+    };
+    const sendMessageOldFrame = message => {
+      if (message) {
+        pubnub.sendFile({
+          channel: channelsHere[0],
+          message: {
+            test: message,
+            //value: 42
+          },
+          file: {
+            uri: cameraPicked,
+            name: cameraPickedName,
+            mimeType: cameraPickedMime,
+          },
+          meta: {type: 'b'},
+        });
+        //.catch(err => console.log(err));
       } else {
       }
     };
@@ -520,9 +527,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
-          //console.log(response);
-          addOldMessages(response);
-          changeOldMessagesResolve(true);
+          if (response) {
+            //console.log(status);
+            addOldMessages(response);
+            //console.log(response + 'just old');
+            changeOldMessagesResolve(true);
+          }
         },
       );
     } else {
@@ -536,7 +546,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
         function (status, response) {
           //console.log(response + 'response for on going ');
+
           addOldMessages(response);
+          //console.log(response + 'old old');
           changeOldMessagesResolve(true);
         },
       );
@@ -547,6 +559,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }, [pubnub, channelsHere]);
 
   function LiveMessagesView() {
+    const scrollView = useRef();
+
     if (!old_messages_resolve) {
       return (
         <ScrollView
@@ -555,12 +569,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
         />
       );
     } else {
-      if (Object.entries(old_messages.channels).length === 0) {
-        //console.log('old messages not there');
+      //if (Object.entries(old_messages.channels).length === 0) {
+      //console.log('old messages not there');
+      if (old_messages.channels[channelsHere].length === 0) {
+        console.log(old_messages.channels[channelsHere].length);
         return (
           <ScrollView
             style={styles.body_scroll_view}
-            contentContainerStyle={styles.body_scroll_view_content_container}>
+            contentContainerStyle={styles.body_scroll_view_content_container}
+            ref={scrollView}
+            onContentSizeChange={() =>
+              scrollView.current.scrollToEnd({animated: true})
+            }>
             {messages.map((message, index) => (
               <ShowMessage Message={message} />
             ))}
@@ -573,7 +593,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
         return (
           <ScrollView
             style={styles.body_scroll_view}
-            contentContainerStyle={styles.body_scroll_view_content_container}>
+            contentContainerStyle={styles.body_scroll_view_content_container}
+            ref={scrollView}
+            onContentSizeChange={() =>
+              scrollView.current.scrollToEnd({animated: true})
+            }>
             {old_messages.channels[channelIdHere].map((item, index) => (
               <ShowMessageOld Message={item} />
               //<Text>{item.message}</Text>
@@ -623,41 +647,52 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         if (message) {
-          pubnub
-            .publish(
-              {channel: channelsHere[0], message, meta: {type: type_message}},
-              function (status, response) {
-                StartFrame(response.timetoken);
-              },
-            )
-            .then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+          pubnub.publish(
+            {channel: channelsHere[0], message, meta: {type: type_message}},
+            function (status, response) {
+              console.log(status);
+              console.log(response);
+              StartFrame(response.timetoken);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       } else {
         if (message) {
-          pubnub
-            .publish({
+          pubnub.publish(
+            {
               channel: channelsHere[0],
               message,
               meta: {type: type_message},
-            })
-            .then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+            },
+            function (status, response) {
+              console.log(status);
+              console.log(response);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       }
     };
     const sendMessageOldFrame = message => {
       if (message) {
-        pubnub
-          .publish({
+        pubnub.publish(
+          {
             channel: channelsHere[0],
             message,
             meta: {type: type_message},
-          })
-          .then(() => changeTypevalue(''))
-          .catch(err => console.log(err));
+          },
+          function (status, response) {
+            console.log(status);
+            console.log(response);
+          },
+        );
+        //.then(() => changeTypevalue(''))
+        //.catch(err => console.log(err));
       } else {
       }
     };
@@ -687,6 +722,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             type="feather"
             color="tomato"
             onPress={() => {
+              Keyboard.dismiss;
               if (!channelOnGoing) {
                 sendMessageNewFrame(typevalue);
               } else {
@@ -694,7 +730,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }
 
               //sendMessage(typevalue);
-              Keyboard.dismiss;
               changeTypevalue('');
               changeTextInputHeight(80);
               changeInputBarFlex(0.14);
@@ -739,28 +774,26 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }
       } else {
         if (message) {
-          pubnub
-            .publish({
-              channel: channelsHere[0],
-              message,
-              meta: {type: 'g', image_url: imageSelected},
-            })
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+          pubnub.publish({
+            channel: channelsHere[0],
+            message,
+            meta: {type: 'g', image_url: imageSelected},
+          });
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       }
     };
     const sendMessageOldFrame = message => {
       if (message) {
-        pubnub
-          .publish({
-            channel: channelsHere[0],
-            message,
-            meta: {type: 'g', image_url: imageSelected},
-          })
-          //.then(() => changeTypevalue(''))
-          .catch(err => console.log(err));
+        pubnub.publish({
+          channel: channelsHere[0],
+          message,
+          meta: {type: 'g', image_url: imageSelected},
+        });
+        //.then(() => changeTypevalue(''))
+        //.catch(err => console.log(err));
       } else {
       }
     };
@@ -797,6 +830,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 }
 
                 //sendMessage(typevalue);
+                changeTypevalue('');
                 Keyboard.dismiss;
                 setTextMessage('');
                 imageSelectorCraftOverlay();
@@ -845,31 +879,29 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         if (message) {
-          pubnub
-            .publish(
-              {
-                channel: channelsHere[0],
-                message,
-                meta: {type: 'f', image_url: gifSelected},
-              },
-              function (status, response) {
-                StartFrame(response.timetoken);
-              },
-            )
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {type: 'f', image_url: gifSelected},
+            },
+            function (status, response) {
+              StartFrame(response.timetoken);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       } else {
         if (message) {
-          pubnub
-            .publish({
-              channel: channelsHere[0],
-              message,
-              meta: {type: 'f', image_url: gifSelected},
-            })
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+          pubnub.publish({
+            channel: channelsHere[0],
+            message,
+            meta: {type: 'f', image_url: gifSelected},
+          });
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       }
@@ -1052,7 +1084,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   body_scroll_view_content_container: {
+    flexGrow: 1,
     alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   container: {
     flex: 1,

@@ -19,8 +19,8 @@ export const ClubDummyData = [
     ],
     frames_count: 592,
     on_going_frame: true,
-    start_time: 1616995341,
-    end_time: 1617038541,
+    start_time: 1617751160,
+    end_time: 1617794360,
     pn_live: true,
   },
   {

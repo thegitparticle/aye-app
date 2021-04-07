@@ -46,14 +46,6 @@ function MyClubsCheckLiveStatus(props) {
       handleHereNowResponse(response);
     },
   );
-  /*
-  containerStyle={
-    index % 2 === 0
-      ? styles.ListItemContainerEven
-      : styles.ListItemContainerOdd
-  }
-
-  */
 
   if (liveClub) {
     return (

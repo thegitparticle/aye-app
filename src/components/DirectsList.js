@@ -36,7 +36,7 @@ function DirectsList() {
           sort: {updated: 'desc'},
         },
         (status, response) => {
-          console.log(response.data);
+          //console.log(response.data);
           setDirectsList(response.data);
         },
       );
