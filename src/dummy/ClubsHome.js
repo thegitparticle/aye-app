@@ -83,6 +83,7 @@ function ClubsHomeD({dispatch}) {
     //var my_clubs = state_here.MyClubsReducer.myclubs;
 
     function RenderDor() {
+      //console.log(dor_clubs);
       return (
         <View>
           {dor_clubs.map((item, index) => (
@@ -97,6 +98,7 @@ function ClubsHomeD({dispatch}) {
     }
 
     function RenderLive() {
+      //console.log(live_clubs);
       return (
         <View>
           {live_clubs.map((item, index) => (

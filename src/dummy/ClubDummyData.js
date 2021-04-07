@@ -19,8 +19,8 @@ export const ClubDummyData = [
     ],
     frames_count: 592,
     on_going_frame: true,
-    start_time: 1617751160,
-    end_time: 1617794360,
+    start_time: 1617778963,
+    end_time: 1617822163,
     pn_live: true,
   },
   {
@@ -45,7 +45,7 @@ export const ClubDummyData = [
     on_going_frame: false,
     start_time: null,
     end_time: null,
-    pn_live: true,
+    pn_live: false,
   },
   {
     club_id: 7,
@@ -67,8 +67,8 @@ export const ClubDummyData = [
     ],
     frames_count: 92,
     on_going_frame: true,
-    start_time: 1616995341,
-    end_time: 1617038541,
-    pn_live: false,
+    start_time: 1617778963,
+    end_time: 1617822163,
+    pn_live: true,
   },
 ];

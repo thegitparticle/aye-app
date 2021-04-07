@@ -34,7 +34,7 @@ import ShowMessageOld from '../uibits/ShowMessageOld';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-var state_here = [];
+var state_here = {};
 
 function ClubChatScreen({navigation, dispatch, route}) {
   const pubnub = usePubNub();
@@ -55,7 +55,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [liveWho, setLiveWho] = useState(livePeople);
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
-  const [old_messages, addOldMessages] = useState({});
+  const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
   //console.log(old_messages.channels[this_channel_string] + 'old messages');
   //var messages = [];
@@ -64,8 +64,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   useEffect(() => {
-    setNowTimeStamp(dayjs().valueOf() + '0000');
+    setNowTimeStamp(dayjs().valueOf());
   }, []);
+
+  //console.log(nowTimeStamp);
 
   const [textinputheight, changeTextInputHeight] = useState(50);
 
@@ -152,35 +154,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
   function ImagePickerOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
     const sendMessageNewFrame = message => {
+      console.log('sending picked image - new frames');
       if (messages.length === 0) {
+        console.log('no live messsages here');
         if (message) {
-          pubnub
-            .publish(
-              {
-                channel: channelsHere[0],
-                message: {
-                  test: message,
-                  //value: 42
-                },
-                file: {
-                  uri: imagePicked,
-                  name: imagePickedName,
-                  mimeType: imagePickedMime,
-                },
-                meta: {type: 'b'},
-              },
-              function (status, response) {
-                StartFrame(response.timetoken);
-              },
-            )
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
-        } else {
-        }
-      } else {
-        if (message) {
-          pubnub
-            .sendFile({
+          pubnub.sendFile(
+            {
               channel: channelsHere[0],
               message: {
                 test: message,
@@ -191,18 +170,60 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 name: imagePickedName,
                 mimeType: imagePickedMime,
               },
-              meta: {type: 'b'},
-            })
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+              meta: {
+                type: 'b',
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              StartFrame();
+              console.log(status);
+            },
+          );
+
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
+        } else {
+        }
+      } else {
+        console.log('yes live messsages here');
+        if (message) {
+          pubnub.sendFile(
+            {
+              channel: channelsHere[0],
+              message: {
+                test: message,
+                //value: 42
+              },
+              file: {
+                uri: imagePicked,
+                name: imagePickedName,
+                mimeType: imagePickedMime,
+              },
+              meta: {
+                type: 'b',
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       }
     };
     const sendMessageOldFrame = message => {
+      console.log('sending picked image - old frame');
       if (message) {
-        pubnub
-          .sendFile({
+        pubnub.sendFile(
+          {
             channel: channelsHere[0],
             message: {
               test: message,
@@ -213,9 +234,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
               name: imagePickedName,
               mimeType: imagePickedMime,
             },
-            meta: {type: 'b'},
-          })
-          .catch(err => console.log(err));
+            meta: {
+              type: 'b',
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status);
+          },
+        );
+        //.catch(err => console.log(err));
       } else {
       }
     };
@@ -294,10 +324,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 name: cameraPickedName,
                 mimeType: cameraPickedMime,
               },
-              meta: {type: 'b'},
+              meta: {
+                type: 'c',
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
             },
             function (status, response) {
-              StartFrame(response.timetoken);
+              console.log(status);
+              StartFrame();
             },
           );
           //.then(() => changeTypevalue(''))
@@ -306,7 +342,39 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }
       } else {
         if (message) {
-          pubnub.sendFile({
+          pubnub.sendFile(
+            {
+              channel: channelsHere[0],
+              message: {
+                test: message,
+                //value: 42
+              },
+              file: {
+                uri: cameraPicked,
+                name: cameraPickedName,
+                mimeType: cameraPickedMime,
+              },
+              meta: {
+                type: 'c',
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
+        } else {
+        }
+      }
+    };
+    const sendMessageOldFrame = message => {
+      if (message) {
+        pubnub.sendFile(
+          {
             channel: channelsHere[0],
             message: {
               test: message,
@@ -317,29 +385,17 @@ function ClubChatScreen({navigation, dispatch, route}) {
               name: cameraPickedName,
               mimeType: cameraPickedMime,
             },
-            meta: {type: 'b'},
-          });
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      if (message) {
-        pubnub.sendFile({
-          channel: channelsHere[0],
-          message: {
-            test: message,
-            //value: 42
+            meta: {
+              type: 'c',
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
           },
-          file: {
-            uri: cameraPicked,
-            name: cameraPickedName,
-            mimeType: cameraPickedMime,
+          function (status, response) {
+            console.log(status);
           },
-          meta: {type: 'b'},
-        });
+        );
         //.catch(err => console.log(err));
       } else {
       }
@@ -490,7 +546,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
   */
 
   const handleMessage = event => {
-    addMessage(messages => [...messages, event]);
+    if (messages.includes(messages) === false) {
+      //addMessage(messages => [...messages, event]);
+      addMessage(messages.concat(event));
+    } else {
+      addMessage(messages);
+    }
   };
 
   const handleHereNowResponse = event => {
@@ -514,11 +575,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   useEffect(() => {
-    //pubnub.subscribe({channels: channelsHere, withPresence: true});
     pubnub.subscribe({channels: channelsHere});
     if (!channelOnGoing) {
-      //console.log(channelOnGoing + 'on going or not');
-      //console.log(nowTimeStamp + 'on going subcrube time stamp');
+      console.log(nowTimeStamp + 'on going subcrube time stamp');
+
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
@@ -528,9 +588,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
         function (status, response) {
           if (response) {
-            //console.log(status);
-            addOldMessages(response);
-            //console.log(response + 'just old');
             changeOldMessagesResolve(true);
           }
         },
@@ -545,11 +602,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
-          //console.log(response + 'response for on going ');
-
-          addOldMessages(response);
-          //console.log(response + 'old old');
-          changeOldMessagesResolve(true);
+          if (response) {
+            addOldMessages(response);
+            changeOldMessagesResolve(true);
+          }
         },
       );
     }
@@ -566,17 +622,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <ScrollView
           style={styles.body_scroll_view}
           contentContainerStyle={styles.body_scroll_view_content_container}
+          showsVerticalScrollIndicator={false}
         />
       );
     } else {
-      //if (Object.entries(old_messages.channels).length === 0) {
-      //console.log('old messages not there');
-      if (old_messages.channels[channelsHere].length === 0) {
-        console.log(old_messages.channels[channelsHere].length);
+      console.log(old_messages);
+
+      if (!channelOnGoing) {
         return (
           <ScrollView
             style={styles.body_scroll_view}
             contentContainerStyle={styles.body_scroll_view_content_container}
+            showsVerticalScrollIndicator={false}
             ref={scrollView}
             onContentSizeChange={() =>
               scrollView.current.scrollToEnd({animated: true})
@@ -587,41 +644,63 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </ScrollView>
         );
       } else {
-        //console.log(old_messages.channels[channelIdHere]);
-        //console.log(old_messages.channels[channelIdHere] + 'map array');
-        //console.log('old messages are there');
-        return (
-          <ScrollView
-            style={styles.body_scroll_view}
-            contentContainerStyle={styles.body_scroll_view_content_container}
-            ref={scrollView}
-            onContentSizeChange={() =>
-              scrollView.current.scrollToEnd({animated: true})
-            }>
-            {old_messages.channels[channelIdHere].map((item, index) => (
-              <ShowMessageOld Message={item} />
-              //<Text>{item.message}</Text>
-            ))}
-            {messages.map((message, index) => (
-              <ShowMessage Message={message} />
-            ))}
-          </ScrollView>
-        );
+        if (Object.entries(old_messages.channels).length === 0) {
+          console.log('no old messages');
+          //console.log(old_messages.channels[channelIdHere].length);
+          return (
+            <ScrollView
+              style={styles.body_scroll_view}
+              contentContainerStyle={styles.body_scroll_view_content_container}
+              showsVerticalScrollIndicator={false}
+              ref={scrollView}
+              onContentSizeChange={() =>
+                scrollView.current.scrollToEnd({animated: true})
+              }>
+              {messages.map((message, index) => (
+                <ShowMessage Message={message} />
+              ))}
+            </ScrollView>
+          );
+        } else {
+          //console.log(old_messages.channels);
+          //console.log('yes old messages');
+          //console.log(old_messages.channels[channelIdHere] + 'map array');
+          console.log('old messages are there');
+          return (
+            <ScrollView
+              style={styles.body_scroll_view}
+              contentContainerStyle={styles.body_scroll_view_content_container}
+              showsVerticalScrollIndicator={false}
+              ref={scrollView}
+              onContentSizeChange={() =>
+                scrollView.current.scrollToEnd({animated: true})
+              }>
+              {old_messages.channels[channelIdHere].map((item, index) => (
+                <ShowMessageOld Message={item} />
+                //<Text>{item.message}</Text>
+              ))}
+              {messages.map((message, index) => (
+                <ShowMessage Message={message} />
+              ))}
+            </ScrollView>
+          );
+        }
       }
     }
   }
 
-  function StartFrame(startTime) {
+  function StartFrame() {
     //console.log(startTime + 'start time sent here');
+    var timeToken = dayjs().valueOf();
     if (messages.length === 0) {
       var config = {
         method: 'post',
-        url:
-          'https://a4550691-a64c-4de4-938d-80e73d8f8c1f.mock.pstmn.io/new_frame/club_id',
+        url: 'https://apisayepirates.life/api/clubs/create_frames_clubs/',
         headers: {'content-type': 'application/json'},
         data: {
-          start_time: startTime / 10000000,
-          end_time: startTime / 10000000 + 43200,
+          start_time: timeToken,
+          //end_time: startTime / 10000000 + 43200,
+          end_time: timeToken + 43200,
           club_id: clubID,
           channel_id: channelIdHere,
         },
@@ -648,7 +727,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
       if (messages.length === 0) {
         if (message) {
           pubnub.publish(
-            {channel: channelsHere[0], message, meta: {type: type_message}},
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: type_message,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
             function (status, response) {
               console.log(status);
               console.log(response);
@@ -665,7 +753,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
             {
               channel: channelsHere[0],
               message,
-              meta: {type: type_message},
+              meta: {
+                type: type_message,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
             },
             function (status, response) {
               console.log(status);
@@ -679,12 +772,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
       }
     };
     const sendMessageOldFrame = message => {
+      console.log('sending message in old frame');
       if (message) {
         pubnub.publish(
           {
             channel: channelsHere[0],
             message,
-            meta: {type: type_message},
+            meta: {
+              type: type_message,
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
           },
           function (status, response) {
             console.log(status);
@@ -757,28 +856,46 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         if (message) {
-          pubnub
-            .publish(
-              {
-                channel: channelsHere[0],
-                message,
-                meta: {type: 'g', image_url: imageSelected},
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'g',
+                image_url: imageSelected,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
               },
-              function (status, response) {
-                StartFrame(response.timetoken);
-              },
-            )
-            //.then(() => changeTypevalue(''))
-            .catch(err => console.log(err));
+            },
+            function (status, response) {
+              console.log(status);
+              StartFrame();
+            },
+          );
+          //.then(() => changeTypevalue(''))
+          //.catch(err => console.log(err));
         } else {
         }
       } else {
         if (message) {
-          pubnub.publish({
-            channel: channelsHere[0],
-            message,
-            meta: {type: 'g', image_url: imageSelected},
-          });
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'g',
+                image_url: imageSelected,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+              //StartFrame();
+            },
+          );
           //.then(() => changeTypevalue(''))
           //.catch(err => console.log(err));
         } else {
@@ -787,11 +904,22 @@ function ClubChatScreen({navigation, dispatch, route}) {
     };
     const sendMessageOldFrame = message => {
       if (message) {
-        pubnub.publish({
-          channel: channelsHere[0],
-          message,
-          meta: {type: 'g', image_url: imageSelected},
-        });
+        pubnub.publish(
+          {
+            channel: channelsHere[0],
+            message,
+            meta: {
+              type: 'g',
+              image_url: imageSelected,
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status);
+          },
+        );
         //.then(() => changeTypevalue(''))
         //.catch(err => console.log(err));
       } else {
@@ -830,7 +958,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 }
 
                 //sendMessage(typevalue);
-                changeTypevalue('');
                 Keyboard.dismiss;
                 setTextMessage('');
                 imageSelectorCraftOverlay();
@@ -876,17 +1003,26 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   function GIFSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
+    const [timeToken, setTimeToken] = useState();
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
+        console.log('new frame, no messages gif');
         if (message) {
           pubnub.publish(
             {
               channel: channelsHere[0],
               message,
-              meta: {type: 'f', image_url: gifSelected},
+              meta: {
+                type: 'f',
+                image_url: gifSelected,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
             },
             function (status, response) {
-              StartFrame(response.timetoken);
+              console.log(response);
+              StartFrame();
             },
           );
           //.then(() => changeTypevalue(''))
@@ -894,11 +1030,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
         } else {
         }
       } else {
+        console.log('new frame, yes messages gif');
         if (message) {
           pubnub.publish({
             channel: channelsHere[0],
             message,
-            meta: {type: 'f', image_url: gifSelected},
+            meta: {
+              type: 'f',
+              image_url: gifSelected,
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
           });
           //.then(() => changeTypevalue(''))
           //.catch(err => console.log(err));
@@ -907,12 +1050,19 @@ function ClubChatScreen({navigation, dispatch, route}) {
       }
     };
     const sendMessageOldFrame = message => {
+      console.log('old frame, yes messages');
       if (message) {
         pubnub
           .publish({
             channel: channelsHere[0],
             message,
-            meta: {type: 'f', image_url: gifSelected},
+            meta: {
+              type: 'f',
+              image_url: gifSelected,
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
           })
           //.then(() => changeTypevalue(''))
           .catch(err => console.log(err));
@@ -954,7 +1104,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 //sendMessage(typevalue);
                 Keyboard.dismiss;
                 setTextMessage('');
-                imageSelectorCraftOverlay();
+                gifSelectorCraftOverlay();
                 setImageSelected('');
                 //changeTextInputHeight(80);
                 //changeInputBarFlex(0.14);
