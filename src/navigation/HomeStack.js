@@ -24,6 +24,7 @@ import DirectHub from '../screens/DirectHub';
 import AddPeopleToClub from '../screens/AddPeopleToClub';
 import StartClub from '../screens/StartClub';
 import InvitePeopleToClub from '../screens/InvitePeopleToClub';
+import OtherProfile from '../screens/OtherProfile';
 
 const StackMain = createStackNavigator();
 //const HomeTabStack = createMaterialTopTabNavigator();
@@ -149,6 +150,19 @@ function HomeStack() {
       <StackMain.Screen
         name="StartClub"
         component={StartClub}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="OtherProfile"
+        component={OtherProfile}
         options={{
           headerShown: false,
           gestureEnabled: true,

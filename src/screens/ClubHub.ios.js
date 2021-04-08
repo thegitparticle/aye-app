@@ -26,16 +26,41 @@ import OtherProfile from './OtherProfile';
 //import BottomSheet from 'reanimated-bottom-sheet';
 //import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Modalize} from 'react-native-modalize';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var statehere = {};
 
-function ClubHub({dispatch, navigation}) {
+function ClubHub({dispatch, navigation, route}) {
+  const {club_id, live_who, club_name} = route.params;
+  const [clubDetails, setClubDetails] = useState({});
+  console.log(clubDetails);
+  const [resolved, setResolved] = useState(false);
+  console.log(resolved);
+
+  /*
   useEffect(() => {
-    dispatch(GetClubHubDetails());
+    dispatch(GetClubHubDetails(club_id));
   }, [dispatch]);
+*/
+  var res = [];
+
+  console.log('https://apisayepirates.life/api/clubs/' + String(club_id));
+
+  useEffect(() => {
+    axios
+      .get('https://apisayepirates.life/api/clubs/' + String(club_id))
+
+      .then(response => (res = response.data))
+      .then(response => console.log(response))
+      .then(() => setClubDetails(res))
+      .then(() => setResolved(true))
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [exitclubVisible, setExitClubVisible] = useState(false);
@@ -70,38 +95,18 @@ function ClubHub({dispatch, navigation}) {
   function CenterHeaderComponent() {
     return (
       <View style={styles.center_header_view}>
-        <Text style={styles.center_header_club_name}>Bohemian Grove</Text>
+        <Text style={styles.center_header_club_name}>
+          {club_name.substring(0, 13)}
+        </Text>
         <View style={styles.center_header_people_view}>
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/aliquidmaximedolor.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/itaquefacilisinventore.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/minusquisdolor.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/idinrepellendus.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/illumoptiomolestias.jpg',
-            }}
-          />
+          {live_who.map(item => (
+            <Image
+              style={styles.center_header_people_image}
+              source={{
+                uri: 'https://robohash.org/aliquidmaximedolor.png',
+              }}
+            />
+          ))}
         </View>
       </View>
     );
@@ -111,6 +116,16 @@ function ClubHub({dispatch, navigation}) {
     return (
       <View>
         <OtherProfile />
+      </View>
+    );
+  }
+
+  function MetricsOfClubDummy(props) {
+    return (
+      <View style={styles.metrics_of_club_view}>
+        <Text style={styles.metrics_of_club_text}>
+          91 <Text style={{fontSize: 25}}>🖼</Text>
+        </Text>
       </View>
     );
   }
@@ -125,11 +140,47 @@ function ClubHub({dispatch, navigation}) {
     );
   }
 
+  function MembersOfClubDummy(props) {
+    return (
+      <View style={styles.members_of_club_view}>
+        {[1, 2].map(members => (
+          <TouchableOpacity onPress={() => onOpenMemberOptions()}>
+            <ListItem containerStyle={styles.members_list_item_wrap}>
+              <Avatar
+                rounded
+                source={{
+                  uri:
+                    'https://robohash.org/veliteaquehic.png?size=50x50&set=set1',
+                }}
+                size={windowHeight * 0.055}
+              />
+              <ListItem.Content>
+                <ListItem.Title style={styles.membername}>
+                  loading...
+                </ListItem.Title>
+                <ListItem.Subtitle style={styles.memberusername}>
+                  loading...
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  }
+
+  const [viewProfileId, setViewProfileId] = useState();
+
   function MembersOfClub(props) {
+    //console.log(props.Details);
     return (
       <View style={styles.members_of_club_view}>
         {props.Details.map(members => (
-          <TouchableOpacity onPress={() => onOpenMemberOptions()}>
+          <TouchableOpacity
+            onPress={() => {
+              onOpenMemberOptions();
+              setViewProfileId(members.user_id);
+            }}>
             <ListItem containerStyle={styles.members_list_item_wrap}>
               <Avatar
                 rounded
@@ -224,21 +275,49 @@ function ClubHub({dispatch, navigation}) {
         <TouchableOpacity
           onPress={() => {
             setOptionsVisible(false);
-            navigation.navigate('OtherProfile');
+            navigation.navigate('OtherProfile', {
+              other_user_id: viewProfileId,
+            });
           }}>
           <Text style={styles.view_profile_text}>view profile</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.remove_from_club_text}>remove from club</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setOptionsVisible(false)}>
-          <Text style={styles.cancel_bottomsheet_text}>cancel</Text>
+          <Text style={styles.cancel_bottomsheet_text}>remove from club</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   var details = statehere.ClubHubDetailsReducer.clubhubdetails;
+  //console.log(details);
+
+  /*
+
+      <MetricsOfClub FramesCount={clubDetails.frame_total} />
+          <Divider style={styles.log_out_divider} />
+          <MembersOfClub Details={clubDetails.users} />
+
+          */
+
+  function RenderMainBody() {
+    if (!resolved) {
+      return (
+        <View>
+          <MetricsOfClubDummy />
+          <Divider style={styles.log_out_divider} />
+          <MembersOfClubDummy />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <MetricsOfClub FramesCount={clubDetails.frame_total} />
+          <Divider style={styles.log_out_divider} />
+          <MembersOfClub Details={clubDetails.users} />
+        </View>
+      );
+    }
+  }
 
   return (
     <View style={styles.containerview}>
@@ -260,9 +339,7 @@ function ClubHub({dispatch, navigation}) {
               //justifyContent: 'space-between',
             }
           }>
-          <MetricsOfClub FramesCount={details.framecount} />
-          <Divider style={styles.log_out_divider} />
-          <MembersOfClub Details={details.members} />
+          <RenderMainBody />
           <AddPeopleToClub />
 
           <ExitClub />

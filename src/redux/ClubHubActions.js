@@ -1,13 +1,13 @@
 import {ADD_CLUBHUBDETAILS} from './types';
 import axios from 'axios';
 
-export const GetClubHubDetails = () => {
-  return (dispatch) => {
+export const GetClubHubDetails = club_id => {
+  return dispatch => {
     var res = [];
 
     axios
-      .get('https://run.mocky.io/v3/c78770c8-d6f9-4c18-94bf-ffc5dc170bb9')
-      .then((response) => (res = response.data))
+      .get('https://apisayepirates.life/api/clubs/' + String(club_id))
+      .then(response => (res = response.data))
       //.then(() => console.log(JSON.parse(res)))
       .then(() =>
         dispatch({
@@ -15,7 +15,7 @@ export const GetClubHubDetails = () => {
           payload: res,
         }),
       )
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };

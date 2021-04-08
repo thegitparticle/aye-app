@@ -34,7 +34,13 @@ function ClubFramesList({dispatch, navigation, route}) {
         type="feather"
         color="#fff"
         name="command"
-        onPress={() => navigation.navigate('ClubHub')}
+        onPress={() =>
+          navigation.navigate('ClubHub', {
+            club_id: club_id,
+            live_who: live_who,
+            club_name: club_name,
+          })
+        }
       />
     );
   }

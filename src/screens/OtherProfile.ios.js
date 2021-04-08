@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,63 +8,151 @@ import {
   Image,
 } from 'react-native';
 import {Avatar, Icon, Header} from 'react-native-elements';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function FirstBlock(props) {
-  return (
-    <View style={styles.first_block_view}>
-      <Avatar
-        rounded
-        source={{
-          //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
-          uri:
-            'https://www.hawtcelebs.com/wp-content/uploads/2019/12/camila-cabello-in-reve-magazine-december-2019-january-2020-0.jpg',
-        }}
-        size={windowHeight * 0.15}
-      />
-      <Text style={styles.first_view_name}>Jessie Lee</Text>
-      <Text style={styles.first_view_username}>nothatlee</Text>
-      <Text style={styles.first_view_frames_count}>901 . Level 1</Text>
-    </View>
-  );
+function OtherProfile(route) {
+  const other_user_id = route.params;
+
+  const [otherDetails, setOtherDetails] = useState({});
+  console.log(otherDetails[0]);
+  const [resolved, setResolved] = useState(false);
+  console.log(resolved);
+
+  //https://run.mocky.io/v3/880d3351-cb7c-435c-bf3a-4d6b25c31b8d
+
+  var res = [];
+
+  useEffect(() => {
+    axios
+      //.get('https://run.mocky.io/v3/44922ed3-cc90-454c-bfab-2ba4b1df4cd0')
+      .get(
+        'https://apisayepirates.life/api/users/profile-update/?id=&user=' +
+          other_user_id,
+      )
+
+      .then(response => (res = response.data))
+      .then(response => console.log(response))
+      .then(() => setOtherDetails(res))
+      .then(() => setResolved(true))
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+  function FirstBlockDummy(props) {
+    return (
+      <View style={styles.first_block_view}>
+        <Avatar
+          rounded
+          source={{
+            //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
+            uri:
+              'https://www.hawtcelebs.com/wp-content/uploads/2019/12/camila-cabello-in-reve-magazine-december-2019-january-2020-0.jpg',
+          }}
+          size={windowHeight * 0.15}
+        />
+        <Text style={styles.first_view_name}>loading...</Text>
+        <Text style={styles.first_view_username}>loading...</Text>
+        <Text style={styles.first_view_frames_count}>00 . Level 0</Text>
+      </View>
+    );
+  }
+
+  function SecondBlockDummy(props) {
+    return (
+      <View style={styles.second_block_view}>
+        <View style={styles.show_case_clubs_view}>
+          <View style={styles.clubs_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
+              style={styles.clubs_icon}
+            />
+          </View>
+          <Text style={styles.clubs_count_text}>0</Text>
+        </View>
+        <View style={styles.show_case_circle_view}>
+          <View style={styles.circle_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
+              style={styles.circle_icon}
+            />
+          </View>
+          <Text style={styles.circle_count_text}>0</Text>
+        </View>
+      </View>
+    );
+  }
+
+  function FirstBlock() {
+    return (
+      <View style={styles.first_block_view}>
+        <Avatar
+          rounded
+          source={{
+            //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
+            uri: otherDetails[0].image,
+          }}
+          size={windowHeight * 0.15}
+        />
+        <Text style={styles.first_view_name}>
+          {otherDetails[0].user.full_name}
+        </Text>
+        <Text style={styles.first_view_username}>
+          {otherDetails[0].user.username}
+        </Text>
+        <Text style={styles.first_view_frames_count}>999 . Level 1</Text>
+      </View>
+    );
+  }
+
+  function SecondBlock() {
+    return (
+      <View style={styles.second_block_view}>
+        <View style={styles.show_case_clubs_view}>
+          <View style={styles.clubs_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
+              style={styles.clubs_icon}
+            />
+          </View>
+          <Text style={styles.clubs_count_text}>
+            {otherDetails[0].user.number_of_clubs_joined}
+          </Text>
+        </View>
+        <View style={styles.show_case_circle_view}>
+          <View style={styles.circle_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
+              style={styles.circle_icon}
+            />
+          </View>
+          <Text style={styles.circle_count_text}>999</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (!resolved) {
+    return (
+      <View style={styles.containerview}>
+        <FirstBlockDummy />
+        <SecondBlockDummy />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.containerview}>
+        <FirstBlock />
+        <SecondBlock />
+      </View>
+    );
+  }
 }
 
-function SecondBlock(props) {
-  return (
-    <View style={styles.second_block_view}>
-      <View style={styles.show_case_clubs_view}>
-        <View style={styles.clubs_icon_view_wrap}>
-          <Image
-            source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
-            style={styles.clubs_icon}
-          />
-        </View>
-        <Text style={styles.clubs_count_text}>5</Text>
-      </View>
-      <View style={styles.show_case_circle_view}>
-        <View style={styles.circle_icon_view_wrap}>
-          <Image
-            source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
-            style={styles.circle_icon}
-          />
-        </View>
-        <Text style={styles.circle_count_text}>53</Text>
-      </View>
-    </View>
-  );
-}
-
-const OtherProfile = () => {
-  return (
-    <View style={styles.containerview}>
-      <FirstBlock />
-
-      <SecondBlock />
-    </View>
-  );
-};
+export default OtherProfile;
 
 const styles = StyleSheet.create({
   top_blocks: {
@@ -158,5 +246,3 @@ const styles = StyleSheet.create({
     color: '#008DFF',
   },
 });
-
-export default OtherProfile;
