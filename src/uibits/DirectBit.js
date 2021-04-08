@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 function DirectBit(props) {
   const navigation = useNavigation();
+  console.log(props.Direct);
 
   function UnreadStatus(props) {
     if (props.Status) {
@@ -36,7 +37,19 @@ function DirectBit(props) {
   return (
     <Pressable
       style={styles.overall_view}
-      onPress={() => navigation.navigate('DirectInteractionScreens')}>
+      onPress={() =>
+        navigation.navigate('DirectInteractionScreens', {
+          screen: 'DirectChatScreen',
+          params: {
+            otherNameHere: props.Direct.custom.other_user_name,
+            //channelIdHere: props.club_id.toString() + '_c',
+            directIdHere: props.Direct.channel.id,
+            channelOnGoing: false,
+            channelStartTime: null,
+            channelEndTime: null,
+          },
+        })
+      }>
       <FastImage
         source={{uri: props.Direct.custom.other_user_image}}
         style={styles.avatar_of_club}

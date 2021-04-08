@@ -63,6 +63,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
   var input_bar_flex = 0.16;
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
+  /*
+  useEffect(() => {
+    console.log('dispatch effect working');
+  }, []);
+  */
+
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
   }, []);
@@ -94,7 +100,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
         type="feather"
         color="#fff"
         name="layers"
-        onPress={() => navigation.navigate('ClubFramesList')}
+        onPress={() =>
+          navigation.navigate('ClubFramesList', {
+            club_id: clubID,
+            live_who: liveWho,
+            club_name: clubNameHere,
+          })
+        }
       />
     );
   }
@@ -546,7 +558,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   */
 
   const handleMessage = event => {
-    if (messages.includes(messages) === false) {
+    if (messages.includes(event) === false) {
       //addMessage(messages => [...messages, event]);
       addMessage(messages.concat(event));
     } else {
@@ -691,7 +703,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   function StartFrame() {
     //console.log(startTime + 'start time sent here');
-    var timeToken = dayjs().valueOf();
+    var timeToken = dayjs().unix();
     if (messages.length === 0) {
       var config = {
         method: 'post',
@@ -701,7 +713,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           start_time: timeToken,
           //end_time: startTime / 10000000 + 43200,
           end_time: timeToken + 43200,
-          club_id: clubID,
+          club_name: clubID,
           channel_id: channelIdHere,
         },
       };

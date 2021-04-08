@@ -12,22 +12,21 @@ import {connect} from 'react-redux';
 import {GetFrames} from '../redux/GetFramesActions';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import {createIconSetFromFontello} from 'react-native-vector-icons';
 
 var statehere = {};
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function ClubFramesList({dispatch, navigation}) {
+function ClubFramesList({dispatch, navigation, route}) {
+  const {club_id, live_who, club_name} = route.params;
   const [thisMonth, setThisMonth] = useState(); // actual month IRL
   const [currentmonth, setCurrentmonth] = useState(); // string value of rendering month
   const [monthnum, setMonthnum] = useState(); // num value of rendering month
   const [date, setDate] = useState(); //today's date
-  const [currentyear, setCurrentYear] = useState(); //num value of rending year
+  const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
-  useEffect(() => {
-    dispatch(GetFrames());
-  }, [dispatch]);
 
   function LeftHeaderComponent() {
     return (
@@ -46,7 +45,7 @@ function ClubFramesList({dispatch, navigation}) {
         type="feather"
         color="#fff"
         name="chevron-down"
-        onPress={() => navigation.navigate('Clubs')}
+        onPress={() => navigation.navigate('Here')}
       />
     );
   }
@@ -54,38 +53,18 @@ function ClubFramesList({dispatch, navigation}) {
   function CenterHeaderComponent() {
     return (
       <View style={styles.center_header_view}>
-        <Text style={styles.center_header_club_name}>Bohemian Grove</Text>
+        <Text style={styles.center_header_club_name}>
+          {club_name.substring(0, 13)}
+        </Text>
         <View style={styles.center_header_people_view}>
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/aliquidmaximedolor.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/itaquefacilisinventore.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/minusquisdolor.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/idinrepellendus.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/illumoptiomolestias.jpg',
-            }}
-          />
+          {live_who.map(item => (
+            <Image
+              style={styles.center_header_people_image}
+              source={{
+                uri: 'https://robohash.org/aliquidmaximedolor.png',
+              }}
+            />
+          ))}
         </View>
       </View>
     );
@@ -122,11 +101,12 @@ function ClubFramesList({dispatch, navigation}) {
   }
 
   useEffect(() => {
+    console.log('dayjs grabbing effect working');
     var month_here = dayjs().get('month');
     var year_here = dayjs().get('year');
-    year_here = year_here - 2000;
-    setCurrentYear(year_here);
     setThisYear(year_here);
+    var year_2 = year_here - 2000;
+    setCurrentYear(year_2);
     setMonthnum(month_here);
     setThisMonth(month_here + 1);
     setCurrentmonth(stringmonth(month_here, year_here));
@@ -198,6 +178,8 @@ function ClubFramesList({dispatch, navigation}) {
   }
 
   function DatesBlock(props) {
+    // takes in start and end date and gives out
+    //console.log(props.Frames);
     var items = [];
     var badge_style = props.BadgeStyle;
 
@@ -205,103 +187,31 @@ function ClubFramesList({dispatch, navigation}) {
       items.push(i);
     }
 
-    const frames_list_here = [
-      {
-        id: 5,
-        live: false,
-        link:
-          'https://atto.scrolller.com/our-cabin-at-night-front-deck-looking-in-c03rpsh9hu-540x405.jpg',
-        month: 3,
-        date: 14,
-      },
-      {
-        id: 6,
-        live: false,
-        link:
-          'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-        month: 3,
-        date: 12,
-      },
-      {
-        id: 7,
-        live: false,
-        link:
-          'https://yocto.scrolller.com/fortaleza-state-of-cear-brazil-5nui74gqys-540x675.jpg',
-        month: 3,
-        date: 11,
-      },
-      {
-        id: 8,
-        live: false,
-        link:
-          'https://femto.scrolller.com/never-been-one-for-fancy-plating-so-i-present-to-7ffmwx8zjg-540x720.jpg',
-        month: 3,
-        date: 11,
-      },
-      {
-        id: 9,
-        live: false,
-        link:
-          'https://femto.scrolller.com/hot-chicken-amp-waffles-sandwich-bn3ksq4fjm-540x424.jpg',
-        month: 3,
-        date: 10,
-      },
-      {
-        id: 10,
-        live: false,
-        link:
-          'https://images.unsplash.com/photo-1608146127148-820b631b8f4c?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1Nnx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-        month: 3,
-        date: 6,
-      },
-      {
-        id: 11,
-        live: false,
-        link: 'https://zepto.scrolller.com/never-fails-at8c5p47rg-540x304.jpg',
-        month: 3,
-        date: 3,
-      },
-      {
-        id: 12,
-        live: false,
-        link:
-          'https://zepto.scrolller.com/that-can-t-be-comfortable-5xlg7600x6-540x405.jpg',
-        month: 3,
-        date: 3,
-      },
-      {
-        id: 13,
-        live: false,
-        link:
-          'https://yocto.scrolller.com/dbz-style-anakin-skywalker-made-by-me-a7c4ae0vgs-540x720.jpg',
-        month: 3,
-        date: 2,
-      },
-      {
-        id: 14,
-        live: false,
-        link:
-          'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
-        month: 3,
-        date: 1,
-      },
-    ];
-
     var grand_list = [];
     const Generate_Grand_List = items.map(item => {
       var ob = Object();
-      var ro = frames_list_here.filter(y => y.date === item).map(x => x.link);
+      var ro = props.Frames.filter(
+        y => Number(y.published_date.slice(-2)) === item,
+      ).map(x => x.frame_picture);
 
-      ob.ro = ro;
+      /*
+      var ro = frames_list_here
+        //.filter(y => Number(y.published_date.slice(-2)) === item)
+        .filter(y => y.date === item)
+        .map(x => x.link);
+*/
+      var ro = (ob.ro = ro);
       ob.date = item;
       grand_list.push(ob);
     }, {});
 
     Generate_Grand_List;
-    console.log(grand_list);
+    //console.log(grand_list);
 
     function WhatToRender(props) {
+      // individual frame/date item
       if (props.Item.ro.length !== 0) {
+        //console.log(props.Item.ro[0]);
         return (
           <View style={styles.frame_thumbnail_on_strip_date_view}>
             {props.Item.ro.map(item => (
@@ -339,113 +249,135 @@ function ClubFramesList({dispatch, navigation}) {
   }
 
   function FrameStrip(props) {
-    if (monthnum + 1 === thisMonth && currentyear === thisyear) {
-      var month_here = monthnum + 1;
+    //Strips which render
+    //console.log(monthnum + 'month num');
+    //console.log(thisMonth + 'this month');
+    //console.log(thisyear + 'this year');
+    //console.log(currentyear + 'current year');
+    if (monthnum + 1 === thisMonth && currentyear + 2000 === thisyear) {
       const default_list = [
         {
-          id: 14,
-          live: false,
-          link:
-            'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
-          month: 3,
-          date: 1,
+          id: 4,
+          club_name: 1,
+          published_date: '2021-04-03',
+          frame_picture:
+            'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
+          frame_status: false,
+          channel_id: '1_c',
+          start_time: '1616670128',
+          end_time: '1616713328',
         },
         {
-          id: 6,
-          live: false,
-          link:
-            'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-          month: 3,
-          date: 12,
+          id: 5,
+          club_name: 1,
+          published_date: '2021-04-03',
+          frame_picture: 'https://apisayepirates.life/media/club_images/3.jpeg',
+          frame_status: false,
+          channel_id: '1_c',
+          start_time: '1616780946.5139637',
+          end_time: '1616824146.5139637',
         },
       ];
-      const [framesThisMonth, setFramesThisMonth] = useState([default_list]);
+      const [framesThisMonth, setFramesThisMonth] = useState(default_list);
+      const [resolved, setResolved] = useState(false);
 
       var res = [];
+
+      //console.log('current month api call about to happen');
 
       useEffect(() => {
         axios
           .get(
-            'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/31/frames_list/' +
-              month_here,
+            'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+              String(thisyear) +
+              '/' +
+              String(monthnum + 1) +
+              '/' +
+              club_id +
+              '/',
           )
           .then(response => (res = response.data))
           .then(() => setFramesThisMonth(res))
-          .then(console.log(res))
+          //.then(console.log(framesThisMonth))
+          .then(setResolved(true))
           .catch(err => {
             console.log(err);
           });
       }, []);
 
-      if (date < 11) {
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={date}
-                MinDate={1}
-                Render="this month 1"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
+      if (resolved) {
+        if (date < 11) {
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={date}
+                  MinDate={1}
+                  Render="this month 1"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
             </View>
-          </View>
-        );
-      } else if (date < 21) {
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={10}
-                MinDate={1}
-                Render="this month 1"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
+          );
+        } else if (date < 21) {
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={10}
+                  MinDate={1}
+                  Render="this month 1"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
+              <View style={styles.frame_strip_block_2}>
+                <DatesBlock
+                  MaxDate={date}
+                  MinDate={11}
+                  Render="this month 2"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+                />
+              </View>
             </View>
-            <View style={styles.frame_strip_block_2}>
-              <DatesBlock
-                MaxDate={date}
-                MinDate={11}
-                Render="this month 2"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
-              />
+          );
+        } else if (date > 21) {
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={10}
+                  MinDate={1}
+                  Render="this month 1"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
+              <View style={styles.frame_strip_block_2}>
+                <DatesBlock
+                  MaxDate={20}
+                  MinDate={11}
+                  Render="this month 2"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+                />
+              </View>
+              <View style={styles.frame_strip_block_3}>
+                <DatesBlock
+                  MaxDate={date}
+                  MinDate={21}
+                  Render="this month 3"
+                  Frames={framesThisMonth}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+                />
+              </View>
             </View>
-          </View>
-        );
-      } else if (date > 21) {
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={10}
-                MinDate={1}
-                Render="this month 1"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
-            </View>
-            <View style={styles.frame_strip_block_2}>
-              <DatesBlock
-                MaxDate={20}
-                MinDate={11}
-                Render="this month 2"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
-              />
-            </View>
-            <View style={styles.frame_strip_block_3}>
-              <DatesBlock
-                MaxDate={date}
-                MinDate={21}
-                Render="this month 3"
-                Frames={framesThisMonth}
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
-              />
-            </View>
-          </View>
-        );
+          );
+        } else {
+          return <View />;
+        }
       } else {
         return <View />;
       }
@@ -454,132 +386,161 @@ function ClubFramesList({dispatch, navigation}) {
       const List30 = [3, 5, 8, 10];
 
       var month_here = monthnum + 1;
-      const default_list = [
+      const list = [
         {
-          id: 14,
-          live: false,
-          link:
-            'https://femto.scrolller.com/ktm-1290-super-duke-gt-pilot-view-4iteawtjr3-540x720.jpg',
-          month: 3,
-          date: 1,
-        },
-        {
-          id: 6,
-          live: false,
-          link:
-            'https://images.unsplash.com/photo-1605827341572-d176a0d2bebc?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-          month: 3,
-          date: 12,
+          id: 4,
+          club_name: 1,
+          published_date: '2021-04-03',
+          frame_picture:
+            'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
+          frame_status: false,
+          channel_id: '1_c',
+          start_time: '1616670128',
+          end_time: '1616713328',
         },
       ];
-      const [framesThisMonth, setFramesThisMonth] = useState([default_list]);
+
+      const [framesThisMonthH, setFramesThisMonthH] = useState(list);
+
+      const [resolvedHere, setResolvedHere] = useState(false);
 
       var res = [];
+
+      console.log('old month api call about to happen');
+
+      console.log(
+        'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+          String(thisyear) +
+          '/' +
+          String(monthnum + 1) +
+          '/' +
+          club_id +
+          '/',
+      );
 
       useEffect(() => {
         axios
           .get(
-            'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/31/frames_list/' +
-              month_here,
+            'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+              String(thisyear) +
+              '/' +
+              String(monthnum + 1) +
+              '/' +
+              club_id +
+              '/',
           )
           .then(response => (res = response.data))
-          .then(() => setFramesThisMonth(res))
-          .then(console.log(res))
+          .then(() => setFramesThisMonthH(res))
+          .then(setResolvedHere(true))
+          //.then(console.log(framesThisMonthHere))
           .catch(err => {
             console.log(err);
           });
       }, []);
 
-      if (List31.includes(monthnum)) {
-        console.log(monthnum + 'odd months');
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={10}
-                MinDate={1}
-                Render="odd month 1"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
+      if (resolvedHere) {
+        if (List31.includes(monthnum)) {
+          //console.log(monthnum + 'odd months');
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={10}
+                  MinDate={1}
+                  Render="odd month 1"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
+              <View style={styles.frame_strip_block_2}>
+                <DatesBlock
+                  MaxDate={20}
+                  MinDate={11}
+                  Render="odd month 2"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+                />
+              </View>
+              <View style={styles.frame_strip_block_3}>
+                <DatesBlock
+                  MaxDate={31}
+                  MinDate={21}
+                  Render="odd month 3"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+                />
+              </View>
             </View>
-            <View style={styles.frame_strip_block_2}>
-              <DatesBlock
-                MaxDate={20}
-                MinDate={11}
-                Render="odd month 2"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
-              />
+          );
+        } else if (List30.includes(monthnum)) {
+          //console.log(monthnum + 'even months');
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={10}
+                  MinDate={1}
+                  Render="even month 1"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
+              <View style={styles.frame_strip_block_2}>
+                <DatesBlock
+                  MaxDate={20}
+                  MinDate={11}
+                  Render="even month 2"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+                />
+              </View>
+              <View style={styles.frame_strip_block_3}>
+                <DatesBlock
+                  MaxDate={30}
+                  MinDate={21}
+                  Frames={framesThisMonthH}
+                  Render="even month 3"
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+                />
+              </View>
             </View>
-            <View style={styles.frame_strip_block_3}>
-              <DatesBlock
-                MaxDate={31}
-                MinDate={21}
-                Render="odd month 3"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
-              />
+          );
+        } else {
+          //console.log(monthnum + 'else');
+          return (
+            <View style={styles.frame_strips_view}>
+              <View style={styles.frame_strip_block_1}>
+                <DatesBlock
+                  MaxDate={10}
+                  MinDate={1}
+                  Render="feb month 1"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
+                />
+              </View>
+              <View style={styles.frame_strip_block_2}>
+                <DatesBlock
+                  MaxDate={20}
+                  MinDate={11}
+                  Render="feb month 2"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
+                />
+              </View>
+              <View style={styles.frame_strip_block_3}>
+                <DatesBlock
+                  MaxDate={28}
+                  MinDate={21}
+                  Render="feb month 3"
+                  Frames={framesThisMonthH}
+                  BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
+                />
+              </View>
             </View>
-          </View>
-        );
-      } else if (List30.includes(monthnum)) {
-        console.log(monthnum + 'even months');
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={10}
-                MinDate={1}
-                Render="even month 1"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
-            </View>
-            <View style={styles.frame_strip_block_2}>
-              <DatesBlock
-                MaxDate={20}
-                MinDate={11}
-                Render="even month 2"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
-              />
-            </View>
-            <View style={styles.frame_strip_block_3}>
-              <DatesBlock
-                MaxDate={30}
-                MinDate={21}
-                Render="even month 3"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
-              />
-            </View>
-          </View>
-        );
+          );
+        }
       } else {
-        console.log(monthnum + 'else');
-        return (
-          <View style={styles.frame_strips_view}>
-            <View style={styles.frame_strip_block_1}>
-              <DatesBlock
-                MaxDate={10}
-                MinDate={1}
-                Render="feb month 1"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_1}
-              />
-            </View>
-            <View style={styles.frame_strip_block_2}>
-              <DatesBlock
-                MaxDate={20}
-                MinDate={11}
-                Render="feb month 2"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_2}
-              />
-            </View>
-            <View style={styles.frame_strip_block_3}>
-              <DatesBlock
-                MaxDate={28}
-                MinDate={21}
-                Render="feb month 3"
-                BadgeStyle={styles.frame_thumbnail_date_badge_on_strip_3}
-              />
-            </View>
-          </View>
-        );
+        return <View />;
       }
     }
   }
