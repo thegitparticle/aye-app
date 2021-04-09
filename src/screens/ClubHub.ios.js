@@ -267,6 +267,7 @@ function ClubHub({dispatch, navigation, route}) {
   };
 
   function MemberOptionsModalize() {
+    console.log(viewProfileId + 'view profile id');
     return (
       <View style={styles.member_options_view}>
         <TouchableOpacity>

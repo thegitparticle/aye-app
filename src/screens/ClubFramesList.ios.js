@@ -121,7 +121,7 @@ function ClubFramesList({dispatch, navigation, route}) {
   }, []);
 
   function CalenderComponent() {
-    if (monthnum + 1 === thisMonth && currentyear === thisyear) {
+    if (monthnum + 1 === thisMonth && currentyear + 2000 === thisyear) {
       return (
         <View style={styles.month_container}>
           <View style={styles.month_container_internal_view}>

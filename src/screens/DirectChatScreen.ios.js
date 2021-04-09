@@ -30,6 +30,7 @@ import {usePubNub} from 'pubnub-react';
 import dayjs from 'dayjs';
 import ShowMessage from '../uibits/ShowMessage';
 import ShowMessageOld from '../uibits/ShowMessageOld';
+import _ from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -694,6 +695,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function StartFrame() {
     //console.log(startTime + 'start time sent here');
+    var all_ids = _.split(directIdHere, '_');
     var timeToken = dayjs().unix();
     if (messages.length === 0) {
       var config = {
@@ -708,6 +710,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           end_time: timeToken + 43200,
           //club_id: clubID,
           channel_id: directIdHere,
+          users: all_ids[0] + ',' + all_ids[1],
         },
       };
 

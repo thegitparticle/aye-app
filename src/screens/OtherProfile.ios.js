@@ -13,13 +13,13 @@ import axios from 'axios';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function OtherProfile(route) {
+function OtherProfile({navigation, route}) {
   const other_user_id = route.params;
 
   const [otherDetails, setOtherDetails] = useState({});
-  console.log(otherDetails[0]);
+  //console.log(otherDetails[0]);
   const [resolved, setResolved] = useState(false);
-  console.log(resolved);
+  //console.log(resolved);
 
   //https://run.mocky.io/v3/880d3351-cb7c-435c-bf3a-4d6b25c31b8d
 
@@ -30,7 +30,7 @@ function OtherProfile(route) {
       //.get('https://run.mocky.io/v3/44922ed3-cc90-454c-bfab-2ba4b1df4cd0')
       .get(
         'https://apisayepirates.life/api/users/profile-update/?id=&user=' +
-          other_user_id,
+          String(other_user_id.other_user_id),
       )
 
       .then(response => (res = response.data))

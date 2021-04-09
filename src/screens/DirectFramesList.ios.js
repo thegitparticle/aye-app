@@ -34,7 +34,12 @@ function DirectFramesList({dispatch, navigation, route}) {
         type="feather"
         color="#fff"
         name="command"
-        onPress={() => navigation.navigate('DirectHub')}
+        onPress={() =>
+          navigation.navigate('DirectHub', {
+            direct_id: direct_id,
+            other_name: other_name,
+          })
+        }
       />
     );
   }
@@ -112,10 +117,11 @@ function DirectFramesList({dispatch, navigation, route}) {
     setCurrentmonth(stringmonth(month_here, year_here));
     var date_here = dayjs().get('date');
     setDate(date_here);
+    console.log(month_here, year_here);
   }, []);
 
   function CalenderComponent() {
-    if (monthnum + 1 === thisMonth && currentyear === thisyear) {
+    if (monthnum + 1 === thisMonth && currentyear + 2000 === thisyear) {
       return (
         <View style={styles.month_container}>
           <View style={styles.month_container_internal_view}>
@@ -250,10 +256,10 @@ function DirectFramesList({dispatch, navigation, route}) {
 
   function FrameStrip(props) {
     //Strips which render
-    //console.log(monthnum + 'month num');
-    //console.log(thisMonth + 'this month');
-    //console.log(thisyear + 'this year');
-    //console.log(currentyear + 'current year');
+    console.log(monthnum + 'month num');
+    console.log(thisMonth + 'this month');
+    console.log(thisyear + 'this year');
+    console.log(currentyear + 'current year');
     if (monthnum + 1 === thisMonth && currentyear + 2000 === thisyear) {
       const default_list = [
         {
@@ -283,12 +289,13 @@ function DirectFramesList({dispatch, navigation, route}) {
 
       var res = [];
 
-      //console.log('current month api call about to happen');
+      console.log('current month api call about to happen');
+      console.log(framesThisMonth);
 
       useEffect(() => {
         axios
           .get(
-            'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+            'https://apisayepirates.life/api/clubs/frames_one_on_one_filtered/' +
               String(thisyear) +
               '/' +
               String(monthnum + 1) +
@@ -404,12 +411,17 @@ function DirectFramesList({dispatch, navigation, route}) {
 
       const [resolvedHere, setResolvedHere] = useState(false);
 
+      console.log(framesThisMonthH);
+
       var res = [];
 
       console.log('old month api call about to happen');
 
+      console.log(thisyear + 'this year');
+      console.log(monthnum);
+
       console.log(
-        'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+        'https://apisayepirates.life/api/clubs/frames_one_on_one_filtered/' +
           String(thisyear) +
           '/' +
           String(monthnum + 1) +
@@ -421,7 +433,7 @@ function DirectFramesList({dispatch, navigation, route}) {
       useEffect(() => {
         axios
           .get(
-            'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
+            'https://apisayepirates.life/api/clubs/frames_one_on_one_filtered/' +
               String(thisyear) +
               '/' +
               String(monthnum + 1) +

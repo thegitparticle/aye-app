@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -18,16 +18,31 @@ import {
 } from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetClubHubDetails} from '../redux/ClubHubActions';
+import axios from 'axios';
+import _ from 'lodash';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var statehere = {};
 
-function DirectHub({dispatch, navigation}) {
+function DirectHub({dispatch, navigation, route}) {
+  const {other_name, direct_id} = route.params;
+  var all_ids = _.split(direct_id, '_');
+
+  var current_user = statehere.MyProfileReducer.myprofile.user.id;
+  const [otherUser, setOtherUser] = useState('0');
+  const [resolved, setResolved] = useState(false);
+  const [otherDetails, setOtherDetails] = useState();
+
   useEffect(() => {
-    dispatch(GetClubHubDetails());
-  }, [dispatch]);
+    if (all_ids[0] === String(current_user)) {
+      setOtherUser(all_ids[1]);
+    } else {
+      setOtherUser(all_ids[0]);
+    }
+  }, [all_ids]);
+  console.log(typeof otherUser + 'other user');
 
   function LeftHeaderComponent() {
     return (
@@ -35,7 +50,7 @@ function DirectHub({dispatch, navigation}) {
         type="feather"
         color="#fff"
         name="layers"
-        onPress={() => navigation.navigate('ConvFramesList')}
+        onPress={() => navigation.goBack()}
       />
     );
   }
@@ -46,7 +61,7 @@ function DirectHub({dispatch, navigation}) {
         type="feather"
         color="#fff"
         name="chevron-down"
-        onPress={() => navigation.navigate('Clubs')}
+        onPress={() => navigation.navigate('Here')}
       />
     );
   }
@@ -54,42 +69,41 @@ function DirectHub({dispatch, navigation}) {
   function CenterHeaderComponent() {
     return (
       <View style={styles.center_header_view}>
-        <Text style={styles.center_header_club_name}>Evan Speigel</Text>
+        <Text style={styles.center_header_club_name}>
+          {other_name.substring(0, 13)}
+        </Text>
         <View style={styles.center_header_people_view}>
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/aliquidmaximedolor.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/itaquefacilisinventore.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/minusquisdolor.jpg',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/idinrepellendus.png',
-            }}
-          />
-          <Image
-            style={styles.center_header_people_image}
-            source={{
-              uri: 'https://robohash.org/illumoptiomolestias.jpg',
-            }}
-          />
+          {[1].map(item => (
+            <Image
+              style={styles.center_header_people_image}
+              source={{
+                uri: 'https://robohash.org/aliquidmaximedolor.png',
+              }}
+            />
+          ))}
         </View>
       </View>
     );
   }
+
+  var res = [];
+
+  useEffect(() => {
+    axios
+      //.get('https://run.mocky.io/v3/44922ed3-cc90-454c-bfab-2ba4b1df4cd0')
+      .get(
+        'https://apisayepirates.life/api/users/profile-update/?id=&user=' +
+          otherUser,
+      )
+
+      .then(response => (res = response.data))
+      .then(response => console.log(response))
+      .then(() => setOtherDetails(res))
+      .then(() => setResolved(true))
+      .catch(err => {
+        console.log(err);
+      });
+  }, [otherUser]);
 
   function MetricsOfConversation(props) {
     return (
@@ -101,7 +115,7 @@ function DirectHub({dispatch, navigation}) {
     );
   }
 
-  function FirstBlock(props) {
+  function FirstBlockDummy(props) {
     return (
       <View style={styles.first_block_view}>
         <Avatar
@@ -113,9 +127,56 @@ function DirectHub({dispatch, navigation}) {
           }}
           size={windowHeight * 0.15}
         />
-        <Text style={styles.first_view_name}>Jessie Lee</Text>
-        <Text style={styles.first_view_username}>nothatlee</Text>
-        <Text style={styles.first_view_frames_count}>901 . Level 1</Text>
+        <Text style={styles.first_view_name}>loading...</Text>
+        <Text style={styles.first_view_username}>loading...</Text>
+        <Text style={styles.first_view_frames_count}>00 . Level 0</Text>
+      </View>
+    );
+  }
+
+  function SecondBlockDummy(props) {
+    return (
+      <View style={styles.second_block_view}>
+        <View style={styles.show_case_clubs_view}>
+          <View style={styles.clubs_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
+              style={styles.clubs_icon}
+            />
+          </View>
+          <Text style={styles.clubs_count_text}>0</Text>
+        </View>
+        <View style={styles.show_case_circle_view}>
+          <View style={styles.circle_icon_view_wrap}>
+            <Image
+              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
+              style={styles.circle_icon}
+            />
+          </View>
+          <Text style={styles.circle_count_text}>0</Text>
+        </View>
+      </View>
+    );
+  }
+
+  function FirstBlock(props) {
+    return (
+      <View style={styles.first_block_view}>
+        <Avatar
+          rounded
+          source={{
+            //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
+            uri: otherDetails[0].image,
+          }}
+          size={windowHeight * 0.15}
+        />
+        <Text style={styles.first_view_name}>
+          {otherDetails[0].user.full_name}
+        </Text>
+        <Text style={styles.first_view_username}>
+          {otherDetails[0].user.username}
+        </Text>
+        <Text style={styles.first_view_frames_count}>999 . Level 1</Text>
       </View>
     );
   }
@@ -130,7 +191,9 @@ function DirectHub({dispatch, navigation}) {
               style={styles.clubs_icon}
             />
           </View>
-          <Text style={styles.clubs_count_text}>5</Text>
+          <Text style={styles.clubs_count_text}>
+            {otherDetails[0].user.number_of_clubs_joined}
+          </Text>
         </View>
         <View style={styles.show_case_circle_view}>
           <View style={styles.circle_icon_view_wrap}>
@@ -139,18 +202,35 @@ function DirectHub({dispatch, navigation}) {
               style={styles.circle_icon}
             />
           </View>
-          <Text style={styles.circle_count_text}>53</Text>
+          <Text style={styles.circle_count_text}>999</Text>
         </View>
       </View>
     );
   }
 
+  function RenderFinal() {
+    if (!resolved) {
+      return (
+        <View>
+          <FirstBlockDummy />
+          <SecondBlockDummy />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <FirstBlock />
+
+          <SecondBlock />
+        </View>
+      );
+    }
+  }
+
   function OtherProfile(props) {
     return (
       <View style={styles.other_profile_view}>
-        <FirstBlock />
-
-        <SecondBlock />
+        <RenderFinal />
       </View>
     );
   }
