@@ -32,9 +32,7 @@ function HeaderAtHome({dispatch}) {
           <FastImage
             style={styles.header_right_image}
             source={{
-              uri:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              uri: state_here.MyProfileReducer.myprofile.image,
               priority: FastImage.priority.normal,
             }}
           />

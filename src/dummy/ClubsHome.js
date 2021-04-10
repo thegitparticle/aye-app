@@ -27,21 +27,18 @@ function ClubsHomeD({dispatch}) {
   const pubnub = usePubNub();
   const [resolved, setResolved] = useState(false);
 
-  var LiveClubsDataHere = [];
-
-  var DorClubsDataHere = [];
-
   const [dor_clubs, setDorClubs] = useState([]);
   const [live_clubs, setLiveClubs] = useState([]);
   //const [dor_clubs, setDorClubs] = useState(new Set());
 
-  //console.log(dor_clubs.length);
-  //console.log(live_clubs.length);
+  console.log(dor_clubs.length + 'dor');
+  console.log(live_clubs.length + 'live');
   //console.log(resolved);
 
   function CheckLive() {
     for (var i = 0; i < my_clubs.length; i++) {
       const club_here = my_clubs[i];
+      //console.log(club_here);
 
       pubnub.hereNow(
         {
@@ -52,23 +49,30 @@ function ClubsHomeD({dispatch}) {
         (status, response) => {
           //console.log(club_here.pn_channel_id);
           if (response) {
+            //console.log('yes, response');
             if (response.totalOccupancy > 0) {
+              console.log('this seems live' + club_here.pn_channel_id);
               if (live_clubs.includes(club_here) === false) {
                 // setLiveClubs(live_clubs => [...live_clubs, club_here]);
                 setLiveClubs(live_clubs.concat(club_here));
+              } else {
+                setLiveClubs(live_clubs);
               }
             } else if (response.totalOccupancy === 0) {
+              console.log('this seems ded bro' + club_here.pn_channel_id);
               if (dor_clubs.includes(club_here) === false) {
                 setDorClubs(dor_clubs.concat(club_here));
                 //setDorClubs(new Set(dor_clubs).add(club_here));
               }
             } else {
+              setDorClubs(dor_clubs);
             }
           }
         },
       );
     }
     setResolved(true);
+    console.log('how often am I called?');
   }
 
   useFocusEffect(

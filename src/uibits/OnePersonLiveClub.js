@@ -37,7 +37,7 @@ function OnePersonLiveClub(props) {
   }, []);
 
   var imagesList = props.URLList;
-  console.log(imagesList);
+  //console.log(imagesList);
 
   return (
     <View>

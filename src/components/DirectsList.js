@@ -13,34 +13,24 @@ import {ListItem, Badge, Icon} from 'react-native-elements';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {usePubNub} from 'pubnub-react';
 import {connect} from 'react-redux';
+import {GetDirectsList} from '../redux/DirectsListActions';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
-function DirectsList() {
+function DirectsList({dispatch, navigation}) {
   const pubnub = usePubNub();
-  const [directsList, setDirectsList] = useState([]);
+
+  const DirectsListHere = state_here.DirectsListReducer.directslist;
 
   useFocusEffect(
     React.useCallback(() => {
-      pubnub.objects.getMemberships(
-        {
-          uuid: state_here.MyProfileReducer.myprofile.user.id,
-          include: {
-            channelFields: true,
-            customChannelFields: true,
-            customFields: true,
-          },
-          sort: {updated: 'desc'},
-        },
-        (status, response) => {
-          //console.log(response.data);
-          setDirectsList(response.data);
-        },
+      dispatch(
+        GetDirectsList(pubnub, state_here.MyProfileReducer.myprofile.user.id),
       );
-    }, []),
+    }, [dispatch]),
   );
 
   function RenderItem(props) {
@@ -53,7 +43,7 @@ function DirectsList() {
 
   return (
     <View style={styles.overall_view}>
-      {directsList.map((item, index) => (
+      {DirectsListHere.map((item, index) => (
         <RenderItem Direct={item} />
       ))}
     </View>

@@ -69,7 +69,7 @@ function MyProfileComponent(props) {
       <View style={styles.body_view}>
         <View style={styles.top_blocks}>
           <FirstBlock
-            DPLink={'https://apisayepirates.life' + props.Profile.image}
+            DPLink={props.Profile.image}
             Name={props.Profile.user.full_name}
             UserName={props.Profile.user.username}
             FrameCount={props.Profile.framescount}

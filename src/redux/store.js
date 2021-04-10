@@ -11,6 +11,7 @@ import GetFramesReducer from './GetFramesReducer';
 import ClubHubDetailsReducer from './ClubHubReducer';
 import MyCircleReducer from './MyCircleReducer';
 import MyClubsReducer from './MyClubsReducer';
+import DirectsListReducer from './DirectsListReducer';
 
 export const persistConfigAuth = {
   key: 'auth_here',
@@ -58,6 +59,11 @@ export const persistConfigMyClubs = {
   //whitelist: ['bookmarks']              // put which objects to save as initial state
 };
 
+export const persistConfigDirectsList = {
+  key: 'directs_list',
+  storage: AsyncStorage,
+};
+
 const rootReducer = combineReducers({
   AuthStateReducer: persistReducer(persistConfigAuth, AuthStateReducer),
   MyProfileReducer: persistReducer(persistConfigMyProfile, MyProfileReducer),
@@ -76,6 +82,7 @@ const rootReducer = combineReducers({
   ),
   MyCircleReducer: persistReducer(persistConfigMyCircle, MyCircleReducer),
   MyClubsReducer: persistReducer(persistConfigMyClubs, MyClubsReducer),
+  DirectsListReducer: persistReducer(persistConfigMyClubs, DirectsListReducer),
 });
 
 export const storehere = createStore(rootReducer, applyMiddleware(thunk));

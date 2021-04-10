@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 function DirectBit(props) {
   const navigation = useNavigation();
-  console.log(props.Direct);
+  //console.log(props.Direct);
 
   function UnreadStatus(props) {
     if (props.Status) {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   ScrollView,
   View,
@@ -6,13 +6,14 @@ import {
   Dimensions,
   Text,
   Image,
+  Animated,
 } from 'react-native';
 import {Header, Icon, Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetFrames} from '../redux/GetFramesActions';
 import dayjs from 'dayjs';
 import axios from 'axios';
-import {createIconSetFromFontello} from 'react-native-vector-icons';
+import FastImage from 'react-native-fast-image';
 
 var statehere = {};
 
@@ -107,7 +108,7 @@ function ClubFramesList({dispatch, navigation, route}) {
   }
 
   useEffect(() => {
-    console.log('dayjs grabbing effect working');
+    //console.log('dayjs grabbing effect working');
     var month_here = dayjs().get('month');
     var year_here = dayjs().get('year');
     setThisYear(year_here);
@@ -118,6 +119,29 @@ function ClubFramesList({dispatch, navigation, route}) {
     setCurrentmonth(stringmonth(month_here, year_here));
     var date_here = dayjs().get('date');
     setDate(date_here);
+  }, []);
+
+  const anim = useRef(new Animated.Value(1));
+
+  useEffect(() => {
+    // makes the sequence loop
+    Animated.loop(
+      // runs given animations in a sequence
+      Animated.sequence([
+        // increase size
+        Animated.timing(anim.current, {
+          toValue: 1.1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        // decrease size
+        Animated.timing(anim.current, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
   }, []);
 
   function CalenderComponent() {
@@ -198,43 +222,79 @@ function ClubFramesList({dispatch, navigation, route}) {
       var ob = Object();
       var ro = props.Frames.filter(
         y => Number(y.published_date.slice(-2)) === item,
-      ).map(x => x.frame_picture);
+      ).map(x => JSON.stringify(x));
 
-      /*
-      var ro = frames_list_here
-        //.filter(y => Number(y.published_date.slice(-2)) === item)
-        .filter(y => y.date === item)
-        .map(x => x.link);
-*/
       var ro = (ob.ro = ro);
       ob.date = item;
       grand_list.push(ob);
     }, {});
 
     Generate_Grand_List;
+
     //console.log(grand_list);
+
+    function AniRenderOrNot(props) {
+      if (props.Render.frame_status) {
+        return (
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  scale: anim.current,
+                },
+              ],
+            }}>
+            <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
+              <FastImage
+                source={{uri: props.Render.frame_picture}}
+                style={styles.frame_thumbnail_on_strip_image}
+              />
+              <Badge
+                status="success"
+                value={props.Date}
+                containerStyle={
+                  styles.frame_thumbnail_date_badge_on_strip_container
+                }
+                badgeStyle={badge_style}
+              />
+            </View>
+          </Animated.View>
+        );
+      } else {
+        return (
+          <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
+            <FastImage
+              source={{uri: props.Render.frame_picture}}
+              style={styles.frame_thumbnail_on_strip_image}
+            />
+            <Badge
+              status="success"
+              value={props.Date}
+              containerStyle={
+                styles.frame_thumbnail_date_badge_on_strip_container
+              }
+              badgeStyle={badge_style}
+            />
+          </View>
+        );
+      }
+    }
 
     function WhatToRender(props) {
       // individual frame/date item
       if (props.Item.ro.length !== 0) {
         //console.log(props.Item.ro[0]);
+        //const x_here = props.Item.ro[0];
+
+        //<Animated.View style={{transform: [{scale: anim.current}]}} />;
+
         return (
           <View style={styles.frame_thumbnail_on_strip_date_view}>
             {props.Item.ro.map(item => (
-              <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
-                <Image
-                  source={{uri: item}}
-                  style={styles.frame_thumbnail_on_strip_image}
-                />
-                <Badge
-                  status="success"
-                  value={props.Item.date}
-                  containerStyle={
-                    styles.frame_thumbnail_date_badge_on_strip_container
-                  }
-                  badgeStyle={badge_style}
-                />
-              </View>
+              <AniRenderOrNot
+                Render={JSON.parse(item)}
+                Date={props.Item.date}
+              />
             ))}
           </View>
         );
@@ -412,17 +472,7 @@ function ClubFramesList({dispatch, navigation, route}) {
 
       var res = [];
 
-      console.log('old month api call about to happen');
-
-      console.log(
-        'https://apisayepirates.life/api/clubs/frames_clubs_filter/' +
-          String(thisyear) +
-          '/' +
-          String(monthnum + 1) +
-          '/' +
-          club_id +
-          '/',
-      );
+      //console.log('old month api call about to happen');
 
       useEffect(() => {
         axios
