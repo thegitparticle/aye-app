@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Avatar, Header} from 'react-native-elements';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
+import FastImage from 'react-native-fast-image';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -19,13 +20,20 @@ function FirstBlock(props) {
   console.log(props.DPLink);
   return (
     <View style={styles.first_block_view}>
-      <Avatar
-        rounded
+      <FastImage
+        //rounded
         source={{
           //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
           uri: props.DPLink,
         }}
-        size={windowHeight * 0.15}
+        //size={windowHeight * 0.15}
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          width: windowHeight * 0.15,
+          height: windowHeight * 0.15,
+          borderRadius: windowHeight * 0.075,
+          backgroundColor: '#05050510',
+        }}
       />
       <Text style={styles.first_view_name}>{props.Name}</Text>
       <Text style={styles.first_view_username}>{props.UserName}</Text>
@@ -40,7 +48,7 @@ function SecondBlock(props) {
     <View style={styles.second_block_view}>
       <View style={styles.show_case_clubs_view}>
         <View style={styles.clubs_icon_view_wrap}>
-          <Image
+          <FastImage
             source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
             style={styles.clubs_icon}
           />
@@ -49,7 +57,7 @@ function SecondBlock(props) {
       </View>
       <View style={styles.show_case_circle_view}>
         <View style={styles.circle_icon_view_wrap}>
-          <Image
+          <FastImage
             source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
             style={styles.circle_icon}
           />

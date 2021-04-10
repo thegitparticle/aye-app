@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {Header, Icon, Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {GetFrames} from '../redux/GetFramesActions';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
@@ -731,6 +730,7 @@ const styles = StyleSheet.create({
     height: 80,
     //marginVertical: 10,
     borderRadius: 20,
+    backgroundColor: '#05050510',
   },
 
   frame_thumbnail_on_strip_date_view: {},

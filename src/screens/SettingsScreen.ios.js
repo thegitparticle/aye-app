@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Dimensions,
   Switch,
   SafeAreaView,
@@ -11,6 +10,7 @@ import {
 import {Button, Divider} from 'react-native-elements';
 import {LOGOUT} from '../redux/types';
 import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -42,7 +42,10 @@ function SettingsScreen({navigation, dispatch}) {
           //        containerStyle={styles.log_out_button_container_style}
           titleStyle={styles.log_out_button_title_style}
           title="log out"
-          onPress={() => dispatch({type: LOGOUT})}
+          onPress={() => {
+            dispatch({type: LOGOUT});
+            AsyncStorage.clear();
+          }}
         />
       </View>
     </SafeAreaView>

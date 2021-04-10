@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import Autolink from 'react-native-autolink';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,7 +24,7 @@ function ShowMessage(props) {
             containerStyle={styles.a_avatar}
           />
           <View style={styles.a_text_view}>
-            <Text style={styles.a_text}>{props.Message.message}</Text>
+            <Autolink style={styles.a_text} text={props.Message.message} />
           </View>
         </FastImage>
       </View>
@@ -43,7 +44,7 @@ function ShowMessage(props) {
             containerStyle={styles.a_avatar}
           />
           <View style={styles.a_text_view}>
-            <Text style={styles.a_text}>{props.Message.message}</Text>
+            <Autolink style={styles.a_text} text={props.Message.message} />
           </View>
         </FastImage>
       </View>

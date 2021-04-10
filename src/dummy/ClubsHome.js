@@ -6,6 +6,7 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {Button, ListItem, Badge, Icon} from 'react-native-elements';
 import {ClubDummyData} from '../dummy/ClubDummyData';
@@ -18,8 +19,13 @@ import {usePubNub} from 'pubnub-react';
 import _ from 'lodash';
 import MyClubsCheckLiveStatus from '../pnstuff/MyClubsCheckLiveStatus';
 import DormantClubBit from '../uibits/DormantClubBit';
+import RNUrlPreview from 'react-native-url-preview';
+import Autolink from 'react-native-autolink';
 
 var state_here = {};
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
@@ -126,11 +132,19 @@ function ClubsHomeD({dispatch}) {
   }
 
   //  <RenderLiveClubsHere />
+
+  /*
+  text={
+          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
+        }
+
+        */
   return (
     <ScrollView
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
       <RenderLiveClubsHere />
+
       <Button
         buttonStyle={styles.start_club_button_style}
         containerStyle={styles.start_club_button_container_style}
@@ -138,6 +152,16 @@ function ClubsHomeD({dispatch}) {
         title="start club"
         onPress={() => navigation.navigate('StartClub')}
       />
+      <RNUrlPreview
+        text={
+          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
+        }
+        description={false}
+        imageStyle={{width: windowWidth, height: windowWidth}}>
+        <Text>kjsdkkjkf</Text>
+        <Text>kjsdkkjkf</Text>
+        <Text>kjsdkkjkf</Text>
+      </RNUrlPreview>
     </ScrollView>
   );
 }

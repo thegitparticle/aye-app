@@ -3,6 +3,7 @@ import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
+import Autolink from 'react-native-autolink';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -16,7 +17,7 @@ function ShowMessageOld(props) {
         <FastImage
           source={{uri: props.Message.meta.user_dp}}
           style={styles.b_type_image}>
-          <Text style={styles.text2}>{props.Message.message}</Text>
+          <Autolink style={styles.a_text} text={props.Message.message} />
         </FastImage>
       </View>
     );
@@ -26,7 +27,7 @@ function ShowMessageOld(props) {
         <FastImage
           source={{uri: props.Message.meta.user_dp}}
           style={styles.b_type_image}>
-          <Text style={styles.text2}>{props.Message.message}</Text>
+          <Autolink style={styles.a_text} text={props.Message.message} />
         </FastImage>
       </View>
     );
@@ -163,6 +164,26 @@ function ShowMessageOld(props) {
 export default ShowMessageOld;
 
 const styles = StyleSheet.create({
+  a_type_image: {
+    width: windowWidth,
+    height: windowWidth / 2,
+    flexDirection: 'column-reverse',
+  },
+  a_avatar: {
+    left: '5%',
+  },
+  a_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    padding: 10,
+    borderRadius: 5,
+  },
+  a_text: {
+    fontFamily: 'GothamRounded-Book',
+    fontSize: 15,
+  },
   text: {
     fontFamily: 'GothamRounded-Book',
   },
