@@ -21,12 +21,9 @@ function FirstBlock(props) {
   return (
     <View style={styles.first_block_view}>
       <FastImage
-        //rounded
         source={{
-          //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
           uri: props.DPLink,
         }}
-        //size={windowHeight * 0.15}
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: windowHeight * 0.15,
