@@ -19,8 +19,6 @@ import {usePubNub} from 'pubnub-react';
 import _ from 'lodash';
 import MyClubsCheckLiveStatus from '../pnstuff/MyClubsCheckLiveStatus';
 import DormantClubBit from '../uibits/DormantClubBit';
-import RNUrlPreview from 'react-native-url-preview';
-import Autolink from 'react-native-autolink';
 
 var state_here = {};
 
@@ -152,16 +150,6 @@ function ClubsHomeD({dispatch}) {
         title="start club"
         onPress={() => navigation.navigate('StartClub')}
       />
-      <RNUrlPreview
-        text={
-          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
-        }
-        description={false}
-        imageStyle={{width: windowWidth, height: windowWidth}}>
-        <Text>kjsdkkjkf</Text>
-        <Text>kjsdkkjkf</Text>
-        <Text>kjsdkkjkf</Text>
-      </RNUrlPreview>
     </ScrollView>
   );
 }

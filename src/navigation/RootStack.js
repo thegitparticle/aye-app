@@ -13,8 +13,8 @@ function RootStack() {
 
   if (t_or_f === true) {
     const pubnub = new PubNub({
-      publishKey: 'pub-c-51313319-e3e9-4667-b0c6-e5b9651aad84',
-      subscribeKey: 'sub-c-3fd0d670-873e-11eb-88a7-4a59fc122af9',
+      publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+      subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
       uuid: state_here.MyProfileReducer.myprofile.user.id,
       //logVerbosity: true,
     });

@@ -5,6 +5,21 @@ import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
 
+/*
+
+ <RNUrlPreview
+        text={
+          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
+        }
+        description={false}
+        imageStyle={{width: windowWidth, height: windowWidth}}>
+        <Text>kjsdkkjkf</Text>
+        <Text>kjsdkkjkf</Text>
+        <Text>kjsdkkjkf</Text>
+      </RNUrlPreview>
+
+      */
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
