@@ -65,6 +65,7 @@ function EnterPhone({navigation}) {
           visible={showSpinner}
           //textContent={'Loading...'}
           //textStyle={styles.spinnerTextStyle}
+          indicatorStyle={styles.indicator_style}
           color="#50E3C2"
         />
         <View style={styles.phone_input}>
@@ -110,6 +111,9 @@ EnterPhone.sharedElements = route => {
 export default EnterPhone;
 
 const styles = StyleSheet.create({
+  indicator_style: {
+    marginTop: -30,
+  },
   phone_input_picker_button: {
     fontSize: 16,
   },

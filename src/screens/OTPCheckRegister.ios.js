@@ -89,6 +89,7 @@ function OTPCheckRegister({navigation, dispatch, route}) {
           //textContent={'Loading...'}
           //textStyle={styles.spinnerTextStyle}
           color="#50E3C2"
+          indicatorStyle={styles.indicator_style}
         />
         <View>
           <OTPInput
@@ -141,6 +142,9 @@ OTPCheckRegister.sharedElements = route => {
 export default OTPCheckRegister;
 
 const styles = StyleSheet.create({
+  indicator_style: {
+    marginTop: -30,
+  },
   OverlayStyle: {
     backgroundColor: '#181818',
     width: windowWidth * 0.8,
