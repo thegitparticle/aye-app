@@ -179,6 +179,8 @@ function HomeStack() {
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
         }}
       />
       <StackMain.Screen
@@ -187,6 +189,8 @@ function HomeStack() {
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
         }}
       />
     </StackMain.Navigator>

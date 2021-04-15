@@ -55,6 +55,20 @@ function HomeMainD({dispatch, navigation}) {
     }
   }
 
+  /*
+
+  const renderIconHere = ({route, focused}) => (
+    <View style={styles.tab_icon_view}>
+      <Icon
+        name={route.icon}
+        type="feather"
+        color={focused ? 'red' : 'black'}
+        iconStyle={styles.tab_icon}
+      />
+    </View>
+  );
+  */
+
   const renderTabBar = props => (
     <TabBar
       {...props}

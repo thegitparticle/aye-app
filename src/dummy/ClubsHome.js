@@ -28,14 +28,6 @@ const windowHeight = Dimensions.get('window').height;
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-      pubnub.unsubscribeAll();
-      //CheckLive();
-    }, [dispatch]),
-  );
-
   //var my_clubs = ClubDummyData;
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
@@ -44,6 +36,8 @@ function ClubsHomeD({dispatch}) {
   const [dor_clubs, setDorClubs] = useState([]);
 
   const [live_clubs, setLiveClubs] = useState([]);
+
+  //console.log(live_clubs.length);
 
   function PreLoadDorClubs() {
     return (
@@ -78,41 +72,37 @@ function ClubsHomeD({dispatch}) {
           if (response) {
             //console.log('yes, response');
             if (response.totalOccupancy > 0) {
-              //console.log('this seems live' + club_here.pn_channel_id);
+              console.log('this seems live' + club_here.pn_channel_id);
               if (live_clubs.includes(club_here) === false) {
-                //console.log('does not include in live');
                 // setLiveClubs(live_clubs => [...live_clubs, club_here]);
-                const x = live_clubs.concat(club_here);
-                //console.log(x);
-                setLiveClubs(x);
+                setLiveClubs(live_clubs.concat(club_here));
               } else {
-                console.log(' does include in live' + club_here);
-                //setLiveClubs(live_clubs);
+                setLiveClubs(live_clubs);
               }
             } else if (response.totalOccupancy === 0) {
-              //console.log('this seems ded bro' + club_here.pn_channel_id);
+              console.log('this seems ded bro' + club_here.pn_channel_id);
               if (dor_clubs.includes(club_here) === false) {
-                //console.log('does not include in dor');
-                const x = dor_clubs.concat(club_here);
-                //console.log(x);
-                setDorClubs(x);
+                setDorClubs(dor_clubs.concat(club_here));
                 //setDorClubs(new Set(dor_clubs).add(club_here));
               }
             } else {
-              console.log('does include in dor' + club_here);
-              //setDorClubs(dor_clubs);
+              setDorClubs(dor_clubs);
             }
           }
         },
       );
     }
     setResolved(true);
-    //console.log('how often am I called?');
+    console.log('how often am I called?');
   }
 
-  useEffect(() => {
-    CheckLive();
-  }, [dor_clubs, live_clubs]);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+      pubnub.unsubscribeAll();
+      CheckLive();
+    }, [dispatch]),
+  );
 
   function RenderLiveClubsHere() {
     function RenderDor() {
@@ -134,7 +124,7 @@ function ClubsHomeD({dispatch}) {
     }
 
     function RenderLive() {
-      //console.log(live_clubs);
+      //console.log('render live called');
       return (
         <View>
           {live_clubs.map((item, index) => (

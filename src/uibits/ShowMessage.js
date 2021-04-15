@@ -69,12 +69,6 @@ function ShowMessage(props) {
       <View style={styles.b_type_view}>
         <FastImage
           source={{uri: props.Message.file.url}}
-          /*
-          source={{
-            uri:
-              'https://i.pinimg.com/564x/7a/25/cb/7a25cbb485702e452f9198fed50f660e.jpg',
-          }}
-          */
           style={styles.b_type_image}>
           <Avatar
             rounded
@@ -93,11 +87,6 @@ function ShowMessage(props) {
       <View style={styles.c_type_view}>
         <FastImage
           source={{uri: props.Message.file.url}}
-          /* source={{
-            uri:
-              'https://i.ibb.co/wdwHmT0/Screen-Shot-2021-03-21-at-12-45-05-PM.png',
-          }}
-          */
           style={styles.c_type_image}>
           <Avatar
             rounded

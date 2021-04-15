@@ -36,16 +36,21 @@ function MyClubsCheckLiveStatus(props) {
     }
   }
 
-  pubnub.hereNow(
-    {
-      channels: [channel_id_here],
-      includeUUIDs: true,
-      includeState: true,
-    },
-    (status, response) => {
-      handleHereNowResponse(response);
-    },
-  );
+  useEffect(() => {
+    pubnub.hereNow(
+      {
+        channels: [channel_id_here],
+        includeUUIDs: true,
+        includeState: true,
+      },
+      (status, response) => {
+        if (response) {
+          console.log(response);
+          handleHereNowResponse(response);
+        }
+      },
+    );
+  }, [props]);
 
   if (liveClub) {
     return (
