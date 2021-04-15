@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useContext, useRef, useEffect} from 'react';
 import {
   View,
@@ -31,6 +32,9 @@ import dayjs from 'dayjs';
 import ShowMessage from '../uibits/ShowMessage';
 import ShowMessageOld from '../uibits/ShowMessageOld';
 import _ from 'lodash';
+import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
+import FastImage from 'react-native-fast-image';
+import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -90,7 +94,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#fff"
+        color="#fafafa"
         name="layers"
         onPress={() =>
           navigation.navigate('DirectFramesList', {
@@ -107,7 +111,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#fff"
+        color="#fafafa"
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
@@ -260,24 +264,54 @@ function DirectChatScreen({navigation, dispatch, route}) {
         onBackdropPress={imagePickerCraftOverlay}
         overlayStyle={styles.image_picker_craft_overlay}>
         <SafeAreaView style={styles.image_picker_craft_items_view}>
-          <Image
-            style={{width: windowWidth, height: windowWidth}}
-            source={{uri: imagePicked}}
-          />
+          <Pressable
+            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            onPress={() => imagePickerCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <FastImage
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+            source={{uri: imagePicked}}>
+            <View
+              style={{
+                width: '100%',
+                height: undefined,
+                aspectRatio: 1,
+                flexDirection: 'column-reverse',
+              }}>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.g_avatar}
+              />
+              <View style={styles.g_text_view}>
+                <TextInput
+                  placeholder="type..."
+                  placeholderTextColor="#fafafa50"
+                  style={styles.g_text}
+                  multiline
+                  autoline
+                  maxLength={140}
+                  onChangeText={text => setTextMessage(text)}
+                />
+              </View>
+            </View>
+          </FastImage>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.image_picker_craft_keyboard_view}>
-            <TextInput
-              placeholder="type..."
-              placeholderTextColor="#fafafa50"
-              style={styles.image_picker_craft_text}
-              multiline
-              onChangeText={text => setTextMessage(text)}
-            />
-            <Icon
-              name="send"
-              type="feather"
-              color="tomato"
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}>
+            <Pressable
               onPress={() => {
                 if (!channelOnGoing) {
                   sendMessageNewFrame(textMessage);
@@ -285,15 +319,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   sendMessageOldFrame(textMessage);
                 }
 
-                //sendMessage(typevalue);
                 Keyboard.dismiss;
                 setTextMessage('');
                 imagePickerCraftOverlay();
                 setImagePicked('');
-                //changeTextInputHeight(80);
-                //changeInputBarFlex(0.14);
-              }}
-            />
+              }}>
+              <IconlyDirectIcon Color="lightgreen" />
+            </Pressable>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Overlay>
@@ -411,24 +443,54 @@ function DirectChatScreen({navigation, dispatch, route}) {
         onBackdropPress={cameraPickerCraftOverlay}
         overlayStyle={styles.camera_picker_craft_overlay}>
         <SafeAreaView style={styles.camera_picker_craft_items_view}>
-          <Image
-            style={{width: windowWidth, height: windowWidth}}
-            source={{uri: cameraPicked}}
-          />
+          <Pressable
+            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            onPress={() => cameraPickerCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <FastImage
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+            source={{uri: cameraPicked}}>
+            <View
+              style={{
+                width: '100%',
+                height: undefined,
+                aspectRatio: 1,
+                flexDirection: 'column-reverse',
+              }}>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.c_avatar}
+              />
+              <View style={styles.c_text_view}>
+                <TextInput
+                  placeholder="type..."
+                  placeholderTextColor="#fafafa50"
+                  style={styles.c_text}
+                  multiline
+                  autoline
+                  maxLength={140}
+                  onChangeText={text => setTextMessage(text)}
+                />
+              </View>
+            </View>
+          </FastImage>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.camera_picker_craft_keyboard_view}>
-            <TextInput
-              placeholder="type..."
-              placeholderTextColor="#fafafa50"
-              style={styles.camera_picker_craft_text}
-              multiline
-              onChangeText={text => setTextMessage(text)}
-            />
-            <Icon
-              name="send"
-              type="feather"
-              color="tomato"
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}>
+            <Pressable
               onPress={() => {
                 if (!channelOnGoing) {
                   sendMessageNewFrame(textMessage);
@@ -436,15 +498,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   sendMessageOldFrame(textMessage);
                 }
 
-                //sendMessage(typevalue);
                 Keyboard.dismiss;
                 setTextMessage('');
                 cameraPickerCraftOverlay();
                 setCameraPicked('');
-                //changeTextInputHeight(80);
-                //changeInputBarFlex(0.14);
-              }}
-            />
+              }}>
+              <IconlyDirectIcon Color="lightgreen" />
+            </Pressable>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Overlay>
@@ -805,7 +865,19 @@ function DirectChatScreen({navigation, dispatch, route}) {
     };
 
     return (
-      <View style={{flex: input_bar_flex}}>
+      <View
+        style={{
+          flex: input_bar_flex,
+          backgroundColor: '#121313',
+          sshadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }}>
         <View style={styles.textinputview}>
           <AutoGrowingTextInput
             // eslint-disable-next-line react-native/no-inline-styles
@@ -824,10 +896,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             placeholderTextColor="#666"
             multiline={true}
           />
-          <Icon
-            name="send"
-            type="feather"
-            color="tomato"
+          <Pressable
             onPress={() => {
               Keyboard.dismiss;
               if (!channelOnGoing) {
@@ -840,8 +909,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
               changeTypevalue('');
               changeTextInputHeight(80);
               changeInputBarFlex(0.14);
-            }}
-          />
+            }}>
+            <IconlyDirectIcon Color="lightgreen" />
+          </Pressable>
         </View>
         <View style={styles.otherinputview}>
           <OtherInputBar />
@@ -850,7 +920,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
-  const [imageSelected, setImageSelected] = useState('');
+  const [imageSelected, setImageSelected] = useState('beach');
   const [imageSelectorCraftVisible, setImageSelectorCraftVisible] = useState(
     false,
   );
@@ -940,24 +1010,54 @@ function DirectChatScreen({navigation, dispatch, route}) {
         onBackdropPress={imageSelectorCraftOverlay}
         overlayStyle={styles.image_selector_craft_overlay}>
         <SafeAreaView style={styles.image_selector_craft_items_view}>
-          <Image
-            style={{width: windowWidth, height: windowWidth}}
-            source={{uri: imageSelected}}
-          />
+          <Pressable
+            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            onPress={() => imageSelectorCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <FastImage
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+            source={{uri: imageSelected}}>
+            <View
+              style={{
+                width: '100%',
+                height: undefined,
+                aspectRatio: 1,
+                flexDirection: 'column-reverse',
+              }}>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.g_avatar}
+              />
+              <View style={styles.g_text_view}>
+                <TextInput
+                  placeholder="type..."
+                  placeholderTextColor="#fafafa50"
+                  style={styles.g_text}
+                  multiline
+                  autoline
+                  maxLength={140}
+                  onChangeText={text => setTextMessage(text)}
+                />
+              </View>
+            </View>
+          </FastImage>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.image_selector_craft_keyboard_view}>
-            <TextInput
-              placeholder="type..."
-              placeholderTextColor="#fafafa50"
-              style={styles.image_picker_craft_text}
-              multiline
-              onChangeText={text => setTextMessage(text)}
-            />
-            <Icon
-              name="send"
-              type="feather"
-              color="tomato"
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}>
+            <Pressable
               onPress={() => {
                 if (!channelOnGoing) {
                   sendMessageNewFrame(textMessage);
@@ -965,15 +1065,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   sendMessageOldFrame(textMessage);
                 }
 
-                //sendMessage(typevalue);
                 Keyboard.dismiss;
                 setTextMessage('');
                 imageSelectorCraftOverlay();
                 setImageSelected('');
-                //changeTextInputHeight(80);
-                //changeInputBarFlex(0.14);
-              }}
-            />
+              }}>
+              <IconlyDirectIcon Color="lightgreen" />
+            </Pressable>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Overlay>
@@ -1084,24 +1182,54 @@ function DirectChatScreen({navigation, dispatch, route}) {
         onBackdropPress={gifSelectorCraftOverlay}
         overlayStyle={styles.gif_selector_craft_overlay}>
         <SafeAreaView style={styles.gif_selector_craft_items_view}>
-          <Image
-            style={{width: windowWidth, height: windowWidth}}
-            source={{uri: gifSelected}}
-          />
+          <Pressable
+            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            onPress={() => gifSelectorCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <FastImage
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+            source={{uri: gifSelected}}>
+            <View
+              style={{
+                width: '100%',
+                height: undefined,
+                aspectRatio: 1,
+                flexDirection: 'column-reverse',
+              }}>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.f_avatar}
+              />
+              <View style={styles.f_text_view}>
+                <TextInput
+                  placeholder="type..."
+                  placeholderTextColor="#fafafa50"
+                  style={styles.f_text}
+                  multiline
+                  autoline
+                  maxLength={140}
+                  onChangeText={text => setTextMessage(text)}
+                />
+              </View>
+            </View>
+          </FastImage>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.gif_selector_craft_keyboard_view}>
-            <TextInput
-              placeholder="type..."
-              placeholderTextColor="#fafafa50"
-              style={styles.gif_selector_craft_text}
-              multiline
-              onChangeText={text => setTextMessage(text)}
-            />
-            <Icon
-              name="send"
-              type="feather"
-              color="tomato"
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}>
+            <Pressable
               onPress={() => {
                 if (!channelOnGoing) {
                   sendMessageNewFrame(textMessage);
@@ -1109,15 +1237,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   sendMessageOldFrame(textMessage);
                 }
 
-                //sendMessage(typevalue);
                 Keyboard.dismiss;
                 setTextMessage('');
-                gifSelectorCraftOverlay();
+                imageSelectorCraftOverlay();
                 setImageSelected('');
-                //changeTextInputHeight(80);
-                //changeInputBarFlex(0.14);
-              }}
-            />
+              }}>
+              <IconlyDirectIcon Color="lightgreen" />
+            </Pressable>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </Overlay>
@@ -1139,7 +1265,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           gifSelectorCraftOverlay();
         }}>
         <Image
-          source={{uri: item.item.images.downsized.url}}
+          source={{uri: item.item.images.preview_gif.url}}
           style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
         />
       </Pressable>
@@ -1149,8 +1275,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
   return (
     <View style={styles.container}>
       <Header
-        backgroundColor="#050505"
-        containerStyle={styles.header_container}>
+        backgroundColor="#121313"
+        containerStyle={styles.header_container}
+        barStyle="light-content">
         <LeftHeaderComponent />
         <CenterHeaderComponent />
         <RightHeaderComponent />
@@ -1178,6 +1305,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 changeImageSearch(search);
               }}
               value={imageSearch}
+              containerStyle={styles.media_modal_search_bar_container}
+              inputContainerStyle={
+                styles.media_modal_search_bar_input_container
+              }
             />
           </View>
         }
@@ -1199,6 +1330,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
               placeholder="Type Here..."
               onChangeText={changeGifSearch}
               value={gifsSearch}
+              containerStyle={styles.media_modal_search_bar_container}
+              inputContainerStyle={
+                styles.media_modal_search_bar_input_container
+              }
             />
           </View>
         }
@@ -1226,7 +1361,7 @@ export default connect(mapStateToProps)(DirectChatScreen);
 const styles = StyleSheet.create({
   modal_search_view_wrap: {
     width: windowWidth,
-    height: 60,
+    height: 65,
   },
   otherinputview: {
     //flex: 0.35,
@@ -1237,7 +1372,7 @@ const styles = StyleSheet.create({
   },
   body_scroll_view: {
     flex: 0.84,
-    backgroundColor: '#f1f4f9',
+    backgroundColor: '#fafafa',
     width: windowWidth,
     borderRadius: 10,
   },
@@ -1250,13 +1385,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#050505',
+    backgroundColor: '#121313',
     alignItems: 'center',
   },
   header_container: {borderBottomWidth: 0},
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#fff',
+    color: '#fafafa',
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',
@@ -1309,7 +1444,7 @@ const styles = StyleSheet.create({
   },
   image_picker_craft_items_view: {
     alignItems: 'center',
-    height: windowHeight * 0.7,
+    height: windowHeight * 0.6,
     justifyContent: 'space-around',
   },
   image_picker_craft_keyboard_view: {
@@ -1332,7 +1467,7 @@ const styles = StyleSheet.create({
   },
   camera_picker_craft_items_view: {
     alignItems: 'center',
-    height: windowHeight * 0.7,
+    height: windowHeight * 0.6,
     justifyContent: 'space-around',
   },
   camera_picker_craft_keyboard_view: {
@@ -1355,7 +1490,7 @@ const styles = StyleSheet.create({
   },
   image_selector_craft_items_view: {
     alignItems: 'center',
-    height: windowHeight * 0.7,
+    height: windowHeight * 0.6,
     justifyContent: 'space-around',
   },
   image_selector_craft_keyboard_view: {
@@ -1378,7 +1513,7 @@ const styles = StyleSheet.create({
   },
   gif_selector_craft_items_view: {
     alignItems: 'center',
-    height: windowHeight * 0.7,
+    height: windowHeight * 0.6,
     justifyContent: 'space-around',
   },
   gif_selector_craft_keyboard_view: {
@@ -1392,5 +1527,110 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: '#fafafa25',
     paddingHorizontal: 20,
+  },
+  media_modal_search_bar_container: {
+    backgroundColor: '#050505',
+  },
+  media_modal_search_bar_input_container: {
+    backgroundColor: '#44444475',
+    borderRadius: 15,
+  },
+  f_type_image: {
+    width: windowWidth,
+    height: windowWidth / 2,
+    flexDirection: 'column-reverse',
+  },
+  f_avatar: {
+    left: '5%',
+  },
+  f_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    padding: 10,
+    borderRadius: 5,
+  },
+  f_text: {
+    fontFamily: 'GothamRounded-Book',
+    fontSize: 15,
+  },
+  f_type_view: {
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  g_type_image: {
+    width: windowWidth,
+    height: windowWidth / 2,
+    flexDirection: 'column-reverse',
+  },
+  g_avatar: {
+    left: '5%',
+  },
+  g_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    maxWidth: windowWidth * 0.8,
+    padding: 10,
+    borderRadius: 5,
+  },
+  g_text: {
+    fontFamily: 'GothamRounded-Book',
+    fontSize: 15,
+  },
+  g_type_view: {
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  b_type_image: {
+    width: windowWidth,
+    height: windowWidth / 2,
+    flexDirection: 'column-reverse',
+  },
+  b_avatar: {
+    left: '5%',
+  },
+  b_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    padding: 10,
+    borderRadius: 5,
+  },
+  b_text: {
+    fontFamily: 'GothamRounded-Book',
+    fontSize: 15,
+  },
+  b_type_view: {
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+
+  c_type_image: {
+    width: windowWidth,
+    height: windowWidth / 2,
+    flexDirection: 'column-reverse',
+  },
+  c_avatar: {
+    left: '5%',
+  },
+  c_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    padding: 10,
+    borderRadius: 5,
+  },
+  c_text: {
+    fontFamily: 'GothamRounded-Book',
+    fontSize: 15,
+  },
+  c_type_view: {
+    marginVertical: 10,
+    alignItems: 'center',
   },
 });

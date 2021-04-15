@@ -1236,21 +1236,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 />
               </View>
             </View>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                gifSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
           </FastImage>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
