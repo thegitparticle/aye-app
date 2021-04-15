@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get('window').width;
 function NudgeToList() {
   function RenderItem(props) {
     return (
-      <ListItem topDivider containerStyle={styles.list_item_container}>
+      <ListItem bottomDivider containerStyle={styles.list_item_container}>
         <NudgeToBit NudgeTo={props.NudgeTo} />
       </ListItem>
     );
@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
   nudgeto_heading: {
     fontSize: 17,
     fontFamily: 'GothamRounded-Bold',
-    marginHorizontal: 30,
-    marginBottom: 30,
+    marginHorizontal: 20,
+    marginBottom: 15,
+    color: '#05050550',
   },
   overall_view: {
     flexDirection: 'column',

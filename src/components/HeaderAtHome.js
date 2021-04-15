@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Dimensions, StyleSheet, Pressable} from 'react-native';
-import {Header} from 'react-native-elements';
+import {Header, Divider} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -46,14 +46,17 @@ function HeaderAtHome({dispatch}) {
   }
 
   return (
-    <Header
-      backgroundColor="#Fafafa"
-      containerStyle={styles.header_container}
-      barStyle="dark-content">
-      <HeaderLeft />
-      <HeaderMiddle />
-      <HeaderRight />
-    </Header>
+    <View>
+      <Header
+        backgroundColor="#FFF"
+        containerStyle={styles.header_container}
+        barStyle="dark-content">
+        <HeaderLeft />
+        <HeaderMiddle />
+        <HeaderRight />
+      </Header>
+      <Divider backgroundColor="#05050502" />
+    </View>
   );
 }
 

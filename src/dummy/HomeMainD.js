@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import HeaderAtHome from '../components/HeaderAtHome';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import ClubsHomeD from './ClubsHome';
 import DirectsHomeD from './DirectsHome';
 import {Icon} from 'react-native-elements';
+import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
+import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,16 +23,37 @@ function HomeMainD({dispatch, navigation}) {
     directs: DirectsHomeD,
   });
 
-  const renderIconHere = ({route, focused}) => (
-    <View style={styles.tab_icon_view}>
-      <Icon
-        name={route.icon}
-        type="feather"
-        color={focused ? 'red' : 'black'}
-        iconStyle={styles.tab_icon}
-      />
-    </View>
-  );
+  function renderIconHere({route, focused}) {
+    if (route.title === 'clubs') {
+      if (focused) {
+        return (
+          <View style={styles.tab_icon_view}>
+            <IconlyHomeClubsIcon Color="black" />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.tab_icon_view}>
+            <IconlyHomeClubsIcon Color="grey" />
+          </View>
+        );
+      }
+    } else {
+      if (focused) {
+        return (
+          <View style={styles.tab_icon_view}>
+            <IconlyDirectIcon Color="black" />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.tab_icon_view}>
+            <IconlyDirectIcon Color="grey" />
+          </View>
+        );
+      }
+    }
+  }
 
   const renderTabBar = props => (
     <TabBar
@@ -38,6 +61,7 @@ function HomeMainD({dispatch, navigation}) {
       indicatorStyle={styles.tab_bar_indicator}
       style={styles.tab_bar}
       renderIcon={renderIconHere}
+      // eslint-disable-next-line react-native/no-inline-styles
       tabStyle={{backgroundColor: 'transparent'}}
     />
   );
@@ -51,6 +75,12 @@ function HomeMainD({dispatch, navigation}) {
         renderTabBar={renderTabBar}
         onIndexChange={setIndex}
         tabBarPosition="bottom"
+        // eslint-disable-next-line react-native/no-inline-styles
+        sceneContainerStyle={{
+          overflow: 'visible',
+          //flex: 1,
+          backgroundColor: '#fff',
+        }}
         style={styles.tab_view}
       />
     </View>
@@ -62,11 +92,12 @@ export default HomeMainD;
 const styles = StyleSheet.create({
   overall_view: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
   },
   tab_view: {
-    flex: 1,
-    backgroundColor: '#fafafa',
+    //flex: 1,
+    backgroundColor: 'transparent',
+    //overflow: 'visible',
   },
   tab_bar: {
     backgroundColor: '#fff',
@@ -94,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     height: 60,
-    paddingTop: 5,
+    paddingTop: 2.5,
   },
   tab_icon: {},
 });

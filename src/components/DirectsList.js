@@ -35,7 +35,7 @@ function DirectsList({dispatch, navigation}) {
 
   function RenderItem(props) {
     return (
-      <ListItem topDivider containerStyle={styles.list_item_container}>
+      <ListItem bottomDivider containerStyle={styles.list_item_container}>
         <DirectBit Direct={props.Direct} />
       </ListItem>
     );
@@ -43,6 +43,7 @@ function DirectsList({dispatch, navigation}) {
 
   return (
     <View style={styles.overall_view}>
+      <Text style={styles.directs_heading}>DMs</Text>
       {DirectsListHere.map((item, index) => (
         <RenderItem Direct={item} />
       ))}
@@ -58,8 +59,16 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(DirectsList);
 
 const styles = StyleSheet.create({
+  directs_heading: {
+    fontSize: 17,
+    fontFamily: 'GothamRounded-Bold',
+    marginHorizontal: 20,
+    marginBottom: 15,
+    color: '#05050550',
+  },
   overall_view: {
     flexDirection: 'column',
+    marginTop: windowHeight * 0.015,
     marginBottom: windowHeight * 0.1,
   },
   list_item_container: {

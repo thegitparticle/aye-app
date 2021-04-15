@@ -6758,10 +6758,10 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
-react-native-tab-view@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.0.0.tgz#ea01e0956a4a96dd87d3cfdd8ee39f9aad319943"
-  integrity sha512-uuvLV3KWVXx3ZEESBYALo4w8fuHFUrrg2K2OCtfHv+xOmTWjjRzm+opi0PMXSLOxl7+uMeJvJYEzR13B6pXpkA==
+react-native-tab-view-tgp@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view-tgp/-/react-native-tab-view-tgp-3.0.5.tgz#63885e5c2c3959df23c104f8a00cac433b3ac20b"
+  integrity sha512-dIYYOSfxxmXcWPAqMHJI0x/kiosOEP+GF28AwTZBMdSKbxVv3pbE8Wzr378IgoX1fdxhD37Mlt4siW0dU6nW6w==
 
 react-native-url-preview@^1.1.9:
   version "1.1.9"

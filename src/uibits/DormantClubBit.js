@@ -53,7 +53,7 @@ function DormantClubBit(props) {
         })
       }>
       <FastImage
-        source={{uri: props.Club.club_image}}
+        source={{uri: props.Club.club_profile_pic}}
         style={styles.avatar_of_club}
         size={68}
       />

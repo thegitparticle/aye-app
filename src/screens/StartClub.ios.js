@@ -11,7 +11,7 @@ import {ListItem, Button, Avatar, Icon} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 //import {getMyContacts} from '../redux/MyContactsActions';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import Contacts from 'react-native-contacts';
 
 const windowHeight = Dimensions.get('window').height;

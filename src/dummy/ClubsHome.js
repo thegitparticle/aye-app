@@ -27,22 +27,45 @@ const windowHeight = Dimensions.get('window').height;
 
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
-  var my_clubs = ClubDummyData;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+      pubnub.unsubscribeAll();
+      //CheckLive();
+    }, [dispatch]),
+  );
+
+  //var my_clubs = ClubDummyData;
+  var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
   const [resolved, setResolved] = useState(false);
 
   const [dor_clubs, setDorClubs] = useState([]);
-  const [live_clubs, setLiveClubs] = useState([]);
-  //const [dor_clubs, setDorClubs] = useState(new Set());
 
-  console.log(dor_clubs.length + 'dor');
-  console.log(live_clubs.length + 'live');
-  //console.log(resolved);
+  const [live_clubs, setLiveClubs] = useState([]);
+
+  function PreLoadDorClubs() {
+    return (
+      <View>
+        {my_clubs.map((item, index) => (
+          <View>
+            <ListItem topDivider containerStyle={styles.list_item_container}>
+              <DormantClubBit Club={item} />
+            </ListItem>
+          </View>
+        ))}
+      </View>
+    );
+  }
 
   function CheckLive() {
     for (var i = 0; i < my_clubs.length; i++) {
+      //console.log(dor_clubs.length + 'dor');
+      //console.log(live_clubs.length + 'live');
+
       const club_here = my_clubs[i];
-      //console.log(club_here);
+      //      console.log(club_here);
 
       pubnub.hereNow(
         {
@@ -55,40 +78,42 @@ function ClubsHomeD({dispatch}) {
           if (response) {
             //console.log('yes, response');
             if (response.totalOccupancy > 0) {
-              console.log('this seems live' + club_here.pn_channel_id);
+              //console.log('this seems live' + club_here.pn_channel_id);
               if (live_clubs.includes(club_here) === false) {
+                //console.log('does not include in live');
                 // setLiveClubs(live_clubs => [...live_clubs, club_here]);
-                setLiveClubs(live_clubs.concat(club_here));
+                const x = live_clubs.concat(club_here);
+                //console.log(x);
+                setLiveClubs(x);
               } else {
-                setLiveClubs(live_clubs);
+                console.log(' does include in live' + club_here);
+                //setLiveClubs(live_clubs);
               }
             } else if (response.totalOccupancy === 0) {
-              console.log('this seems ded bro' + club_here.pn_channel_id);
+              //console.log('this seems ded bro' + club_here.pn_channel_id);
               if (dor_clubs.includes(club_here) === false) {
-                setDorClubs(dor_clubs.concat(club_here));
+                //console.log('does not include in dor');
+                const x = dor_clubs.concat(club_here);
+                //console.log(x);
+                setDorClubs(x);
                 //setDorClubs(new Set(dor_clubs).add(club_here));
               }
             } else {
-              setDorClubs(dor_clubs);
+              console.log('does include in dor' + club_here);
+              //setDorClubs(dor_clubs);
             }
           }
         },
       );
     }
     setResolved(true);
-    console.log('how often am I called?');
+    //console.log('how often am I called?');
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(GetMyClubs());
-      pubnub.unsubscribeAll();
-      CheckLive();
-    }, [dispatch]),
-  );
-
   function RenderLiveClubsHere() {
-    //var my_clubs = state_here.MyClubsReducer.myclubs;
+    useEffect(() => {
+      CheckLive();
+    }, []);
 
     function RenderDor() {
       //console.log(dor_clubs);
@@ -125,18 +150,14 @@ function ClubsHomeD({dispatch}) {
         </View>
       );
     } else {
-      return <View />;
+      return (
+        <View>
+          <PreLoadDorClubs />
+        </View>
+      );
     }
   }
 
-  //  <RenderLiveClubsHere />
-
-  /*
-  text={
-          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
-        }
-
-        */
   return (
     <ScrollView
       style={styles.overall_view}
@@ -167,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#05050510',
   },
-  overall_view: {flex: 1},
+  overall_view: {flex: 1, overflow: 'visible'},
   start_club_button_title_style: {
     fontFamily: 'GothamRounded-Medium',
     fontSize: 17,
