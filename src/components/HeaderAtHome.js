@@ -55,7 +55,7 @@ function HeaderAtHome({dispatch}) {
         <HeaderMiddle />
         <HeaderRight />
       </Header>
-      <Divider backgroundColor="#05050502" />
+      <Divider style={{backgroundColor: '#05050510'}} />
     </View>
   );
 }
