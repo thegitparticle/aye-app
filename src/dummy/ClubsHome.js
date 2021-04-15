@@ -110,18 +110,21 @@ function ClubsHomeD({dispatch}) {
     //console.log('how often am I called?');
   }
 
-  function RenderLiveClubsHere() {
-    useEffect(() => {
-      CheckLive();
-    }, []);
+  useEffect(() => {
+    CheckLive();
+  }, [dor_clubs, live_clubs]);
 
+  function RenderLiveClubsHere() {
     function RenderDor() {
       //console.log(dor_clubs);
       return (
         <View>
           {dor_clubs.map((item, index) => (
             <View>
-              <ListItem topDivider containerStyle={styles.list_item_container}>
+              <ListItem
+                topDivider
+                bottomDivider
+                containerStyle={styles.list_item_container}>
                 <DormantClubBit Club={item} />
               </ListItem>
             </View>

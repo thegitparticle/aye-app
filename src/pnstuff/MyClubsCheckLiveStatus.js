@@ -109,6 +109,7 @@ export default MyClubsCheckLiveStatus;
 
 const styles = StyleSheet.create({
   list_item_content: {
+    marginTop: 10,
     height: windowHeight * 0.0719 * 0.75,
     justifyContent: 'space-around',
     alignItems: 'center',
