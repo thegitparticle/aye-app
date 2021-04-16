@@ -16,7 +16,14 @@ import {
   Platform,
   Pressable,
 } from 'react-native';
-import {Icon, Overlay, Header, Avatar, SearchBar} from 'react-native-elements';
+import {
+  Icon,
+  Overlay,
+  Header,
+  Divider,
+  Avatar,
+  SearchBar,
+} from 'react-native-elements';
 import {useHeaderHeight} from '@react-navigation/stack';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 //import MessagesView from './MessagesView';
@@ -64,7 +71,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   //console.log(old_messages.channels[this_channel_string] + 'old messages');
   //var messages = [];
   const [forceAddMedia, changeForceAddMedia] = useState('');
-  var input_bar_flex = 0.16;
+  var input_bar_flex = 0.1;
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   /*
@@ -102,7 +109,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FAFAFA"
+        color="#FFFFFF"
         name="layers"
         onPress={() =>
           navigation.navigate('ClubFramesList', {
@@ -119,7 +126,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FAFAFA"
+        color="#FFFFFF"
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
@@ -542,6 +549,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.otherinputscrollview}>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             ImagePicker.openCamera({
               cropping: true,
@@ -558,6 +566,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             ImagePicker.openPicker({
               multiple: false,
@@ -576,6 +585,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             onOpenBitmojiSheet();
           }}>
@@ -585,6 +595,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             onOpenGifSheet();
           }}>
@@ -808,7 +819,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const [typevalue, changeTypevalue] = useState('');
 
     const type_message = 'd';
-    //const type_message = 'a';
 
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
@@ -830,8 +840,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               StartFrame(response.timetoken);
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       } else {
@@ -852,8 +860,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               console.log(response);
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       }
@@ -877,65 +883,219 @@ function ClubChatScreen({navigation, dispatch, route}) {
             console.log(response);
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
       } else {
       }
     };
 
     return (
       <View
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flex: input_bar_flex,
-          backgroundColor: '#121313',
-          sshadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
+          borderRadius: 15,
+          backgroundColor: '#050505',
         }}>
         <View style={styles.textinputview}>
-          <AutoGrowingTextInput
-            // eslint-disable-next-line react-native/no-inline-styles
+          <View
             style={{
-              fontSize: 16,
-              fontFamily: 'GothamRounded-Book',
-              color: '#050505',
-              marginRight: 20,
+              backgroundColor: '#F3F4F8',
               flex: 1,
+              minHeight: 40,
               height: textinputheight,
-              width: windowWidth * 0.85,
-            }}
-            onChangeText={changeTypevalue}
-            value={typevalue}
-            placeholder="fun stuff only"
-            placeholderTextColor="#666"
-            multiline={true}
-          />
-
-          <Pressable
-            onPress={() => {
-              Keyboard.dismiss;
-              if (!channelOnGoing) {
-                sendMessageNewFrame(typevalue);
-              } else {
-                sendMessageOldFrame(typevalue);
-              }
-
-              //sendMessage(typevalue);
-              changeTypevalue('');
-              changeTextInputHeight(80);
-              changeInputBarFlex(0.14);
+              width: windowWidth,
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderRadius: 15,
+              //borderBottomLeftRadius: 15,
+              //borderBottomRightRadius: 15,
             }}>
-            <IconlyDirectIcon Color="lightgreen" />
-          </Pressable>
+            <AutoGrowingTextInput
+              style={{
+                fontSize: 16,
+                fontFamily: 'GothamRounded-Book',
+                color: '#050505',
+                //marginRight: 20,
+                flex: 1,
+                padding: 15,
+                height: textinputheight,
+                width: windowWidth * 0.85,
+                backgroundColor: '#F3F4F8',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
+              onChangeText={changeTypevalue}
+              value={typevalue}
+              placeholder="fun stuff only"
+              placeholderTextColor="#666"
+              multiline={true}
+            />
+
+            <Pressable
+              style={{
+                width: windowWidth * 0.15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                Keyboard.dismiss;
+                if (!channelOnGoing) {
+                  sendMessageNewFrame(typevalue);
+                } else {
+                  sendMessageOldFrame(typevalue);
+                }
+
+                changeTypevalue('');
+                changeTextInputHeight(80);
+                changeInputBarFlex(0.14);
+              }}>
+              <IconlyDirectIcon Color="#36B37E" />
+            </Pressable>
+          </View>
         </View>
         <View style={styles.otherinputview}>
           <OtherInputBar />
+        </View>
+      </View>
+    );
+  }
+
+  function InputXXX() {
+    const [typevalue, changeTypevalue] = useState('');
+
+    const type_message = 'd';
+
+    const sendMessageNewFrame = message => {
+      if (messages.length === 0) {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: type_message,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+              console.log(response);
+              StartFrame(response.timetoken);
+            },
+          );
+        } else {
+        }
+      } else {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: type_message,
+                user_dp:
+                  'https://apisayepirates.life' +
+                  state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+              console.log(response);
+            },
+          );
+        } else {
+        }
+      }
+    };
+    const sendMessageOldFrame = message => {
+      console.log('sending message in old frame');
+      if (message) {
+        pubnub.publish(
+          {
+            channel: channelsHere[0],
+            message,
+            meta: {
+              type: type_message,
+              user_dp:
+                'https://apisayepirates.life' +
+                state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status);
+            console.log(response);
+          },
+        );
+      } else {
+      }
+    };
+
+    return (
+      <View
+        style={{
+          flex: 0.08,
+          backgroundColor: '#F3F4F8',
+          minHeight: 25,
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View style={styles.textinputview}>
+          <View
+            style={{
+              // flex: 1,
+              backgroundColor: '#F3F4F8',
+              height: textinputheight,
+              width: windowWidth,
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderRadius: 15,
+            }}>
+            <AutoGrowingTextInput
+              style={{
+                fontSize: 16,
+                fontFamily: 'GothamRounded-Book',
+                color: '#050505',
+                paddingHorizontal: 10,
+                marginLeft: 10,
+                width: windowWidth * 0.85,
+                backgroundColor: '#F3F4F8',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
+              onChangeText={changeTypevalue}
+              value={typevalue}
+              placeholder="fun stuff only"
+              placeholderTextColor="#666"
+              multiline={true}
+              maxLength={140}
+            />
+
+            <Pressable
+              style={{
+                height: 30,
+                width: windowWidth * 0.15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                Keyboard.dismiss;
+                if (!channelOnGoing) {
+                  sendMessageNewFrame(typevalue);
+                } else {
+                  sendMessageOldFrame(typevalue);
+                }
+
+                changeTypevalue('');
+                changeTextInputHeight(80);
+                changeInputBarFlex(0.14);
+              }}>
+              <IconlyDirectIcon Color="#36B37E" />
+            </Pressable>
+          </View>
         </View>
       </View>
     );
@@ -1291,7 +1451,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   return (
     <View style={styles.container}>
       <Header
-        backgroundColor="#121313"
+        backgroundColor="#050505"
         containerStyle={styles.header_container}
         barStyle="light-content">
         <LeftHeaderComponent />
@@ -1301,8 +1461,20 @@ function ClubChatScreen({navigation, dispatch, route}) {
       <KeyboardAvoidingView
         style={styles.body_and_input_wrap}
         behavior="padding">
-        <LiveMessagesView />
-        <Input />
+        <View
+          style={{
+            flex: 0.9,
+            backgroundColor: '#FFFFFF',
+            borderRadius: 20,
+            margin: 0,
+            padding: 0,
+          }}>
+          <LiveMessagesView />
+          <InputXXX />
+        </View>
+        <View style={{flex: 0.1, backgroundColor: '#050505'}}>
+          <OtherInputBar />
+        </View>
       </KeyboardAvoidingView>
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />
@@ -1380,36 +1552,40 @@ const styles = StyleSheet.create({
     height: 65,
   },
   otherinputview: {
-    //flex: 0.35,
-    height: 30,
+    flex: 0.1,
+    height: 40,
   },
   body_and_input_wrap: {
     flex: 1,
+    width: windowWidth,
   },
   body_scroll_view: {
-    flex: 0.84,
-    backgroundColor: '#FAFAFA',
+    flex: 0.92,
+    backgroundColor: '#FFFFFF',
     width: windowWidth,
-    //borderTopLeftRadius: 10,
-    //borderTopRightRadius: 10,
-    borderRadius: 10,
+    borderRadius: 20,
+    padding: 0,
+    margin: 0,
   },
   body_scroll_view_content_container: {
     flexGrow: 1,
+    width: windowWidth,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    padding: 0,
+    margin: 0,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#121313',
+    backgroundColor: '#050505',
     alignItems: 'center',
   },
   header_container: {borderBottomWidth: 0},
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#FAFAFA',
+    color: '#FFFFFF',
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',
@@ -1427,11 +1603,11 @@ const styles = StyleSheet.create({
   input_overall_view: {},
   textinputview: {
     //flex: 0.65,
-    height: 50,
+    //height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
 
   otherinputscrollview: {
@@ -1448,16 +1624,16 @@ const styles = StyleSheet.create({
     //marginTop: 10, //has to be fixed to be made as per the flex
   },
   other_input_modals_style: {
-    backgroundColor: '#141414',
+    backgroundColor: '#131313',
   },
   sticker_packs_view_wrap: {
     flexDirection: 'row',
-    backgroundColor: '#141414',
+    backgroundColor: '#131313',
   },
   image_picker_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   image_picker_craft_items_view: {
@@ -1480,7 +1656,7 @@ const styles = StyleSheet.create({
   camera_picker_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   camera_picker_craft_items_view: {
@@ -1503,7 +1679,7 @@ const styles = StyleSheet.create({
   image_selector_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   image_selector_craft_items_view: {
@@ -1526,7 +1702,7 @@ const styles = StyleSheet.create({
   gif_selector_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   gif_selector_craft_items_view: {
@@ -1547,7 +1723,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   media_modal_search_bar_container: {
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
   },
   media_modal_search_bar_input_container: {
     backgroundColor: '#44444475',
