@@ -960,6 +960,20 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }
 
   function InputXXX() {
+    useEffect(() => {
+      Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+
+      // cleanup function
+      return () => {
+        Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+        Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+      };
+    }, []);
+
+    const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+    const _keyboardDidShow = () => setKeyboardStatus('keyboard_shown');
+    const _keyboardDidHide = () => setKeyboardStatus('keyboard_hidden');
     const [typevalue, changeTypevalue] = useState('');
 
     const type_message = 'd';
@@ -1034,9 +1048,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <View
         style={{
-          flex: 0.08,
+          //flex: 0.05,
           backgroundColor: '#F3F4F8',
-          minHeight: 25,
+          minHeight: 65,
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
           alignItems: 'center',
@@ -1068,7 +1082,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }}
               onChangeText={changeTypevalue}
               value={typevalue}
-              placeholder="fun stuff only"
+              placeholder="type fun stuff..."
               placeholderTextColor="#666"
               multiline={true}
               maxLength={140}
