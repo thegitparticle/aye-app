@@ -12,6 +12,7 @@ import ClubHubDetailsReducer from './ClubHubReducer';
 import MyCircleReducer from './MyCircleReducer';
 import MyClubsReducer from './MyClubsReducer';
 import DirectsListReducer from './DirectsListReducer';
+import RecoOnTypeReducer from './RecoOnTypeReducer';
 
 export const persistConfigAuth = {
   key: 'auth_here',
@@ -64,6 +65,11 @@ export const persistConfigDirectsList = {
   storage: AsyncStorage,
 };
 
+export const persistConfigRecoOnType = {
+  key: 'reco_on_type',
+  storage: AsyncStorage,
+};
+
 const rootReducer = combineReducers({
   AuthStateReducer: persistReducer(persistConfigAuth, AuthStateReducer),
   MyProfileReducer: persistReducer(persistConfigMyProfile, MyProfileReducer),
@@ -83,6 +89,7 @@ const rootReducer = combineReducers({
   MyCircleReducer: persistReducer(persistConfigMyCircle, MyCircleReducer),
   MyClubsReducer: persistReducer(persistConfigMyClubs, MyClubsReducer),
   DirectsListReducer: persistReducer(persistConfigMyClubs, DirectsListReducer),
+  RecoOnTypeReducer: persistReducer(persistConfigRecoOnType, RecoOnTypeReducer),
 });
 
 export const storehere = createStore(rootReducer, applyMiddleware(thunk));

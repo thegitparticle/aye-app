@@ -17,12 +17,14 @@ import {
   Pressable,
 } from 'react-native';
 import {
-  Icon,
   Overlay,
+  Icon,
   Header,
   Divider,
   Avatar,
   SearchBar,
+  Tooltip,
+  Button,
 } from 'react-native-elements';
 import {useHeaderHeight} from '@react-navigation/stack';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
@@ -41,6 +43,8 @@ import ShowMessageOld from '../uibits/ShowMessageOld';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
+import {GetRecosOnType} from '../redux/RecoOnTypeActions';
+import BetterImage from 'react-native-better-image';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -971,12 +975,117 @@ function ClubChatScreen({navigation, dispatch, route}) {
       };
     }, []);
 
-    const [keyboardStatus, setKeyboardStatus] = useState(undefined);
-    const _keyboardDidShow = () => setKeyboardStatus('keyboard_shown');
-    const _keyboardDidHide = () => setKeyboardStatus('keyboard_hidden');
     const [typevalue, changeTypevalue] = useState('');
+    const [chosenMedia, changeChosenMedia] = useState('');
 
-    const type_message = 'd';
+    const [keyboardStatus, setKeyboardStatus] = useState(false);
+    const _keyboardDidShow = () => setKeyboardStatus(true);
+    const _keyboardDidHide = () => setKeyboardStatus(false);
+
+    function EachRecoItem(props) {
+      const [selected, setSelected] = useState(false);
+
+      if (selected) {
+        return (
+          <Pressable
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 10,
+              },
+              shadowOpacity: 0.51,
+              shadowRadius: 13.16,
+              elevation: 20,
+              borderWidth: 5,
+              borderRadius: 10,
+              borderColor: '#36B37E',
+            }}
+            onPress={() => {
+              changeChosenMedia(props.Item);
+              setSelected(false);
+            }}>
+            <BetterImage
+              viewStyle={{
+                width: windowWidth * 0.3,
+                height: windowHeight * 0.08,
+                marginHorizontal: 5,
+              }}
+              source={{
+                uri: props.Item,
+              }}
+              thumbnailSource={{
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+              }}
+              fallbackSource={{
+                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+              }}
+            />
+          </Pressable>
+        );
+      } else {
+        return (
+          <Pressable
+            onPress={() => {
+              changeChosenMedia(props.Item);
+              setSelected(true);
+            }}>
+            <BetterImage
+              viewStyle={{
+                width: windowWidth * 0.3,
+                height: windowHeight * 0.08,
+                marginHorizontal: 5,
+              }}
+              source={{
+                uri: props.Item,
+              }}
+              thumbnailSource={{
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+              }}
+              fallbackSource={{
+                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+              }}
+            />
+          </Pressable>
+        );
+      }
+    }
+    function RecoOverLay() {
+      const [rec, setRec] = useState(['loading']);
+
+      var res = [];
+
+      axios
+        .get('https://run.mocky.io/v3/fcd363e5-811f-467c-9ec6-07bfa06b36a5')
+        .then(response => (res = response.data))
+        .then(() => setRec(res))
+        .catch(err => {
+          console.log(err);
+        });
+
+      if (keyboardStatus) {
+        return (
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{
+              height: windowHeight * 0.1,
+              width: windowWidth,
+              backgroundColor: '#13131300',
+            }}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            {rec.map((item, index) => (
+              <EachRecoItem Item={item} />
+            ))}
+          </ScrollView>
+        );
+      } else {
+        return <View />;
+      }
+    }
 
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
@@ -986,7 +1095,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
               channel: channelsHere[0],
               message,
               meta: {
-                type: type_message,
+                type: 'h',
+                image_url: chosenMedia,
                 user_dp:
                   'https://apisayepirates.life' +
                   state_here.MyProfileReducer.myprofile.image,
@@ -1007,7 +1117,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
               channel: channelsHere[0],
               message,
               meta: {
-                type: type_message,
+                type: 'h',
+                image_url: chosenMedia,
                 user_dp:
                   'https://apisayepirates.life' +
                   state_here.MyProfileReducer.myprofile.image,
@@ -1030,7 +1141,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
             channel: channelsHere[0],
             message,
             meta: {
-              type: type_message,
+              type: 'h',
+              image_url: chosenMedia,
               user_dp:
                 'https://apisayepirates.life' +
                 state_here.MyProfileReducer.myprofile.image,
@@ -1056,6 +1168,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
+        <RecoOverLay />
         <View style={styles.textinputview}>
           <View
             style={{
@@ -1066,6 +1179,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               flexDirection: 'row',
               alignItems: 'center',
               borderRadius: 15,
+              minHeight: 65,
             }}>
             <AutoGrowingTextInput
               style={{

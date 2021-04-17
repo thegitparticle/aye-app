@@ -155,18 +155,16 @@ function ShowMessageOld(props) {
     return (
       <View style={styles.h_type_view}>
         <FastImage
-          source={{uri: props.item.meta.media_link}}
+          source={{uri: props.Message.meta.image_url}}
           style={styles.h_type_image}>
           <Avatar
             rounded
-            source={{uri: props.item.meta.user_dp}}
+            source={{uri: props.Message.meta.user_dp}}
             size={60}
             containerStyle={styles.h_avatar}
           />
           <View style={styles.h_text_view}>
-            <Text style={styles.h_text}>
-              {props.Message.message.message.test}
-            </Text>
+            <Text style={styles.h_text}>{props.Message.message}</Text>
           </View>
         </FastImage>
       </View>

@@ -28,8 +28,8 @@ const windowHeight = Dimensions.get('window').height;
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
 
-  //var my_clubs = ClubDummyData;
-  var my_clubs = state_here.MyClubsReducer.myclubs;
+  var my_clubs = ClubDummyData;
+  //var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
   const [resolved, setResolved] = useState(false);
 
