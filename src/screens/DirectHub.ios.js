@@ -176,7 +176,9 @@ function DirectHub({dispatch, navigation, route}) {
         <Text style={styles.first_view_username}>
           {otherDetails[0].user.username}
         </Text>
-        <Text style={styles.first_view_frames_count}>999 . Level 1</Text>
+        <Text style={styles.first_view_frames_count}>
+          {otherDetails[0].user.total_frames_participation} . Level 1
+        </Text>
       </View>
     );
   }
@@ -248,7 +250,7 @@ function DirectHub({dispatch, navigation, route}) {
         <RightHeaderComponent />
       </Header>
       <View style={styles.body_view}>
-        <MetricsOfConversation FramesCount={details.framecount} />
+        <MetricsOfConversation FramesCount="99" />
         <Divider style={styles.between_divider} />
         <OtherProfile />
       </View>

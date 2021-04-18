@@ -635,7 +635,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
       if (res) {
         var people_here = res.channels[directIdHere].occupants;
 
-        setLiveWho(people_here);
+        //setLiveWho(people_here);
       }
     }
   };
@@ -1405,8 +1405,20 @@ function DirectChatScreen({navigation, dispatch, route}) {
       <KeyboardAvoidingView
         style={styles.body_and_input_wrap}
         behavior="padding">
-        <LiveMessagesView />
-        <InputXXX />
+        <View
+          style={{
+            flex: 0.9,
+            backgroundColor: '#FFFFFF',
+            borderRadius: 20,
+            margin: 0,
+            padding: 0,
+          }}>
+          <LiveMessagesView />
+          <InputXXX />
+        </View>
+        <View style={{flex: 0.1, backgroundColor: '#050505'}}>
+          <OtherInputBar />
+        </View>
       </KeyboardAvoidingView>
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />
@@ -1484,23 +1496,28 @@ const styles = StyleSheet.create({
     height: 65,
   },
   otherinputview: {
-    //flex: 0.35,
-    height: 30,
+    flex: 0.1,
+    height: 40,
   },
   body_and_input_wrap: {
     flex: 1,
+    width: windowWidth,
   },
   body_scroll_view: {
-    flex: 0.84,
-    backgroundColor: '#fafafa',
+    flex: 0.92,
+    backgroundColor: '#FFFFFF',
     width: windowWidth,
-    borderRadius: 10,
+    borderRadius: 20,
+    padding: 0,
+    margin: 0,
   },
   body_scroll_view_content_container: {
     flexGrow: 1,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    padding: 0,
+    margin: 0,
   },
   container: {
     flex: 1,

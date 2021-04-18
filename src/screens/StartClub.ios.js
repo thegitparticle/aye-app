@@ -4,8 +4,12 @@ import {
   Dimensions,
   StyleSheet,
   View,
+  SafeAreaView,
   PermissionsAndroid,
   TextInput,
+  FlatList,
+  Text,
+  Pressable,
 } from 'react-native';
 import {ListItem, Button, Avatar, Icon} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -13,6 +17,7 @@ import {GetMyCircle} from '../redux/MyCircleActions';
 //import {getMyContacts} from '../redux/MyContactsActions';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import Contacts from 'react-native-contacts';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -21,8 +26,7 @@ var mystatehere = {};
 
 function StartClub({dispatch, navigation}) {
   const [grabedContacts, setGrabedContacts] = useState();
-  const [addedMemberList, setAddedMemberList] = useState([]);
-  const [addedContactList, setAddedContactList] = useState([]);
+
   const [showNameScreen, setShowNameScreen] = useState(false);
 
   async function GrabContacts() {
@@ -42,105 +46,160 @@ function StartClub({dispatch, navigation}) {
 
   //console.log(grabedContacts);
 
-  function AddButton() {
-    const [added, setAdded] = useState(false);
-    if (!added) {
-      return (
-        <Button
-          title="+ ADD"
-          type="solid"
-          containerStyle={styles.AddButtonContainer}
-          titleStyle={styles.AddButtonTitle}
-          buttonStyle={styles.AddButton}
-          onPress={() => setAdded(true)}
-        />
-      );
-    } else {
-      return (
-        <Button
-          title="✓"
-          type="solid"
-          containerStyle={styles.AddButtonContainer}
-          titleStyle={styles.AddButtonTitle}
-          buttonStyle={styles.AddButton}
-          onPress={() => setAdded(false)}
-        />
-      );
-    }
+  var AddFriendsList = [mystatehere.MyProfileReducer.myprofile.user.id];
+
+  function SelectCircleItem(id) {
+    AddFriendsList.push(id);
+    console.log(AddFriendsList);
   }
 
-  const CircleHere = () => (
-    <ScrollView contentContainerStyle={styles.overallcontainer}>
-      {mystatehere.MyCircleReducer.mycircle.map((comp, i) => (
-        <ListItem>
+  function DeSelectCircleItem(id) {
+    AddFriendsList = AddFriendsList.filter(item => item !== id);
+  }
+
+  function RenderCircleItem(props) {
+    const [added, setAdded] = useState(false);
+    if (added) {
+      return (
+        <Pressable
+          style={styles.circle_item_pressable_view}
+          onPress={() => {
+            DeSelectCircleItem(props.ID);
+            setAdded(false);
+          }}>
+          <Icon
+            name="checkcircle"
+            type="ant-design"
+            color="#36B37E"
+            style={styles.circle_item_icon}
+          />
           <Avatar
             rounded
-            source={{uri: comp.displaypic}}
-            size={windowHeight * 0.0719}
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
           />
-          <ListItem.Content>
-            <ListItem.Title style={styles.Heading2}>{comp.name}</ListItem.Title>
-            <ListItem.Subtitle style={styles.plaintext}>
-              {comp.username}
-            </ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem>
-            <AddButton />
-          </ListItem>
-        </ListItem>
-      ))}
-    </ScrollView>
-  );
-
-  function GrabNumbers(props) {
-    console.log(props.Numbers);
-    return <View />;
-  }
-
-  function InviteButton() {
-    const [invited, setInvited] = useState(false);
-    if (!invited) {
-      return (
-        <Button
-          title="+ INVITE"
-          type="solid"
-          containerStyle={styles.AddButtonContainer}
-          titleStyle={styles.AddButtonTitle}
-          buttonStyle={styles.AddButton}
-          onPress={() => setInvited(true)}
-        />
+          <Text style={styles.circle_item_selected_text}>{props.Name}</Text>
+        </Pressable>
       );
     } else {
       return (
-        <Button
-          title="✓"
-          type="solid"
-          containerStyle={styles.AddButtonContainer}
-          titleStyle={styles.AddButtonTitle}
-          buttonStyle={styles.AddButton}
-          onPress={() => setInvited(false)}
-        />
+        <Pressable
+          style={styles.circle_item_pressable_view}
+          onPress={() => {
+            SelectCircleItem(props.ID);
+            setAdded(true);
+          }}>
+          <Icon
+            name="circle"
+            type="entypo"
+            color="#131313"
+            style={styles.circle_item_icon}
+          />
+          <Avatar
+            rounded
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
+          />
+          <Text style={styles.circle_item_not_selected_text}>{props.Name}</Text>
+        </Pressable>
       );
     }
   }
 
-  const ContactsHere = () => (
-    <ScrollView style={styles.overallcontainer}>
-      {grabedContacts.map((comp, i) => (
-        <ListItem>
-          <Avatar rounded title="FP" size="medium" activeOpacity={0.7} />
-          <ListItem.Content>
-            <ListItem.Title style={styles.Heading2}>
-              {comp.givenName} {comp.familyName}
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem>
-            <InviteButton />
-          </ListItem>
-        </ListItem>
-      ))}
-    </ScrollView>
-  );
+  var AddContactsList = [];
+
+  function SelectContactItem(id) {
+    AddContactsList.push(id);
+  }
+
+  function DeSelectContactItem(id) {
+    AddContactsList = AddContactsList.filter(item => item !== id);
+  }
+
+  function RenderContactItem(props) {
+    const [added, setAdded] = useState(false);
+
+    if (added) {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            DeSelectContactItem(props.ID);
+            setAdded(false);
+          }}>
+          <Icon
+            name="checkcircle"
+            type="ant-design"
+            color="#36B37E"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
+          />
+          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
+        </Pressable>
+      );
+    } else {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            SelectContactItem(props.ID);
+            setAdded(true);
+          }}>
+          <Icon
+            name="circle"
+            type="entypo"
+            color="#131313"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
+          />
+          <Text style={styles.contact_item_not_selected_text}>
+            {props.Name}
+          </Text>
+        </Pressable>
+      );
+    }
+  }
+
+  function CircleNew() {
+    return (
+      <FlatList
+        data={mystatehere.MyCircleReducer.mycircle}
+        renderItem={({item}) => (
+          <RenderCircleItem
+            Name={item.name}
+            ID={item.userid}
+            Avatar={item.displaypic}
+          />
+        )}
+        keyExtractor={item => item.userid}
+      />
+    );
+  }
+
+  function ContactsNew() {
+    return (
+      <FlatList
+        //data={mystatehere.MyContactsReducer.mycontacts}
+        data={grabedContacts}
+        renderItem={({item}) => (
+          <RenderContactItem
+            Name={item.givenName + item.familyName}
+            ID={item.userid}
+            //Avatar={item.displaypic}
+          />
+        )}
+        keyExtractor={item => item.phoneNumbers}
+      />
+    );
+  }
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -149,8 +208,8 @@ function StartClub({dispatch, navigation}) {
   ]);
 
   const renderScene = SceneMap({
-    circle: CircleHere,
-    contacts: ContactsHere,
+    circle: CircleNew,
+    contacts: ContactsNew,
   });
 
   const renderTabBar = props => (
@@ -162,7 +221,47 @@ function StartClub({dispatch, navigation}) {
     />
   );
 
+  const [finalAddFriends, setFinalAddFriends] = useState([]);
+
+  const [finalAddContacts, setFinalAddContacts] = useState([]);
+
+  function HandleNextButton() {
+    if (AddContactsList.length > 0 || AddFriendsList.length > 1) {
+      setFinalAddFriends(AddFriendsList);
+      setFinalAddContacts(AddContactsList);
+      setShowNameScreen(true);
+    } else {
+      navigation.goBack();
+    }
+  }
+
   function StartClubName() {
+    const [clubName, setClubName] = useState('');
+    console.log(finalAddFriends);
+    console.log(finalAddContacts);
+
+    function HandleStartClubButtonPress() {
+      if (clubName !== '') {
+        var config = {
+          method: 'post',
+          url: 'https://apisayepirates.life/api/clubs/create_club/',
+          headers: {'content-type': 'application/json'},
+          data: {
+            club_name: clubName,
+            list1: finalAddFriends,
+            //list2: finalAddContacts,
+            list2: [919999988888],
+            admin_leader: mystatehere.MyProfileReducer.myprofile.user.id,
+          },
+        };
+
+        axios(config)
+          .then(response => console.log(response))
+          .then(() => navigation.goBack())
+
+          .catch(error => console.log(error));
+      }
+    }
     return (
       <View style={styles.containerview_name_input}>
         <TextInput
@@ -170,19 +269,21 @@ function StartClub({dispatch, navigation}) {
           placeholderTextColor="#bdc2d9"
           style={styles.inputcontainerview_name_input}
           textAlign="center"
+          maxLength={15}
+          onChangeText={text => setClubName(text)}
         />
         <Button
           title="START"
           buttonStyle={styles.startbutton_name_input}
           titleStyle={styles.buttontitle_name_input}
-          onPress={() => navigation.goBack()}
+          onPress={() => HandleStartClubButtonPress()}
         />
       </View>
     );
   }
 
   const TabFinalView = () => (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, marginVertical: 10}}>
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}
@@ -195,26 +296,25 @@ function StartClub({dispatch, navigation}) {
           <Icon name="arrow-right" size={25} color="white" type="feather" />
         }
         size={25}
-        raised={true}
         buttonStyle={styles.NextButton}
         titleStyle={styles.NextButtonLabel}
         containerStyle={styles.NextButtonContainer}
-        onPress={() => setShowNameScreen(true)}
+        onPress={() => HandleNextButton()}
       />
     </View>
   );
 
   if (!showNameScreen) {
     return (
-      <View style={styles.containerview}>
+      <SafeAreaView style={styles.containerview}>
         <TabFinalView />
-      </View>
+      </SafeAreaView>
     );
   } else {
     return (
-      <View style={styles.containerview}>
+      <SafeAreaView style={styles.containerview}>
         <StartClubName />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -227,6 +327,56 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(StartClub);
 
 const styles = StyleSheet.create({
+  circle_item_pressable_view: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    alignItems: 'center',
+    width: windowWidth * 0.8,
+    marginVertical: 10,
+  },
+
+  circle_item_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#05050525',
+    marginHorizontal: windowWidth * 0.05,
+  },
+
+  circle_item_not_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#050505',
+    marginHorizontal: windowWidth * 0.05,
+  },
+  circle_item_icon: {
+    marginRight: windowWidth * 0.05,
+  },
+
+  contact_item_pressable_view: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    alignItems: 'center',
+    width: windowWidth * 0.8,
+    marginVertical: 10,
+  },
+
+  contact_item_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#05050525',
+    marginHorizontal: windowWidth * 0.05,
+  },
+
+  contact_item_not_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#050505',
+    marginHorizontal: windowWidth * 0.05,
+  },
+  contact_item_icon: {
+    marginRight: windowWidth * 0.05,
+  },
+
   containerview_name_input: {
     flex: 1,
     backgroundColor: '#fff',

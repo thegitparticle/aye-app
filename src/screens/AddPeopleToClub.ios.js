@@ -15,35 +15,29 @@ import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 import SelectMultiple from 'react-native-select-multiple';
+import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
+import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var mystatehere = {};
 
-function AddPeopleToClub({dispatch, navigation}) {
-  const [addedMemberList, setAddedMemberList] = useState([]);
+function AddPeopleToClub({dispatch, navigation, route}) {
+  const {club_id} = route.params;
 
   useEffect(() => {
     dispatch(GetMyCircle());
   }, [dispatch]);
 
-  function CenterHeaderComponent() {
-    return (
-      <View>
-        <Text style={styles.header_title}>add friends</Text>
-      </View>
-    );
-  }
-
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color="#050505"
-        name="chevron-down"
-        onPress={() => navigation.goBack()}
-      />
+      <Pressable
+        style={styles.right_header_view}
+        onPress={() => navigation.goBack()}>
+        <IconlyBackChevronDown />
+      </Pressable>
     );
   }
 
@@ -53,17 +47,14 @@ function AddPeopleToClub({dispatch, navigation}) {
 
   function SelectCircleItem(id) {
     AddFriendsList.push(id.toString());
-    console.log(AddFriendsList);
   }
 
   function DeSelectCircleItem(id) {
     AddFriendsList = AddFriendsList.filter(item => item !== id.toString());
-    console.log(AddFriendsList);
   }
 
   function RenderCircleItem(props) {
     const [added, setAdded] = useState(false);
-
     if (added) {
       return (
         <Pressable
@@ -75,7 +66,7 @@ function AddPeopleToClub({dispatch, navigation}) {
           <Icon
             name="checkcircle"
             type="ant-design"
-            color="#517fa4"
+            color="#36B37E"
             style={styles.circle_item_icon}
           />
           <Avatar
@@ -95,9 +86,9 @@ function AddPeopleToClub({dispatch, navigation}) {
             setAdded(true);
           }}>
           <Icon
-            name="checkcircleo"
-            type="ant-design"
-            color="#517fa4"
+            name="circle"
+            type="entypo"
+            color="#131313"
             style={styles.circle_item_icon}
           />
           <Avatar
@@ -111,14 +102,39 @@ function AddPeopleToClub({dispatch, navigation}) {
     }
   }
 
+  function SubmitChanges() {
+    console.log(AddFriendsList);
+    if (AddFriendsList.length > 0) {
+      for (let i = 0; i < AddFriendsList.length; i++) {
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/add_users_to_club/' +
+              i +
+              '/' +
+              String(club_id),
+          )
+          .then(() => console.log('sent'))
+          .then(() => {
+            navigation.goBack();
+          })
+          .catch(err => console.log(err));
+      }
+    } else {
+      navigation.goBack();
+    }
+  }
+
   return (
-    <SafeAreaView style={styles.overall_container}>
+    <View style={styles.overall_container}>
       <Header
         rightComponent={<RightHeaderComponent />}
-        centerComponent={<CenterHeaderComponent />}
-        backgroundColor="#fafafa"
-        barStyle="dark-content"
+        backgroundColor="#FFFFFF"
+        containerStyle={styles.header_container}
+        //barStyle="dark-content"
       />
+      <View style={styles.left_header_view}>
+        <Text style={styles.header_title}>select friends</Text>
+      </View>
       <FlatList
         data={circle_list_here}
         renderItem={({item}) => (
@@ -137,9 +153,9 @@ function AddPeopleToClub({dispatch, navigation}) {
         buttonStyle={styles.NextButton}
         titleStyle={styles.NextButtonLabel}
         containerStyle={styles.NextButtonContainer}
-        onPress={() => navigation.goBack()}
+        onPress={() => SubmitChanges()}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -152,14 +168,28 @@ export default connect(mapStateToProps)(AddPeopleToClub);
 
 const styles = StyleSheet.create({
   overall_container: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#FFFFFF',
     flex: 1,
     flexDirection: 'column',
   },
 
+  header_container: {
+    height: windowHeight * 0.05,
+    borderBottomWidth: 0,
+  },
+
+  left_header_view: {
+    width: windowWidth * 0.5,
+    marginTop: 20,
+    marginHorizontal: 20,
+    marginBottom: 40,
+  },
+
+  right_header_view: {},
+
   header_title: {
-    fontSize: 17,
-    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    fontFamily: 'GothamRounded-Bold',
   },
 
   friend_name: {
@@ -214,13 +244,21 @@ const styles = StyleSheet.create({
     bottom: '5%',
     //marginBottom: windowHeight * 0.8,
     alignSelf: 'center',
+    shadowColor: '#36B37E',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 
   NextButton: {
     width: 150,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#36b37e',
+    backgroundColor: '#36B37E',
   },
 
   NextButtonLabel: {

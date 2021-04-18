@@ -247,14 +247,18 @@ function ClubHub({dispatch, navigation, route}) {
           buttonStyle={styles.add_friends_button_style}
           titleStyle={styles.add_friends_title_style}
           title="add friends"
-          onPress={() => navigation.navigate('AddPeopleToClub')}
+          onPress={() =>
+            navigation.navigate('AddPeopleToClub', {club_id: club_id})
+          }
         />
         <Button
           // raised
           buttonStyle={styles.invite_friends_button_style}
           titleStyle={styles.invite_friends_title_style}
           title="invite friends"
-          onPress={() => navigation.navigate('InvitePeopleToClub')}
+          onPress={() =>
+            navigation.navigate('InvitePeopleToClub', {club_id: club_id})
+          }
         />
       </View>
     );

@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Avatar, Header} from 'react-native-elements';
+import {Avatar, Header, Icon} from 'react-native-elements';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import FastImage from 'react-native-fast-image';
 
@@ -34,9 +34,13 @@ function FirstBlock(props) {
       />
       <Text style={styles.first_view_name}>{props.Name}</Text>
       <Text style={styles.first_view_username}>{props.UserName}</Text>
-      <Text style={styles.first_view_frames_count}>
-        {props.FrameCount} . Level 1
-      </Text>
+      <View style={styles.frames_component_wrap}>
+        <Icon type="feather" name="layers" color="#7D4DF9" size={16} />
+
+        <Text style={styles.first_view_frames_count}>
+          {props.FrameCount} . Level 1
+        </Text>
+      </View>
     </View>
   );
 }
@@ -52,6 +56,7 @@ function SecondBlock(props) {
         </View>
         <Text style={styles.clubs_count_text}>{props.ClubsCount}</Text>
       </View>
+
       <View style={styles.show_case_circle_view}>
         <View style={styles.circle_icon_view_wrap}>
           <FastImage
@@ -77,7 +82,7 @@ function MyProfileComponent(props) {
             DPLink={props.Profile.image}
             Name={props.Profile.user.full_name}
             UserName={props.Profile.user.username}
-            FrameCount={props.Profile.framescount}
+            FrameCount={props.Profile.user.total_frames_participation}
           />
 
           <SecondBlock
@@ -101,6 +106,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     flex: 1,
     justifyContent: 'space-between',
+  },
+
+  frames_component_wrap: {
+    flexDirection: 'row',
   },
 
   body_view: {
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
     fontFamily: 'GothamRounded-Bold',
     fontSize: 15,
     color: '#7D4DF9',
+    marginLeft: 5,
   },
   second_block_view: {
     flexDirection: 'row',
@@ -165,12 +175,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   clubs_icon: {
-    width: 30,
-    height: 32,
+    width: 24,
+    height: 25.6,
   },
   circle_icon: {
-    height: 30,
-    width: 42,
+    height: 24,
+    width: 33.6,
   },
   clubs_count_text: {
     fontFamily: 'GothamRounded-Bold',
