@@ -35,6 +35,8 @@ import _ from 'lodash';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
+import {GetRecosOnType} from '../redux/RecoOnTypeActions';
+import BetterImage from 'react-native-better-image';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -94,7 +96,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#fafafa"
+        color="#FFFFFF"
         name="layers"
         onPress={() =>
           navigation.navigate('DirectFramesList', {
@@ -111,7 +113,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#fafafa"
+        color="#FFFFFF"
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
@@ -739,7 +741,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               onContentSizeChange={() =>
                 scrollView.current.scrollToEnd({animated: true})
               }>
-              {old_messages.channels[channelIdHere].map((item, index) => (
+              {old_messages.channels[directIdHere].map((item, index) => (
                 <ShowMessageOld Message={item} />
                 //<Text>{item.message}</Text>
               ))}
@@ -785,11 +787,129 @@ function DirectChatScreen({navigation, dispatch, route}) {
           ))}
           */
 
-  function Input() {
-    const [typevalue, changeTypevalue] = useState('');
+  function InputXXX() {
+    useEffect(() => {
+      Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
-    const type_message = 'd';
-    //const type_message = 'a';
+      // cleanup function
+      return () => {
+        Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+        Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+      };
+    }, []);
+
+    const [typevalue, changeTypevalue] = useState('');
+    const [chosenMedia, changeChosenMedia] = useState('');
+
+    const [keyboardStatus, setKeyboardStatus] = useState(false);
+    const _keyboardDidShow = () => setKeyboardStatus(true);
+    const _keyboardDidHide = () => setKeyboardStatus(false);
+
+    function EachRecoItem(props) {
+      const [selected, setSelected] = useState(false);
+
+      if (selected) {
+        return (
+          <Pressable
+            style={{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 10,
+              },
+              shadowOpacity: 0.51,
+              shadowRadius: 13.16,
+              elevation: 20,
+              borderWidth: 5,
+              borderRadius: 10,
+              borderColor: '#36B37E',
+            }}
+            onPress={() => {
+              changeChosenMedia(props.Item);
+              setSelected(false);
+            }}>
+            <BetterImage
+              viewStyle={{
+                width: windowWidth * 0.3,
+                height: windowHeight * 0.08,
+                marginHorizontal: 5,
+              }}
+              source={{
+                uri: props.Item,
+              }}
+              thumbnailSource={{
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+              }}
+              fallbackSource={{
+                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+              }}
+            />
+          </Pressable>
+        );
+      } else {
+        return (
+          <Pressable
+            onPress={() => {
+              changeChosenMedia(props.Item);
+              setSelected(true);
+            }}>
+            <BetterImage
+              viewStyle={{
+                width: windowWidth * 0.3,
+                height: windowHeight * 0.08,
+                marginHorizontal: 5,
+              }}
+              source={{
+                uri: props.Item,
+              }}
+              thumbnailSource={{
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+              }}
+              fallbackSource={{
+                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+              }}
+            />
+          </Pressable>
+        );
+      }
+    }
+    function RecoOverLay() {
+      const [rec, setRec] = useState(['loading']);
+
+      var res = [];
+
+      axios
+        .get('https://run.mocky.io/v3/fcd363e5-811f-467c-9ec6-07bfa06b36a5')
+        .then(response => (res = response.data))
+        .then(() => setRec(res))
+        .catch(err => {
+          console.log(err);
+        });
+
+      if (keyboardStatus) {
+        return (
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{
+              height: windowHeight * 0.1,
+              width: windowWidth,
+              backgroundColor: '#13131300',
+            }}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            {rec.map((item, index) => (
+              <EachRecoItem Item={item} />
+            ))}
+          </ScrollView>
+        );
+      } else {
+        return <View />;
+      }
+    }
 
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
@@ -799,7 +919,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
               channel: channelsHere[0],
               message,
               meta: {
-                type: type_message,
+                type: 'h',
+                image_url: chosenMedia,
                 user_dp:
                   'https://apisayepirates.life' +
                   state_here.MyProfileReducer.myprofile.image,
@@ -808,11 +929,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
             function (status, response) {
               console.log(status);
               console.log(response);
-              StartFrame();
+              StartFrame(response.timetoken);
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       } else {
@@ -822,7 +941,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
               channel: channelsHere[0],
               message,
               meta: {
-                type: type_message,
+                type: 'h',
+                image_url: chosenMedia,
                 user_dp:
                   'https://apisayepirates.life' +
                   state_here.MyProfileReducer.myprofile.image,
@@ -833,8 +953,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
               console.log(response);
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       }
@@ -847,7 +965,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
             channel: channelsHere[0],
             message,
             meta: {
-              type: type_message,
+              type: 'h',
+              image_url: chosenMedia,
               user_dp:
                 'https://apisayepirates.life' +
                 state_here.MyProfileReducer.myprofile.image,
@@ -855,11 +974,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
           },
           function (status, response) {
             console.log(status);
-            console.log(response);
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
       } else {
       }
     };
@@ -867,54 +983,70 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <View
         style={{
-          flex: input_bar_flex,
-          backgroundColor: '#121313',
-          sshadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
+          //flex: 0.05,
+          backgroundColor: '#F3F4F8',
+          minHeight: 65,
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
+        <RecoOverLay />
         <View style={styles.textinputview}>
-          <AutoGrowingTextInput
-            // eslint-disable-next-line react-native/no-inline-styles
+          <View
             style={{
-              fontSize: 15,
-              fontFamily: 'GothamRounded-Book',
-              color: '#fff',
-              marginRight: 20,
-              flex: 1,
+              // flex: 1,
+              backgroundColor: '#F3F4F8',
               height: textinputheight,
-              width: windowWidth * 0.85,
-            }}
-            onChangeText={changeTypevalue}
-            value={typevalue}
-            placeholder="fun stuff only"
-            placeholderTextColor="#666"
-            multiline={true}
-          />
-          <Pressable
-            onPress={() => {
-              Keyboard.dismiss;
-              if (!channelOnGoing) {
-                sendMessageNewFrame(typevalue);
-              } else {
-                sendMessageOldFrame(typevalue);
-              }
-
-              //sendMessage(typevalue);
-              changeTypevalue('');
-              changeTextInputHeight(80);
-              changeInputBarFlex(0.14);
+              width: windowWidth,
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderRadius: 15,
+              minHeight: 65,
             }}>
-            <IconlyDirectIcon Color="lightgreen" />
-          </Pressable>
-        </View>
-        <View style={styles.otherinputview}>
-          <OtherInputBar />
+            <AutoGrowingTextInput
+              style={{
+                fontSize: 16,
+                fontFamily: 'GothamRounded-Book',
+                color: '#050505',
+                paddingHorizontal: 10,
+                marginLeft: 10,
+                width: windowWidth * 0.85,
+                backgroundColor: '#F3F4F8',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
+              onChangeText={changeTypevalue}
+              value={typevalue}
+              placeholder="type fun stuff..."
+              placeholderTextColor="#666"
+              multiline={true}
+              maxLength={140}
+            />
+
+            <Pressable
+              style={{
+                height: 30,
+                width: windowWidth * 0.15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                Keyboard.dismiss;
+                if (!channelOnGoing) {
+                  sendMessageNewFrame(typevalue);
+                } else {
+                  sendMessageOldFrame(typevalue);
+                }
+
+                changeTypevalue('');
+                changeTextInputHeight(80);
+                changeInputBarFlex(0.14);
+              }}>
+              <IconlyDirectIcon Color="#36B37E" />
+            </Pressable>
+          </View>
         </View>
       </View>
     );
@@ -941,9 +1073,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'g',
                 image_url: imageSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -964,9 +1094,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'g',
                 image_url: imageSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -989,9 +1117,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'g',
               image_url: imageSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -1121,9 +1247,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'f',
                 image_url: gifSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -1144,9 +1268,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'f',
               image_url: gifSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           });
           //.then(() => changeTypevalue(''))
@@ -1165,9 +1287,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'f',
               image_url: gifSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           })
           //.then(() => changeTypevalue(''))
@@ -1286,7 +1406,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         style={styles.body_and_input_wrap}
         behavior="padding">
         <LiveMessagesView />
-        <Input />
+        <InputXXX />
       </KeyboardAvoidingView>
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />

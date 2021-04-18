@@ -16,16 +16,7 @@ import {
   Platform,
   Pressable,
 } from 'react-native';
-import {
-  Overlay,
-  Icon,
-  Header,
-  Divider,
-  Avatar,
-  SearchBar,
-  Tooltip,
-  Button,
-} from 'react-native-elements';
+import {Overlay, Icon, Header, Avatar, SearchBar} from 'react-native-elements';
 import {useHeaderHeight} from '@react-navigation/stack';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 //import MessagesView from './MessagesView';
@@ -819,150 +810,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
           ))}
           */
 
-  function Input() {
-    const [typevalue, changeTypevalue] = useState('');
-
-    const type_message = 'd';
-
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: type_message,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
-              StartFrame(response.timetoken);
-            },
-          );
-        } else {
-        }
-      } else {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: type_message,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
-            },
-          );
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending message in old frame');
-      if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: type_message,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-            console.log(response);
-          },
-        );
-      } else {
-      }
-    };
-
-    return (
-      <View
-        style={{
-          flex: input_bar_flex,
-          borderRadius: 15,
-          backgroundColor: '#050505',
-        }}>
-        <View style={styles.textinputview}>
-          <View
-            style={{
-              backgroundColor: '#F3F4F8',
-              flex: 1,
-              minHeight: 40,
-              height: textinputheight,
-              width: windowWidth,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderRadius: 15,
-              //borderBottomLeftRadius: 15,
-              //borderBottomRightRadius: 15,
-            }}>
-            <AutoGrowingTextInput
-              style={{
-                fontSize: 16,
-                fontFamily: 'GothamRounded-Book',
-                color: '#050505',
-                //marginRight: 20,
-                flex: 1,
-                padding: 15,
-                height: textinputheight,
-                width: windowWidth * 0.85,
-                backgroundColor: '#F3F4F8',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}
-              onChangeText={changeTypevalue}
-              value={typevalue}
-              placeholder="fun stuff only"
-              placeholderTextColor="#666"
-              multiline={true}
-            />
-
-            <Pressable
-              style={{
-                width: windowWidth * 0.15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={() => {
-                Keyboard.dismiss;
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(typevalue);
-                } else {
-                  sendMessageOldFrame(typevalue);
-                }
-
-                changeTypevalue('');
-                changeTextInputHeight(80);
-                changeInputBarFlex(0.14);
-              }}>
-              <IconlyDirectIcon Color="#36B37E" />
-            </Pressable>
-          </View>
-        </View>
-        <View style={styles.otherinputview}>
-          <OtherInputBar />
-        </View>
-      </View>
-    );
-  }
-
   function InputXXX() {
     useEffect(() => {
       Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -1250,9 +1097,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'g',
                 image_url: imageSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -1271,9 +1116,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'g',
                 image_url: imageSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -1294,9 +1137,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'g',
               image_url: imageSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -1424,9 +1265,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'f',
                 image_url: gifSelected,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -1447,9 +1286,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'f',
               image_url: gifSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           });
           //.then(() => changeTypevalue(''))
@@ -1468,9 +1305,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'f',
               image_url: gifSelected,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           })
           //.then(() => changeTypevalue(''))
