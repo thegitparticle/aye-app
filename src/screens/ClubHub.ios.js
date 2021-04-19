@@ -40,6 +40,8 @@ function ClubHub({dispatch, navigation, route}) {
   const [resolved, setResolved] = useState(false);
   console.log(resolved);
 
+  const [memberChanges, setMemberChanges] = useState(false);
+
   /*
   useEffect(() => {
     dispatch(GetClubHubDetails(club_id));
@@ -60,14 +62,19 @@ function ClubHub({dispatch, navigation, route}) {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [memberChanges]);
 
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [exitclubVisible, setExitClubVisible] = useState(false);
+  const [removePersonVisible, setRemovePersonVisible] = useState(false);
   const [otherprofileVisible, setOtherProfileVisible] = useState(false);
 
   const toggleOverlay = () => {
     setExitClubVisible(false);
+  };
+
+  const toggleRemovePersonOverlay = () => {
+    setRemovePersonVisible(false);
   };
 
   function LeftHeaderComponent() {
@@ -225,14 +232,71 @@ function ClubHub({dispatch, navigation, route}) {
           <Button
             type="outline"
             title="YES"
-            titleStyle={{color: '#ec193e'}}
+            titleStyle={styles.re_confirm_yes_text}
             buttonStyle={styles.exit_club_yes_button}
+            onPress={() => {
+              axios
+                .get(
+                  'https://apisayepirates.life/api/users/unjoin/' +
+                    String(statehere.MyProfileReducer.myprofile.user.id) +
+                    '/' +
+                    String(club_id) +
+                    '/',
+                )
+                .then(() => {
+                  //do pubnub stuff
+                })
+                .then(() => setMemberChanges())
+                .then(() => toggleOverlay())
+                .catch(err => console.log(err));
+            }}
           />
           <Button
             type="outline"
             title="NO"
-            titleStyle={{color: '#050505'}}
+            titleStyle={styles.re_confirm_no_text}
             buttonStyle={styles.exit_club_no_button}
+            onPress={() => toggleOverlay()}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  function RemovePersonOverlay() {
+    console.log(typeof viewProfileId);
+    return (
+      <View style={styles.exit_club_overlay_view}>
+        <Text style={styles.exit_club_confirm_question}>Are you sure?</Text>
+        <View style={styles.exit_club_overlay_button_wrap}>
+          <Button
+            type="outline"
+            title="YES"
+            titleStyle={styles.re_confirm_yes_text}
+            buttonStyle={styles.exit_club_yes_button}
+            onPress={() => {
+              axios
+                .get(
+                  'https://apisayepirates.life/api/users/unjoin/' +
+                    String(viewProfileId) +
+                    '/' +
+                    String(club_id) +
+                    '/',
+                )
+                .then(() => {
+                  //do pubnub stuff
+                })
+                .then(() => setMemberChanges())
+                .then(() => toggleRemovePersonOverlay())
+                .catch(err => console.log(err));
+            }}
+          />
+          <Button
+            type="outline"
+            title="NO"
+            titleStyle={styles.re_confirm_no_text}
+            buttonStyle={styles.exit_club_no_button}
+            onPress={() => toggleRemovePersonOverlay()}
           />
         </View>
       </View>
@@ -286,7 +350,7 @@ function ClubHub({dispatch, navigation, route}) {
           }}>
           <Text style={styles.view_profile_text}>view profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setRemovePersonVisible(true)}>
           <Text style={styles.cancel_bottomsheet_text}>remove from club</Text>
         </TouchableOpacity>
       </View>
@@ -355,6 +419,13 @@ function ClubHub({dispatch, navigation, route}) {
         onBackdropPress={toggleOverlay}
         overlayStyle={styles.exit_club_overlay_style}>
         <ExitClubOverlay />
+      </Overlay>
+
+      <Overlay
+        isVisible={removePersonVisible}
+        onBackdropPress={toggleRemovePersonOverlay}
+        overlayStyle={styles.exit_club_overlay_style}>
+        <RemovePersonOverlay />
       </Overlay>
 
       <Overlay
@@ -493,6 +564,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#EC193E',
   },
+
+  re_confirm_yes_text: {
+    color: '#ec193e',
+    fontFamily: 'GothamRounded-Medium',
+  },
+  re_confirm_no_text: {
+    color: '#050505',
+    fontFamily: 'GothamRounded-Medium',
+  },
+
   member_options_view: {
     flexDirection: 'column',
     justifyContent: 'space-around',
