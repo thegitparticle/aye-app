@@ -649,7 +649,7 @@ export default connect(mapStateToProps)(DirectFramesList);
 const styles = StyleSheet.create({
   body_scroll_view: {
     flex: 1,
-    backgroundColor: '#f1f4f9',
+    backgroundColor: '#FFFFFF',
     width: windowWidth,
     ///borderRadius: 10,
   },

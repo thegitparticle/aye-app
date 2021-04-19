@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
   body: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#Fafafa',
+    backgroundColor: '#FFFFFF',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',

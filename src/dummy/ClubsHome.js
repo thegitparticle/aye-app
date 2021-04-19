@@ -28,8 +28,8 @@ const windowHeight = Dimensions.get('window').height;
 function ClubsHomeD({dispatch}) {
   const navigation = useNavigation();
 
-  var my_clubs = ClubDummyData;
-  //var my_clubs = state_here.MyClubsReducer.myclubs;
+  //var my_clubs = ClubDummyData;
+  var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
   const [resolved, setResolved] = useState(false);
 
@@ -37,7 +37,8 @@ function ClubsHomeD({dispatch}) {
 
   const [live_clubs, setLiveClubs] = useState([]);
 
-  //console.log(live_clubs.length);
+  console.log(live_clubs.length);
+  console.log(dor_clubs.length);
 
   function PreLoadDorClubs() {
     return (

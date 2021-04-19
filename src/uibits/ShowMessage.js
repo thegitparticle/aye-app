@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
 
   b_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
+    height: windowWidth * 0.8,
     flexDirection: 'column-reverse',
   },
   b_avatar: {
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
 
   c_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
+    height: windowWidth * 0.8,
     flexDirection: 'column-reverse',
   },
   c_avatar: {

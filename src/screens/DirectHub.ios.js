@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     color: '#008DFF',
   },
   containerview: {
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#FFFFFF',
     flex: 1,
   },
   exitbutton: {
