@@ -27,6 +27,7 @@ import OtherProfile from './OtherProfile';
 //import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -130,9 +131,8 @@ function ClubHub({dispatch, navigation, route}) {
   function MetricsOfClubDummy(props) {
     return (
       <View style={styles.metrics_of_club_view}>
-        <Text style={styles.metrics_of_club_text}>
-          91 <Text style={{fontSize: 25}}>🖼</Text>
-        </Text>
+        <Text style={styles.metrics_of_club_text}>0</Text>
+        <Icon type="feather" name="layers" color="#7D4DF9" size={16} />
       </View>
     );
   }
@@ -140,9 +140,8 @@ function ClubHub({dispatch, navigation, route}) {
   function MetricsOfClub(props) {
     return (
       <View style={styles.metrics_of_club_view}>
-        <Text style={styles.metrics_of_club_text}>
-          {props.FramesCount} <Text style={{fontSize: 25}}>🖼</Text>
-        </Text>
+        <Text style={styles.metrics_of_club_text}>{props.FramesCount}</Text>
+        <Icon type="feather" name="layers" color="#7D4DF9" size={26} />
       </View>
     );
   }
@@ -150,28 +149,20 @@ function ClubHub({dispatch, navigation, route}) {
   function MembersOfClubDummy(props) {
     return (
       <View style={styles.members_of_club_view}>
-        {[1, 2].map(members => (
-          <TouchableOpacity onPress={() => onOpenMemberOptions()}>
-            <ListItem containerStyle={styles.members_list_item_wrap}>
-              <Avatar
-                rounded
-                source={{
-                  uri:
-                    'https://robohash.org/veliteaquehic.png?size=50x50&set=set1',
-                }}
-                size={windowHeight * 0.055}
-              />
-              <ListItem.Content>
-                <ListItem.Title style={styles.membername}>
-                  loading...
-                </ListItem.Title>
-                <ListItem.Subtitle style={styles.memberusername}>
-                  loading...
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          </TouchableOpacity>
-        ))}
+        <ContentLoader
+          speed={2}
+          width={400}
+          height={200}
+          viewBox="0 0 400 200"
+          backgroundColor="#e57676"
+          foregroundColor="#545cd4">
+          <Circle cx="58" cy="50" r="32" />
+          <Rect x="128" y="56" rx="5" ry="5" width="53" height="7" />
+          <Circle cx="60" cy="168" r="32" />
+          <Rect x="117" y="154" rx="5" ry="5" width="181" height="10" />
+          <Rect x="114" y="32" rx="5" ry="5" width="181" height="10" />
+          <Rect x="129" y="183" rx="5" ry="5" width="53" height="7" />
+        </ContentLoader>
       </View>
     );
   }
@@ -179,27 +170,27 @@ function ClubHub({dispatch, navigation, route}) {
   const [viewProfileId, setViewProfileId] = useState();
 
   function MembersOfClub(props) {
-    //console.log(props.Details);
+    console.log(props.Details[0]);
     return (
       <View style={styles.members_of_club_view}>
-        {props.Details.map(members => (
+        {props.Details.map(member => (
           <TouchableOpacity
             onPress={() => {
               onOpenMemberOptions();
-              setViewProfileId(members.user_id);
+              setViewProfileId(member.user_id);
             }}>
             <ListItem containerStyle={styles.members_list_item_wrap}>
               <Avatar
                 rounded
-                source={{uri: members.displaypic}}
-                size={windowHeight * 0.055}
+                source={{uri: member.display_pic}}
+                size={windowHeight * 0.07}
               />
               <ListItem.Content>
                 <ListItem.Title style={styles.membername}>
-                  {members.name}
+                  {member.name}
                 </ListItem.Title>
                 <ListItem.Subtitle style={styles.memberusername}>
-                  {members.username}
+                  {member.username}
                 </ListItem.Subtitle>
               </ListItem.Content>
             </ListItem>
@@ -380,7 +371,7 @@ function ClubHub({dispatch, navigation, route}) {
     } else {
       return (
         <View>
-          <MetricsOfClub FramesCount={clubDetails.frame_total} />
+          <MetricsOfClub FramesCount={clubDetails.frames_total} />
           <Divider style={styles.log_out_divider} />
           <MembersOfClub Details={clubDetails.users} />
         </View>
@@ -515,11 +506,14 @@ const styles = StyleSheet.create({
   metrics_of_club_view: {
     marginVertical: windowHeight * 0.03,
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   metrics_of_club_text: {
     fontFamily: 'GothamRounded-Bold',
     fontSize: 30,
     color: '#7D4DF9',
+    marginHorizontal: 10,
   },
   add_people_to_club_view: {
     flexDirection: 'row',

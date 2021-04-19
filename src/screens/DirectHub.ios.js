@@ -20,6 +20,7 @@ import {connect} from 'react-redux';
 import {GetClubHubDetails} from '../redux/ClubHubActions';
 import axios from 'axios';
 import _ from 'lodash';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -118,18 +119,18 @@ function DirectHub({dispatch, navigation, route}) {
   function FirstBlockDummy(props) {
     return (
       <View style={styles.first_block_view}>
-        <Avatar
-          rounded
-          source={{
-            //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
-            uri:
-              'https://www.hawtcelebs.com/wp-content/uploads/2019/12/camila-cabello-in-reve-magazine-december-2019-january-2020-0.jpg',
-          }}
-          size={windowHeight * 0.15}
-        />
-        <Text style={styles.first_view_name}>loading...</Text>
-        <Text style={styles.first_view_username}>loading...</Text>
-        <Text style={styles.first_view_frames_count}>00 . Level 0</Text>
+        <ContentLoader
+          speed={2}
+          width={200}
+          height={200}
+          viewBox="0 0 200 200"
+          backgroundColor="#e57676"
+          foregroundColor="#545cd4"
+          {...props}>
+          <Circle cx="87" cy="71" r="49" />
+          <Rect x="61" y="160" rx="5" ry="5" width="53" height="13" />
+          <Rect x="48" y="139" rx="5" ry="5" width="85" height="11" />
+        </ContentLoader>
       </View>
     );
   }
@@ -324,12 +325,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   clubs_icon: {
-    width: 30,
-    height: 32,
+    width: 24,
+    height: 25.6,
   },
   circle_icon: {
-    height: 30,
-    width: 42,
+    height: 24,
+    width: 33.6,
   },
   clubs_count_text: {
     fontFamily: 'GothamRounded-Bold',

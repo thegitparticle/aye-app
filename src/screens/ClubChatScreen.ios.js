@@ -854,8 +854,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
             }}>
             <BetterImage
               viewStyle={{
-                width: windowWidth * 0.3,
-                height: windowHeight * 0.08,
+                width: 125,
+                height: 72.5,
                 marginHorizontal: 5,
               }}
               source={{
@@ -873,14 +873,20 @@ function ClubChatScreen({navigation, dispatch, route}) {
       } else {
         return (
           <Pressable
+            style={{
+              borderRadius: 3,
+
+              marginHorizontal: 5,
+              backgroundColor: '#FFFFFF80',
+            }}
             onPress={() => {
               changeChosenMedia(props.Item);
               setSelected(true);
             }}>
             <BetterImage
               viewStyle={{
-                width: windowWidth * 0.3,
-                height: windowHeight * 0.08,
+                width: 125,
+                height: 72.5,
                 marginHorizontal: 5,
               }}
               source={{
@@ -889,6 +895,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               thumbnailSource={{
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
+              thumbnailBlurRadius={-10}
               fallbackSource={{
                 uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
               }}
@@ -897,15 +904,26 @@ function ClubChatScreen({navigation, dispatch, route}) {
         );
       }
     }
+
     function RecoOverLay() {
-      const [rec, setRec] = useState(['loading']);
+      const [rec, setRec] = useState([
+        'loading',
+        'loading',
+        'loading',
+        'loading',
+      ]);
 
       var res = [];
 
       axios
-        .get('https://run.mocky.io/v3/fcd363e5-811f-467c-9ec6-07bfa06b36a5')
+        .get(
+          'https://apisayepirates.life/api/users/recommend_images/' +
+            String(state_here.MyProfileReducer.myprofile.user.id) +
+            '/' +
+            typevalue,
+        )
         .then(response => (res = response.data))
-        .then(() => setRec(res))
+        .then(() => setRec(res[0]))
         .catch(err => {
           console.log(err);
         });
@@ -1395,7 +1413,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }, [dispatch, gifsSearch]);
 
   function RenderTrendingGifs(item) {
-    console.log(item.item.images);
+    console.log(item.item.images.downsized.url);
     return (
       <Pressable
         style={{margin: 3}}
