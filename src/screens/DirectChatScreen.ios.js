@@ -1393,6 +1393,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
   }, [dispatch, gifsSearch]);
 
   function RenderTrendingGifs(item) {
+    //console.log(item.item);
     return (
       <Pressable
         style={{margin: 3}}

@@ -1413,7 +1413,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }, [dispatch, gifsSearch]);
 
   function RenderTrendingGifs(item) {
-    console.log(item.item.images.downsized.url);
+    console.log(item);
     return (
       <Pressable
         style={{margin: 3}}
