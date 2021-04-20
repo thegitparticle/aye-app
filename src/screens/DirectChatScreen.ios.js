@@ -37,6 +37,7 @@ import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
+import analytics from '@segment/analytics-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -53,6 +54,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
     channelStartTime,
   } = route.params;
   const [channelsHere] = useState([directIdHere]);
+
+  useEffect(() => {
+    async function SegmentCallHere() {
+      await analytics.screen('Direct Chat Screen', {
+        direct_id: directIdHere,
+      });
+    }
+    SegmentCallHere();
+  }, []);
 
   const [messages, addMessage] = useState([]);
   //console.log(messages);

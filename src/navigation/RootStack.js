@@ -5,6 +5,7 @@ import HomeStack from './HomeStack';
 import {connect} from 'react-redux';
 import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
+import analytics from '@segment/analytics-react-native';
 
 var state_here = {};
 

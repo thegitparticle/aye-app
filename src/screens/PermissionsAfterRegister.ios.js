@@ -25,6 +25,18 @@ function PermissionsAfterRegister({dispatch, route}) {
       .catch(err => console.log(err));
   }
 
+  async function RunOnLog(phone_number) {
+    await analytics.setup('vlkm1h2s27bCnL8EBDWFkFoQReJOxT7R', {
+      // Record screen views automatically!
+      // Record certain application events automatically!
+      trackAppLifecycleEvents: true,
+    });
+
+    await analytics.identify(JSON.stringify(phone_number));
+
+    console.log('running things on log');
+  }
+
   return (
     <SafeAreaView style={styles.view}>
       <Button
@@ -33,6 +45,7 @@ function PermissionsAfterRegister({dispatch, route}) {
         titleStyle={styles.button_text}
         onPress={() => {
           GrabContacts();
+          RunOnLog(phone);
           dispatch({type: LOGIN});
         }}
       />

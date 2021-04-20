@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
+import analytics from '@segment/analytics-react-native';
 
 var statehere = {};
 
@@ -27,6 +28,15 @@ function ClubFramesList({dispatch, navigation, route}) {
   const [date, setDate] = useState(); //today's date
   const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
+
+  useEffect(() => {
+    async function SegmentCallHere() {
+      await analytics.screen('Club Frames Screen', {
+        club_id: club_id,
+      });
+    }
+    SegmentCallHere();
+  }, []);
 
   function LeftHeaderComponent() {
     return (

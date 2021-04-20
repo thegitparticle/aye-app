@@ -1,4 +1,5 @@
 PODS:
+  - Analytics (4.1.3)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
@@ -420,6 +421,9 @@ PODS:
     - React-perflogger (= 0.64.0)
   - ReactNativeAutogrowTextinput (5.4.0):
     - React
+  - RNAnalytics (1.4.3):
+    - Analytics
+    - React-Core
   - RNCAsyncStorage (1.15.0):
     - React-Core
   - RNCMaskedView (0.1.10):
@@ -528,6 +532,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeAutogrowTextinput (from `../node_modules/react-native-autogrow-textinput`)
+  - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
@@ -546,6 +551,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Analytics
     - boost-for-react-native
     - CocoaAsyncSocket
     - Firebase
@@ -645,6 +651,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeAutogrowTextinput:
     :path: "../node_modules/react-native-autogrow-textinput"
+  RNAnalytics:
+    :path: "../node_modules/@segment/analytics-react-native"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
@@ -682,6 +690,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/prscX/SexyTooltip.git
 
 SPEC CHECKSUMS:
+  Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -741,6 +750,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: cad74a1eaa53ee6e7a3620231939d8fe2c6afcf0
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   ReactNativeAutogrowTextinput: 571f3260e200d91ea22fab160452f26d2fd5d55b
+  RNAnalytics: 43a09152058061b4096eb6cb806093e7b772b1e5
   RNCAsyncStorage: 2d54c86810ecae76f14c1e466f941ec120a54aff
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: 1a266981fc99330c252f5f98b3f09a377a35d88c

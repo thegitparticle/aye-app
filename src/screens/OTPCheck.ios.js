@@ -17,6 +17,7 @@ import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
+import analytics from '@segment/analytics-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -41,7 +42,23 @@ function OTPCheck({route, navigation, dispatch}) {
       },
     };
 
+    async function RunOnLog(phone_number) {
+      await analytics.setup('vlkm1h2s27bCnL8EBDWFkFoQReJOxT7R', {
+        // Record screen views automatically!
+        // Record certain application events automatically!
+        trackAppLifecycleEvents: true,
+      });
+
+      await analytics.identify(JSON.stringify(phone_number));
+
+      console.log('running things on log');
+    }
+
     axios(config)
+      .then(response => console.log(response.data))
+
+      .then(() => dispatch(GetMyProfile(phone)))
+      .then(() => console.log('get profile success'))
       .then(() => {
         return axios.get(
           'https://apisayepirates.life/api/users/update_otp_code/' +
@@ -50,10 +67,8 @@ function OTPCheck({route, navigation, dispatch}) {
             phone,
         );
       })
-
-      .then(() => dispatch(GetMyProfile(phone)))
-      .then(() => console.log('get profile success'))
       .then(() => dispatch({type: LOGIN}))
+      .then(() => RunOnLog(phone))
       .then(() => console.log('login pass success'))
       .catch(() => toggleOverlay());
   }

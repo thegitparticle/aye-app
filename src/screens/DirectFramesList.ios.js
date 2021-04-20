@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import {createIconSetFromFontello} from 'react-native-vector-icons';
 import FastImage from 'react-native-fast-image';
+import analytics from '@segment/analytics-react-native';
 
 var statehere = {};
 
@@ -29,6 +30,15 @@ function DirectFramesList({dispatch, navigation, route}) {
   const [date, setDate] = useState(); //today's date
   const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
+
+  useEffect(() => {
+    async function SegmentCallHere() {
+      await analytics.screen('Direct Frames Screen', {
+        direct_id: direct_id,
+      });
+    }
+    SegmentCallHere();
+  }, []);
 
   function LeftHeaderComponent() {
     return (
