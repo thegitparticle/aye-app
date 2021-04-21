@@ -972,9 +972,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'h',
                 image_url: chosenMedia,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -994,9 +992,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'h',
                 image_url: chosenMedia,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -1018,9 +1014,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'h',
               image_url: chosenMedia,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
