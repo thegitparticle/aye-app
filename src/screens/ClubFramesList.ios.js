@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   Animated,
+  Pressable,
 } from 'react-native';
 import {Header, Icon, Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -28,15 +29,6 @@ function ClubFramesList({dispatch, navigation, route}) {
   const [date, setDate] = useState(); //today's date
   const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
-
-  useEffect(() => {
-    async function SegmentCallHere() {
-      await analytics.screen('Club Frames Screen', {
-        club_id: club_id,
-      });
-    }
-    SegmentCallHere();
-  }, []);
 
   function LeftHeaderComponent() {
     return (
@@ -130,6 +122,15 @@ function ClubFramesList({dispatch, navigation, route}) {
     setDate(date_here);
   }, []);
 
+  useEffect(() => {
+    async function SegmentCallHere() {
+      await analytics.screen('Club Frames Screen', {
+        club_id: club_id,
+      });
+    }
+    SegmentCallHere();
+  }, []);
+
   const anim = useRef(new Animated.Value(1));
 
   useEffect(() => {
@@ -218,7 +219,7 @@ function ClubFramesList({dispatch, navigation, route}) {
 
   function DatesBlock(props) {
     // takes in start and end date and gives out
-    //console.log(props.Frames);
+    // console.log(props.Frames);
     var items = [];
     var badge_style = props.BadgeStyle;
 
@@ -240,9 +241,8 @@ function ClubFramesList({dispatch, navigation, route}) {
 
     Generate_Grand_List;
 
-    //console.log(grand_list);
-
     function AniRenderOrNot(props) {
+      //console.log(props.Render);
       if (props.Render.frame_status) {
         return (
           <Animated.View
@@ -253,6 +253,44 @@ function ClubFramesList({dispatch, navigation, route}) {
                 },
               ],
             }}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ViewOldFrameClub', {
+                  club_name: club_name,
+                  channel_id: club_id,
+                  start_time: props.Render.start_time,
+                  end_time: props.Render.end_time,
+                })
+              }>
+              <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
+                <FastImage
+                  source={{uri: props.Render.frame_picture}}
+                  style={styles.frame_thumbnail_on_strip_image}
+                  size={80}
+                />
+                <Badge
+                  status="success"
+                  value={props.Date}
+                  containerStyle={
+                    styles.frame_thumbnail_date_badge_on_strip_container
+                  }
+                  badgeStyle={badge_style}
+                />
+              </View>
+            </Pressable>
+          </Animated.View>
+        );
+      } else {
+        return (
+          <Pressable
+            onPress={() =>
+              navigation.navigate('ViewOldFrameClub', {
+                club_name: club_name,
+                channel_id: club_id,
+                start_time: props.Render.start_time,
+                end_time: props.Render.end_time,
+              })
+            }>
             <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
               <FastImage
                 source={{uri: props.Render.frame_picture}}
@@ -267,24 +305,7 @@ function ClubFramesList({dispatch, navigation, route}) {
                 badgeStyle={badge_style}
               />
             </View>
-          </Animated.View>
-        );
-      } else {
-        return (
-          <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
-            <FastImage
-              source={{uri: props.Render.frame_picture}}
-              style={styles.frame_thumbnail_on_strip_image}
-            />
-            <Badge
-              status="success"
-              value={props.Date}
-              containerStyle={
-                styles.frame_thumbnail_date_badge_on_strip_container
-              }
-              badgeStyle={badge_style}
-            />
-          </View>
+          </Pressable>
         );
       }
     }
@@ -292,7 +313,7 @@ function ClubFramesList({dispatch, navigation, route}) {
     function WhatToRender(props) {
       // individual frame/date item
       if (props.Item.ro.length !== 0) {
-        //console.log(props.Item.ro[0]);
+        console.log(props.Item.ro.length, props.Item.date);
         //const x_here = props.Item.ro[0];
 
         //<Animated.View style={{transform: [{scale: anim.current}]}} />;
@@ -328,7 +349,7 @@ function ClubFramesList({dispatch, navigation, route}) {
     //console.log(monthnum + 'month num');
     //console.log(thisMonth + 'this month');
     //console.log(thisyear + 'this year');
-    //console.log(currentyear + 'current year');
+    //console.log(currentyear + 2000 + 'current year');
     if (monthnum + 1 === thisMonth && currentyear + 2000 === thisyear) {
       const default_list = [
         {
@@ -338,9 +359,9 @@ function ClubFramesList({dispatch, navigation, route}) {
           frame_picture:
             'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
           frame_status: false,
-          channel_id: '1_c',
-          start_time: '1616670128',
-          end_time: '1616713328',
+          channel_id: '0',
+          start_time: '0',
+          end_time: '0',
         },
         {
           id: 5,
@@ -348,9 +369,9 @@ function ClubFramesList({dispatch, navigation, route}) {
           published_date: '2021-04-03',
           frame_picture: 'https://apisayepirates.life/media/club_images/3.jpeg',
           frame_status: false,
-          channel_id: '1_c',
-          start_time: '1616780946.5139637',
-          end_time: '1616824146.5139637',
+          channel_id: '0',
+          start_time: '0',
+          end_time: '0',
         },
       ];
       const [framesThisMonth, setFramesThisMonth] = useState(default_list);
@@ -373,7 +394,6 @@ function ClubFramesList({dispatch, navigation, route}) {
           )
           .then(response => (res = response.data))
           .then(() => setFramesThisMonth(res))
-          //.then(console.log(framesThisMonth))
           .then(setResolved(true))
           .catch(err => {
             console.log(err);
@@ -381,6 +401,8 @@ function ClubFramesList({dispatch, navigation, route}) {
       }, []);
 
       if (resolved) {
+        //console.log('resolved');
+        //console.log(framesThisMonth);
         if (date < 11) {
           return (
             <View style={styles.frame_strips_view}>
@@ -418,7 +440,7 @@ function ClubFramesList({dispatch, navigation, route}) {
               </View>
             </View>
           );
-        } else if (date > 21) {
+        } else if (date >= 21) {
           return (
             <View style={styles.frame_strips_view}>
               <View style={styles.frame_strip_block_1}>
@@ -466,12 +488,11 @@ function ClubFramesList({dispatch, navigation, route}) {
           id: 4,
           club_name: 1,
           published_date: '2021-04-03',
-          frame_picture:
-            'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
+          frame_picture: '',
           frame_status: false,
-          channel_id: '1_c',
-          start_time: '1616670128',
-          end_time: '1616713328',
+          channel_id: '0',
+          start_time: '0',
+          end_time: '0',
         },
       ];
 
@@ -640,7 +661,7 @@ export default connect(mapStateToProps)(ClubFramesList);
 const styles = StyleSheet.create({
   body_scroll_view: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F1f4f9',
     width: windowWidth,
     ///borderRadius: 10,
   },

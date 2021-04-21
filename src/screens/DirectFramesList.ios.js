@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   Animated,
+  Pressable,
 } from 'react-native';
 import {Header, Icon, Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -260,6 +261,44 @@ function DirectFramesList({dispatch, navigation, route}) {
                 },
               ],
             }}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ViewOldFrameDirect', {
+                  other_name: other_name,
+                  channel_id: direct_id,
+                  start_time: props.Render.start_time,
+                  end_time: props.Render.end_time,
+                })
+              }>
+              <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
+                <FastImage
+                  source={{uri: props.Render.frame_picture}}
+                  style={styles.frame_thumbnail_on_strip_image}
+                  size={80}
+                />
+                <Badge
+                  status="success"
+                  value={props.Date}
+                  containerStyle={
+                    styles.frame_thumbnail_date_badge_on_strip_container
+                  }
+                  badgeStyle={badge_style}
+                />
+              </View>
+            </Pressable>
+          </Animated.View>
+        );
+      } else {
+        return (
+          <Pressable
+            onPress={() =>
+              navigation.navigate('ViewOldFrameDirect', {
+                other_name: other_name,
+                channel_id: direct_id,
+                start_time: props.Render.start_time,
+                end_time: props.Render.end_time,
+              })
+            }>
             <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
               <FastImage
                 source={{uri: props.Render.frame_picture}}
@@ -274,24 +313,7 @@ function DirectFramesList({dispatch, navigation, route}) {
                 badgeStyle={badge_style}
               />
             </View>
-          </Animated.View>
-        );
-      } else {
-        return (
-          <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
-            <FastImage
-              source={{uri: props.Render.frame_picture}}
-              style={styles.frame_thumbnail_on_strip_image}
-            />
-            <Badge
-              status="success"
-              value={props.Date}
-              containerStyle={
-                styles.frame_thumbnail_date_badge_on_strip_container
-              }
-              badgeStyle={badge_style}
-            />
-          </View>
+          </Pressable>
         );
       }
     }
@@ -422,7 +444,7 @@ function DirectFramesList({dispatch, navigation, route}) {
               </View>
             </View>
           );
-        } else if (date > 21) {
+        } else if (date >= 21) {
           return (
             <View style={styles.frame_strips_view}>
               <View style={styles.frame_strip_block_1}>

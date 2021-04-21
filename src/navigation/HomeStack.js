@@ -25,6 +25,8 @@ import AddPeopleToClub from '../screens/AddPeopleToClub';
 import StartClub from '../screens/StartClub';
 import InvitePeopleToClub from '../screens/InvitePeopleToClub';
 import OtherProfile from '../screens/OtherProfile';
+import ViewOldFrameClub from '../screens/ViewOldFrameClub';
+import ViewOldFrameDirect from '../screens/ViewOldFrameDirect';
 
 const StackMain = createStackNavigator();
 //const HomeTabStack = createMaterialTopTabNavigator();
@@ -72,6 +74,10 @@ function ClubInteractionScreens() {
       <ClubChatStack.Screen name="ClubChatScreen" component={ClubChatScreen} />
       <ClubChatStack.Screen name="ClubFramesList" component={ClubFramesList} />
       <ClubChatStack.Screen name="ClubHub" component={ClubHub} />
+      <ClubChatStack.Screen
+        name="ViewOldFrameClub"
+        component={ViewOldFrameClub}
+      />
     </ClubChatStack.Navigator>
   );
 }
@@ -88,6 +94,10 @@ function DirectInteractionScreens() {
         component={DirectFramesList}
       />
       <DirectChatStack.Screen name="DirectHub" component={DirectHub} />
+      <DirectChatStack.Screen
+        name="ViewOldFrameDirect"
+        component={ViewOldFrameDirect}
+      />
     </DirectChatStack.Navigator>
   );
 }
