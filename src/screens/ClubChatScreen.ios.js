@@ -48,6 +48,14 @@ const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
+const background_color = '#EAEAEA';
+const header_color = '#FFFFFF';
+const header_bar_style = 'dark-content';
+const input_background_color = '#FFFFFF';
+const other_input_background_color = '#FAFAFA';
+const font_color_header = '#050505';
+const font_color_input = '#050505';
+
 function ClubChatScreen({navigation, dispatch, route}) {
   const pubnub = usePubNub();
   const {
@@ -124,7 +132,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#050505"
+        color={font_color_header}
         name="layers"
         onPress={() =>
           navigation.navigate('ClubFramesList', {
@@ -141,7 +149,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#050505"
+        color={font_color_header}
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
@@ -833,6 +841,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
     const [typevalue, changeTypevalue] = useState('');
     const [chosenMedia, changeChosenMedia] = useState('');
 
+    function SetChosenMedia(image_link) {
+      changeChosenMedia(image_link);
+    }
+
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const _keyboardDidShow = () => setKeyboardStatus(true);
     const _keyboardDidHide = () => setKeyboardStatus(false);
@@ -857,7 +869,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               borderColor: '#36B37E',
             }}
             onPress={() => {
-              changeChosenMedia(props.Item);
+              //SetChosenMedia(props.Item);
               setSelected(false);
             }}>
             <BetterImage
@@ -888,8 +900,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
               backgroundColor: '#FFFFFF80',
             }}
             onPress={() => {
-              changeChosenMedia(props.Item);
               setSelected(true);
+              //SetChosenMedia(props.Item);
+              //changeChosenMedia(props.Item);
             }}>
             <BetterImage
               viewStyle={{
@@ -1029,10 +1042,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
       <View
         style={{
           //flex: 0.05,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'transparent',
           //backgroundColor: 'red',
           minHeight: 65,
-
+          paddingBottom: 10,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -1041,23 +1054,27 @@ function ClubChatScreen({navigation, dispatch, route}) {
           <View
             style={{
               // flex: 1,
-              backgroundColor: '#e8ebec',
+              backgroundColor: input_background_color,
+              borderColor: '#e8ebec',
+              //borderWidth: 1,
+              borderWidth: 0,
               height: textinputheight,
-              width: windowWidth,
+              width: windowWidth * 0.95,
+
               flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 0,
+              borderRadius: 20,
               minHeight: 65,
             }}>
             <AutoGrowingTextInput
               style={{
                 fontSize: 16,
                 fontFamily: 'GothamRounded-Book',
-                color: '#050505',
+                color: font_color_input,
                 paddingHorizontal: 10,
                 marginLeft: 10,
-                width: windowWidth * 0.85,
-                backgroundColor: '#e8ebec',
+                width: windowWidth * 0.75,
+                backgroundColor: 'transparent',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'column',
@@ -1435,9 +1452,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
   return (
     <View style={styles.container}>
       <Header
-        backgroundColor="#FFFFFF"
+        backgroundColor={header_color}
         containerStyle={styles.header_container}
-        barStyle="dark-content">
+        barStyle={header_bar_style}>
         <LeftHeaderComponent />
         <CenterHeaderComponent />
         <RightHeaderComponent />
@@ -1447,18 +1464,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
         behavior="padding">
         <View
           style={{
-            flex: 0.9,
+            //flex: 0.9,
+            flex: 1,
             backgroundColor: 'transparent',
-            //backgroundColor: 'red',
             borderRadius: 20,
             margin: 0,
             padding: 0,
           }}>
           <LiveMessagesView />
           <InputXXX />
-        </View>
-        <View style={{flex: 0.1, backgroundColor: '#050505'}}>
-          <OtherInputBar />
         </View>
       </KeyboardAvoidingView>
       <ImagePickerOverlayInput />
@@ -1550,7 +1564,8 @@ const styles = StyleSheet.create({
   },
   body_scroll_view: {
     flex: 0.92,
-    backgroundColor: '#FFFFFF',
+    //backgroundColor: '#F1F4F9',
+    backgroundColor: background_color,
     width: windowWidth,
     //borderRadius: 20,
 
@@ -1570,13 +1585,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    //backgroundColor: 'red',
+
+    backgroundColor: background_color,
+
     alignItems: 'center',
   },
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#050505',
+    //color: '#050505',
+    color: font_color_header,
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',

@@ -192,16 +192,17 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   a_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
   },
   text2: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     color: 'purple',
   },
   b_type_image: {
@@ -219,9 +220,10 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   b_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   b_type_view: {
@@ -243,9 +245,10 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   c_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   c_type_view: {
@@ -280,9 +283,10 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   f_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   f_type_view: {
@@ -304,9 +308,10 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   g_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   g_type_view: {
@@ -328,9 +333,10 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   h_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   h_type_view: {
