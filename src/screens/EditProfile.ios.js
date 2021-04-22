@@ -38,16 +38,14 @@ function EditProfile({navigation, dispatch}) {
       data.append('bio', 'blahed');
       data.append('image', {
         uri: imagePicked,
-        //type: imagePickedMime,
-        type: 'image/png',
+        type: imagePickedMime,
+        //type: 'image/png',
 
         name: imagePickedName,
       });
-      console.log(data._parts[1], '1');
     } else {
       data.append('bio', 'else, blahed');
       data.append('image', imagePicked);
-      console.log(data, '2');
     }
 
     var res = {};
