@@ -37,6 +37,11 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
 import analytics from '@segment/analytics-react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  ClassicHeader,
+  ModernHeader,
+} from '@freakycoder/react-native-header-view';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -49,12 +54,17 @@ function ClubChatScreen({navigation, dispatch, route}) {
     clubID,
     clubNameHere,
     channelIdHere,
-    channelOnGoing,
-    channelEndTime,
-    channelStartTime,
+    //channelOnGoing,
+    //channelEndTime,
+    //channelStartTime,
     livePeople,
   } = route.params;
   const [channelsHere] = useState([channelIdHere]);
+
+  const channelOnGoing = true;
+  const channelStartTime = 1619090003;
+  const channelEndTime = 1619133203;
+
   //console.log(livePeople + 'live people');
   const this_channel_string = channelsHere[0];
   const [messages, addMessage] = useState([]);
@@ -114,7 +124,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FFFFFF"
+        color="#050505"
         name="layers"
         onPress={() =>
           navigation.navigate('ClubFramesList', {
@@ -131,25 +141,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FFFFFF"
+        color="#050505"
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
     );
   }
 
-  /*
-        <View style={styles.center_header_people_view}>
-          {liveWho.map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
-        */
   function CenterHeaderComponent() {
     return (
       <View style={styles.center_header_view}>
@@ -200,9 +198,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'b',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -232,9 +228,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'b',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -264,9 +258,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             },
             meta: {
               type: 'b',
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -559,6 +551,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             ImagePicker.openCamera({
               cropping: true,
             }).then(image => {
+              console.log(image);
               setCameraPicked(image.path);
               setCameraPickedMime(image.mime);
               setCameraPickedName('camera_photo');
@@ -578,7 +571,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
               cropping: false,
             }).then(images => {
               console.log(images);
-              setImagePicked(images.sourceURL);
+              //setImagePicked(images.sourceURL);
+              setImagePicked(images.path);
               setImagePickedMime(images.mime);
               setImagePickedName(images.filename);
               imagePickerCraftOverlay();
@@ -652,6 +646,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     if (messages.includes(event) === false) {
       //addMessage(messages => [...messages, event]);
       addMessage(messages.concat(event));
+      console.log(messages);
     } else {
       addMessage(messages);
     }
@@ -680,7 +675,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   useEffect(() => {
     pubnub.subscribe({channels: channelsHere});
     if (!channelOnGoing) {
-      console.log(nowTimeStamp + 'on going subcrube time stamp');
+      //console.log(nowTimeStamp + 'on going subcrube time stamp');
 
       pubnub.fetchMessages(
         {
@@ -729,9 +724,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
         />
       );
     } else {
-      console.log(old_messages);
+      //console.log(old_messages);
 
       if (!channelOnGoing) {
+        //console.log(messages);
         return (
           <ScrollView
             style={styles.body_scroll_view}
@@ -749,7 +745,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
       } else {
         if (Object.entries(old_messages.channels).length === 0) {
           console.log('no old messages');
-          //console.log(old_messages.channels[channelIdHere].length);
+          //console.log(messages);
+
           return (
             <ScrollView
               style={styles.body_scroll_view}
@@ -795,6 +792,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   function StartFrame() {
     //console.log(startTime + 'start time sent here');
     var timeToken = dayjs().unix();
+
     if (messages.length === 0) {
       var config = {
         method: 'post',
@@ -809,7 +807,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       };
 
-      axios(config).catch(error => console.log(error));
+      //axios(config).catch(error => console.log(error));
     } else {
     }
   }
@@ -946,7 +944,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
             style={{
               height: windowHeight * 0.1,
               width: windowWidth,
-              backgroundColor: '#13131300',
+              backgroundColor: '#e8ebec',
+              borderRadius: 0,
             }}
             contentContainerStyle={{
               flexDirection: 'row',
@@ -1030,10 +1029,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
       <View
         style={{
           //flex: 0.05,
-          backgroundColor: '#F3F4F8',
+          backgroundColor: '#FFFFFF',
+          //backgroundColor: 'red',
           minHeight: 65,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
+
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -1042,12 +1041,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
           <View
             style={{
               // flex: 1,
-              backgroundColor: '#F3F4F8',
+              backgroundColor: '#e8ebec',
               height: textinputheight,
               width: windowWidth,
               flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 15,
+              borderRadius: 0,
               minHeight: 65,
             }}>
             <AutoGrowingTextInput
@@ -1058,7 +1057,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 paddingHorizontal: 10,
                 marginLeft: 10,
                 width: windowWidth * 0.85,
-                backgroundColor: '#F3F4F8',
+                backgroundColor: '#e8ebec',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'column',
@@ -1399,8 +1398,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
                 Keyboard.dismiss;
                 setTextMessage('');
-                imageSelectorCraftOverlay();
-                setImageSelected('');
+                gifSelectorCraftOverlay();
+                setGifSelected('');
               }}>
               <IconlyDirectIcon Color="lightgreen" />
             </Pressable>
@@ -1436,9 +1435,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
   return (
     <View style={styles.container}>
       <Header
-        backgroundColor="#050505"
+        backgroundColor="#FFFFFF"
         containerStyle={styles.header_container}
-        barStyle="light-content">
+        barStyle="dark-content">
         <LeftHeaderComponent />
         <CenterHeaderComponent />
         <RightHeaderComponent />
@@ -1449,7 +1448,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <View
           style={{
             flex: 0.9,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'transparent',
+            //backgroundColor: 'red',
             borderRadius: 20,
             margin: 0,
             padding: 0,
@@ -1532,6 +1532,10 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(ClubChatScreen);
 
 const styles = StyleSheet.create({
+  header_container: {
+    borderBottomWidth: 0,
+  },
+
   modal_search_view_wrap: {
     width: windowWidth,
     height: 65,
@@ -1548,7 +1552,9 @@ const styles = StyleSheet.create({
     flex: 0.92,
     backgroundColor: '#FFFFFF',
     width: windowWidth,
-    borderRadius: 20,
+    //borderRadius: 20,
+
+    borderWidth: 0,
     padding: 0,
     margin: 0,
   },
@@ -1564,13 +1570,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#050505',
+    backgroundColor: '#FFFFFF',
+    //backgroundColor: 'red',
     alignItems: 'center',
   },
-  header_container: {borderBottomWidth: 0},
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#FFFFFF',
+    color: '#050505',
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',

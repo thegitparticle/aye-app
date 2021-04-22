@@ -55,7 +55,7 @@ function ClubsHomeD({dispatch}) {
         },
       );
     }
-    setResolved(true);
+    //setResolved(true);
   }
 
   useFocusEffect(

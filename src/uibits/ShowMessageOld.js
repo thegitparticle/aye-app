@@ -25,7 +25,7 @@ const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
   const pubnub = usePubNub();
-  console.log(props.Message);
+  //console.log(props.Message);
   if (props.Message.meta.type === 'a') {
     return (
       <View>
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   f_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#FAFAFA',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   g_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#FAFAFA',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',

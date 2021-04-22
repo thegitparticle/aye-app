@@ -55,6 +55,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
   } = route.params;
   const [channelsHere] = useState([directIdHere]);
 
+  //const channelOnGoing = true;
+  //const channelStartTime = 1619090003;
+  //const channelEndTime = 1619133203;
+
   useEffect(() => {
     async function SegmentCallHere() {
       await analytics.screen('Direct Chat Screen', {
@@ -192,13 +196,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'b',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
-              StartFrame();
+              //StartFrame();
               console.log(status);
             },
           );
@@ -224,9 +226,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'b',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -256,9 +256,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             },
             meta: {
               type: 'b',
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -374,14 +372,12 @@ function DirectChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'c',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
-              console.log(status);
-              StartFrame();
+              console.log(status.statusCode);
+              //StartFrame();
             },
           );
           //.then(() => changeTypevalue(''))
@@ -404,13 +400,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'c',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
-              console.log(status);
+              console.log(status.statusCode);
             },
           );
           //.then(() => changeTypevalue(''))
@@ -435,13 +429,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
             },
             meta: {
               type: 'c',
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
-            console.log(status);
+            console.log(status.statusCode);
           },
         );
         //.catch(err => console.log(err));
@@ -536,6 +528,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             ImagePicker.openCamera({
               cropping: true,
             }).then(image => {
+              console.log(image);
               setCameraPicked(image.path);
               setCameraPickedMime(image.mime);
               setCameraPickedName('camera_photo');
@@ -555,7 +548,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               cropping: false,
             }).then(images => {
               console.log(images);
-              setImagePicked(images.sourceURL);
+              setImagePicked(images.path);
               setImagePickedMime(images.mime);
               setImagePickedName(images.filename);
               imagePickerCraftOverlay();
@@ -856,7 +849,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
               fallbackSource={{
-                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
             />
           </Pressable>
@@ -887,7 +880,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
               fallbackSource={{
-                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
             />
           </Pressable>
@@ -1234,7 +1227,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
-  const [imageSearch, changeImageSearch] = useState('');
+  const [imageSearch, changeImageSearch] = useState('mountains');
 
   useEffect(() => {
     dispatch(TrendingPhotosActions(imageSearch));
