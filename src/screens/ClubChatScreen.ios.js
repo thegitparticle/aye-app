@@ -154,7 +154,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
-          {clubNameHere.substring(0, 13)}
+          {clubNameHere.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
           {liveWho.map(item => (

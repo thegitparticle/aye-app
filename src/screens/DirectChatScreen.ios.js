@@ -74,7 +74,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
   //console.log(old_messages.channels[this_channel_string] + 'old messages');
   //var messages = [];
   const [forceAddMedia, changeForceAddMedia] = useState('');
-  var input_bar_flex = 0.16;
+  var input_bar_flex = 0.1;
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   useEffect(() => {
@@ -531,6 +531,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.otherinputscrollview}>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             ImagePicker.openCamera({
               cropping: true,
@@ -547,6 +548,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             ImagePicker.openPicker({
               multiple: false,
@@ -565,6 +567,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             onOpenBitmojiSheet();
           }}>
@@ -574,6 +577,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          style={{justifyContent: 'center'}}
           onPress={() => {
             onOpenGifSheet();
           }}>
@@ -1230,7 +1234,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
-  const [imageSearch, changeImageSearch] = useState('love');
+  const [imageSearch, changeImageSearch] = useState('');
 
   useEffect(() => {
     dispatch(TrendingPhotosActions(imageSearch));
@@ -1422,7 +1426,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
   return (
     <View style={styles.container}>
       <Header
-        backgroundColor="#121313"
+        backgroundColor="#050505"
         containerStyle={styles.header_container}
         barStyle="light-content">
         <LeftHeaderComponent />
@@ -1540,6 +1544,7 @@ const styles = StyleSheet.create({
   },
   body_scroll_view_content_container: {
     flexGrow: 1,
+    width: windowWidth,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -1549,13 +1554,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#121313',
+    backgroundColor: '#050505',
     alignItems: 'center',
   },
   header_container: {borderBottomWidth: 0},
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#fafafa',
+    color: '#FFFFFF',
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',
@@ -1573,11 +1578,11 @@ const styles = StyleSheet.create({
   input_overall_view: {},
   textinputview: {
     //flex: 0.65,
-    height: 50,
+    //height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
 
   otherinputscrollview: {
@@ -1594,16 +1599,16 @@ const styles = StyleSheet.create({
     //marginTop: 10, //has to be fixed to be made as per the flex
   },
   other_input_modals_style: {
-    backgroundColor: '#141414',
+    backgroundColor: '#131313',
   },
   sticker_packs_view_wrap: {
     flexDirection: 'row',
-    backgroundColor: '#141414',
+    backgroundColor: '#131313',
   },
   image_picker_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   image_picker_craft_items_view: {
@@ -1626,7 +1631,7 @@ const styles = StyleSheet.create({
   camera_picker_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   camera_picker_craft_items_view: {
@@ -1649,7 +1654,7 @@ const styles = StyleSheet.create({
   image_selector_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   image_selector_craft_items_view: {
@@ -1672,7 +1677,7 @@ const styles = StyleSheet.create({
   gif_selector_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
     alignItems: 'center',
   },
   gif_selector_craft_items_view: {
@@ -1693,7 +1698,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   media_modal_search_bar_container: {
-    backgroundColor: '#050505',
+    backgroundColor: '#131313',
   },
   media_modal_search_bar_input_container: {
     backgroundColor: '#44444475',
