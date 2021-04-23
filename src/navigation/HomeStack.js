@@ -72,11 +72,31 @@ function ClubInteractionScreens() {
   return (
     <ClubChatStack.Navigator headerMode="none">
       <ClubChatStack.Screen name="ClubChatScreen" component={ClubChatScreen} />
-      <ClubChatStack.Screen name="ClubFramesList" component={ClubFramesList} />
-      <ClubChatStack.Screen name="ClubHub" component={ClubHub} />
+      <ClubChatStack.Screen
+        name="ClubFramesList"
+        component={ClubFramesList}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+          gestureDirection: 'horizontal-inverted',
+        }}
+      />
+      <ClubChatStack.Screen
+        name="ClubHub"
+        component={ClubHub}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+          gestureDirection: 'horizontal-inverted',
+        }}
+      />
       <ClubChatStack.Screen
         name="ViewOldFrameClub"
         component={ViewOldFrameClub}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+        }}
       />
     </ClubChatStack.Navigator>
   );
@@ -92,11 +112,28 @@ function DirectInteractionScreens() {
       <DirectChatStack.Screen
         name="DirectFramesList"
         component={DirectFramesList}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+          gestureDirection: 'horizontal-inverted',
+        }}
       />
-      <DirectChatStack.Screen name="DirectHub" component={DirectHub} />
+      <DirectChatStack.Screen
+        name="DirectHub"
+        component={DirectHub}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+          gestureDirection: 'horizontal-inverted',
+        }}
+      />
       <DirectChatStack.Screen
         name="ViewOldFrameDirect"
         component={ViewOldFrameDirect}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+        }}
       />
     </DirectChatStack.Navigator>
   );

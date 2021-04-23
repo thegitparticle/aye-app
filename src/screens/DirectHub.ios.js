@@ -21,6 +21,12 @@ import {GetClubHubDetails} from '../redux/ClubHubActions';
 import axios from 'axios';
 import _ from 'lodash';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
+import {BlurView} from '@react-native-community/blur';
+
+const header_color = 'transparent';
+const header_bar_style = 'dark-content';
+const font_color_header = '#050505';
+const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -49,7 +55,7 @@ function DirectHub({dispatch, navigation, route}) {
     return (
       <Icon
         type="feather"
-        color="#fff"
+        color={font_color_header}
         name="layers"
         onPress={() => navigation.goBack()}
       />
@@ -60,7 +66,7 @@ function DirectHub({dispatch, navigation, route}) {
     return (
       <Icon
         type="feather"
-        color="#fff"
+        color={font_color_header}
         name="chevron-down"
         onPress={() => navigation.navigate('Here')}
       />
@@ -242,14 +248,42 @@ function DirectHub({dispatch, navigation, route}) {
 
   return (
     <View style={styles.containerview}>
-      <Header
-        backgroundColor="#050505"
-        containerStyle={styles.header_container}
-        barStyle="light-content">
-        <LeftHeaderComponent />
-        <CenterHeaderComponent />
-        <RightHeaderComponent />
-      </Header>
+      <View>
+        <Image
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
+          source={require(header_back_image)}
+        />
+        <BlurView
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
+          blurType="light"
+          blurAmount={50}
+          reducedTransparencyFallbackColor="blue"
+        />
+        <Header
+          backgroundColor={header_color}
+          containerStyle={styles.header_container}
+          barStyle={header_bar_style}>
+          <LeftHeaderComponent />
+          <CenterHeaderComponent />
+          <RightHeaderComponent />
+        </Header>
+      </View>
       <View style={styles.body_view}>
         <MetricsOfConversation FramesCount="99" />
         <Divider style={styles.between_divider} />
@@ -407,9 +441,11 @@ const styles = StyleSheet.create({
   header_container: {borderBottomWidth: 0},
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#fff',
+    //color: '#050505',
+    color: font_color_header,
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
+    textAlign: 'center',
   },
   center_header_people_view: {
     justifyContent: 'space-between',

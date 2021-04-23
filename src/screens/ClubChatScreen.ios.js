@@ -54,8 +54,8 @@ const header_color = 'transparent';
 const header_bar_style = 'dark-content';
 const input_background_color = '#EAEAEA';
 const other_input_background_color = '#EAEAEA';
-const font_color_header = '#050505';
 const font_color_input = '#050505';
+const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function ClubChatScreen({navigation, dispatch, route}) {
