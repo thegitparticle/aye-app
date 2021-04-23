@@ -384,9 +384,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'c',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -414,9 +412,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               },
               meta: {
                 type: 'c',
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -445,9 +441,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             },
             meta: {
               type: 'c',
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -1467,7 +1461,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             bottom: 0,
             right: 0,
             width: windowWidth,
-            height: 100,
+            height: 200,
           }}
           source={require(header_back_image)}
         />
@@ -1479,7 +1473,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             bottom: 0,
             right: 0,
             width: windowWidth,
-            height: 100,
+            height: 200,
           }}
           blurType="light"
           blurAmount={50}

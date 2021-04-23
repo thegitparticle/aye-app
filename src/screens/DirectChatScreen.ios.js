@@ -38,11 +38,21 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
 import analytics from '@segment/analytics-react-native';
+import {BlurView} from '@react-native-community/blur';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
+
+const background_color = '#FFFFFF';
+const header_color = 'transparent';
+const header_bar_style = 'dark-content';
+const input_background_color = '#EAEAEA';
+const other_input_background_color = '#EAEAEA';
+const font_color_header = '#050505';
+const font_color_input = '#050505';
+const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function DirectChatScreen({navigation, dispatch, route}) {
   const pubnub = usePubNub();
@@ -110,7 +120,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FFFFFF"
+        color={font_color_header}
         name="layers"
         onPress={() =>
           navigation.navigate('DirectFramesList', {
@@ -127,7 +137,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <Icon
         type="feather"
-        color="#FFFFFF"
+        color={font_color_header}
         name="chevron-down"
         onPress={() => navigation.goBack()}
       />
@@ -150,7 +160,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
-          {otherNameHere.substring(0, 13)}
+          {otherNameHere.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
           {['f'].map(item => (
@@ -944,9 +954,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'h',
                 image_url: chosenMedia,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -966,9 +974,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'h',
                 image_url: chosenMedia,
-                user_dp:
-                  'https://apisayepirates.life' +
-                  state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -990,9 +996,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'h',
               image_url: chosenMedia,
-              user_dp:
-                'https://apisayepirates.life' +
-                state_here.MyProfileReducer.myprofile.image,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {
@@ -1007,10 +1011,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
       <View
         style={{
           //flex: 0.05,
-          backgroundColor: '#F3F4F8',
-          minHeight: 65,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
+          backgroundColor: input_background_color,
+          minHeight: 45,
+          borderTopWidth: 1.5,
+          borderColor: '#EAEAEA',
+
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -1019,23 +1024,23 @@ function DirectChatScreen({navigation, dispatch, route}) {
           <View
             style={{
               // flex: 1,
-              backgroundColor: '#F3F4F8',
+              backgroundColor: input_background_color,
               height: textinputheight,
               width: windowWidth,
               flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 15,
-              minHeight: 65,
+              borderRadius: 20,
+              minHeight: 45,
             }}>
             <AutoGrowingTextInput
               style={{
                 fontSize: 16,
-                fontFamily: 'GothamRounded-Book',
-                color: '#050505',
+                fontFamily: 'GothamRounded-Medium',
+                color: font_color_input,
                 paddingHorizontal: 10,
                 marginLeft: 10,
-                width: windowWidth * 0.85,
-                backgroundColor: '#F3F4F8',
+                width: windowWidth * 0.75,
+                backgroundColor: 'transparent',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'column',
@@ -1064,8 +1069,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 }
 
                 changeTypevalue('');
-                changeTextInputHeight(80);
-                changeInputBarFlex(0.14);
+                //changeTextInputHeight(80);
+                //changeInputBarFlex(0.14);
               }}>
               <IconlyDirectIcon Color="#36B37E" />
             </Pressable>
@@ -1418,20 +1423,49 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   return (
     <View style={styles.container}>
-      <Header
-        backgroundColor="#050505"
-        containerStyle={styles.header_container}
-        barStyle="light-content">
-        <LeftHeaderComponent />
-        <CenterHeaderComponent />
-        <RightHeaderComponent />
-      </Header>
+      <View>
+        <Image
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
+          source={require(header_back_image)}
+        />
+        <BlurView
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
+          blurType="light"
+          blurAmount={50}
+          reducedTransparencyFallbackColor="blue"
+        />
+        <Header
+          backgroundColor={header_color}
+          containerStyle={styles.header_container}
+          barStyle={header_bar_style}>
+          <LeftHeaderComponent />
+          <CenterHeaderComponent />
+          <RightHeaderComponent />
+        </Header>
+      </View>
       <KeyboardAvoidingView
         style={styles.body_and_input_wrap}
-        behavior="padding">
+        behavior="padding"
+        keyboardVerticalOffset={27.5}>
         <View
           style={{
-            flex: 0.9,
+            flex: 1,
             backgroundColor: '#FFFFFF',
             borderRadius: 20,
             margin: 0,
@@ -1440,10 +1474,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
           <LiveMessagesView />
           <InputXXX />
         </View>
-        <View style={{flex: 0.1, backgroundColor: '#050505'}}>
-          <OtherInputBar />
-        </View>
       </KeyboardAvoidingView>
+      <View
+        style={{
+          flex: 0.09,
+          width: windowWidth,
+          backgroundColor: other_input_background_color,
+        }}>
+        <OtherInputBar />
+      </View>
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />
       <CameraPickerOverlayInput />
@@ -1515,6 +1554,9 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(DirectChatScreen);
 
 const styles = StyleSheet.create({
+  header_container: {
+    borderBottomWidth: 0,
+  },
   modal_search_view_wrap: {
     width: windowWidth,
     height: 65,
@@ -1524,14 +1566,17 @@ const styles = StyleSheet.create({
     height: 40,
   },
   body_and_input_wrap: {
-    flex: 1,
+    flex: 0.92,
     width: windowWidth,
   },
   body_scroll_view: {
     flex: 0.92,
-    backgroundColor: '#FFFFFF',
+    //backgroundColor: '#F1F4F9',
+    backgroundColor: background_color,
     width: windowWidth,
-    borderRadius: 20,
+    //borderRadius: 20,
+
+    borderWidth: 0,
     padding: 0,
     margin: 0,
   },
@@ -1547,13 +1592,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#050505',
+    backgroundColor: background_color,
     alignItems: 'center',
   },
-  header_container: {borderBottomWidth: 0},
+
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    color: '#FFFFFF',
+    color: font_color_input,
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
     textAlign: 'center',
