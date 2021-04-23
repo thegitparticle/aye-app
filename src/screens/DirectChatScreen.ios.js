@@ -45,13 +45,15 @@ const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
-const background_color = '#FFFFFF';
+const background_color = '#FAFAFA';
 const header_color = 'transparent';
+const input_border_color = '#EEEEEE';
 const header_bar_style = 'dark-content';
-const input_background_color = '#EAEAEA';
-const other_input_background_color = '#EAEAEA';
-const font_color_header = '#050505';
+const input_background_color = '#EEEEEE';
+const other_input_background_color = '#FAFAFA';
+const reco_background_color = 'transparent';
 const font_color_input = '#050505';
+const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function DirectChatScreen({navigation, dispatch, route}) {
@@ -817,11 +819,21 @@ function DirectChatScreen({navigation, dispatch, route}) {
     }, []);
 
     const [typevalue, changeTypevalue] = useState('');
-    const [chosenMedia, changeChosenMedia] = useState('');
+    //const [chosenMedia, changeChosenMedia] = useState('');
+
+    var chosenMedia = '';
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const _keyboardDidShow = () => setKeyboardStatus(true);
     const _keyboardDidHide = () => setKeyboardStatus(false);
+
+    function SetChosenMedia(image_link) {
+      chosenMedia = image_link;
+    }
+
+    function SetChosenMediaEmpty() {
+      chosenMedia = '';
+    }
 
     function EachRecoItem(props) {
       const [selected, setSelected] = useState(false);
@@ -831,26 +843,21 @@ function DirectChatScreen({navigation, dispatch, route}) {
           <Pressable
             style={{
               shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 10,
-              },
-              shadowOpacity: 0.51,
-              shadowRadius: 13.16,
-              elevation: 20,
-              borderWidth: 5,
-              borderRadius: 10,
-              borderColor: '#36B37E',
+              width: 125,
+              height: 72.5,
+              marginHorizontal: 5,
             }}
             onPress={() => {
-              changeChosenMedia(props.Item);
+              SetChosenMediaEmpty();
               setSelected(false);
             }}>
             <BetterImage
               viewStyle={{
                 width: 125,
                 height: 72.5,
-                marginHorizontal: 5,
+                borderRadius: 10,
+                borderWidth: 3,
+                borderColor: '#36B37E',
               }}
               source={{
                 uri: props.Item,
@@ -869,19 +876,20 @@ function DirectChatScreen({navigation, dispatch, route}) {
           <Pressable
             style={{
               borderRadius: 3,
-
+              width: 125,
+              height: 72.5,
               marginHorizontal: 5,
               backgroundColor: '#FFFFFF80',
             }}
             onPress={() => {
-              changeChosenMedia(props.Item);
               setSelected(true);
+              SetChosenMedia(props.Item);
+              //changeChosenMedia(props.Item);
             }}>
             <BetterImage
               viewStyle={{
                 width: 125,
                 height: 72.5,
-                marginHorizontal: 5,
               }}
               source={{
                 uri: props.Item,
@@ -889,6 +897,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               thumbnailSource={{
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
+              thumbnailBlurRadius={-10}
               fallbackSource={{
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
@@ -928,7 +937,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
             style={{
               height: windowHeight * 0.1,
               width: windowWidth,
-              backgroundColor: '#13131300',
+              backgroundColor: reco_background_color,
+              borderRadius: 0,
             }}
             contentContainerStyle={{
               flexDirection: 'row',
@@ -1011,11 +1021,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
       <View
         style={{
           //flex: 0.05,
-          backgroundColor: input_background_color,
-          minHeight: 45,
-          borderTopWidth: 1.5,
-          borderColor: '#EAEAEA',
-
+          //backgroundColor: input_background_color,
+          backgroundColor: 'transparent',
+          //borderTopWidth: 1.5,
+          borderColor: input_border_color,
+          minHeight: 55,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -1025,11 +1035,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
             style={{
               // flex: 1,
               backgroundColor: input_background_color,
-              height: textinputheight,
-              width: windowWidth,
+              borderWidth: 1,
+              borderColor: input_border_color,
+
+              height: 55,
+              width: windowWidth * 0.95,
+
               flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 20,
+              borderRadius: 15,
               minHeight: 45,
             }}>
             <AutoGrowingTextInput
@@ -1039,7 +1053,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 color: font_color_input,
                 paddingHorizontal: 10,
                 marginLeft: 10,
-                width: windowWidth * 0.75,
+                width: windowWidth * 0.8,
                 backgroundColor: 'transparent',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1056,7 +1070,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             <Pressable
               style={{
                 height: 30,
-                width: windowWidth * 0.15,
+                width: windowWidth * 0.1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
@@ -1460,20 +1474,18 @@ function DirectChatScreen({navigation, dispatch, route}) {
         </Header>
       </View>
       <KeyboardAvoidingView
-        style={styles.body_and_input_wrap}
+        style={{
+          flex: 0.92,
+          width: windowWidth,
+          backgroundColor: background_color,
+          borderRadius: 20,
+          margin: 0,
+          //paddingBottom: 10,
+        }}
         behavior="padding"
-        keyboardVerticalOffset={27.5}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#FFFFFF',
-            borderRadius: 20,
-            margin: 0,
-            padding: 0,
-          }}>
-          <LiveMessagesView />
-          <InputXXX />
-        </View>
+        keyboardVerticalOffset={30}>
+        <LiveMessagesView />
+        <InputXXX />
       </KeyboardAvoidingView>
       <View
         style={{
@@ -1565,10 +1577,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     height: 40,
   },
-  body_and_input_wrap: {
-    flex: 0.92,
-    width: windowWidth,
-  },
+
   body_scroll_view: {
     flex: 0.92,
     //backgroundColor: '#F1F4F9',

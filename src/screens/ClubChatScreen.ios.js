@@ -75,7 +75,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const channelOnGoing = true;
   const channelStartTime = 1619090003;
-  const channelEndTime = 1619133203;
+  const channelEndTime = 1619235203;
 
   //console.log(livePeople + 'live people');
   const this_channel_string = channelsHere[0];
@@ -840,6 +840,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
     //const [chosenMedia, changeChosenMedia] = useState('');
 
     var chosenMedia = '';
+
+    console.log(chosenMedia);
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const _keyboardDidShow = () => {
