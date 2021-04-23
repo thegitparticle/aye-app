@@ -17,12 +17,18 @@ function PermissionsAfterRegister({dispatch, route}) {
 
   async function GrabContacts() {
     const contacts_here = await Contacts.getAllWithoutPhotos();
+    const data = new FormData();
+
+    data.append('contact_list', contacts_here);
     console.log(contacts_here);
-    axios
-      .post(
+
+    var config = {
+      method: 'put',
+      url:
         'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/contacts_list',
-        contacts_here,
-      )
+      data: data,
+    };
+    axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
       .catch(err => console.log(err));
   }
