@@ -25,7 +25,7 @@ function EditProfile({navigation, dispatch}) {
     dispatch(GetMyProfile(state_here.MyProfileReducer.myprofile.user.phone));
   }, [dispatch]);
 
-  const profileupdateid = state_here.MyProfileReducer.myprofile.user.id;
+  const profileupdateid = state_here.MyProfileReducer.myprofile.id;
 
   const [imagePicked, setImagePicked] = useState();
   const [imagePickedMime, setImagePickedMime] = useState();
@@ -39,7 +39,6 @@ function EditProfile({navigation, dispatch}) {
       data.append('image', {
         uri: imagePicked,
         type: imagePickedMime,
-        //type: 'image/png',
 
         name: imagePickedName,
       });
@@ -51,8 +50,11 @@ function EditProfile({navigation, dispatch}) {
     var res = {};
 
     var config = {
-      method: 'post',
-      url: 'https://apisayepirates.life/api/users/profile-update/?id=&user=4',
+      method: 'put',
+      url:
+        'https://apisayepirates.life/api/users/profile-update/' +
+        profileupdateid +
+        '/',
       headers: {
         //...data.getHeaders(),
         Accept: 'application/json',
