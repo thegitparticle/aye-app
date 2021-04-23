@@ -7,10 +7,19 @@ import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
 import analytics from '@segment/analytics-react-native';
 import NetInfo from '@react-native-community/netinfo';
+import messaging from '@react-native-firebase/messaging';
 
 var state_here = {};
 
 function RootStack() {
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
   var t_or_f = state_here.AuthStateReducer.logged_in_or_not;
 
   if (t_or_f === true) {

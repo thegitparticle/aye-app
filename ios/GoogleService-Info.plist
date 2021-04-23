@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>901520967126-biqcjn1isbj61oaje1uma00pbst0ean8.apps.googleusercontent.com</string>
+	<string>576311570480-h48boqv3d59r9pok32b3hhcph8p7t6kh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.901520967126-biqcjn1isbj61oaje1uma00pbst0ean8</string>
+	<string>com.googleusercontent.apps.576311570480-h48boqv3d59r9pok32b3hhcph8p7t6kh</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBHtPhSgbPqRJd7FuhfZCtYwLDJUyW6K7k</string>
+	<string>AIzaSyA8_-cnVcyhF7dnMDfi6w3zkEjVlYDmeYc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>901520967126</string>
+	<string>576311570480</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.toastgo</string>
+	<string>org.reactjs.native.example.toastgo-go</string>
 	<key>PROJECT_ID</key>
-	<string>aye-toastgo</string>
+	<string>aye-toastgo-go</string>
 	<key>STORAGE_BUCKET</key>
-	<string>aye-toastgo.appspot.com</string>
+	<string>aye-toastgo-go.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:901520967126:ios:0ee7f85c936cac4f335077</string>
+	<string>1:576311570480:ios:4bf5cd96abed3f3c2d3df5</string>
 </dict>
 </plist>

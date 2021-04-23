@@ -6,6 +6,8 @@ import {LOGIN} from '../redux/types';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
+import messaging from '@react-native-firebase/messaging';
+import analytics from '@segment/analytics-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,6 +25,17 @@ function PermissionsAfterRegister({dispatch, route}) {
       )
       .then(() => dispatch(GetMyProfile(phone)))
       .catch(err => console.log(err));
+  }
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
   }
 
   async function RunOnLog(phone_number) {
@@ -45,6 +58,7 @@ function PermissionsAfterRegister({dispatch, route}) {
         titleStyle={styles.button_text}
         onPress={() => {
           GrabContacts();
+          requestUserPermission();
           RunOnLog(phone);
           dispatch({type: LOGIN});
         }}

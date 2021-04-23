@@ -9,6 +9,7 @@ import {Icon} from 'react-native-elements';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 import axios from 'axios';
+import messaging from '@react-native-firebase/messaging';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -20,12 +21,35 @@ function HomeMainD({dispatch, navigation}) {
     {key: 'directs', title: 'directs', icon: 'send'},
   ]);
 
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
   const [updateBannerVisible, setUpdateBannerVisible] = useState(false);
   const current_app_version = '1.0.0';
 
   var res_here = [];
 
+  async function GetFcmToken() {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log(fcmToken);
+      console.log('Your Firebase Token is:', fcmToken);
+    } else {
+      console.log('Failed', 'No token received');
+    }
+  }
+
   useEffect(() => {
+    requestUserPermission();
+    GetFcmToken();
     axios
       .get('https://apisayepirates.life/api/clubs/app_version_apple/')
       .then(response => (res_here = response.data))
