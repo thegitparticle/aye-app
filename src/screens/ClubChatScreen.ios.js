@@ -42,19 +42,21 @@ import {
   ClassicHeader,
   ModernHeader,
 } from '@freakycoder/react-native-header-view';
+import {BlurView} from '@react-native-community/blur';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
-const background_color = '#EAEAEA';
-const header_color = '#FFFFFF';
+const background_color = '#FFFFFF';
+const header_color = 'transparent';
 const header_bar_style = 'dark-content';
-const input_background_color = '#FFFFFF';
-const other_input_background_color = '#FAFAFA';
+const input_background_color = '#EAEAEA';
+const other_input_background_color = '#EAEAEA';
 const font_color_header = '#050505';
 const font_color_input = '#050505';
+const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function ClubChatScreen({navigation, dispatch, route}) {
   const pubnub = usePubNub();
@@ -85,7 +87,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   //console.log(old_messages.channels[this_channel_string] + 'old messages');
   //var messages = [];
   const [forceAddMedia, changeForceAddMedia] = useState('');
-  var input_bar_flex = 0.1;
+  var input_bar_flex = 0.15;
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   useEffect(() => {
@@ -846,8 +848,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
-    const _keyboardDidShow = () => setKeyboardStatus(true);
-    const _keyboardDidHide = () => setKeyboardStatus(false);
+    const _keyboardDidShow = () => {
+      setKeyboardStatus(true);
+    };
+    const _keyboardDidHide = () => {
+      setKeyboardStatus(false);
+    };
 
     function EachRecoItem(props) {
       const [selected, setSelected] = useState(false);
@@ -957,7 +963,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             style={{
               height: windowHeight * 0.1,
               width: windowWidth,
-              backgroundColor: '#e8ebec',
+              backgroundColor: input_background_color,
               borderRadius: 0,
             }}
             contentContainerStyle={{
@@ -1042,20 +1048,21 @@ function ClubChatScreen({navigation, dispatch, route}) {
       <View
         style={{
           //flex: 0.05,
-          backgroundColor: 'transparent',
+          backgroundColor: input_background_color,
           //backgroundColor: 'red',
-          minHeight: 65,
-          paddingBottom: 10,
+          borderTopWidth: 1.5,
+          borderColor: '#EAEAEA',
+          minHeight: 45,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
         <RecoOverLay />
+
         <View style={styles.textinputview}>
           <View
             style={{
               // flex: 1,
               backgroundColor: input_background_color,
-              borderColor: '#e8ebec',
               //borderWidth: 1,
               borderWidth: 0,
               height: textinputheight,
@@ -1064,12 +1071,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
               flexDirection: 'row',
               alignItems: 'center',
               borderRadius: 20,
-              minHeight: 65,
+              minHeight: 45,
             }}>
             <AutoGrowingTextInput
               style={{
                 fontSize: 16,
-                fontFamily: 'GothamRounded-Book',
+                fontFamily: 'GothamRounded-Medium',
                 color: font_color_input,
                 paddingHorizontal: 10,
                 marginLeft: 10,
@@ -1103,8 +1110,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 }
 
                 changeTypevalue('');
-                changeTextInputHeight(80);
-                changeInputBarFlex(0.14);
+                //changeTextInputHeight(80);
+                //changeInputBarFlex(0.14);
               }}>
               <IconlyDirectIcon Color="#36B37E" />
             </Pressable>
@@ -1451,22 +1458,51 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   return (
     <View style={styles.container}>
-      <Header
-        backgroundColor={header_color}
-        containerStyle={styles.header_container}
-        barStyle={header_bar_style}>
-        <LeftHeaderComponent />
-        <CenterHeaderComponent />
-        <RightHeaderComponent />
-      </Header>
+      <View>
+        <Image
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 100,
+          }}
+          source={require(header_back_image)}
+        />
+        <BlurView
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 100,
+          }}
+          blurType="light"
+          blurAmount={50}
+          reducedTransparencyFallbackColor="blue"
+        />
+        <Header
+          backgroundColor={header_color}
+          containerStyle={styles.header_container}
+          barStyle={header_bar_style}>
+          <LeftHeaderComponent />
+          <CenterHeaderComponent />
+          <RightHeaderComponent />
+        </Header>
+      </View>
       <KeyboardAvoidingView
         style={styles.body_and_input_wrap}
-        behavior="padding">
+        behavior="padding"
+        keyboardVerticalOffset={27.5}>
         <View
           style={{
-            //flex: 0.9,
+            //flex: 0.91,
             flex: 1,
-            backgroundColor: 'transparent',
+            backgroundColor: background_color,
             borderRadius: 20,
             margin: 0,
             padding: 0,
@@ -1475,6 +1511,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
           <InputXXX />
         </View>
       </KeyboardAvoidingView>
+      <View
+        style={{
+          flex: 0.09,
+          width: windowWidth,
+          backgroundColor: other_input_background_color,
+        }}>
+        <OtherInputBar />
+      </View>
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />
       <CameraPickerOverlayInput />
@@ -1559,7 +1603,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   body_and_input_wrap: {
-    flex: 1,
+    flex: 0.92,
     width: windowWidth,
   },
   body_scroll_view: {
