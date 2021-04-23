@@ -841,8 +841,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     var chosenMedia = '';
 
-    console.log(chosenMedia);
-
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const _keyboardDidShow = () => {
       setKeyboardStatus(true);
@@ -891,7 +889,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
               fallbackSource={{
-                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
             />
           </Pressable>
@@ -924,7 +922,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }}
               thumbnailBlurRadius={-10}
               fallbackSource={{
-                uri: '/Users/san/Desktop/toastgo/assets/thumb.jpeg',
+                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
               }}
             />
           </Pressable>

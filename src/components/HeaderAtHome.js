@@ -9,6 +9,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
+
 function HeaderAtHome({dispatch}) {
   const navigation = useNavigation();
 

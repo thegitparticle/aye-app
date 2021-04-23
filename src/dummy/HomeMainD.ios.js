@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
+import {Overlay, Button} from 'react-native-elements';
 import HeaderAtHome from '../components/HeaderAtHome';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import ClubsHomeD from './ClubsHome';
@@ -7,6 +8,7 @@ import DirectsHomeD from './DirectsHome';
 import {Icon} from 'react-native-elements';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
+import axios from 'axios';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,6 +19,21 @@ function HomeMainD({dispatch, navigation}) {
     {key: 'clubs', title: 'clubs', icon: 'home'},
     {key: 'directs', title: 'directs', icon: 'send'},
   ]);
+
+  const [updateBannerVisible, setUpdateBannerVisible] = useState(false);
+  const current_app_version = '1.0.0';
+
+  var res_here = [];
+
+  useEffect(() => {
+    axios
+      .get('https://apisayepirates.life/api/clubs/app_version_apple/')
+      .then(response => (res_here = response.data))
+      .then(response =>
+        setUpdateBannerVisible(!(current_app_version === res_here[0].version)),
+      )
+      .catch(err => console.log(err));
+  }, []);
 
   const renderScene = SceneMap({
     clubs: ClubsHomeD,
@@ -97,6 +114,23 @@ function HomeMainD({dispatch, navigation}) {
         }}
         style={styles.tab_view}
       />
+      <Overlay isVisible={updateBannerVisible} fullScreen>
+        <View style={styles.update_banner_view}>
+          <Text style={styles.update_banner_text_main}>
+            We are improving Aye!
+          </Text>
+          <Text style={styles.update_banner_text_update_line}>
+            Please update the app for a better experience
+          </Text>
+          <Button
+            buttonStyle={styles.update_button}
+            containerStyle={styles.update_button_container}
+            titleStyle={styles.update_button_title}
+            title="Update"
+            onPress={() => navigation.navigate('StartClub')}
+          />
+        </View>
+      </Overlay>
     </View>
   );
 }
@@ -108,6 +142,51 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
+  update_banner_view: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  update_banner_text_main: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    color: '#050505',
+    marginVertical: 20,
+  },
+  update_banner_text_update_line: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#05050575',
+    marginVertical: 20,
+  },
+
+  update_button_title: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 17,
+    color: '#FFFFFF',
+  },
+  update_button_container: {
+    alignSelf: 'center',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+    shadowColor: '#36b37e',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 40,
+    elevation: 2,
+  },
+  update_button: {
+    height: 60,
+    width: 160,
+    borderRadius: 30,
+    backgroundColor: '#36b37e',
+  },
+
   tab_view: {
     //flex: 1,
     backgroundColor: 'transparent',

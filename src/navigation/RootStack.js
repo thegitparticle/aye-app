@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './AuthStack';
 import HomeStack from './HomeStack';
@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
 import analytics from '@segment/analytics-react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 var state_here = {};
 
