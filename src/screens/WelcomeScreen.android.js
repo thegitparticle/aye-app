@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Image,
@@ -11,7 +11,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
-//import IconNextButton from '../uibits/IconlyNextButton';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -19,9 +18,12 @@ const windowHeight = Dimensions.get('window').height;
 function WelcomeScreen({navigation}) {
   return (
     <View style={styles.view}>
-      <StatusBar backgroundColor="transparent" barStyle="light-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        //  barStyle="dark-content"
+      />
       <ImageBackground
-        //source={require('/Users/san/Desktop/toast1/assets/welcome_1.gif')}
         source={{
           uri: 'https://media.giphy.com/media/nbR3NEcLHM9eLXLgPx/giphy.gif',
         }}

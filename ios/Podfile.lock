@@ -460,6 +460,9 @@ PODS:
     - React-Core
   - RNScreens (2.18.1):
     - React-Core
+  - RNSentry (2.4.1):
+    - React-Core
+    - Sentry (= 6.1.4)
   - RNSharedElement (0.7.0):
     - React
   - RNSVG (12.1.0):
@@ -472,6 +475,9 @@ PODS:
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
+  - Sentry (6.1.4):
+    - Sentry/Core (= 6.1.4)
+  - Sentry/Core (6.1.4)
   - SexyTooltip (1.2.5):
     - pop (~> 1.0)
   - TOCropViewController (2.6.0)
@@ -549,6 +555,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -585,6 +592,7 @@ SPEC REPOS:
     - PromisesObjC
     - SDWebImage
     - SDWebImageWebPCoder
+    - Sentry
     - TOCropViewController
     - YogaKit
 
@@ -683,6 +691,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
   RNSVG:
@@ -773,11 +783,13 @@ SPEC CHECKSUMS:
   RNImageCropPicker: e641bf83ac47324994cac139bde74635ec52c17c
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
+  RNSentry: 824a6a0ec885428163fe6827aa08014f9962f223
   RNSharedElement: 00b1a1420d213a34459bb9a5aacabb38107d7948
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
+  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   SexyTooltip: 5c9b4dec52bfb317938cb0488efd9da3717bb6fd
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf

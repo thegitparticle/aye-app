@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -25,6 +25,7 @@ function DirectsList({dispatch, navigation}) {
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
 
+  /*
   useFocusEffect(
     React.useCallback(() => {
       dispatch(
@@ -32,6 +33,14 @@ function DirectsList({dispatch, navigation}) {
       );
     }, [dispatch]),
   );
+  */
+
+  useEffect(() => {
+    console.log('pubnub directs list dispatch log');
+    dispatch(
+      GetDirectsList(pubnub, state_here.MyProfileReducer.myprofile.user.id),
+    );
+  }, [dispatch]);
 
   function RenderItem(props) {
     return (

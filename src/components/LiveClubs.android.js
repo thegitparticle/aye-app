@@ -51,9 +51,9 @@ function LiveClubs(props) {
           </ListItem.Content>
           <ListItem.Content style={styles.list_item_content}>
             <ListItem.Title style={styles.LiveClubName}>
-              {comp.club_name.length < 15
+              {comp.club_name.length < 5 // 15 actually and (0, 14) below
                 ? comp.club_name
-                : comp.club_name.substring(0, 14)}
+                : comp.club_name.substring(0, 4)}
             </ListItem.Title>
             <ListItem.Subtitle>
               <View style={styles.subtitle_view}>

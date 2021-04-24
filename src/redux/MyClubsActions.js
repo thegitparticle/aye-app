@@ -8,7 +8,11 @@ export const GetMyClubs = userid => {
     axios
 
       //.get('https://run.mocky.io/v3/05a03257-1f7e-401e-a116-c67972f11830')
-      .get('https://apisayepirates.life/api/users/my_clubs/' + String(userid))
+      .get(
+        'https://apisayepirates.life/api/users/my_clubs/' +
+          String(userid) +
+          '/',
+      )
       .then(response => (res = response.data))
       .then(() =>
         dispatch({

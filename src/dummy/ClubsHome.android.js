@@ -13,7 +13,7 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {GetMyClubs} from '../redux/MyClubsActions';
 import {usePubNub} from 'pubnub-react';
-import MyClubsCheckLiveStatus from '../pnstuff/MyClubsCheckLiveStatus';
+import LiveClubs from '../components/LiveClubs';
 import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
@@ -25,46 +25,42 @@ const windowHeight = Dimensions.get('window').height;
 
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
-  const pubnub = usePubNub();
   const [resolved, setResolved] = useState(false);
 
   const [dor_clubs, setDorClubs] = useState([]);
 
   const [live_clubs, setLiveClubs] = useState([]);
 
-  function CheckLive() {
+  function CheckOnGoing() {
     for (var i = 0; i < my_clubs.length; i++) {
       const club_here = my_clubs[i];
 
-      pubnub.hereNow(
-        {
-          channels: [club_here.pn_channel_id],
-          includeUUIDs: true,
-          includeState: true,
-        },
-        (status, response) => {
-          if (response) {
-            if (response.totalOccupancy > 0) {
-              setLiveClubs(state => [...state, club_here]);
-            } else if (response.totalOccupancy === 0) {
-              setDorClubs(state => [...state, club_here]);
-            } else {
-              setDorClubs(dor_clubs);
-            }
-          }
-        },
-      );
+      if (club_here.on_going_frame) {
+        setLiveClubs(state => [...state, club_here]);
+      } else {
+        setDorClubs(state => [...state, club_here]);
+      }
     }
-    //setResolved(true);
+
+    setResolved(true);
+    console.log(resolved);
   }
 
+  useEffect(() => {
+    console.log('my clubs list dispatch log');
+    dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+    CheckOnGoing();
+  }, [dispatch]);
+
+  /*
   useFocusEffect(
     React.useCallback(() => {
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-      pubnub.unsubscribeAll();
-      CheckLive();
+      CheckOnGoing();
     }, [dispatch]),
   );
+
+  */
 
   function PreLoadDorClubs() {
     return (
@@ -100,17 +96,16 @@ function ClubsHomeD({dispatch}) {
     function RenderLive() {
       return (
         <View>
-          {_.uniqBy(live_clubs, 'club_id').map((item, index) => (
-            <View>
-              <MyClubsCheckLiveStatus Club={item} PN={pubnub} Index={index} />
-            </View>
-          ))}
+          <LiveClubs ClubsData={live_clubs} />
         </View>
       );
     }
     if (resolved) {
       return (
         <View>
+          <Text style={{fontFamily: 'GothamRounded-Book', color: 'green'}}>
+            Post Load
+          </Text>
           <RenderLive />
           <RenderDor />
         </View>
@@ -118,6 +113,9 @@ function ClubsHomeD({dispatch}) {
     } else {
       return (
         <View>
+          <Text style={{fontFamily: 'GothamRounded-Book', color: 'red'}}>
+            Pre Load
+          </Text>
           <PreLoadDorClubs />
         </View>
       );

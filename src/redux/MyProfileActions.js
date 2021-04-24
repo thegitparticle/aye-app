@@ -7,7 +7,7 @@ export const GetMyProfile = phone => {
     console.log('get my profile dispatched');
     console.log(phone);
     axios
-      .get('https://apisayepirates.life/api/users/profile/' + phone)
+      .get('https://apisayepirates.life/api/users/profile/' + phone + '/')
       .then(response => (res = response.data))
       .then(() => console.log(res))
       .then(() =>

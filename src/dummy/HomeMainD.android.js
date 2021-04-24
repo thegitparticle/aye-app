@@ -51,7 +51,7 @@ function HomeMainD({dispatch, navigation}) {
     requestUserPermission();
     GetFcmToken();
     axios
-      .get('https://apisayepirates.life/api/clubs/app_version_apple/')
+      .get('https://apisayepirates.life/api/clubs/app_version_android/')
       .then(response => (res_here = response.data))
       .then(response =>
         setUpdateBannerVisible(!(current_app_version === res_here[0].version)),

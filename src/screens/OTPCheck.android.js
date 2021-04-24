@@ -18,6 +18,7 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import analytics from '@segment/analytics-react-native';
+import getISOCode from 'react-native-phone-input';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,7 +26,7 @@ const windowHeight = Dimensions.get('window').height;
 function OTPCheck({route, navigation, dispatch}) {
   const [otp, setOTP] = useState('');
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const {phone} = route.params;
+  const {phone, iso_code} = route.params;
 
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
@@ -57,6 +58,8 @@ function OTPCheck({route, navigation, dispatch}) {
     axios(config)
       .then(response => console.log(response.data))
 
+      //api/users/ update_otp_code/<int:otp_code>/<str:phone>/<str:country_code_of_user>/
+
       .then(() => dispatch(GetMyProfile(phone)))
       .then(() => console.log('get profile success'))
       .then(() => {
@@ -64,7 +67,10 @@ function OTPCheck({route, navigation, dispatch}) {
           'https://apisayepirates.life/api/users/update_otp_code/' +
             otp +
             '/' +
-            phone,
+            phone +
+            '/' +
+            iso_code.toUpperCase() +
+            '/',
         );
       })
       .then(() => dispatch({type: LOGIN}))
@@ -100,7 +106,7 @@ function OTPCheck({route, navigation, dispatch}) {
             tintColor="#33333350"
             offTintColor="#33333350"
             otpLength={4}
-            autoFocus={true}
+            //autoFocus={true}
             cellStyle={styles.otp_input_cell}
           />
         </View>
@@ -201,7 +207,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#50e3c2',
   },
   back_button_view: {
-    flex: 0.05,
+    flex: 0.1,
+    marginVertical: windowHeight * 0.02,
   },
   lottie_bg_view: {
     height: windowHeight * 0.7,

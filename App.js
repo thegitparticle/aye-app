@@ -5,6 +5,12 @@ import {Provider} from 'react-redux';
 import {storehere, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import messaging from '@react-native-firebase/messaging';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn:
+    'https://f2fbb9a8c45146c98e35089e1b72a46d@o578195.ingest.sentry.io/5734301',
+});
 
 const App: () => Node = () => {
   useEffect(() => {

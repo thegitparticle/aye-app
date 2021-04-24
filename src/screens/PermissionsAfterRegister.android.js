@@ -1,5 +1,12 @@
-import React from 'react';
-import {Text, StyleSheet, Dimensions, SafeAreaView, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Text,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  Image,
+  PermissionsAndroid,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {LOGIN} from '../redux/types';
@@ -16,14 +23,26 @@ function PermissionsAfterRegister({dispatch, route}) {
   const {phone} = route.params;
 
   async function GrabContacts() {
-    const contacts_here = await Contacts.getAllWithoutPhotos();
+    const [contacts_here, setContactsHere] = useState();
+
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    })
+      .then(Contacts.getAll)
+      .then(contacts => {
+        setContactsHere(contacts);
+      });
+
     const data = new FormData();
 
     data.append('contact_list', contacts_here);
     console.log(contacts_here);
 
     var config = {
-      method: 'put',
+      //method: 'put',
+      method: 'post',
       url:
         'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/contacts_list',
       data: data,

@@ -42,7 +42,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>To help you find your friends</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To send photos to your friends.</string>
 	<key>UIAppFonts</key>

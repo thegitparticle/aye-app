@@ -21,7 +21,9 @@ const windowHeight = Dimensions.get('window').height;
 
 function EnterPhone({navigation}) {
   const [value, setValue] = useState('');
-  const [country, setCountry] = useState();
+  const [iso, setIso] = useState('');
+  const [country, setCountry] = useState('in');
+  console.log(country + 'country');
   const phoneRef = useRef(undefined);
   const [showSpinner, setShowSpinner] = useState(false);
 
@@ -34,7 +36,7 @@ function EnterPhone({navigation}) {
           response.data.user_exists === 'True'
             ? 'OTPCheck'
             : 'SignUpDetailsInput',
-          {phone: value},
+          {phone: value, iso_code: country},
         ),
       )
       .then(() => setShowSpinner(false))
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: windowWidth * 0.1,
   },
   phone_input_text: {
-    fontSize: 21,
+    fontSize: 17,
     fontFamily: 'GothamRounded-Bold',
     color: '#FFFFFF',
     //marginHorizontal: ,
@@ -161,7 +163,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   back_button_view: {
-    flex: 0.05,
+    flex: 0.1,
+    marginVertical: windowHeight * 0.02,
   },
   lottie_bg_view: {
     height: windowHeight * 0.7,

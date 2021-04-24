@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "576311570480",
+    "project_id": "aye-toastgo-go",
+    "storage_bucket": "aye-toastgo-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576311570480:android:13b61389c24ee4b32d3df5",
+        "android_client_info": {
+          "package_name": "com.toastgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576311570480-4c748k9uct8f7pd7h6av2hul0dk7t7lu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj-aXox0GY4VbjerKAsM4xJRe5jmJrkzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576311570480-4c748k9uct8f7pd7h6av2hul0dk7t7lu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "576311570480-h48boqv3d59r9pok32b3hhcph8p7t6kh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.toastgo-go"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
