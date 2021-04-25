@@ -34,9 +34,7 @@ function RootStack() {
       data: {
         name: state_here.MyProfileReducer.myprofile.user.full_name,
         custom: {
-          display_pic:
-            'http://apisayepirates.life/' +
-            state_here.MyProfileReducer.myprofile.image,
+          display_pic: state_here.MyProfileReducer.myprofile.image,
         },
       },
     });

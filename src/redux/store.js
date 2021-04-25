@@ -88,7 +88,10 @@ const rootReducer = combineReducers({
   ),
   MyCircleReducer: persistReducer(persistConfigMyCircle, MyCircleReducer),
   MyClubsReducer: persistReducer(persistConfigMyClubs, MyClubsReducer),
-  DirectsListReducer: persistReducer(persistConfigMyClubs, DirectsListReducer),
+  DirectsListReducer: persistReducer(
+    persistConfigDirectsList,
+    DirectsListReducer,
+  ),
   RecoOnTypeReducer: persistReducer(persistConfigRecoOnType, RecoOnTypeReducer),
 });
 
