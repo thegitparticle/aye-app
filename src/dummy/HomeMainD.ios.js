@@ -14,6 +14,8 @@ import messaging from '@react-native-firebase/messaging';
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+var state_here = {};
+
 function HomeMainD({dispatch, navigation}) {
   const [index, setIndex] = useState(0);
   const [routes] = useState([

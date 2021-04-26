@@ -23,7 +23,11 @@ function LiveClubs(props) {
   const navigation = useNavigation();
 
   return (
-    <ScrollView style={styles.ScrollViewStyle}>
+    <ScrollView
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{
+        marginBottom: live_clubs_data_here.length > 0 ? windowHeight * 0.05 : 0,
+      }}>
       {_.uniqBy(live_clubs_data_here, 'club_id').map((comp, index) => (
         <ListItem
           underlayColor="transparent"

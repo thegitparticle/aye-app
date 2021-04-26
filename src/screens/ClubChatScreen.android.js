@@ -36,13 +36,13 @@ import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
-import analytics from '@segment/analytics-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   ClassicHeader,
   ModernHeader,
 } from '@freakycoder/react-native-header-view';
 import {BlurView} from '@react-native-community/blur';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -92,23 +92,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
   var input_bar_flex = 0.15;
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
-  useEffect(() => {
-    async function SegmentCallHere() {
-      await analytics.screen('Club Chat Screen', {
-        club_id: clubID,
-      });
-    }
-    SegmentCallHere();
-  }, []);
-
-  /*
-  useEffect(() => {
-    console.log('dispatch effect working');
-  }, []);
-  */
-
+  const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
+    mixpanel.track('Opened Club Chat');
   }, []);
 
   //console.log(nowTimeStamp);

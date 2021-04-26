@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import LiveClubs from '../components/LiveClubs';
 import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 var state_here = {};
 
@@ -26,6 +27,7 @@ const windowHeight = Dimensions.get('window').height;
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
+  const mixpanel = useContext(MixpanelContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -33,10 +35,15 @@ function ClubsHomeD({dispatch}) {
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
       if (my_clubs.length > 0) {
         CheckOnGoing();
-        console.log('checking on going');
       }
     }, [dispatch]),
   );
+
+  useEffect(() => {
+    //mixpanel.identify('+919849167641');
+    var USER_ID = '12148';
+    //mixpanel.identify(USER_ID);
+  }, [mixpanel]);
 
   const [resolved, setResolved] = useState(false);
 
@@ -95,12 +102,13 @@ function ClubsHomeD({dispatch}) {
         </View>
       );
     }
+
     if (resolved) {
       if (dor_clubs.length === 0 && live_clubs.length === 0) {
         return <View />;
       } else {
         return (
-          <View style={{marginTop: 10}}>
+          <View>
             <RenderLive />
             <RenderDor />
           </View>

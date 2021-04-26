@@ -8,6 +8,7 @@ import {PubNubProvider} from 'pubnub-react';
 import analytics from '@segment/analytics-react-native';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
+import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
 
 var state_here = {};
 
@@ -40,11 +41,13 @@ function RootStack() {
     });
 
     return (
-      <PubNubProvider client={pubnub}>
-        <NavigationContainer style={{backgroundColor: '#050505'}}>
-          <HomeStack />
-        </NavigationContainer>
-      </PubNubProvider>
+      <MixpanelProvider>
+        <PubNubProvider client={pubnub}>
+          <NavigationContainer style={{backgroundColor: '#050505'}}>
+            <HomeStack />
+          </NavigationContainer>
+        </PubNubProvider>
+      </MixpanelProvider>
     );
   } else {
     return (
