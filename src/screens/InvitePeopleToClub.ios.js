@@ -14,13 +14,16 @@ import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 import SelectMultiple from 'react-native-select-multiple';
+import _ from 'lodash';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var mystatehere = {};
 
-function InvitePeopleToClub({dispatch, navigation}) {
+function InvitePeopleToClub({dispatch, navigation, route}) {
+  const {club_id} = route.params;
   const [addedMemberList, setAddedMemberList] = useState([]);
 
   useEffect(() => {
@@ -110,6 +113,34 @@ function InvitePeopleToClub({dispatch, navigation}) {
     }
   }
 
+  function AddContactsToClubServerWork(contacts_list, club_id) {
+    // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
+    // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
+
+    if (contacts_list.length > 0) {
+      _.forEach(contacts_list, function (value) {
+        axios
+          .get(
+            'https://apisayepirates.life/api/add_invited_user/' +
+              value +
+              '/' +
+              String(club_id) +
+              '/',
+          )
+          .catch(err => console.log(err));
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/send_invite_via_sms' +
+              value +
+              '/' +
+              String(mystatehere.MyProfileReducer.myprofile.user.id) +
+              '/',
+          )
+          .catch(err => console.log(err));
+      });
+    }
+  }
+
   return (
     <View style={styles.overall_container}>
       <Header
@@ -137,7 +168,7 @@ function InvitePeopleToClub({dispatch, navigation}) {
         buttonStyle={styles.NextButton}
         titleStyle={styles.NextButtonLabel}
         containerStyle={styles.NextButtonContainer}
-        onPress={() => navigation.goBack()}
+        onPress={() => AddContactsToClubServerWork(AddFriendsList, club_id)}
       />
     </View>
   );

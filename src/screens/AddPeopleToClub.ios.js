@@ -114,11 +114,10 @@ function AddPeopleToClub({dispatch, navigation, route}) {
               String(club_id),
           )
           .then(() => console.log('sent'))
-          .then(() => {
-            navigation.goBack();
-          })
+
           .catch(err => console.log(err));
       }
+      navigation.goBack();
     } else {
       navigation.goBack();
     }

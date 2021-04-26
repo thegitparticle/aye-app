@@ -1,21 +1,25 @@
 import {ADD_MYCIRCLE} from './types';
 import axios from 'axios';
 
-export const GetMyCircle = () => {
-  return (dispatch) => {
+export const GetMyCircle = user_id => {
+  return dispatch => {
     var res = [];
-
+    console.log(user_id);
     axios
-      .get('https://run.mocky.io/v3/2e42d964-52e7-4288-a812-9b9170f1d323')
-      .then((response) => (res = response.data))
-      //.then(() => console.log(JSON.parse(res)))
+      .get(
+        'https://apisayepirates.life/api/users/fetch_friends_list/' +
+          String(user_id) +
+          '/',
+      )
+      .then(response => (res = response.data))
+      .then(() => console.log(res))
       .then(() =>
         dispatch({
           type: ADD_MYCIRCLE,
           payload: res,
         }),
       )
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };

@@ -18,6 +18,7 @@ import {GetMyCircle} from '../redux/MyCircleActions';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
+import _ from 'lodash';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -27,20 +28,20 @@ var mystatehere = {};
 function StartClub({dispatch, navigation}) {
   const [grabedContacts, setGrabedContacts] = useState();
 
-  const [showNameScreen, setShowNameScreen] = useState(false);
+  const [showNameScreen, setShowNameScreen] = useState('friends');
 
   async function GrabContacts() {
     const contacts_here = await Contacts.getAll();
     setGrabedContacts(contacts_here);
   }
   useEffect(() => {
-    dispatch(GetMyCircle());
+    dispatch(GetMyCircle(mystatehere.MyProfileReducer.myprofile.user.id));
     GrabContacts();
   }, [dispatch]);
 
   //console.log(grabedContacts);
 
-  var AddFriendsList = [mystatehere.MyProfileReducer.myprofile.user.id];
+  var AddFriendsList = [];
 
   function SelectCircleItem(id) {
     AddFriendsList.push(id);
@@ -195,37 +196,99 @@ function StartClub({dispatch, navigation}) {
     );
   }
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    {key: 'circle', title: 'CIRCLE'},
-    {key: 'contacts', title: 'CONTACTS'},
-  ]);
-
-  const renderScene = SceneMap({
-    circle: CircleNew,
-    contacts: ContactsNew,
-  });
-
-  const renderTabBar = props => (
-    <TabBar
-      {...props}
-      indicatorStyle={{backgroundColor: 'transparent'}}
-      style={styles.TabBarStyles}
-      labelStyle={styles.TabBarLabel}
-    />
-  );
-
   const [finalAddFriends, setFinalAddFriends] = useState([]);
 
   const [finalAddContacts, setFinalAddContacts] = useState([]);
 
-  function HandleNextButton() {
-    if (AddContactsList.length > 0 || AddFriendsList.length > 1) {
-      setFinalAddFriends(AddFriendsList);
-      setFinalAddContacts(AddContactsList);
-      setShowNameScreen(true);
-    } else {
-      navigation.goBack();
+  function HandleNextButtonCircle() {
+    setFinalAddFriends(AddFriendsList);
+    setShowNameScreen('contacts');
+  }
+
+  function HandleNextButtonContacts() {
+    setFinalAddContacts(AddContactsList);
+    setShowNameScreen('name');
+  }
+
+  function FriendsChooseScreen() {
+    return (
+      <View style={{flex: 1, marginVertical: 10}}>
+        <CircleNew />
+        <Button
+          icon={
+            <Icon name="arrow-right" size={25} color="white" type="feather" />
+          }
+          size={25}
+          buttonStyle={styles.NextButton}
+          titleStyle={styles.NextButtonLabel}
+          containerStyle={styles.NextButtonContainer}
+          onPress={() => HandleNextButtonCircle()}
+        />
+      </View>
+    );
+  }
+
+  function ContactsChooseScreen() {
+    return (
+      <View style={{flex: 1, marginVertical: 10}}>
+        <ContactsNew />
+        <Button
+          icon={
+            <Icon name="arrow-right" size={25} color="white" type="feather" />
+          }
+          size={25}
+          buttonStyle={styles.NextButton}
+          titleStyle={styles.NextButtonLabel}
+          containerStyle={styles.NextButtonContainer}
+          onPress={() => HandleNextButtonContacts()}
+        />
+      </View>
+    );
+  }
+
+  function AddFriendsToClubServerWork(friends_list, club_id) {
+    // https://apisayepirates.life/api/users/add_users_to_club/<int:user_id>/<int:club_id>/
+
+    if (friends_list.length > 0) {
+      _.forEach(friends_list, function (value) {
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/add_users_to_club/' +
+              String(value) +
+              '/' +
+              String(club_id) +
+              '/',
+          )
+          .catch(err => console.log(err));
+      });
+    }
+  }
+
+  function AddContactsToClubServerWork(contacts_list, club_id) {
+    // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
+    // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
+
+    if (contacts_list.length > 0) {
+      _.forEach(contacts_list, function (value) {
+        axios
+          .get(
+            'https://apisayepirates.life/api/add_invited_user/' +
+              value +
+              '/' +
+              String(club_id) +
+              '/',
+          )
+          .catch(err => console.log(err));
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/send_invite_via_sms' +
+              value +
+              '/' +
+              String(mystatehere.MyProfileReducer.myprofile.user.id) +
+              '/',
+          )
+          .catch(err => console.log(err));
+      });
     }
   }
 
@@ -235,27 +298,33 @@ function StartClub({dispatch, navigation}) {
     console.log(finalAddContacts);
 
     function HandleStartClubButtonPress() {
-      if (clubName !== '') {
-        var config = {
-          method: 'post',
-          url: 'https://apisayepirates.life/api/clubs/create_club/',
-          headers: {'content-type': 'application/json'},
-          data: {
-            club_name: clubName,
-            list1: finalAddFriends,
-            //list2: finalAddContacts,
-            list2: [919999988888],
-            admin_leader: mystatehere.MyProfileReducer.myprofile.user.id,
-          },
-        };
+      if (clubName.length > 3) {
+        if (finalAddFriends.length > 0 || finalAddContacts.length > 0) {
+          var config = {
+            method: 'post',
+            url: 'https://apisayepirates.life/api/clubs/create_club/',
+            headers: {'content-type': 'application/json'},
+            data: {
+              name: clubName,
+              members: mystatehere.MyProfileReducer.myprofile.user.id,
+              admin_leader: mystatehere.MyProfileReducer.myprofile.user.id,
+            },
+          };
 
-        axios(config)
-          .then(response => console.log(response))
-          .then(() => navigation.goBack())
+          axios(config)
+            .then(response => {
+              AddFriendsToClubServerWork(finalAddFriends, response.club_id);
+              AddContactsToClubServerWork(finalAddContacts, response.club_id);
+            })
+            .then(() => navigation.goBack())
 
-          .catch(error => console.log(error));
+            .catch(error => console.log(error));
+        } else {
+          setShowNameScreen('friends');
+        }
       }
     }
+
     return (
       <View style={styles.containerview_name_input}>
         <TextInput
@@ -276,32 +345,16 @@ function StartClub({dispatch, navigation}) {
     );
   }
 
-  const TabFinalView = () => (
-    <View style={{flex: 1, marginVertical: 10}}>
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-        onIndexChange={setIndex}
-        //initialLayout={initialLayout}
-      />
-      <Button
-        icon={
-          <Icon name="arrow-right" size={25} color="white" type="feather" />
-        }
-        size={25}
-        buttonStyle={styles.NextButton}
-        titleStyle={styles.NextButtonLabel}
-        containerStyle={styles.NextButtonContainer}
-        onPress={() => HandleNextButton()}
-      />
-    </View>
-  );
-
-  if (!showNameScreen) {
+  if (showNameScreen === 'friends') {
     return (
       <SafeAreaView style={styles.containerview}>
-        <TabFinalView />
+        <FriendsChooseScreen />
+      </SafeAreaView>
+    );
+  } else if (showNameScreen === 'contacts') {
+    return (
+      <SafeAreaView style={styles.containerview}>
+        <ContactsChooseScreen />
       </SafeAreaView>
     );
   } else {
