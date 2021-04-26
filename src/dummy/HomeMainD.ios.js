@@ -218,6 +218,8 @@ const styles = StyleSheet.create({
   },
   tab_bar: {
     backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
     color: '#000',
     height: 60,
     justifyContent: 'center',

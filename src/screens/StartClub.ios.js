@@ -30,12 +30,6 @@ function StartClub({dispatch, navigation}) {
   const [showNameScreen, setShowNameScreen] = useState(false);
 
   async function GrabContacts() {
-    /*
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-      title: 'Contacts',
-      message: 'find friends from your contacts to invite them onto your club!',
-    });
-*/
     const contacts_here = await Contacts.getAll();
     setGrabedContacts(contacts_here);
   }

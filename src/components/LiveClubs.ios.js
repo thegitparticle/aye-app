@@ -11,6 +11,7 @@ import LiveClubComponent from './LiveClubComponent';
 import {ClubDummyData} from '../dummy/ClubDummyData';
 import {ListItem, Badge, Icon} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import _ from 'lodash';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -23,7 +24,7 @@ function LiveClubs(props) {
 
   return (
     <ScrollView style={styles.ScrollViewStyle}>
-      {live_clubs_data_here.map((comp, index) => (
+      {_.uniqBy(live_clubs_data_here, 'club_id').map((comp, index) => (
         <ListItem
           underlayColor="transparent"
           containerStyle={
