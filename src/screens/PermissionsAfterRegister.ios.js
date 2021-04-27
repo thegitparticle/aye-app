@@ -20,12 +20,12 @@ function PermissionsAfterRegister({dispatch, route}) {
     const data = new FormData();
 
     data.append('contact_list', contacts_here);
+    data.append('country_code', 'IN');
     console.log(contacts_here);
 
     var config = {
       method: 'put',
-      url:
-        'https://9fafe520-9e34-4eea-8dba-54e62348f864.mock.pstmn.io/contacts_list',
+      url: 'https://apisayepirates.life/api/users/post_contacts_to_server/4/',
       data: data,
     };
     axios(config)

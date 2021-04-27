@@ -33,7 +33,24 @@ function StartClub({dispatch, navigation}) {
   async function GrabContacts() {
     const contacts_here = await Contacts.getAll();
     setGrabedContacts(contacts_here);
-    console.log(contacts_here);
+
+    //const data = new FormData();
+
+    var data2 = {};
+    data2.country_code = 'IN';
+    data2.contacts_list = contacts_here;
+
+    //data.append('contact_list', contacts_here);
+    //data.append('country_code', 'IN');
+
+    var config = {
+      method: 'put',
+      url: 'https://apisayepirates.life/api/users/post_contacts_to_server/4/',
+      data: data2,
+    };
+    axios(config)
+      //.then(() => dispatch(GetMyProfile(phone)))
+      .catch(err => console.log(err));
   }
   useEffect(() => {
     dispatch(GetMyCircle(mystatehere.MyProfileReducer.myprofile.user.id));
