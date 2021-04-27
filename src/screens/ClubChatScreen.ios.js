@@ -70,7 +70,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     //channelOnGoing,
     //channelEndTime,
     //channelStartTime,
-    livePeople,
+    //livePeople,
   } = route.params;
   const [channelsHere] = useState([channelIdHere]);
 
@@ -85,7 +85,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const this_channel_string = channelsHere[0];
   const [messages, addMessage] = useState([]);
   //console.log(messages);
-  const [liveWho, setLiveWho] = useState(livePeople);
+  const [liveWho, setLiveWho] = useState([]);
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
 
@@ -158,6 +158,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }
 
   function CenterHeaderComponent() {
+    console.log(liveWho);
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
@@ -655,6 +656,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   const handleHereNowResponse = event => {
+    function InternalHandle(res) {
+      if (res) {
+        console.log(res);
+        var people_here = res.channels[channelIdHere].occupants;
+        console.log(people_here);
+        setLiveWho(people_here);
+      }
+    }
     pubnub.hereNow(
       {
         channels: [channelIdHere],
@@ -662,17 +671,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
         includeState: true,
       },
       (status, response) => {
-        internalHandle(response);
+        console.log(status);
+        InternalHandle(response);
       },
     );
-    function internalHandle(res) {
-      if (res) {
-        var people_here = res.channels[channelIdHere].occupants;
-
-        setLiveWho(people_here);
-      }
-    }
   };
+
+  useEffect(() => {
+    handleHereNowResponse();
+  }, []);
 
   useEffect(() => {
     pubnub.subscribe({channels: channelsHere});
@@ -711,7 +718,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       );
     }
     pubnub.addListener({message: handleMessage});
-    //pubnub.addListener({presence: handleHereNowResponse});
+    pubnub.addListener({presence: handleHereNowResponse});
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 

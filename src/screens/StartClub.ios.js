@@ -33,6 +33,7 @@ function StartClub({dispatch, navigation}) {
   async function GrabContacts() {
     const contacts_here = await Contacts.getAll();
     setGrabedContacts(contacts_here);
+    console.log(contacts_here);
   }
   useEffect(() => {
     dispatch(GetMyCircle(mystatehere.MyProfileReducer.myprofile.user.id));
