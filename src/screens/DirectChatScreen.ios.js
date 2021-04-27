@@ -62,15 +62,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const {
     otherNameHere,
     directIdHere,
-    channelOnGoing,
-    channelEndTime,
-    channelStartTime,
+    //channelOnGoing,
+    //channelEndTime,
+    //channelStartTime,
   } = route.params;
   const [channelsHere] = useState([directIdHere]);
 
-  //const channelOnGoing = true;
-  //const channelStartTime = 1619090003;
-  //const channelEndTime = 1619133203;
+  const channelOnGoing = true;
+  const channelStartTime = 1619509825;
+  const channelEndTime = 1619553025;
 
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
@@ -629,8 +629,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const handleMessage = event => {
     if (messages.includes(event) === false) {
-      //addMessage(messages => [...messages, event]);
-      addMessage(messages.concat(event));
+      addMessage(messages => [...messages, event]);
+      //addMessage(messages.concat(event));
     } else {
       addMessage(messages);
     }
@@ -679,7 +679,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: channelEndTime + '0000000',
+          end: nowTimeStamp + '0000',
           start: channelStartTime + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
@@ -720,7 +720,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             onContentSizeChange={() =>
               scrollView.current.scrollToEnd({animated: true})
             }>
-            {messages.map((message, index) => (
+            {_.uniqBy(messages, 'timetoken').map((message, index) => (
               <ShowMessage Message={message} />
             ))}
           </ScrollView>
@@ -738,7 +738,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               onContentSizeChange={() =>
                 scrollView.current.scrollToEnd({animated: true})
               }>
-              {messages.map((message, index) => (
+              {_.uniqBy(messages, 'timetoken').map((message, index) => (
                 <ShowMessage Message={message} />
               ))}
             </ScrollView>
@@ -747,7 +747,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           //console.log(old_messages.channels);
           //console.log('yes old messages');
           //console.log(old_messages.channels[channelIdHere] + 'map array');
-          console.log('old messages are there');
+          //console.log('old messages are there');
           return (
             <ScrollView
               style={styles.body_scroll_view}
@@ -761,7 +761,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 <ShowMessageOld Message={item} />
                 //<Text>{item.message}</Text>
               ))}
-              {messages.map((message, index) => (
+              {_.uniqBy(messages, 'timetoken').map((message, index) => (
                 <ShowMessage Message={message} />
               ))}
             </ScrollView>
