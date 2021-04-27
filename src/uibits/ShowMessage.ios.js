@@ -23,7 +23,7 @@ const windowHeight = Dimensions.get('window').height;
       */
 
 function ShowMessage(props) {
-  //console.log(props.Message);
+  //console.log('xxx-show');
   if (props.Message.userMetadata.type === 'a') {
     // console.log(props.Message);
 

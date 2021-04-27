@@ -43,6 +43,7 @@ import {
 } from '@freakycoder/react-native-header-view';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import _ from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -74,8 +75,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [channelsHere] = useState([channelIdHere]);
 
   const channelOnGoing = true;
-  const channelStartTime = 1619090003;
-  const channelEndTime = 1619235203;
+
+  //const channelStartTime = 1619090003;
+  //const channelEndTime = 1619235203;
+  const channelStartTime = 1619509825;
+  const channelEndTime = 1619553025;
 
   //console.log(livePeople + 'live people');
   const this_channel_string = channelsHere[0];
@@ -84,6 +88,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [liveWho, setLiveWho] = useState(livePeople);
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
+
   const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
   //console.log(old_messages.channels[this_channel_string] + 'old messages');
@@ -642,9 +647,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const handleMessage = event => {
     if (messages.includes(event) === false) {
-      //addMessage(messages => [...messages, event]);
-      addMessage(messages.concat(event));
-      console.log(messages);
+      addMessage(messages => [...messages, event]);
+      //addMessage(messages.concat([event]));
     } else {
       addMessage(messages);
     }
@@ -689,11 +693,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       );
     } else {
+      //console.log(nowTimeStamp);
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: channelEndTime + '0000000',
+          end: nowTimeStamp + '0000',
           start: channelStartTime + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
@@ -735,14 +740,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
             onContentSizeChange={() =>
               scrollView.current.scrollToEnd({animated: true})
             }>
-            {messages.map((message, index) => (
+            {_.uniqBy(messages, 'timetoken').map((message, index) => (
               <ShowMessage Message={message} />
             ))}
           </ScrollView>
         );
       } else {
         if (Object.entries(old_messages.channels).length === 0) {
-          console.log('no old messages');
+          //console.log('no old messages');
           //console.log(messages);
 
           return (
@@ -754,16 +759,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
               onContentSizeChange={() =>
                 scrollView.current.scrollToEnd({animated: true})
               }>
-              {messages.map((message, index) => (
+              {_.uniqBy(messages, 'timetoken').map((message, index) => (
                 <ShowMessage Message={message} />
               ))}
             </ScrollView>
           );
         } else {
-          //console.log(old_messages.channels);
+          var x_here = old_messages.channels[channelIdHere];
+          //console.log(x_here.length);
           //console.log('yes old messages');
           //console.log(old_messages.channels[channelIdHere] + 'map array');
-          console.log('old messages are there');
+          //console.log(messages);
+          //console.log('old messages are there');
           return (
             <ScrollView
               style={styles.body_scroll_view}
@@ -777,7 +784,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 <ShowMessageOld Message={item} />
                 //<Text>{item.message}</Text>
               ))}
-              {messages.map((message, index) => (
+              {_.uniqBy(messages, 'timetoken').map((message, index) => (
                 <ShowMessage Message={message} />
               ))}
             </ScrollView>
@@ -1431,7 +1438,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }, [dispatch, gifsSearch]);
 
   function RenderTrendingGifs(item) {
-    console.log(item);
     return (
       <Pressable
         style={{margin: 3}}
