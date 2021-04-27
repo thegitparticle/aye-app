@@ -46,15 +46,6 @@ function RootStack() {
       //logVerbosity: true,
     });
 
-    pubnub.objects.setUUIDMetadata({
-      data: {
-        name: state_here.MyProfileReducer.myprofile.user.full_name,
-        custom: {
-          display_pic: state_here.MyProfileReducer.myprofile.image,
-        },
-      },
-    });
-
     const [mixpanel, setMixpanel] = useState();
     const initMixpanel = async () => {
       const initializedMixpanel = await Mixpanel.init(
@@ -68,6 +59,14 @@ function RootStack() {
     };
 
     useEffect(() => {
+      pubnub.objects.setUUIDMetadata({
+        data: {
+          name: state_here.MyProfileReducer.myprofile.user.full_name,
+          custom: {
+            display_pic: state_here.MyProfileReducer.myprofile.image,
+          },
+        },
+      });
       initMixpanel();
     }, []);
 

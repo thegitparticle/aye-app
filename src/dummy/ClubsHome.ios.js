@@ -34,7 +34,7 @@ function ClubsHomeD({dispatch}) {
       if (my_clubs.length > 0) {
         CheckOnGoing();
       }
-    }, [dispatch, my_clubs]),
+    }, [dispatch, my_clubs.length]),
   );
 
   const [resolved, setResolved] = useState(false);

@@ -913,20 +913,22 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
       var res = [];
 
-      axios
-        .get(
-          'https://apisayepirates.life/api/users/recommend_images/' +
-            String(state_here.MyProfileReducer.myprofile.user.id) +
-            '/' +
-            typevalue,
-        )
-        .then(response => (res = response.data))
-        .then(() => setRec(res[0]))
-        .catch(err => {
-          console.log(err);
-        });
-
       if (keyboardStatus) {
+        useEffect(() => {
+          axios
+            .get(
+              'https://apisayepirates.life/api/users/recommend_images/' +
+                String(state_here.MyProfileReducer.myprofile.user.id) +
+                '/' +
+                typevalue,
+            )
+            .then(response => (res = response.data))
+            .then(() => setRec(res[0]))
+            .catch(err => {
+              console.log(err);
+            });
+        }, [typevalue]);
+
         return (
           <ScrollView
             showsHorizontalScrollIndicator={false}
