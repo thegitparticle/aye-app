@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   ScrollView,
   Text,
@@ -29,6 +29,7 @@ import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {BlurView} from '@react-native-community/blur';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -49,14 +50,12 @@ function ClubHub({dispatch, navigation, route}) {
 
   const [memberChanges, setMemberChanges] = useState(false);
 
-  /*
+  const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
-    dispatch(GetClubHubDetails(club_id));
-  }, [dispatch]);
-*/
-  var res = [];
+    mixpanel.track('Opened Club Hub');
+  }, []);
 
-  console.log('https://apisayepirates.life/api/clubs/' + String(club_id));
+  var res = [];
 
   useEffect(() => {
     axios

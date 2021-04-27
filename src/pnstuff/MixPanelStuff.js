@@ -3,6 +3,13 @@ import {Mixpanel} from 'mixpanel-react-native';
 
 export const MixpanelContext = React.createContext();
 
+export const MixpanelProvider = MixpanelContext.Provider;
+
+export const MixpanelConsumer = MixpanelContext.Consumer;
+
+export default MixpanelContext;
+
+/*
 export const MixpanelProvider = ({children}) => {
   const [mixpanel, setMixpanel] = React.useState(null);
 
@@ -12,6 +19,8 @@ export const MixpanelProvider = ({children}) => {
         '3e0fa58ece380382cd406509554aef3b',
       );
       setMixpanel(initializedMixpanel);
+      mixpanel.identify('dummy_user_test');
+      //mixpanel.track('init done of mixpanel');
     };
 
     initMixpanel();
@@ -23,3 +32,4 @@ export const MixpanelProvider = ({children}) => {
     </MixpanelContext.Provider>
   );
 };
+*/

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   ScrollView,
   View,
@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import {createIconSetFromFontello} from 'react-native-vector-icons';
 import FastImage from 'react-native-fast-image';
-import analytics from '@segment/analytics-react-native';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import {BlurView} from '@react-native-community/blur';
 
 const header_color = 'transparent';
@@ -38,13 +38,9 @@ function DirectFramesList({dispatch, navigation, route}) {
   const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
 
+  const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
-    async function SegmentCallHere() {
-      await analytics.screen('Direct Frames Screen', {
-        direct_id: direct_id,
-      });
-    }
-    SegmentCallHere();
+    mixpanel.track('Opened Direct Frames List');
   }, []);
 
   function LeftHeaderComponent() {

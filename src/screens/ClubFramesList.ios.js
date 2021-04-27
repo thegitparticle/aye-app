@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   ScrollView,
   View,
@@ -16,6 +16,7 @@ import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 import analytics from '@segment/analytics-react-native';
 import {BlurView} from '@react-native-community/blur';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -35,6 +36,11 @@ function ClubFramesList({dispatch, navigation, route}) {
   const [date, setDate] = useState(); //today's date
   const [currentyear, setCurrentYear] = useState(); //num value of rendering year
   const [thisyear, setThisYear] = useState();
+
+  const mixpanel = useContext(MixpanelContext);
+  useEffect(() => {
+    mixpanel.track('Opened Club Frames List');
+  }, []);
 
   function LeftHeaderComponent() {
     return (

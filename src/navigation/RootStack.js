@@ -9,6 +9,7 @@ import analytics from '@segment/analytics-react-native';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
+import {Mixpanel} from 'mixpanel-react-native';
 
 var state_here = {};
 
@@ -20,6 +21,20 @@ function RootStack() {
 
     return unsubscribe;
   }, []);
+  /*
+  useEffect(() => {
+    const initMixpanel = async () => {
+      const initializedMixpanel = await Mixpanel.init(
+        '3e0fa58ece380382cd406509554aef3b',
+      );
+      setMixpanel(initializedMixpanel);
+
+      //mixpanel.track('init done of mixpanel');
+    };
+
+    initMixpanel();
+  }, []);
+  */
 
   var t_or_f = state_here.AuthStateReducer.logged_in_or_not;
 
@@ -40,8 +55,24 @@ function RootStack() {
       },
     });
 
+    const [mixpanel, setMixpanel] = useState();
+    const initMixpanel = async () => {
+      const initializedMixpanel = await Mixpanel.init(
+        '3e0fa58ece380382cd406509554aef3b',
+      );
+      setMixpanel(initializedMixpanel);
+      mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
+      console.log('setting mixpanel');
+
+      //mixpanel.track('init done of mixpanel');
+    };
+
+    useEffect(() => {
+      initMixpanel();
+    }, []);
+
     return (
-      <MixpanelProvider>
+      <MixpanelProvider value={mixpanel}>
         <PubNubProvider client={pubnub}>
           <NavigationContainer style={{backgroundColor: '#050505'}}>
             <HomeStack />

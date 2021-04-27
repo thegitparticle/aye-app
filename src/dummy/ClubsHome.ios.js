@@ -17,7 +17,6 @@ import LiveClubs from '../components/LiveClubs';
 import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
-import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 var state_here = {};
 
@@ -27,7 +26,6 @@ const windowHeight = Dimensions.get('window').height;
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
-  const mixpanel = useContext(MixpanelContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -38,12 +36,6 @@ function ClubsHomeD({dispatch}) {
       }
     }, [dispatch]),
   );
-
-  useEffect(() => {
-    //mixpanel.identify('+919849167641');
-    var USER_ID = '12148';
-    //mixpanel.identify(USER_ID);
-  }, [mixpanel]);
 
   const [resolved, setResolved] = useState(false);
 
