@@ -25,12 +25,14 @@ function DirectsList({dispatch, navigation}) {
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
 
+  const user_id_here = state_here.MyProfileReducer.myprofile.user.id;
+
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(
-        GetDirectsList(pubnub, state_here.MyProfileReducer.myprofile.user.id),
-      );
-    }, [dispatch]),
+      if (user_id_here > 0) {
+        dispatch(GetDirectsList(pubnub, user_id_here));
+      }
+    }, [dispatch, user_id_here]),
   );
 
   function RenderItem(props) {

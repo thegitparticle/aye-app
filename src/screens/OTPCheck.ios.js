@@ -43,11 +43,6 @@ function OTPCheck({route, navigation, dispatch}) {
       },
     };
 
-    const timeout = setTimeout(() => {
-      console.log('timed out');
-      setShowSpinner(false);
-    }, 5000);
-
     axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
 
@@ -61,7 +56,7 @@ function OTPCheck({route, navigation, dispatch}) {
         );
       })
       */
-      //.then(() => timeout())
+      .then(() => setShowSpinner(false))
       .then(() => dispatch({type: LOGIN}))
       .then(() => console.log('login pass success'))
       .catch(() => toggleOverlay());

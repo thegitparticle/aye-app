@@ -61,8 +61,8 @@ function RootStack() {
         '3e0fa58ece380382cd406509554aef3b',
       );
       setMixpanel(initializedMixpanel);
+      console.log(String(state_here.MyProfileReducer.myprofile.user.id));
       mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
-      console.log('setting mixpanel');
 
       //mixpanel.track('init done of mixpanel');
     };
