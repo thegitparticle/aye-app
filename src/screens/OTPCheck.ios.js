@@ -17,7 +17,7 @@ import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
-import analytics from '@segment/analytics-react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -26,6 +26,7 @@ function OTPCheck({route, navigation, dispatch}) {
   const [otp, setOTP] = useState('');
   const [overlayVisible, setOverlayVisible] = useState(false);
   const {phone} = route.params;
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
@@ -42,23 +43,15 @@ function OTPCheck({route, navigation, dispatch}) {
       },
     };
 
-    async function RunOnLog(phone_number) {
-      await analytics.setup('vlkm1h2s27bCnL8EBDWFkFoQReJOxT7R', {
-        // Record screen views automatically!
-        // Record certain application events automatically!
-        trackAppLifecycleEvents: true,
-      });
-
-      await analytics.identify(JSON.stringify(phone_number));
-
-      console.log('running things on log');
-    }
+    const timeout = setTimeout(() => {
+      console.log('timed out');
+      setShowSpinner(false);
+    }, 5000);
 
     axios(config)
-      .then(response => console.log(response.data))
-
       .then(() => dispatch(GetMyProfile(phone)))
-      .then(() => console.log('get profile success'))
+
+      /*
       .then(() => {
         return axios.get(
           'https://apisayepirates.life/api/users/update_otp_code/' +
@@ -67,8 +60,9 @@ function OTPCheck({route, navigation, dispatch}) {
             phone,
         );
       })
+      */
+      //.then(() => timeout())
       .then(() => dispatch({type: LOGIN}))
-      .then(() => RunOnLog(phone))
       .then(() => console.log('login pass success'))
       .catch(() => toggleOverlay());
   }
@@ -91,6 +85,13 @@ function OTPCheck({route, navigation, dispatch}) {
       />
       <View style={styles.body_view}>
         <Text style={styles.text}>one time password</Text>
+        <Spinner
+          visible={showSpinner}
+          //textContent={'Loading...'}
+          //textStyle={styles.spinnerTextStyle}
+          indicatorStyle={styles.indicator_style}
+          color="#50E3C2"
+        />
         <View>
           <OTPInput
             value={otp}
@@ -105,7 +106,12 @@ function OTPCheck({route, navigation, dispatch}) {
           />
         </View>
 
-        <Pressable style={styles.button_view} onPress={() => OnSubmit()}>
+        <Pressable
+          style={styles.button_view}
+          onPress={() => {
+            setShowSpinner(true);
+            OnSubmit();
+          }}>
           <SharedElement id="next_button_1">
             <IconlyNextIcon />
           </SharedElement>

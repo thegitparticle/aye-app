@@ -81,11 +81,29 @@ function RootStack() {
       </MixpanelProvider>
     );
   } else {
+    const [mixpanel, setMixpanel] = useState();
+    const initMixpanel = async () => {
+      const initializedMixpanel = await Mixpanel.init(
+        '3e0fa58ece380382cd406509554aef3b',
+      );
+      setMixpanel(initializedMixpanel);
+      mixpanel.track('auth stack');
+      console.log('setting mixpanel');
+
+      //mixpanel.track('init done of mixpanel');
+    };
+
+    useEffect(() => {
+      initMixpanel();
+    }, []);
+
     return (
       // eslint-disable-next-line react-native/no-inline-styles
-      <NavigationContainer style={{backgroundColor: '#050505'}}>
-        <AuthStack />
-      </NavigationContainer>
+      <MixpanelProvider value={mixpanel}>
+        <NavigationContainer style={{backgroundColor: '#050505'}}>
+          <AuthStack />
+        </NavigationContainer>
+      </MixpanelProvider>
     );
   }
 }
