@@ -233,7 +233,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				ED9B63B4E56B45DECC3B1C02 /* [CP] Embed Pods Frameworks */,
 				F115363DC5C360AB92DD6B8B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -256,7 +255,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				C6992ABF85150D6B524A914D /* [CP] Embed Pods Frameworks */,
 				84471DC2089566C29D6281FF /* [CP] Copy Pods Resources */,
 				3390C5898E6050FEA44E94C0 /* [CP-User] [RNFB] Core Configuration */,
 				728B05D31D61413CA4A9E28F /* Upload Debug Symbols to Sentry */,
@@ -413,40 +411,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toastgo/Pods-toastgo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C6992ABF85150D6B524A914D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo/Pods-toastgo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo/Pods-toastgo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toastgo/Pods-toastgo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ED9B63B4E56B45DECC3B1C02 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F115363DC5C360AB92DD6B8B /* [CP] Copy Pods Resources */ = {
@@ -638,6 +602,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

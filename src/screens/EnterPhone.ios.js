@@ -34,7 +34,7 @@ function EnterPhone({navigation}) {
           response.data.user_exists === 'True'
             ? 'OTPCheck'
             : 'SignUpDetailsInput',
-          {phone: value},
+          {phone: value, iso_code: country},
         ),
       )
       .then(() => setShowSpinner(false))

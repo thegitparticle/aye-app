@@ -25,7 +25,7 @@ const windowHeight = Dimensions.get('window').height;
 function OTPCheck({route, navigation, dispatch}) {
   const [otp, setOTP] = useState('');
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const {phone} = route.params;
+  const {phone, iso_code} = route.params;
   const [showSpinner, setShowSpinner] = useState(false);
 
   const toggleOverlay = () => {
@@ -33,6 +33,18 @@ function OTPCheck({route, navigation, dispatch}) {
   };
 
   function OnSubmit() {
+    const changeOTP = () => {
+      console.log(
+        'https://apisayepirates.life/api/users/update_otp_code/' +
+          otp +
+          '/' +
+          phone +
+          '/' +
+          iso_code.toUpperCase() +
+          '/',
+      );
+    };
+
     var config = {
       method: 'post',
       url: 'https://apisayepirates.life/api/auth/token/',
@@ -45,17 +57,9 @@ function OTPCheck({route, navigation, dispatch}) {
 
     axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
+      .then(() => console.log('profile called'))
+      //.then(() => changeOTP())
 
-      /*
-      .then(() => {
-        return axios.get(
-          'https://apisayepirates.life/api/users/update_otp_code/' +
-            otp +
-            '/' +
-            phone,
-        );
-      })
-      */
       .then(() => setShowSpinner(false))
       .then(() => dispatch({type: LOGIN}))
       .then(() => console.log('login pass success'))
