@@ -37,15 +37,20 @@ function StartClub({dispatch, navigation}) {
     //const data = new FormData();
 
     var data2 = {};
-    data2.country_code = 'IN';
-    data2.contacts_list = JSON.stringify(contacts_here);
+    //data2.country_code = 'IN';
+    //data2.contacts_list = JSON.stringify(contacts_here);
+    data2.contact_list = contacts_here;
+    data2.contact_list.push({country_code: 'IN'});
 
     //data.append('contact_list', contacts_here);
     //data.append('country_code', 'IN');
 
     var config = {
       method: 'put',
-      url: 'https://apisayepirates.life/api/users/post_contacts_to_server/4/',
+      url:
+        'https://apisayepirates.life/api/users/post_contacts_to_server/' +
+        String(mystatehere.MyProfileReducer.myprofile.user.id) +
+        '/',
       data: data2,
     };
     axios(config)

@@ -716,7 +716,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       );
     }
     pubnub.addListener({message: handleMessage});
-    pubnub.addListener({presence: handleHereNowResponse});
+    //pubnub.addListener({presence: handleHereNowResponse});
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
