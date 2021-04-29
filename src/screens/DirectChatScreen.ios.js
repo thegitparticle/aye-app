@@ -1769,6 +1769,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.8,
   },
   f_text: {
     fontFamily: 'GothamRounded-Book',
@@ -1818,6 +1819,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.8,
   },
   b_text: {
     fontFamily: 'GothamRounded-Book',
@@ -1843,6 +1845,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.8,
   },
   c_text: {
     fontFamily: 'GothamRounded-Book',
