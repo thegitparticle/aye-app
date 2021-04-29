@@ -85,12 +85,14 @@ function EnterPhone({navigation}) {
         <Pressable
           style={styles.button_view}
           onPress={() => {
-            SendOTP();
-            setShowSpinner(true);
-            console.log('tap working');
+            if (value.length > 7) {
+              SendOTP();
+              setShowSpinner(true);
+              console.log('tap working');
+            }
           }}>
           <SharedElement id="next_button_1">
-            <IconlyNextIcon />
+            <IconlyNextIcon Color="#eee" />
           </SharedElement>
         </Pressable>
       </View>

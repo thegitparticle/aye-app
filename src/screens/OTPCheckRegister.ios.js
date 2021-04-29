@@ -104,16 +104,30 @@ function OTPCheckRegister({navigation, dispatch, route}) {
             cellStyle={styles.otp_input_cell}
           />
         </View>
-        <Pressable
-          style={styles.button_view}
-          onPress={() => {
-            OnSubmit();
-            setShowSpinner(true);
-          }}>
-          <SharedElement id="next_button_1">
-            <IconlyNextIcon />
-          </SharedElement>
-        </Pressable>
+
+        <View style={styles.button_view}>
+          <Pressable
+            //style={styles.button_view}
+            onPress={() => {
+              if (otp.length === 4) {
+                setShowSpinner(true);
+                OnSubmit();
+              }
+            }}>
+            <SharedElement id="next_button_1">
+              <IconlyNextIcon Color="#eee" />
+            </SharedElement>
+          </Pressable>
+          <Pressable
+            style={{marginTop: 20}}
+            onPress={() =>
+              axios
+                .get('https://apisayepirates.life/api/users/send_otp/' + phone)
+                .catch(err => console.log(err))
+            }>
+            <Text style={styles.resend_button_text}>resend OTP</Text>
+          </Pressable>
+        </View>
       </View>
       <Overlay
         isVisible={overlayVisible}
@@ -142,6 +156,10 @@ OTPCheckRegister.sharedElements = route => {
 export default OTPCheckRegister;
 
 const styles = StyleSheet.create({
+  button_view: {
+    alignItems: 'center',
+  },
+
   indicator_style: {
     marginTop: -30,
   },

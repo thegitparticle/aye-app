@@ -106,16 +106,29 @@ function OTPCheck({route, navigation, dispatch}) {
           />
         </View>
 
-        <Pressable
-          style={styles.button_view}
-          onPress={() => {
-            setShowSpinner(true);
-            OnSubmit();
-          }}>
-          <SharedElement id="next_button_1">
-            <IconlyNextIcon />
-          </SharedElement>
-        </Pressable>
+        <View style={styles.button_view}>
+          <Pressable
+            //style={styles.button_view}
+            onPress={() => {
+              if (otp.length === 4) {
+                setShowSpinner(true);
+                OnSubmit();
+              }
+            }}>
+            <SharedElement id="next_button_1">
+              <IconlyNextIcon Color="#eee" />
+            </SharedElement>
+          </Pressable>
+          <Pressable
+            style={{marginTop: 20}}
+            onPress={() =>
+              axios
+                .get('https://apisayepirates.life/api/users/send_otp/' + phone)
+                .catch(err => console.log(err))
+            }>
+            <Text style={styles.resend_button_text}>resend OTP</Text>
+          </Pressable>
+        </View>
       </View>
       <Overlay
         isVisible={overlayVisible}
@@ -182,6 +195,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#050505',
     flex: 1,
   },
+
+  resend_button_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: 'indianred',
+  },
   text: {
     fontSize: 21,
     fontFamily: 'GothamRounded-Bold',
@@ -208,6 +227,9 @@ const styles = StyleSheet.create({
   },
   back_button_view: {
     flex: 0.05,
+  },
+  button_view: {
+    alignItems: 'center',
   },
   lottie_bg_view: {
     height: windowHeight * 0.7,

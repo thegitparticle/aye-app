@@ -98,11 +98,13 @@ function SignUpDetailsInput({route, navigation}) {
         <Pressable
           style={styles.button_view}
           onPress={() => {
-            OnSubmit();
-            setShowSpinner(true);
+            if (name.length > 3 && username.length > 3) {
+              OnSubmit();
+              setShowSpinner(true);
+            }
           }}>
           <SharedElement id="next_button_1">
-            <IconlyNextIcon />
+            <IconlyNextIcon Color="#eee" />
           </SharedElement>
         </Pressable>
       </View>
