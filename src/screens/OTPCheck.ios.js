@@ -33,18 +33,6 @@ function OTPCheck({route, navigation, dispatch}) {
   };
 
   function OnSubmit() {
-    const changeOTP = () => {
-      console.log(
-        'https://apisayepirates.life/api/users/update_otp_code/' +
-          otp +
-          '/' +
-          phone +
-          '/' +
-          iso_code.toUpperCase() +
-          '/',
-      );
-    };
-
     var config = {
       method: 'post',
       url: 'https://apisayepirates.life/api/auth/token/',
@@ -58,6 +46,19 @@ function OTPCheck({route, navigation, dispatch}) {
     axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
       .then(() => console.log('profile called'))
+      /*
+      .then(() => {
+        return axios.get(
+          'https://apisayepirates.life/api/users/update_otp_code/' +
+            otp +
+            '/' +
+            phone +
+            '/' +
+            iso_code.toUpperCase() +
+            '/',
+        );
+      })
+      */
       //.then(() => changeOTP())
 
       .then(() => setShowSpinner(false))

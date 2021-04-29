@@ -41,7 +41,7 @@ function StartClub({dispatch, navigation}) {
     //data2.contacts_list = JSON.stringify(contacts_here);
     data2.contact_list = contacts_here;
     data2.contact_list.push({country_code: 'IN'});
-
+    console.log(data2);
     //data.append('contact_list', contacts_here);
     //data.append('country_code', 'IN');
 
@@ -51,7 +51,7 @@ function StartClub({dispatch, navigation}) {
         'https://apisayepirates.life/api/users/post_contacts_to_server/' +
         String(mystatehere.MyProfileReducer.myprofile.user.id) +
         '/',
-      data: data2,
+      data: JSON.stringify(data2),
     };
     axios(config)
       //.then(() => dispatch(GetMyProfile(phone)))

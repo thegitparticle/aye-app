@@ -44,6 +44,7 @@ function ClubsHomeD({dispatch}) {
   const [live_clubs, setLiveClubs] = useState([]);
 
   function CheckOnGoing() {
+    setDorClubs([]);
     for (var i = 0; i < my_clubs.length; i++) {
       const club_here = my_clubs[i];
 
