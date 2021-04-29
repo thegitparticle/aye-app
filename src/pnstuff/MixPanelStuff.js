@@ -1,5 +1,5 @@
 import React from 'react';
-import {Mixpanel} from 'mixpanel-react-native';
+//import {Mixpanel} from 'mixpanel-react-native';
 
 export const MixpanelContext = React.createContext();
 

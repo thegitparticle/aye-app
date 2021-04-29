@@ -42,7 +42,7 @@ import {
   ModernHeader,
 } from '@freakycoder/react-native-header-view';
 import {BlurView} from '@react-native-community/blur';
-import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import _ from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
@@ -98,15 +98,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   /*
-  useEffect(() => {
-    console.log('dispatch effect working');
-  }, []);
-  */
+
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
     mixpanel.track('Opened Club Chat');
   }, []);
+  */
 
   //console.log(nowTimeStamp);
 

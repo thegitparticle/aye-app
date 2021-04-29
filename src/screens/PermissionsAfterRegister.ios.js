@@ -19,7 +19,7 @@ function PermissionsAfterRegister({dispatch, route}) {
     const contacts_here = await Contacts.getAllWithoutPhotos();
     const data = new FormData();
 
-    data.append('contact_list', contacts_here);
+    data.append('contact_list', JSON.stringify(contacts_here));
     data.append('country_code', 'IN');
     console.log(contacts_here);
 

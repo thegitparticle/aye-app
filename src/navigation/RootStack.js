@@ -9,7 +9,7 @@ import analytics from '@segment/analytics-react-native';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
-import {Mixpanel} from 'mixpanel-react-native';
+//import {Mixpanel} from 'mixpanel-react-native';
 
 var state_here = {};
 
@@ -46,6 +46,7 @@ function RootStack() {
       //logVerbosity: true,
     });
 
+    /*
     const [mixpanel, setMixpanel] = useState();
     const initMixpanel = async () => {
       const initializedMixpanel = await Mixpanel.init(
@@ -58,6 +59,15 @@ function RootStack() {
       //mixpanel.track('init done of mixpanel');
     };
 
+    <MixpanelProvider value={mixpanel}>
+        <PubNubProvider client={pubnub}>
+          <NavigationContainer style={{backgroundColor: '#050505'}}>
+            <HomeStack />
+          </NavigationContainer>
+        </PubNubProvider>
+      </MixpanelProvider>
+    */
+
     useEffect(() => {
       pubnub.objects.setUUIDMetadata({
         data: {
@@ -67,19 +77,18 @@ function RootStack() {
           },
         },
       });
-      initMixpanel();
+      //initMixpanel();
     }, []);
 
     return (
-      <MixpanelProvider value={mixpanel}>
-        <PubNubProvider client={pubnub}>
-          <NavigationContainer style={{backgroundColor: '#050505'}}>
-            <HomeStack />
-          </NavigationContainer>
-        </PubNubProvider>
-      </MixpanelProvider>
+      <PubNubProvider client={pubnub}>
+        <NavigationContainer style={{backgroundColor: '#050505'}}>
+          <HomeStack />
+        </NavigationContainer>
+      </PubNubProvider>
     );
   } else {
+    /*
     const [mixpanel, setMixpanel] = useState();
     const initMixpanel = async () => {
       const initializedMixpanel = await Mixpanel.init(
@@ -96,13 +105,24 @@ function RootStack() {
       initMixpanel();
     }, []);
 
-    return (
-      // eslint-disable-next-line react-native/no-inline-styles
       <MixpanelProvider value={mixpanel}>
         <NavigationContainer style={{backgroundColor: '#050505'}}>
           <AuthStack />
         </NavigationContainer>
       </MixpanelProvider>
+
+    */
+
+    useEffect(() => {
+      console.log('auth stack running');
+    }, []);
+
+    return (
+      // eslint-disable-next-line react-native/no-inline-styles
+
+      <NavigationContainer style={{backgroundColor: '#050505'}}>
+        <AuthStack />
+      </NavigationContainer>
     );
   }
 }

@@ -38,7 +38,7 @@ function StartClub({dispatch, navigation}) {
 
     var data2 = {};
     data2.country_code = 'IN';
-    data2.contacts_list = contacts_here;
+    data2.contacts_list = JSON.stringify(contacts_here);
 
     //data.append('contact_list', contacts_here);
     //data.append('country_code', 'IN');

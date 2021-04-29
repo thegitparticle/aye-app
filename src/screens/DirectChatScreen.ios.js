@@ -39,7 +39,7 @@ import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
 import analytics from '@segment/analytics-react-native';
 import {BlurView} from '@react-native-community/blur';
-import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -72,10 +72,14 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const channelStartTime = 1619509825;
   const channelEndTime = 1619553025;
 
+  /*
+
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
+
+  */
 
   const [messages, addMessage] = useState([]);
   //console.log(messages);

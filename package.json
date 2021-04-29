@@ -33,7 +33,6 @@
     "lodash": "^4.17.21",
     "lottie-ios": "3.1.8",
     "lottie-react-native": "^4.0.2",
-    "mixpanel-react-native": "^1.1.1",
     "pubnub": "^4.29.11",
     "pubnub-react": "^2.1.0",
     "react": "17.0.1",
