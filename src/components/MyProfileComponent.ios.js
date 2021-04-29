@@ -12,26 +12,30 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Avatar, Header, Icon} from 'react-native-elements';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function FirstBlock(props) {
+  const navigation = useNavigation();
   console.log(props.DPLink);
   return (
     <View style={styles.first_block_view}>
-      <FastImage
-        source={{
-          uri: props.DPLink,
-        }}
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          width: windowHeight * 0.15,
-          height: windowHeight * 0.15,
-          borderRadius: windowHeight * 0.075,
-          backgroundColor: '#05050510',
-        }}
-      />
+      <Pressable onPress={() => navigation.navigate('EditProfile')}>
+        <Avatar
+          source={{
+            uri: props.DPLink,
+          }}
+          size={windowHeight * 0.15}
+          rounded
+          // eslint-disable-next-line react-native/no-inline-styles
+          containerStyle={{
+            backgroundColor: '#05050510',
+          }}>
+          <Avatar.Accessory size={windowHeight * 0.03} rounded />
+        </Avatar>
+      </Pressable>
       <Text style={styles.first_view_name}>{props.Name}</Text>
       <Text style={styles.first_view_username}>{props.UserName}</Text>
       <View style={styles.frames_component_wrap}>

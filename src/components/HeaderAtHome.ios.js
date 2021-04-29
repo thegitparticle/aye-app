@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Dimensions, StyleSheet, Pressable} from 'react-native';
-import {Header, Divider} from 'react-native-elements';
+import {Header, Divider, Avatar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -28,17 +28,18 @@ function HeaderAtHome({dispatch}) {
 
   function HeaderRight() {
     return (
-      <View style={styles.header_right_view_wrap}>
-        <Pressable onPress={() => navigation.navigate('MyProfileModalScreens')}>
-          <FastImage
-            style={styles.header_right_image}
-            source={{
-              uri: state_here.MyProfileReducer.myprofile.image,
-              priority: FastImage.priority.normal,
-            }}
-          />
-        </Pressable>
-      </View>
+      <Pressable
+        onPress={() => navigation.navigate('MyProfileModalScreens')}
+        style={styles.header_right_view_wrap}>
+        <Avatar
+          rounded
+          containerStyle={styles.header_right_image}
+          size={45}
+          source={{
+            uri: state_here.MyProfileReducer.myprofile.image,
+          }}
+        />
+      </Pressable>
     );
   }
 
@@ -77,6 +78,12 @@ const styles = StyleSheet.create({
   header_right_view_wrap: {
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 10,
+    borderColor: 'indianred',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginHorizontal: 10,
   },
   header_left_image: {
     width: 40 * 1.37,
@@ -85,9 +92,6 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   header_right_image: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
     marginHorizontal: 10,
   },
   header_container: {

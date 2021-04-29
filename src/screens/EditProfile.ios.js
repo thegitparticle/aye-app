@@ -21,8 +21,10 @@ const windowWidth = Dimensions.get('window').width;
 var state_here = {};
 
 function EditProfile({navigation, dispatch}) {
+  const [showImagePicked, setShowImagePicked] = useState();
   useEffect(() => {
     dispatch(GetMyProfile(state_here.MyProfileReducer.myprofile.user.phone));
+    setShowImagePicked(state_here.MyProfileReducer.myprofile.image);
   }, [dispatch]);
 
   const profileupdateid = state_here.MyProfileReducer.myprofile.id;
@@ -80,6 +82,7 @@ function EditProfile({navigation, dispatch}) {
     }).then(image => {
       //console.log(image);
       setImagePicked(image.sourceURL);
+      setShowImagePicked(image.sourceURL);
       //setImagePicked(image.path);
       setImagePickedMime(image.mime);
       setImagePickedName(image.filename);
@@ -98,7 +101,7 @@ function EditProfile({navigation, dispatch}) {
           }}>
           <FastImage
             source={{
-              uri: state_here.MyProfileReducer.myprofile.image,
+              uri: showImagePicked,
             }}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{
