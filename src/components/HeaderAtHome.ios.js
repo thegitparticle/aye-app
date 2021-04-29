@@ -51,6 +51,7 @@ function HeaderAtHome({dispatch}) {
       <Header
         backgroundColor="#FFF"
         containerStyle={styles.header_container}
+        elevated={true}
         barStyle="dark-content">
         <HeaderLeft />
         <HeaderMiddle />
