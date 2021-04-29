@@ -11,7 +11,7 @@ import {
   Text,
   Pressable,
 } from 'react-native';
-import {ListItem, Button, Avatar, Icon} from 'react-native-elements';
+import {Divider, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 //import {getMyContacts} from '../redux/MyContactsActions';
@@ -19,6 +19,8 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import _ from 'lodash';
+import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
+import IconlyNextIcon from '../uibits/IconlyNextIcon';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -233,38 +235,52 @@ function StartClub({dispatch, navigation}) {
     setShowNameScreen('name');
   }
 
+  function HeaderTitleHere(props) {
+    return (
+      <View style={{width: windowWidth * 0.75}}>
+        <Text style={styles.header_title}>{props.screen}</Text>
+      </View>
+    );
+  }
+
   function FriendsChooseScreen() {
     return (
-      <View style={{flex: 1, marginVertical: 10}}>
-        <CircleNew />
-        <Button
-          icon={
-            <Icon name="arrow-right" size={25} color="white" type="feather" />
-          }
-          size={25}
-          buttonStyle={styles.NextButton}
-          titleStyle={styles.NextButtonLabel}
-          containerStyle={styles.NextButtonContainer}
-          onPress={() => HandleNextButtonCircle()}
+      <View style={{flex: 1}}>
+        <Header
+          leftComponent={<HeaderTitleHere screen="FRIENDS on AYE" />}
+          centerComponent={<View />}
+          rightComponent={<BackChevronDownIcon />}
+          backgroundColor="#fafafa"
+          containerStyle={styles.header_container}
         />
+        <Divider style={{backgroundColor: '#05050510'}} />
+        <CircleNew />
+        <Pressable
+          style={styles.button_view}
+          onPress={() => HandleNextButtonCircle()}>
+          <IconlyNextIcon Color="#3f9ffe" />
+        </Pressable>
       </View>
     );
   }
 
   function ContactsChooseScreen() {
     return (
-      <View style={{flex: 1, marginVertical: 10}}>
-        <ContactsNew />
-        <Button
-          icon={
-            <Icon name="arrow-right" size={25} color="white" type="feather" />
-          }
-          size={25}
-          buttonStyle={styles.NextButton}
-          titleStyle={styles.NextButtonLabel}
-          containerStyle={styles.NextButtonContainer}
-          onPress={() => HandleNextButtonContacts()}
+      <View style={{flex: 1}}>
+        <Header
+          leftComponent={<HeaderTitleHere screen="INVITE your CONTACTS" />}
+          centerComponent={<View />}
+          rightComponent={<BackChevronDownIcon />}
+          backgroundColor="#fafafa"
+          containerStyle={styles.header_container}
         />
+        <Divider style={{backgroundColor: '#05050510'}} />
+        <ContactsNew />
+        <Pressable
+          style={styles.button_view}
+          onPress={() => HandleNextButtonContacts()}>
+          <IconlyNextIcon Color="#3f9ffe" />
+        </Pressable>
       </View>
     );
   }
@@ -349,21 +365,31 @@ function StartClub({dispatch, navigation}) {
     }
 
     return (
-      <View style={styles.containerview_name_input}>
-        <TextInput
-          placeholder="Club Name"
-          placeholderTextColor="#bdc2d9"
-          style={styles.inputcontainerview_name_input}
-          textAlign="center"
-          maxLength={15}
-          onChangeText={text => setClubName(text)}
+      <View style={styles.name_input_container}>
+        <Header
+          leftComponent={<HeaderTitleHere screen="NAME your CLUB" />}
+          centerComponent={<View />}
+          rightComponent={<BackChevronDownIcon />}
+          backgroundColor="#fafafa"
+          containerStyle={styles.header_container}
         />
-        <Button
-          title="START"
-          buttonStyle={styles.startbutton_name_input}
-          titleStyle={styles.buttontitle_name_input}
-          onPress={() => HandleStartClubButtonPress()}
-        />
+        <Divider style={{backgroundColor: '#05050510'}} />
+        <View style={styles.containerview_name_input}>
+          <TextInput
+            placeholder="Club Name"
+            placeholderTextColor="#bdc2d9"
+            style={styles.inputcontainerview_name_input}
+            textAlign="center"
+            maxLength={15}
+            onChangeText={text => setClubName(text)}
+          />
+          <Button
+            title="START"
+            buttonStyle={styles.startbutton_name_input}
+            titleStyle={styles.buttontitle_name_input}
+            onPress={() => HandleStartClubButtonPress()}
+          />
+        </View>
       </View>
     );
   }
@@ -397,6 +423,20 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(StartClub);
 
 const styles = StyleSheet.create({
+  header_container: {},
+
+  header_title: {
+    fontFamily: 'GothamRounded-Bold',
+    fontSize: 21,
+    color: 'black',
+  },
+
+  button_view: {
+    position: 'absolute',
+    marginTop: windowHeight * 0.8,
+    alignSelf: 'center',
+  },
+
   circle_item_pressable_view: {
     flexDirection: 'row',
     marginHorizontal: 20,
@@ -447,9 +487,14 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * 0.05,
   },
 
-  containerview_name_input: {
+  name_input_full_view: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
+  },
+
+  containerview_name_input: {
+    height: windowHeight * 0.65,
+    backgroundColor: '#fafafa',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -477,7 +522,7 @@ const styles = StyleSheet.create({
     fontFamily: 'GothamRounded-Medium',
   },
   overallContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
     flex: 1,
   },
   TabBarStyles: {
@@ -487,7 +532,7 @@ const styles = StyleSheet.create({
   },
   TabBarLabel: {fontFamily: 'GothamRounded-Bold', fontSize: 15},
   containerview: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
     flex: 1,
   },
   ListItemContainer: {

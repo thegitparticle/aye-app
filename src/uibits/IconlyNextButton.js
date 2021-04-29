@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import {Button} from 'react-native-elements';
 import IconlyNextIcon from './IconlyNextIcon';
 
-function ButtonView() {
+function ButtonView(props) {
   return (
     <View
       style={{
@@ -16,7 +16,7 @@ function ButtonView() {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <IconlyNextIcon />
+      <IconlyNextIcon Color={props.Color} />
     </View>
   );
 }
@@ -24,6 +24,7 @@ function ButtonView() {
 export default function IconlyNextButton(props) {
   return (
     <Button
+      Color={props.Color}
       raised
       containerStyle={{width: 50, height: 50, borderRadius: 25}}
       buttonStyle={{

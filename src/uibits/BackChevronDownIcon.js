@@ -27,7 +27,13 @@ export default function BackChevronDownIcon(props) {
 
   return (
     <Button
-      containerStyle={{width: 50, height: 50, borderRadius: 25}}
+      containerStyle={{
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#fafafa',
+        marginTop: -20,
+      }}
       onPress={() => navigation.goBack()}
       ViewComponent={ButtonView}
     />

@@ -42,7 +42,7 @@ function WelcomeScreen({navigation}) {
           console.log('got pressed');
         }}>
         <SharedElement id="next_button_1">
-          <IconlyNextIcon />
+          <IconlyNextIcon Color="#eee" />
         </SharedElement>
       </Pressable>
     </View>
