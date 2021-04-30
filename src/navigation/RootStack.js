@@ -16,7 +16,7 @@ var state_here = {};
 function RootStack() {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log('A new FCM message arrived!');
     });
 
     return unsubscribe;

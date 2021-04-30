@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   phone_input: {
-    width: windowWidth * 0.7,
+    width: windowWidth * 0.75,
     backgroundColor: '#33333350',
     height: 70,
     borderRadius: 15,

@@ -803,6 +803,19 @@ function ClubChatScreen({navigation, dispatch, route}) {
     //console.log(startTime + 'start time sent here');
     var timeToken = dayjs().unix();
 
+    var new_frame_notif_payload = {
+      text: 'new frame started',
+      pn_gcm: {
+        topic: 'new_frame',
+        android: {
+          notification: {
+            title: {clubNameHere},
+            body: 'new frame started',
+          },
+        },
+      },
+    };
+
     if (messages.length === 0) {
       var config = {
         method: 'post',
@@ -817,7 +830,19 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       };
 
-      //axios(config).catch(error => console.log(error));
+      axios(config)
+        .then(
+          pubnub.publish(
+            {
+              channel: channelIdHere,
+              message: new_frame_notif_payload,
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          ),
+        )
+        .catch(error => console.log(error));
     } else {
     }
   }
