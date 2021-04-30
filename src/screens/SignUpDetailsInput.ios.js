@@ -26,6 +26,9 @@ function SignUpDetailsInput({route, navigation}) {
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
 
+  console.log(iso_code);
+  //console.log(iso_code.toUpperCase());
+
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };

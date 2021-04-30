@@ -7,7 +7,6 @@ import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import messaging from '@react-native-firebase/messaging';
-import analytics from '@segment/analytics-react-native';
 import {upperCase} from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
@@ -20,6 +19,7 @@ function PermissionsAfterRegister({dispatch, route}) {
 
   useEffect(() => {
     dispatch(GetMyProfile(phone));
+    GrabContacts();
   }, []);
 
   async function GrabContacts() {
@@ -27,7 +27,7 @@ function PermissionsAfterRegister({dispatch, route}) {
     var data2 = {};
     data2.contact_list = contacts_here;
     data2.contact_list.unshift({
-      country_code: iso_code.toUpperCase(),
+      country_code: 'IN',
     });
 
     var x1 = data2.contact_list;
@@ -49,6 +49,11 @@ function PermissionsAfterRegister({dispatch, route}) {
       .catch(err => console.log(err));
   }
 
+  useEffect(() => {
+    dispatch(GetMyProfile(phone));
+    GrabContacts();
+  }, []);
+
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -60,18 +65,6 @@ function PermissionsAfterRegister({dispatch, route}) {
     }
   }
 
-  async function RunOnLog(phone_number) {
-    await analytics.setup('vlkm1h2s27bCnL8EBDWFkFoQReJOxT7R', {
-      // Record screen views automatically!
-      // Record certain application events automatically!
-      trackAppLifecycleEvents: true,
-    });
-
-    await analytics.identify(JSON.stringify(phone_number));
-
-    console.log('running things on log');
-  }
-
   return (
     <SafeAreaView style={styles.view}>
       <Button
@@ -81,7 +74,6 @@ function PermissionsAfterRegister({dispatch, route}) {
         onPress={() => {
           requestUserPermission();
           GrabContacts();
-          RunOnLog(phone);
           dispatch({type: LOGIN});
         }}
       />

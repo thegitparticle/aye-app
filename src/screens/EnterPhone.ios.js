@@ -21,7 +21,7 @@ const windowHeight = Dimensions.get('window').height;
 
 function EnterPhone({navigation}) {
   const [value, setValue] = useState('');
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState('in');
   const phoneRef = useRef(undefined);
   const [showSpinner, setShowSpinner] = useState(false);
 

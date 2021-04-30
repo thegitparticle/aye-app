@@ -16,9 +16,12 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {connect} from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+var state_here = {};
 
 function OTPCheckRegister({navigation, dispatch, route}) {
   const [otp, setOTP] = useState('');
@@ -156,7 +159,12 @@ OTPCheckRegister.sharedElements = route => {
   ];
 };
 
-export default OTPCheckRegister;
+const mapStateToProps = state => {
+  state_here = state;
+  return state_here;
+};
+
+export default connect(mapStateToProps)(OTPCheckRegister);
 
 const styles = StyleSheet.create({
   button_view: {
