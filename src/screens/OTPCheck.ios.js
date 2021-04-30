@@ -46,7 +46,7 @@ function OTPCheck({route, navigation, dispatch}) {
     axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
       .then(() => console.log('profile called'))
-      /*
+
       .then(() => {
         return axios.get(
           'https://apisayepirates.life/api/users/update_otp_code/' +
@@ -58,7 +58,7 @@ function OTPCheck({route, navigation, dispatch}) {
             '/',
         );
       })
-      */
+
       //.then(() => changeOTP())
 
       .then(() => setShowSpinner(false))

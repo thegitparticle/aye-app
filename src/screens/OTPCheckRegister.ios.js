@@ -50,6 +50,17 @@ function OTPCheckRegister({navigation, dispatch, route}) {
       .then(() => console.log('sign up success'))
       .then(() => dispatch(GetMyProfile(phone)))
       .then(() => console.log('get profile success'))
+      .then(() => {
+        return axios.get(
+          'https://apisayepirates.life/api/users/update_otp_code/' +
+            otp +
+            '/' +
+            phone +
+            '/' +
+            iso_code.toUpperCase() +
+            '/',
+        );
+      })
       .then(() =>
         navigation.navigate('PermissionsAfterRegister', {
           phone: phone,
@@ -57,16 +68,7 @@ function OTPCheckRegister({navigation, dispatch, route}) {
         }),
       )
       .then(() => setShowSpinner(false))
-      /*
-      .then(() => {
-        return axios.get(
-          'https://apisayepirates.life/api/users/update_otp_code/' +
-            otp +
-            '/' +
-            phonenumber,
-        );
-      })
-      */
+
       //.catch((err) => console.log(err));
       .catch(() => toggleOverlay());
   }
