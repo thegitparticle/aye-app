@@ -22,7 +22,7 @@ const windowHeight = Dimensions.get('window').height;
 
 function OTPCheckRegister({navigation, dispatch, route}) {
   const [otp, setOTP] = useState('');
-  const {phone} = route.params;
+  const {phone, iso_code} = route.params;
 
   const [overlayVisible, setOverlayVisible] = useState(false);
 
@@ -48,7 +48,10 @@ function OTPCheckRegister({navigation, dispatch, route}) {
       .then(() => dispatch(GetMyProfile(phone)))
       .then(() => console.log('get profile success'))
       .then(() =>
-        navigation.navigate('PermissionsAfterRegister', {phone: phone}),
+        navigation.navigate('PermissionsAfterRegister', {
+          phone: phone,
+          iso_code: iso_code,
+        }),
       )
       .then(() => setShowSpinner(false))
       /*

@@ -22,7 +22,7 @@ const windowHeight = Dimensions.get('window').height;
 function SignUpDetailsInput({route, navigation}) {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
-  const {phone} = route.params;
+  const {phone, iso_code} = route.params;
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
 
@@ -49,6 +49,7 @@ function SignUpDetailsInput({route, navigation}) {
           name: name,
           username: username,
           phone: phone,
+          iso_code: iso_code,
         }),
       )
       .then(() => setShowSpinner(false))

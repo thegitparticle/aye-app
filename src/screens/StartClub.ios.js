@@ -36,16 +36,19 @@ function StartClub({dispatch, navigation}) {
     const contacts_here = await Contacts.getAll();
     setGrabedContacts(contacts_here);
 
-    //const data = new FormData();
-
     var data2 = {};
-    //data2.country_code = 'IN';
-    //data2.contacts_list = JSON.stringify(contacts_here);
+
     data2.contact_list = contacts_here;
-    data2.contact_list.push({country_code: 'IN'});
-    console.log(data2);
-    //data.append('contact_list', contacts_here);
-    //data.append('country_code', 'IN');
+    data2.contact_list.unshift({
+      country_code:
+        mystatehere.MyProfileReducer.myprofile.user.country_code_of_user,
+    });
+
+    var x1 = data2.contact_list;
+    console.log(x1);
+
+    var dataf = {};
+    dataf.contact_list = JSON.stringify(x1);
 
     var config = {
       method: 'put',
@@ -53,10 +56,10 @@ function StartClub({dispatch, navigation}) {
         'https://apisayepirates.life/api/users/post_contacts_to_server/' +
         String(mystatehere.MyProfileReducer.myprofile.user.id) +
         '/',
-      data: JSON.stringify(data2),
+      data: dataf,
     };
     axios(config)
-      //.then(() => dispatch(GetMyProfile(phone)))
+      .then(response => console.log(response.data))
       .catch(err => console.log(err));
   }
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, StyleSheet, Dimensions, SafeAreaView, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -8,28 +8,44 @@ import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import messaging from '@react-native-firebase/messaging';
 import analytics from '@segment/analytics-react-native';
+import {upperCase} from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+var state_here = {};
+
 function PermissionsAfterRegister({dispatch, route}) {
-  const {phone} = route.params;
+  const {phone, iso_code} = route.params;
+
+  useEffect(() => {
+    dispatch(GetMyProfile(phone));
+  }, []);
 
   async function GrabContacts() {
     const contacts_here = await Contacts.getAllWithoutPhotos();
-    const data = new FormData();
+    var data2 = {};
+    data2.contact_list = contacts_here;
+    data2.contact_list.unshift({
+      country_code: iso_code.toUpperCase(),
+    });
 
-    data.append('contact_list', JSON.stringify(contacts_here));
-    data.append('country_code', 'IN');
-    console.log(contacts_here);
+    var x1 = data2.contact_list;
+    console.log(x1);
+
+    var dataf = {};
+    dataf.contact_list = JSON.stringify(x1);
 
     var config = {
       method: 'put',
-      url: 'https://apisayepirates.life/api/users/post_contacts_to_server/4/',
-      data: data,
+      url:
+        'https://apisayepirates.life/api/users/post_contacts_to_server/' +
+        String(state_here.MyProfileReducer.myprofile.user.id) +
+        '/',
+      data: dataf,
     };
     axios(config)
-      .then(() => dispatch(GetMyProfile(phone)))
+      .then(response => console.log(response.data))
       .catch(err => console.log(err));
   }
 
@@ -63,8 +79,8 @@ function PermissionsAfterRegister({dispatch, route}) {
         buttonStyle={styles.button}
         titleStyle={styles.button_text}
         onPress={() => {
-          GrabContacts();
           requestUserPermission();
+          GrabContacts();
           RunOnLog(phone);
           dispatch({type: LOGIN});
         }}
@@ -80,15 +96,12 @@ function PermissionsAfterRegister({dispatch, route}) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogInClick: () => {
-      dispatch({type: LOGIN});
-    },
-  };
+const mapStateToProps = state => {
+  state_here = state;
+  return state_here;
 };
 
-export default connect(mapDispatchToProps)(PermissionsAfterRegister);
+export default connect(mapStateToProps)(PermissionsAfterRegister);
 
 const styles = StyleSheet.create({
   button: {
