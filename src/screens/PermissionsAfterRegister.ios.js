@@ -27,7 +27,7 @@ function PermissionsAfterRegister({dispatch, route}) {
     var data2 = {};
     data2.contact_list = contacts_here;
     data2.contact_list.unshift({
-      country_code: 'IN',
+      country_code: iso_code,
     });
 
     var x1 = data2.contact_list;

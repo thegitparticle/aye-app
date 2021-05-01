@@ -173,6 +173,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  resend_button_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: 'indianred',
+  },
+
   indicator_style: {
     marginTop: -30,
   },

@@ -139,6 +139,10 @@ SignUpDetailsInput.sharedElements = route => {
 export default SignUpDetailsInput;
 
 const styles = StyleSheet.create({
+  button_view: {
+    alignItems: 'center',
+  },
+
   name_input: {
     backgroundColor: '#33333350',
     borderRadius: 15,
