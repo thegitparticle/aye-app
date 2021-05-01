@@ -11,7 +11,6 @@ export const GetMyNudgeToList = user_id => {
           '/',
       )
       .then(response => (res = response.data))
-      .then(() => console.log(res))
       .then(() =>
         dispatch({
           type: ADD_MYNUDGETOLIST,

@@ -55,56 +55,6 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     console.log(AddFriendsList);
   }
 
-  function RenderCircleItem(props) {
-    const [added, setAdded] = useState(false);
-
-    if (added) {
-      return (
-        <Pressable
-          style={styles.circle_item_pressable_view}
-          onPress={() => {
-            DeSelectCircleItem(props.ID);
-            setAdded(false);
-          }}>
-          <Icon
-            name="checkcircle"
-            type="ant-design"
-            color="#517fa4"
-            style={styles.circle_item_icon}
-          />
-          <Avatar
-            rounded
-            source={{uri: props.Avatar}}
-            size={windowHeight * 0.06}
-          />
-          <Text style={styles.circle_item_selected_text}>{props.Name}</Text>
-        </Pressable>
-      );
-    } else {
-      return (
-        <Pressable
-          style={styles.circle_item_pressable_view}
-          onPress={() => {
-            SelectCircleItem(props.ID);
-            setAdded(true);
-          }}>
-          <Icon
-            name="checkcircleo"
-            type="ant-design"
-            color="#517fa4"
-            style={styles.circle_item_icon}
-          />
-          <Avatar
-            rounded
-            source={{uri: props.Avatar}}
-            size={windowHeight * 0.06}
-          />
-          <Text style={styles.circle_item_not_selected_text}>{props.Name}</Text>
-        </Pressable>
-      );
-    }
-  }
-
   function AddContactsToClubServerWork(contacts_list, club_id) {
     // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
     // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
@@ -282,11 +232,6 @@ const styles = StyleSheet.create({
   },
 
   right_header_view: {width: 50, height: 35},
-
-  header_title: {
-    fontSize: 21,
-    fontFamily: 'GothamRounded-Bold',
-  },
 
   header_title: {
     fontSize: 17,

@@ -5,16 +5,12 @@ import {
   CardStyleInterpolators,
   TransitionPresets,
 } from '@react-navigation/stack';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import RootStackScreen from '../screens/RootStackScreen';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import ClubsHomeD from '../dummy/ClubsHome';
-import DirectsHomeD from '../dummy/DirectsHome';
+
 import HomeMainD from '../dummy/HomeMainD';
 import MyProfileScreen from '../screens/MyProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import SettingsScreen from '../screens/SettingsScreen';
-import {ClubDummyData} from '../dummy/ClubDummyData';
 import ClubChatScreen from '../screens/ClubChatScreen';
 import ClubFramesList from '../screens/ClubFramesList';
 import ClubHub from '../screens/ClubHub';
@@ -29,7 +25,6 @@ import ViewOldFrameClub from '../screens/ViewOldFrameClub';
 import ViewOldFrameDirect from '../screens/ViewOldFrameDirect';
 
 const StackMain = createStackNavigator();
-//const HomeTabStack = createMaterialTopTabNavigator();
 const HereStack = createStackNavigator();
 const MyProfileStack = createStackNavigator();
 const ClubChatStack = createStackNavigator();
