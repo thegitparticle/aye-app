@@ -1,26 +1,15 @@
-import React, {useEffect, useRef} from 'react';
-import {
-  View,
-  Image,
-  Animated,
-  StyleSheet,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import {Badge} from 'react-native-elements';
 import OnePersonLiveClub from '../uibits/OnePersonLiveClub';
 import TwoPeopleLiveClub from '../uibits/TwoPeopleLiveClubs';
 import ThreePeopleLiveClub from '../uibits/ThreePeopleLiveClubs';
 import _ from 'lodash';
 
-const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
-
 function LiveClubComponent(props) {
   var club_details = props.Club;
   var live_members = props.LiveMembers;
   var numberofpeople = live_members.length;
-  //console.log(numberofpeople + 'number people jaiho');
 
   var all_members = club_details.display_photos;
 
@@ -92,7 +81,6 @@ const styles = StyleSheet.create({
     width: 58,
     height: 58,
     borderRadius: 29,
-    //backgroundColor: '#333',
     backgroundColor: '#121c2b',
     borderWidth: 0,
   },

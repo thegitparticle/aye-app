@@ -1,20 +1,22 @@
-import React from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import NudgeToBit from '../uibits/NudgeToBit';
-import {NudgeToDummyData} from '../dummy/NudgeToDummyData';
-import {ListItem, Badge, Icon} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
 
 const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+//const windowWidth = Dimensions.get('window').width;
 
-function NudgeToList() {
+var state_here = {};
+
+function NudgeToList({dispatch}) {
+  var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
+
+  useEffect(() => {
+    dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
+  }, [dispatch]);
+
   function RenderItem(props) {
     return (
       <ListItem bottomDivider containerStyle={styles.list_item_container}>
@@ -23,17 +25,30 @@ function NudgeToList() {
     );
   }
 
-  return (
-    <View style={styles.overall_view}>
-      <Text style={styles.nudgeto_heading}>MORE FRIENDS</Text>
-      {NudgeToDummyData.map((item, index) => (
-        <RenderItem NudgeTo={item} />
-      ))}
-    </View>
-  );
+  if (NudgeToData.length > 0) {
+    if (NudgeToData[0].userid === 0) {
+      return <View />;
+    } else {
+      return (
+        <View style={styles.overall_view}>
+          <Text style={styles.nudgeto_heading}>MORE FRIENDS</Text>
+          {NudgeToData.map((item, index) => (
+            <RenderItem NudgeTo={item} />
+          ))}
+        </View>
+      );
+    }
+  } else {
+    return <View />;
+  }
 }
 
-export default NudgeToList;
+const mapStateToProps = state => {
+  state_here = state;
+  return state_here;
+};
+
+export default connect(mapStateToProps)(NudgeToList);
 
 const styles = StyleSheet.create({
   nudgeto_heading: {

@@ -11,12 +11,9 @@ import {
 } from 'react-native';
 import {Header, Icon, Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {GetFrames} from '../redux/GetFramesActions';
 import dayjs from 'dayjs';
 import axios from 'axios';
-import {createIconSetFromFontello} from 'react-native-vector-icons';
 import FastImage from 'react-native-fast-image';
-import analytics from '@segment/analytics-react-native';
 import {BlurView} from '@react-native-community/blur';
 //import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
@@ -50,28 +47,31 @@ function DirectFramesList({dispatch, navigation, route}) {
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="command"
+      <Pressable
+        style={{width: 75, height: 35}}
         onPress={() =>
           navigation.navigate('DirectHub', {
             direct_id: direct_id,
             other_name: other_name,
           })
-        }
-      />
+        }>
+        <Icon type="feather" color={font_color_header} name="command" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.navigate('Here')}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.goBack()}>
+        <Icon
+          type="feather"
+          color={font_color_header}
+          name="chevron-down"
+          onPress={() => navigation.navigate('Here')}
+        />
+      </Pressable>
     );
   }
 
@@ -82,7 +82,7 @@ function DirectFramesList({dispatch, navigation, route}) {
           {other_name.substring(0, 13)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {[1].map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{

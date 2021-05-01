@@ -13,6 +13,7 @@ import MyCircleReducer from './MyCircleReducer';
 import MyClubsReducer from './MyClubsReducer';
 import DirectsListReducer from './DirectsListReducer';
 import RecoOnTypeReducer from './RecoOnTypeReducer';
+import MyNudgeToListReducer from './MyNudgeToListReducer';
 
 export const persistConfigAuth = {
   key: 'auth_here',
@@ -54,6 +55,12 @@ export const persistConfigMyCircle = {
   //whitelist: ['bookmarks']              // put which objects to save as initial state
 };
 
+export const persistConfigMyNudgeToList = {
+  key: 'my_nudgetolist',
+  storage: AsyncStorage,
+  //whitelist: ['bookmarks']              // put which objects to save as initial state
+};
+
 export const persistConfigMyClubs = {
   key: 'my_clubs',
   storage: AsyncStorage,
@@ -87,6 +94,10 @@ const rootReducer = combineReducers({
     ClubHubDetailsReducer,
   ),
   MyCircleReducer: persistReducer(persistConfigMyCircle, MyCircleReducer),
+  MyNudgeToListReducer: persistReducer(
+    persistConfigMyNudgeToList,
+    MyNudgeToListReducer,
+  ),
   MyClubsReducer: persistReducer(persistConfigMyClubs, MyClubsReducer),
   DirectsListReducer: persistReducer(
     persistConfigDirectsList,

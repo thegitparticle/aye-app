@@ -9,7 +9,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
-  FlatList,
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
@@ -17,10 +16,8 @@ import {
   Pressable,
 } from 'react-native';
 import {Icon, Overlay, Header, Avatar, SearchBar} from 'react-native-elements';
-import {useHeaderHeight} from '@react-navigation/stack';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-//import MessagesView from './MessagesView';
-//import {messages1} from './Messages1';
+
 import ImagePicker from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
@@ -35,9 +32,7 @@ import _ from 'lodash';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
-import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
-import analytics from '@segment/analytics-react-native';
 import {BlurView} from '@react-native-community/blur';
 //import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
@@ -62,15 +57,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const {
     otherNameHere,
     directIdHere,
-    //channelOnGoing,
-    //channelEndTime,
-    //channelStartTime,
+    channelOnGoing,
+    channelEndTime,
+    channelStartTime,
   } = route.params;
   const [channelsHere] = useState([directIdHere]);
-
-  const channelOnGoing = true;
-  const channelStartTime = 1619509825;
-  const channelEndTime = 1619553025;
 
   /*
 
@@ -82,25 +73,14 @@ function DirectChatScreen({navigation, dispatch, route}) {
   */
 
   const [messages, addMessage] = useState([]);
-  //console.log(messages);
-  //const [liveWho, setLiveWho] = useState(livePeople);
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
   const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
-  //console.log(old_messages.channels[this_channel_string] + 'old messages');
-  //var messages = [];
-  const [forceAddMedia, changeForceAddMedia] = useState('');
-  var input_bar_flex = 0.1;
-  const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
   }, []);
-
-  //console.log(nowTimeStamp);
-
-  const [textinputheight, changeTextInputHeight] = useState(50);
 
   const modalizeRefGifSheet = useRef(null);
 
@@ -121,44 +101,35 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="layers"
+      <Pressable
+        style={{width: 75, height: 35}}
         onPress={() =>
           navigation.navigate('DirectFramesList', {
             direct_id: directIdHere,
             //live_who: liveWho,
             other_name: otherNameHere,
           })
-        }
-      />
+        }>
+        <Icon type="feather" color={font_color_header} name="layers" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.goBack()}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.goBack()}>
+        <Icon
+          type="feather"
+          color={font_color_header}
+          name="chevron-down"
+          onPress={() => navigation.goBack()}
+        />
+      </Pressable>
     );
   }
 
-  /*
-        <View style={styles.center_header_people_view}>
-          {liveWho.map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
-        */
   function CenterHeaderComponent() {
     return (
       <View style={styles.center_header_view}>
@@ -166,7 +137,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           {otherNameHere.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {['f'].map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{

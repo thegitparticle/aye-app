@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Dimensions, Text} from 'react-native';
+import {View, StyleSheet, Dimensions, Text, Linking} from 'react-native';
 import {Overlay, Button} from 'react-native-elements';
 import HeaderAtHome from '../components/HeaderAtHome';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import ClubsHomeD from './ClubsHome';
 import DirectsHomeD from './DirectsHome';
-import {Icon} from 'react-native-elements';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 import axios from 'axios';
@@ -13,8 +12,6 @@ import messaging from '@react-native-firebase/messaging';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-var state_here = {};
 
 function HomeMainD({dispatch, navigation}) {
   const [index, setIndex] = useState(0);
@@ -39,19 +36,8 @@ function HomeMainD({dispatch, navigation}) {
 
   var res_here = [];
 
-  async function GetFcmToken() {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-      console.log(fcmToken);
-      console.log('Your Firebase Token is:', fcmToken);
-    } else {
-      console.log('Failed', 'No token received');
-    }
-  }
-
   useEffect(() => {
     requestUserPermission();
-    GetFcmToken();
     axios
       .get('https://apisayepirates.life/api/clubs/app_version_apple/')
       .then(response => (res_here = response.data))
@@ -98,20 +84,6 @@ function HomeMainD({dispatch, navigation}) {
     }
   }
 
-  /*
-
-  const renderIconHere = ({route, focused}) => (
-    <View style={styles.tab_icon_view}>
-      <Icon
-        name={route.icon}
-        type="feather"
-        color={focused ? 'red' : 'black'}
-        iconStyle={styles.tab_icon}
-      />
-    </View>
-  );
-  */
-
   const renderTabBar = props => (
     <TabBar
       {...props}
@@ -135,7 +107,6 @@ function HomeMainD({dispatch, navigation}) {
         // eslint-disable-next-line react-native/no-inline-styles
         sceneContainerStyle={{
           overflow: 'visible',
-          //flex: 1,
           backgroundColor: '#fff',
         }}
         style={styles.tab_view}
@@ -153,7 +124,7 @@ function HomeMainD({dispatch, navigation}) {
             containerStyle={styles.update_button_container}
             titleStyle={styles.update_button_title}
             title="Update"
-            onPress={() => navigation.navigate('StartClub')}
+            onPress={() => Linking.openURL('http://bit.ly/aye_ios_store_link')}
           />
         </View>
       </Overlay>

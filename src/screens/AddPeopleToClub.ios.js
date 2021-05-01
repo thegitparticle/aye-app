@@ -1,21 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
   Dimensions,
   StyleSheet,
   View,
-  PermissionsAndroid,
-  TextInput,
   Text,
   FlatList,
   Pressable,
-  SafeAreaView,
 } from 'react-native';
 import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
-import SelectMultiple from 'react-native-select-multiple';
-import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
+
 import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 import axios from 'axios';
 
@@ -28,7 +23,7 @@ function AddPeopleToClub({dispatch, navigation, route}) {
   const {club_id} = route.params;
 
   useEffect(() => {
-    dispatch(GetMyCircle());
+    dispatch(GetMyCircle(mystatehere.MyProfileReducer.myprofile.user.id));
   }, [dispatch]);
 
   function RightHeaderComponent() {
@@ -103,7 +98,6 @@ function AddPeopleToClub({dispatch, navigation, route}) {
   }
 
   function SubmitChanges() {
-    console.log(AddFriendsList);
     if (AddFriendsList.length > 0) {
       for (let i = 0; i < AddFriendsList.length; i++) {
         axios
@@ -132,7 +126,7 @@ function AddPeopleToClub({dispatch, navigation, route}) {
         //barStyle="dark-content"
       />
       <View style={styles.left_header_view}>
-        <Text style={styles.header_title}>select friends</Text>
+        <Text style={styles.header_title}>add friends</Text>
       </View>
       <FlatList
         data={circle_list_here}
@@ -184,7 +178,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 
-  right_header_view: {},
+  right_header_view: {width: 50, height: 35},
 
   header_title: {
     fontSize: 21,

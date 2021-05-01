@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import HeaderAtHome from '../components/HeaderAtHome';
+import {ScrollView, StyleSheet} from 'react-native';
 import DirectsList from '../components/DirectsList';
 import NudgeToList from '../components/NudgeToList';
 

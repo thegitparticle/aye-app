@@ -13,7 +13,7 @@ var state_here = {};
 function BannerToPushToStartClub() {
   const navigation = useNavigation();
 
-  if (state_here.MyClubsReducer.myclubs.length <= 3) {
+  if (state_here.MyClubsReducer.myclubs.length <= 2) {
     return (
       <View style={styles.banner_view}>
         <FastImage

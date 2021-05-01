@@ -8,8 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import LiveClubComponent from './LiveClubComponent';
-import {ClubDummyData} from '../dummy/ClubDummyData';
-import {ListItem, Badge, Icon} from 'react-native-elements';
+import {ListItem, Icon} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import _ from 'lodash';
 
@@ -18,7 +17,6 @@ const windowWidth = Dimensions.get('window').width;
 
 function LiveClubs(props) {
   var live_clubs_data_here = props.ClubsData;
-  // console.log(live_clubs_data_here);
 
   const navigation = useNavigation();
 
@@ -41,13 +39,11 @@ function LiveClubs(props) {
               screen: 'ClubChatScreen',
               params: {
                 clubNameHere: comp.club_name,
-                //channelIdHere: props.club_id.toString() + '_c',
                 channelIdHere: comp.pn_channel_id,
                 channelOnGoing: comp.on_going_frame,
                 channelStartTime: comp.start_time,
                 channelEndTime: comp.end_time,
                 clubID: comp.club_id,
-                //livePeople: livePeople,
               },
             })
           }>
@@ -62,13 +58,7 @@ function LiveClubs(props) {
             </ListItem.Title>
             <ListItem.Subtitle>
               <View style={styles.subtitle_view}>
-                <Icon
-                  type="feather"
-                  color="#7D4DF9"
-                  // {Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)'}
-                  name="layers"
-                  size={16}
-                />
+                <Icon type="feather" color="#7D4DF9" name="layers" size={16} />
                 <Text style={styles.subtitle_text}>new frames</Text>
               </View>
             </ListItem.Subtitle>

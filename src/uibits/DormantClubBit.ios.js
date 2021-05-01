@@ -6,19 +6,12 @@ import {useNavigation} from '@react-navigation/native';
 
 function DormantClubBit(props) {
   const navigation = useNavigation();
-  //console.log(props.Club);
 
   function OnGoingFrameText(props) {
     if (props.Status) {
       return (
         <View style={styles.subtitle_view}>
-          <Icon
-            type="feather"
-            color="#7D4DF9"
-            //{Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)'}
-            name="layers"
-            size={14}
-          />
+          <Icon type="feather" color="#7D4DF9" name="layers" size={14} />
           <Text style={styles.subtitle_text}>new frame</Text>
         </View>
       );
@@ -42,13 +35,11 @@ function DormantClubBit(props) {
           screen: 'ClubChatScreen',
           params: {
             clubNameHere: props.Club.club_name,
-            //channelIdHere: props.club_id.toString() + '_c',
             channelIdHere: props.Club.pn_channel_id,
             channelOnGoing: props.Club.on_going_frame,
             channelStartTime: props.Club.start_time,
             channelEndTime: props.Club.end_time,
             clubID: props.Club.club_id,
-            livePeople: [],
           },
         })
       }>
@@ -71,13 +62,11 @@ export default DormantClubBit;
 const styles = StyleSheet.create({
   subtitle_view: {
     flexDirection: 'row',
-    //justifyContent: 'center',
     alignItems: 'center',
   },
   subtitle_icon: {},
   subtitle_text: {
     marginLeft: 5,
-    //color: Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)',
     color: '#7D4DF9',
     fontFamily: 'GothamRounded-Book',
     fontSize: 13,

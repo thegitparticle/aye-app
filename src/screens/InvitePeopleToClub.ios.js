@@ -1,21 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
   Dimensions,
   StyleSheet,
   View,
-  PermissionsAndroid,
-  TextInput,
   Text,
   FlatList,
   Pressable,
 } from 'react-native';
 import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {GetMyCircle} from '../redux/MyCircleActions';
-import SelectMultiple from 'react-native-select-multiple';
+import Contacts from 'react-native-contacts';
 import _ from 'lodash';
 import axios from 'axios';
+import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -25,31 +22,26 @@ var mystatehere = {};
 function InvitePeopleToClub({dispatch, navigation, route}) {
   const {club_id} = route.params;
   const [addedMemberList, setAddedMemberList] = useState([]);
+  const [grabedContacts, setGrabedContacts] = useState();
+
+  async function GrabContacts() {
+    const contacts_here = await Contacts.getAll();
+    setGrabedContacts(contacts_here);
+  }
 
   useEffect(() => {
-    dispatch(GetMyCircle());
+    GrabContacts();
   }, [dispatch]);
-
-  function CenterHeaderComponent() {
-    return (
-      <View>
-        <Text style={styles.header_title}>add friends</Text>
-      </View>
-    );
-  }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color="#050505"
-        name="chevron-down"
-        onPress={() => navigation.goBack()}
-      />
+      <Pressable
+        style={styles.right_header_view}
+        onPress={() => navigation.goBack()}>
+        <IconlyBackChevronDown />
+      </Pressable>
     );
   }
-
-  var circle_list_here = mystatehere.MyCircleReducer.mycircle;
 
   var AddFriendsList = [];
 
@@ -141,30 +133,94 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     }
   }
 
+  var AddContactsList = [];
+
+  function SelectContactItem(id) {
+    AddContactsList.push(id);
+  }
+
+  function DeSelectContactItem(id) {
+    AddContactsList = AddContactsList.filter(item => item !== id);
+  }
+
+  function RenderContactItem(props) {
+    const [added, setAdded] = useState(false);
+
+    if (added) {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            DeSelectContactItem(props.ID);
+            setAdded(false);
+          }}>
+          <Icon
+            name="checkcircle"
+            type="ant-design"
+            color="#36B37E"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
+          />
+          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
+        </Pressable>
+      );
+    } else {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            SelectContactItem(props.ID);
+            setAdded(true);
+          }}>
+          <Icon
+            name="circle"
+            type="entypo"
+            color="#131313"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            source={{uri: props.Avatar}}
+            size={windowHeight * 0.06}
+          />
+          <Text style={styles.contact_item_not_selected_text}>
+            {props.Name}
+          </Text>
+        </Pressable>
+      );
+    }
+  }
+
   return (
     <View style={styles.overall_container}>
       <Header
         rightComponent={<RightHeaderComponent />}
-        centerComponent={<CenterHeaderComponent />}
-        backgroundColor="#fafafa"
-        barStyle="dark-content"
+        backgroundColor="#FFFFFF"
+        containerStyle={styles.header_container}
+        //barStyle="dark-content"
       />
+      <View style={styles.left_header_view}>
+        <Text style={styles.header_title}>invite contacts</Text>
+      </View>
+
       <FlatList
-        data={circle_list_here}
+        data={grabedContacts}
         renderItem={({item}) => (
-          <RenderCircleItem
-            Name={item.name}
+          <RenderContactItem
+            Name={item.givenName + item.familyName}
             ID={item.userid}
-            Avatar={item.displaypic}
           />
         )}
-        keyExtractor={item => item.userid}
+        keyExtractor={item => item.phoneNumbers}
       />
 
       <Button
         title="Done"
         size={25}
-        raised={true}
         buttonStyle={styles.NextButton}
         titleStyle={styles.NextButtonLabel}
         containerStyle={styles.NextButtonContainer}
@@ -182,10 +238,54 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(InvitePeopleToClub);
 
 const styles = StyleSheet.create({
+  contact_item_pressable_view: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    alignItems: 'center',
+    width: windowWidth * 0.8,
+    marginVertical: 10,
+  },
+
+  contact_item_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#05050525',
+    marginHorizontal: windowWidth * 0.05,
+  },
+
+  contact_item_not_selected_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+    color: '#050505',
+    marginHorizontal: windowWidth * 0.05,
+  },
+  contact_item_icon: {
+    marginRight: windowWidth * 0.05,
+  },
+
   overall_container: {
     backgroundColor: '#fafafa',
     flex: 1,
     flexDirection: 'column',
+  },
+
+  header_container: {
+    height: windowHeight * 0.05,
+    borderBottomWidth: 0,
+  },
+
+  left_header_view: {
+    width: windowWidth * 0.5,
+    marginTop: 20,
+    marginHorizontal: 20,
+    marginBottom: 40,
+  },
+
+  right_header_view: {width: 50, height: 35},
+
+  header_title: {
+    fontSize: 21,
+    fontFamily: 'GothamRounded-Bold',
   },
 
   header_title: {

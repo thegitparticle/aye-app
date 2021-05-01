@@ -1,23 +1,14 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {
-  ScrollView,
+  Pressable,
   Text,
   Dimensions,
   StyleSheet,
   Image,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import {
-  ListItem,
-  Button,
-  Avatar,
-  Header,
-  Icon,
-  Divider,
-} from 'react-native-elements';
+import {Avatar, Header, Icon, Divider} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {GetClubHubDetails} from '../redux/ClubHubActions';
 import axios from 'axios';
 import _ from 'lodash';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
@@ -58,27 +49,24 @@ function DirectHub({dispatch, navigation, route}) {
       setOtherUser(all_ids[0]);
     }
   }, [all_ids]);
-  console.log(typeof otherUser + 'other user');
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="layers"
-        onPress={() => navigation.goBack()}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.goBack()}>
+        <Icon type="feather" color={font_color_header} name="layers" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.navigate('Here')}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.navigate('Here')}>
+        <Icon type="feather" color={font_color_header} name="chevron-down" />
+      </Pressable>
     );
   }
 
@@ -89,7 +77,7 @@ function DirectHub({dispatch, navigation, route}) {
           {other_name.substring(0, 13)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {[1].map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{
@@ -295,7 +283,6 @@ function DirectHub({dispatch, navigation, route}) {
       </View>
       <View style={styles.body_view}>
         <MetricsOfConversation FramesCount="99" />
-        <Divider style={styles.between_divider} />
         <OtherProfile />
       </View>
     </View>

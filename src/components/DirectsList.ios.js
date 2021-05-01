@@ -1,19 +1,12 @@
 import React, {useState} from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import DirectBit from '../uibits/DirectBit';
-import {DirectsDummyData} from '../dummy/DirectsDummyData';
-import {ListItem, Badge, Icon} from 'react-native-elements';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {ListItem} from 'react-native-elements';
+import {useFocusEffect} from '@react-navigation/native';
 import {usePubNub} from 'pubnub-react';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
+import BannerIfDmsEmpty from '../uibits/BannerIfDmsEmpty';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -43,14 +36,22 @@ function DirectsList({dispatch, navigation}) {
     );
   }
 
-  return (
-    <View style={styles.overall_view}>
-      <Text style={styles.directs_heading}>DMs</Text>
-      {DirectsListHere.map((item, index) => (
-        <RenderItem Direct={item} />
-      ))}
-    </View>
-  );
+  if (DirectsListHere.length > 0) {
+    return (
+      <View style={styles.overall_view}>
+        <Text style={styles.directs_heading}>DMs</Text>
+        {DirectsListHere.map((item, index) => (
+          <RenderItem Direct={item} />
+        ))}
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.overall_view_empty}>
+        <BannerIfDmsEmpty />
+      </View>
+    );
+  }
 }
 
 const mapStateToProps = state => {
@@ -72,6 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: windowHeight * 0.015,
     marginBottom: windowHeight * 0.1,
+  },
+
+  overall_view_empty: {
+    flexDirection: 'column',
   },
   list_item_container: {
     backgroundColor: 'transparent',

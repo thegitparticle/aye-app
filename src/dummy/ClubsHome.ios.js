@@ -1,15 +1,7 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Pressable,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import {Button, ListItem, Badge, Icon} from 'react-native-elements';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {ListItem} from 'react-native-elements';
+import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {GetMyClubs} from '../redux/MyClubsActions';
 import {usePubNub} from 'pubnub-react';
@@ -20,9 +12,6 @@ import _ from 'lodash';
 
 var state_here = {};
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
@@ -31,10 +20,15 @@ function ClubsHomeD({dispatch}) {
     React.useCallback(() => {
       pubnub.unsubscribeAll();
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+    }, [dispatch]),
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
       if (my_clubs.length > 0) {
         CheckOnGoing();
       }
-    }, [dispatch, my_clubs.length]),
+    }, [my_clubs, my_clubs.length]),
   );
 
   const [resolved, setResolved] = useState(false);
@@ -60,7 +54,7 @@ function ClubsHomeD({dispatch}) {
   function PreLoadDorClubs() {
     return (
       <View>
-        {my_clubs.map((item, index) => (
+        {_.uniqBy(my_clubs, 'club_id').map((item, index) => (
           <View>
             <ListItem bottomDivider containerStyle={styles.list_item_container}>
               <DormantClubBit Club={item} />
@@ -71,7 +65,7 @@ function ClubsHomeD({dispatch}) {
     );
   }
 
-  function RenderLiveClubsHere() {
+  function RenderClubsHere() {
     function RenderDor() {
       return (
         <View>
@@ -120,7 +114,7 @@ function ClubsHomeD({dispatch}) {
     <ScrollView
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
-      <RenderLiveClubsHere />
+      <RenderClubsHere />
       <BannerToPushToStartClub />
     </ScrollView>
   );

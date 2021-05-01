@@ -7,28 +7,25 @@ import {
   Image,
   View,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {
   ListItem,
   Button,
   Avatar,
   Header,
   Icon,
-  BottomSheet,
   Overlay,
   Divider,
-  ButtonGroup,
 } from 'react-native-elements';
 import {connect} from 'react-redux';
-import {GetClubHubDetails} from '../redux/ClubHubActions';
 import OtherProfile from './OtherProfile';
-//import BottomSheet from 'reanimated-bottom-sheet';
-//import {TouchableOpacity} from 'react-native-gesture-handler';
+
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {BlurView} from '@react-native-community/blur';
+import {usePubNub} from 'pubnub-react';
 //import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const header_color = 'transparent';
@@ -42,11 +39,10 @@ const windowWidth = Dimensions.get('window').width;
 var statehere = {};
 
 function ClubHub({dispatch, navigation, route}) {
-  const {club_id, live_who, club_name} = route.params;
+  const pubnub = usePubNub();
+  const {club_id, club_name} = route.params;
   const [clubDetails, setClubDetails] = useState({});
-  console.log(clubDetails);
   const [resolved, setResolved] = useState(false);
-  console.log(resolved);
 
   const [memberChanges, setMemberChanges] = useState(false);
 
@@ -87,23 +83,21 @@ function ClubHub({dispatch, navigation, route}) {
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="layers"
-        onPress={() => navigation.navigate('ClubFramesList')}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.navigate('ClubFramesList')}>
+        <Icon type="feather" color={font_color_header} name="layers" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.navigate('Here')}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.navigate('Here')}>
+        <Icon type="feather" color={font_color_header} name="chevron-down" />
+      </Pressable>
     );
   }
 
@@ -114,7 +108,7 @@ function ClubHub({dispatch, navigation, route}) {
           {club_name.substring(0, 13)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {live_who.map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{
@@ -241,10 +235,24 @@ function ClubHub({dispatch, navigation, route}) {
                     String(club_id) +
                     '/',
                 )
-                .then(() => {
-                  //do pubnub stuff
-                })
                 .then(() => setMemberChanges())
+                .then(() => {
+                  pubnub.push.deleteDevice(
+                    {
+                      device: String(
+                        statehere.MyProfileReducer.myprofile.user.id,
+                      ),
+                      pushGateway: 'gcm', // apns, apns2, gcm
+                    },
+                    function (status) {
+                      if (status.error) {
+                        console.log('operation failed w/ error:', status);
+                      } else {
+                        console.log('operation done!');
+                      }
+                    },
+                  );
+                })
                 .then(() => toggleOverlay())
                 .catch(err => console.log(err));
             }}
@@ -356,15 +364,6 @@ function ClubHub({dispatch, navigation, route}) {
   }
 
   var details = statehere.ClubHubDetailsReducer.clubhubdetails;
-  //console.log(details);
-
-  /*
-
-      <MetricsOfClub FramesCount={clubDetails.frame_total} />
-          <Divider style={styles.log_out_divider} />
-          <MembersOfClub Details={clubDetails.users} />
-
-          */
 
   function RenderMainBody() {
     if (!resolved) {

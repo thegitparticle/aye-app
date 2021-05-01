@@ -46,29 +46,27 @@ function ClubFramesList({dispatch, navigation, route}) {
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="command"
+      <Pressable
+        style={{width: 75, height: 35}}
         onPress={() =>
           navigation.navigate('ClubHub', {
             club_id: club_id,
             live_who: live_who,
             club_name: club_name,
           })
-        }
-      />
+        }>
+        <Icon type="feather" color={font_color_header} name="octagon" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.navigate('Here')}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.goBack()}>
+        <Icon type="feather" color={font_color_header} name="chevron-down" />
+      </Pressable>
     );
   }
 
@@ -76,10 +74,10 @@ function ClubFramesList({dispatch, navigation, route}) {
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
-          {club_name.substring(0, 13)}
+          {club_name.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {live_who.map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{

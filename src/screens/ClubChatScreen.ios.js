@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -9,7 +9,6 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
-  FlatList,
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
@@ -17,10 +16,8 @@ import {
   Pressable,
 } from 'react-native';
 import {Overlay, Icon, Header, Avatar, SearchBar} from 'react-native-elements';
-import {useHeaderHeight} from '@react-navigation/stack';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-//import MessagesView from './MessagesView';
-//import {messages1} from './Messages1';
+
 import ImagePicker from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
@@ -34,13 +31,8 @@ import ShowMessageOld from '../uibits/ShowMessageOld';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
-import {GetRecosOnType} from '../redux/RecoOnTypeActions';
 import BetterImage from 'react-native-better-image';
-import LinearGradient from 'react-native-linear-gradient';
-import {
-  ClassicHeader,
-  ModernHeader,
-} from '@freakycoder/react-native-header-view';
+
 import {BlurView} from '@react-native-community/blur';
 //import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import _ from 'lodash';
@@ -67,48 +59,30 @@ function ClubChatScreen({navigation, dispatch, route}) {
     clubID,
     clubNameHere,
     channelIdHere,
-    //channelOnGoing,
-    //channelEndTime,
-    //channelStartTime,
-    //livePeople,
+    channelOnGoing,
+    channelEndTime,
+    channelStartTime,
   } = route.params;
   const [channelsHere] = useState([channelIdHere]);
 
-  const channelOnGoing = true;
-
-  //const channelStartTime = 1619090003;
-  //const channelEndTime = 1619235203;
-  const channelStartTime = 1619509825;
-  const channelEndTime = 1619553025;
-
-  //console.log(livePeople + 'live people');
-  const this_channel_string = channelsHere[0];
   const [messages, addMessage] = useState([]);
-  //console.log(messages);
-  const [liveWho, setLiveWho] = useState([]);
-  const [liveMembers, setLiveMembers] = useState([]);
+  const [liveWho, setLiveWho] = useState();
+
   const [nowTimeStamp, setNowTimeStamp] = useState('');
 
   const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
-  //console.log(old_messages.channels[this_channel_string] + 'old messages');
-  //var messages = [];
-  const [forceAddMedia, changeForceAddMedia] = useState('');
-  var input_bar_flex = 0.15;
-  const [inputbarflex, changeInputBarFlex] = useState(input_bar_flex);
 
+  useEffect(() => {
+    setNowTimeStamp(dayjs().valueOf());
+  }, []);
   /*
 
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
-    setNowTimeStamp(dayjs().valueOf());
     mixpanel.track('Opened Club Chat');
   }, []);
   */
-
-  //console.log(nowTimeStamp);
-
-  const [textinputheight, changeTextInputHeight] = useState(45);
 
   const modalizeRefGifSheet = useRef(null);
 
@@ -129,29 +103,27 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   function LeftHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="layers"
+      <Pressable
+        style={{width: 75, height: 35}}
         onPress={() =>
           navigation.navigate('ClubFramesList', {
             club_id: clubID,
             live_who: liveWho,
             club_name: clubNameHere,
           })
-        }
-      />
+        }>
+        <Icon type="feather" color={font_color_header} name="layers" />
+      </Pressable>
     );
   }
 
   function RightHeaderComponent() {
     return (
-      <Icon
-        type="feather"
-        color={font_color_header}
-        name="chevron-down"
-        onPress={() => navigation.goBack()}
-      />
+      <Pressable
+        style={{width: 75, height: 35}}
+        onPress={() => navigation.goBack()}>
+        <Icon type="feather" color={font_color_header} name="chevron-down" />
+      </Pressable>
     );
   }
 
@@ -163,7 +135,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           {clubNameHere.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
-          {liveWho.map(item => (
+          {[].map(item => (
             <Image
               style={styles.center_header_people_image}
               source={{
@@ -608,46 +580,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
       </ScrollView>
     );
   }
-  /*
-  const handleMessage = (event) => {
-    //console.log('message event: ' + event.message);
-    const message = event.message;
-    //console.log(event.userMetadata.type);
-    if (event.userMetadata.type === 'd') {
-      // if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //}
-    } else {
-      //if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //console.log(messages);
-      // }
-    }
-  };
-*/
-  /*
-  const handlePresenceChange = (event) => {
-    console.log(event);
-    console.log(event.action + ' ' + event.uuid + ' ' + 'ACTION OF PRESENCE');
-    const user_id = event.uuid;
-    if (event.action === 'join') {
-      setLiveMembers((liveMembers) => [...liveMembers, user_id]);
-    } else {
-      var index = liveMembers.indexOf(user_id);
-      var list_here = liveMembers.splice(index, 1);
-      setLiveMembers(list_here);
-    }
-  };
-  */
 
   const handleMessage = event => {
     if (messages.includes(event) === false) {
       addMessage(messages => [...messages, event]);
-      //addMessage(messages.concat([event]));
     } else {
       addMessage(messages);
     }
@@ -656,9 +592,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const handleHereNowResponse = event => {
     function InternalHandle(res) {
       if (res) {
-        console.log(res);
         var people_here = res.channels[channelIdHere].occupants;
-        console.log(people_here);
         setLiveWho(people_here);
       }
     }
@@ -669,7 +603,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         includeState: true,
       },
       (status, response) => {
-        console.log(status);
         InternalHandle(response);
       },
     );
@@ -682,8 +615,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   useEffect(() => {
     pubnub.subscribe({channels: channelsHere});
     if (!channelOnGoing) {
-      //console.log(nowTimeStamp + 'on going subcrube time stamp');
-
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
@@ -732,10 +663,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         />
       );
     } else {
-      //console.log(old_messages);
-
       if (!channelOnGoing) {
-        //console.log(messages);
         return (
           <ScrollView
             style={styles.body_scroll_view}
@@ -752,9 +680,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         );
       } else {
         if (Object.entries(old_messages.channels).length === 0) {
-          //console.log('no old messages');
-          //console.log(messages);
-
           return (
             <ScrollView
               style={styles.body_scroll_view}
@@ -771,11 +696,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           );
         } else {
           var x_here = old_messages.channels[channelIdHere];
-          //console.log(x_here.length);
-          //console.log('yes old messages');
-          //console.log(old_messages.channels[channelIdHere] + 'map array');
-          //console.log(messages);
-          //console.log('old messages are there');
+
           return (
             <ScrollView
               style={styles.body_scroll_view}
@@ -787,7 +708,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }>
               {old_messages.channels[channelIdHere].map((item, index) => (
                 <ShowMessageOld Message={item} />
-                //<Text>{item.message}</Text>
               ))}
               {_.uniqBy(messages, 'timetoken').map((message, index) => (
                 <ShowMessage Message={message} />
@@ -800,7 +720,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }
 
   function StartFrame() {
-    //console.log(startTime + 'start time sent here');
     var timeToken = dayjs().unix();
 
     var new_frame_notif_payload = {
@@ -823,7 +742,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         headers: {'content-type': 'application/json'},
         data: {
           start_time: timeToken,
-          //end_time: startTime / 10000000 + 43200,
           end_time: timeToken + 43200,
           club_name: clubID,
           channel_id: channelIdHere,
@@ -847,12 +765,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }
   }
 
-  /*
-  {old_messages.channels[channelIdHere].map((item, index) => (
-            <Text>{item.message}</Text>
-          ))}
-          */
-
   function InputXXX() {
     useEffect(() => {
       Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -866,7 +778,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }, []);
 
     const [typevalue, changeTypevalue] = useState('');
-    //const [chosenMedia, changeChosenMedia] = useState('');
 
     var chosenMedia = '';
 
@@ -888,7 +799,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     function EachRecoItem(props) {
       const [selected, setSelected] = useState(false);
-      //const [chosenMedia1, changeChosenMedia1] = useState('');
 
       if (selected) {
         return (
@@ -936,7 +846,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
             onPress={() => {
               setSelected(true);
               SetChosenMedia(props.Item);
-              //changeChosenMedia(props.Item);
             }}>
             <BetterImage
               viewStyle={{
@@ -1075,10 +984,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <View
         style={{
-          //flex: 0.05,
-          //backgroundColor: input_background_color,
           backgroundColor: 'transparent',
-          //borderTopWidth: 1.5,
           borderColor: input_border_color,
           minHeight: 55,
           alignItems: 'center',
@@ -1089,7 +995,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <View style={styles.textinputview}>
           <View
             style={{
-              // flex: 1,
               backgroundColor: input_background_color,
               borderWidth: 1,
               borderColor: input_border_color,
@@ -1139,8 +1044,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 }
 
                 changeTypevalue('');
-                //changeTextInputHeight(80);
-                //changeInputBarFlex(0.14);
               }}>
               <IconlyDirectIcon Color="#36B37E" />
             </Pressable>
@@ -1195,7 +1098,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
             },
             function (status, response) {
               console.log(status);
-              //StartFrame();
             },
           );
         } else {
@@ -1327,7 +1229,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   function GIFSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const [timeToken, setTimeToken] = useState();
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         console.log('new frame, no messages gif');
@@ -1347,8 +1248,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               StartFrame();
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       } else {
@@ -1363,8 +1262,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           });
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       }
@@ -1382,7 +1279,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           })
-          //.then(() => changeTypevalue(''))
           .catch(err => console.log(err));
       } else {
       }
@@ -1529,7 +1425,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
           backgroundColor: background_color,
           borderRadius: 20,
           margin: 0,
-          //paddingBottom: 10,
         }}
         behavior="padding"
         keyboardVerticalOffset={30}>
@@ -1603,9 +1498,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
     </View>
   );
 }
-
-//      <ExternalMediaImageInput />
-//    <ExternalMediaGIFInput />
 
 const mapStateToProps = state => {
   state_here = state;
