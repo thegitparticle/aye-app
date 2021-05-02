@@ -21,7 +21,6 @@
 		26B52F8A2617B79D00A5A3CF /* GothamRounded-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */; };
 		26B52F8B2617B79D00A5A3CF /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */; };
 		26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */; };
-		26C3B501263DB85D0031FEB5 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26C3B500263DB85D0031FEB5 /* libRNSpringScrollView.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		91EDD0203BD5DD3611462675 /* libPods-toastgo-toastgoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */; };
 		DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2C998B38596D239FCA3457 /* libPods-toastgo.a */; };
@@ -99,7 +98,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26C3B501263DB85D0031FEB5 /* libRNSpringScrollView.a in Frameworks */,
 				DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

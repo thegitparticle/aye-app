@@ -605,7 +605,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const handleMessage = event => {
     if (messages.includes(event) === false) {
       addMessage(messages => [...messages, event]);
-      //addMessage(messages.concat(event));
     } else {
       addMessage(messages);
     }
@@ -771,12 +770,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
     } else {
     }
   }
-
-  /*
-  {old_messages.channels[channelIdHere].map((item, index) => (
-            <Text>{item.message}</Text>
-          ))}
-          */
 
   function InputXXX() {
     useEffect(() => {
@@ -1271,8 +1264,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
               StartFrame();
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       } else {
@@ -1287,8 +1278,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           });
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
         }
       }
@@ -1306,7 +1295,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           })
-          //.then(() => changeTypevalue(''))
           .catch(err => console.log(err));
       } else {
       }
@@ -1375,7 +1363,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
                 Keyboard.dismiss;
                 setTextMessage('');
-                imageSelectorCraftOverlay();
+                gifSelectorCraftOverlay();
                 setImageSelected('');
               }}>
               <IconlyDirectIcon Color="lightgreen" />
@@ -1393,7 +1381,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
   }, [dispatch, gifsSearch]);
 
   function RenderTrendingGifs(item) {
-    //console.log(item.item);
     return (
       <Pressable
         style={{margin: 3}}
@@ -1524,13 +1511,27 @@ function DirectChatScreen({navigation, dispatch, route}) {
           keyExtractor: item => item.id,
           numColumns: 2,
         }}
+        FooterComponent={
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              //zIndex: 9999,
+              position: 'absolute',
+              bottom: 0.2,
+              marginBottom: 10,
+            }}>
+            <Image
+              source={require('../../assets/giphy_branding.png')}
+              style={{backgroundColor: 'black'}}
+            />
+          </View>
+        }
       />
     </View>
   );
 }
-
-//      <ExternalMediaImageInput />
-//    <ExternalMediaGIFInput />
 
 const mapStateToProps = state => {
   state_here = state;
