@@ -6,7 +6,7 @@ export const GetMyNudgeToList = user_id => {
     var res = [];
     axios
       .get(
-        'https://apisayepirates.life/api/users/fetch_friends_list/' +
+        'https://apisayepirates.life/api/users/friends_but_not_friends/' +
           String(user_id) +
           '/',
       )
