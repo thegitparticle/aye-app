@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   Platform,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 import {Icon, Overlay, Header, Avatar, SearchBar} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
@@ -1041,6 +1042,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              disabled={typevalue.length > 0 ? false : true}
               onPress={() => {
                 Keyboard.dismiss;
                 if (!channelOnGoing) {
@@ -1227,10 +1229,19 @@ function DirectChatScreen({navigation, dispatch, route}) {
           setImageSelected(item.item.urls.regular);
           imageSelectorCraftOverlay();
         }}>
-        <Image
+        <ImageBackground
           source={{uri: item.item.urls.thumb}}
-          style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
-        />
+          style={{
+            width: (windowWidth - 10) / 2,
+            height: windowWidth / 2,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
+          <Text style={{color: '#FFF'}}>
+            by {item.item.user.name} on unsplash
+          </Text>
+        </ImageBackground>
       </Pressable>
     );
   }

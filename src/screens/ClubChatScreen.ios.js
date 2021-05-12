@@ -918,6 +918,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }
 
     const sendMessageNewFrame = message => {
+      console.log('sending message in new frame');
       if (messages.length === 0) {
         if (message) {
           pubnub.publish(
@@ -1035,6 +1036,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              disabled={typevalue.length > 0 ? false : true}
               onPress={() => {
                 Keyboard.dismiss;
                 if (!channelOnGoing) {
