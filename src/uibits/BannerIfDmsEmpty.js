@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Dimensions,
+  Image,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 //import FastImage from 'react-native-fast-image';
@@ -15,11 +21,10 @@ function BannerIfDmsEmpty() {
   if (NudgeToData.length > 0) {
     if (NudgeToData[0].userid === 0) {
       return (
-        <View style={styles.banner_view}>
-          <Image
-            style={styles.banner_image}
-            source={require('/Users/san/Desktop/toastgo/assets/dog_3d.png')}
-          />
+        <ImageBackground
+          style={styles.banner_view}
+          imageStyle={{borderRadius: 20}}
+          source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1.gif')}>
           <Button
             clear
             buttonStyle={styles.start_club_button_style}
@@ -27,15 +32,14 @@ function BannerIfDmsEmpty() {
             titleStyle={styles.start_club_button_title_style}
             title="start club to invite your friends onto Aye"
           />
-        </View>
+        </ImageBackground>
       );
     } else {
       return (
-        <View style={styles.banner_view}>
-          <Image
-            style={styles.banner_image}
-            source={require('/Users/san/Desktop/toastgo/assets/dog_3d.png')}
-          />
+        <ImageBackground
+          style={styles.banner_view}
+          imageStyle={{borderRadius: 20}}
+          source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1.gif')}>
           <Button
             clear
             buttonStyle={styles.start_club_button_style}
@@ -43,16 +47,15 @@ function BannerIfDmsEmpty() {
             titleStyle={styles.start_club_button_title_style}
             title="start talking to your friends below"
           />
-        </View>
+        </ImageBackground>
       );
     }
   } else {
     return (
-      <View style={styles.banner_view}>
-        <Image
-          style={styles.banner_image}
-          source={require('/Users/san/Desktop/toastgo/assets/dog_3d.png')}
-        />
+      <ImageBackground
+        style={styles.banner_view}
+        imageStyle={{borderRadius: 20}}
+        source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1.gif')}>
         <Button
           clear
           buttonStyle={styles.start_club_button_style}
@@ -60,7 +63,7 @@ function BannerIfDmsEmpty() {
           titleStyle={styles.start_club_button_title_style}
           title="start club to invite your friends onto Aye"
         />
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -74,13 +77,14 @@ export default connect(mapStateToProps)(BannerIfDmsEmpty);
 
 const styles = StyleSheet.create({
   banner_view: {
-    backgroundColor: '#008DFF',
+    //backgroundColor: '#008DFF',
     marginVertical: windowHeight * 0.1,
     width: windowWidth * 0.95,
     height: windowWidth * 0.7,
     alignItems: 'center',
     alignSelf: 'center',
-    borderRadius: 20,
+    justifyContent: 'flex-end',
+
     shadowColor: '#36b37e',
     shadowOffset: {
       width: 0,
@@ -96,12 +100,12 @@ const styles = StyleSheet.create({
   },
   start_club_button_title_style: {
     fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
+    fontSize: 17,
     color: '#FFFFFF',
   },
   start_club_button_container_style: {
     alignSelf: 'center',
-
+    marginBottom: windowWidth * 0.125,
     backgroundColor: 'transparent',
   },
   start_club_button_style: {

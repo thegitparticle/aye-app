@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
+import {StyleSheet, View, ImageBackground, Dimensions} from 'react-native';
 import {Button} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -15,19 +15,19 @@ function BannerToPushToStartClub() {
 
   if (state_here.MyClubsReducer.myclubs.length <= 2) {
     return (
-      <View style={styles.banner_view}>
-        <FastImage
-          style={styles.banner_image}
-          source={require('/Users/san/Desktop/toastgo/assets/dog_3d.png')}
-        />
+      <ImageBackground
+        style={styles.banner_view}
+        imageStyle={{borderRadius: 20}}
+        source={require('/Users/san/Desktop/toastgo/assets/clan_banner_1.png')}>
         <Button
+          clear
           buttonStyle={styles.start_club_button_style}
           containerStyle={styles.start_club_button_container_style}
           titleStyle={styles.start_club_button_title_style}
-          title="start club"
+          title="start clan"
           onPress={() => navigation.navigate('StartClub')}
         />
-      </View>
+      </ImageBackground>
     );
   } else {
     return (
@@ -35,7 +35,7 @@ function BannerToPushToStartClub() {
         buttonStyle={styles.start_club_button_style_more}
         containerStyle={styles.start_club_button_container_style_more}
         titleStyle={styles.start_club_button_title_style_more}
-        title="start club"
+        title="start clan"
         onPress={() => navigation.navigate('StartClub')}
       />
     );
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.95,
     height: windowWidth * 0.7,
     alignItems: 'center',
+    justifyContent: 'flex-end',
     alignSelf: 'center',
     borderRadius: 20,
     shadowColor: '#36b37e',
@@ -78,14 +79,15 @@ const styles = StyleSheet.create({
   },
   start_club_button_container_style: {
     alignSelf: 'center',
-
+    marginBottom: 10,
     backgroundColor: 'transparent',
   },
   start_club_button_style: {
-    height: 60,
-    width: 160,
+    height: 50,
+    width: 150,
     borderRadius: 30,
     backgroundColor: '#FFF',
+    //backgroundColor: 'transparent',
   },
 
   start_club_button_title_style_more: {
