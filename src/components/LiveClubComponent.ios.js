@@ -17,48 +17,36 @@ function LiveClubComponent(props) {
     var imageslist = [];
 
     _.forEach(live_members, function (value, key) {
-      var id_here = Number(value.uuid);
-      for (var i = 0; i < 2; i++) {
-        if (id_here === all_members[i].user_id) {
-          imageslist.push(all_members[i].display_pic);
-        }
-      }
+      imageslist.push(value.display_pic);
     });
     return <ThreePeopleLiveClub URLList={imageslist} />;
   } else if (numberofpeople === 1) {
     var imageslist = [];
 
     _.forEach(live_members, function (value, key) {
-      var id_here = Number(value.uuid);
-      for (var i = 0; i < 2; i++) {
-        if (id_here === all_members[i].user_id) {
-          imageslist.push(all_members[i].display_pic);
-        }
-      }
+      imageslist.push(value.display_pic);
     });
     return <OnePersonLiveClub URLList={imageslist} />;
   } else if (numberofpeople === 2) {
     var imageslist = [];
 
     _.forEach(live_members, function (value, key) {
-      var id_here = Number(value.uuid);
-      for (var i = 0; i < 2; i++) {
-        if (id_here === all_members[i].user_id) {
-          imageslist.push(all_members[i].display_pic);
-        }
-      }
+      imageslist.push(value.display_pic);
     });
     return <TwoPeopleLiveClub URLList={imageslist} />;
   } else {
     var imageslist = [];
 
     _.forEach(live_members, function (value, key) {
+      imageslist.push(value.display_pic);
+      /*
       var id_here = Number(value.uuid);
       for (var i = 0; i < 2; i++) {
         if (id_here === all_members[i].user_id) {
           imageslist.push(all_members[i].display_pic);
         }
       }
+      */
     });
     return (
       <View>

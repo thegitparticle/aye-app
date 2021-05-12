@@ -48,7 +48,7 @@ function LiveClubs(props) {
             })
           }>
           <ListItem.Content style={styles.ImagesContainer}>
-            <LiveClubComponent Club={comp} />
+            <LiveClubComponent Club={comp} LiveMembers={comp.display_photos} />
           </ListItem.Content>
           <ListItem.Content style={styles.list_item_content}>
             <ListItem.Title style={styles.LiveClubName}>
