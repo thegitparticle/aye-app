@@ -65,6 +65,18 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'b') {
+    function TextPartHere(props) {
+      var x_here = props.Text;
+      if (x_here.length > 0) {
+        return (
+          <View style={styles.b_text_view}>
+            <Text style={styles.b_text}>{props.Text}</Text>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    }
     return (
       <View style={styles.b_type_view}>
         <FastImage
@@ -76,13 +88,23 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.b_avatar}
           />
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Message.message.test}</Text>
-          </View>
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
   } else if (props.Message.userMetadata.type === 'c') {
+    function TextPartHere(props) {
+      var x_here = props.Text;
+      if (x_here.length > 0) {
+        return (
+          <View style={styles.c_text_view}>
+            <Text style={styles.c_text}>{props.Text}</Text>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    }
     return (
       <View style={styles.c_type_view}>
         <FastImage
@@ -94,9 +116,7 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.c_avatar}
           />
-          <View style={styles.c_text_view}>
-            <Text style={styles.c_text}>{props.Message.message.test}</Text>
-          </View>
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
@@ -116,6 +136,18 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'f') {
+    function TextPartHere(props) {
+      var x_here = props.Text;
+      if (x_here.length > 0) {
+        return (
+          <View style={styles.f_text_view}>
+            <Text style={styles.f_text}>{props.Text}</Text>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    }
     return (
       <View style={styles.f_type_view}>
         <FastImage
@@ -127,13 +159,24 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.f_avatar}
           />
-          <View style={styles.f_text_view}>
-            <Text style={styles.f_text}>{props.Message.message}</Text>
-          </View>
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
   } else if (props.Message.userMetadata.type === 'g') {
+    function TextPartHere(props) {
+      var x_here = props.Text;
+      if (x_here.length > 0) {
+        return (
+          <View style={styles.g_text_view}>
+            <Text style={styles.g_text}>{props.Text}</Text>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    }
+
     return (
       <View style={styles.g_type_view}>
         <FastImage
@@ -145,13 +188,23 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.g_avatar}
           />
-          <View style={styles.g_text_view}>
-            <Text style={styles.g_text}>{props.Message.message}</Text>
-          </View>
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
   } else if (props.Message.userMetadata.type === 'h') {
+    function TextPartHere(props) {
+      if (props.Text.length > 0) {
+        return (
+          <View style={styles.h_text_view}>
+            <Text style={styles.h_text}>{props.Text}</Text>
+          </View>
+        );
+      } else {
+        return <View />;
+      }
+    }
+
     return (
       <View style={styles.h_type_view}>
         <FastImage
@@ -163,9 +216,7 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.h_avatar}
           />
-          <View style={styles.h_text_view}>
-            <Text style={styles.h_text}>{props.Message.message}</Text>
-          </View>
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );

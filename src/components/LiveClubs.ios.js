@@ -40,7 +40,8 @@ function LiveClubs(props) {
               params: {
                 clubNameHere: comp.club_name,
                 channelIdHere: comp.pn_channel_id,
-                channelOnGoing: comp.on_going_frame,
+                //channelOnGoing: comp.on_going_frame,
+                channelOnGoing: true,
                 channelStartTime: comp.start_time,
                 channelEndTime: comp.end_time,
                 clubID: comp.club_id,

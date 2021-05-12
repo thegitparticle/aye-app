@@ -65,6 +65,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
   } = route.params;
   const [channelsHere] = useState([channelIdHere]);
 
+  console.log(channelOnGoing);
+
   const [messages, addMessage] = useState([]);
   const [liveWho, setLiveWho] = useState();
 
@@ -128,7 +130,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   }
 
   function CenterHeaderComponent() {
-    console.log(liveWho);
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
@@ -629,7 +630,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       );
     } else {
-      //console.log(nowTimeStamp);
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
@@ -749,6 +749,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
+        /*
         .then(
           pubnub.publish(
             {
@@ -760,6 +761,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             },
           ),
         )
+        */
         .catch(error => console.log(error));
     } else {
     }
