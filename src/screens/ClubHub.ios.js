@@ -26,7 +26,7 @@ import axios from 'axios';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {BlurView} from '@react-native-community/blur';
 import {usePubNub} from 'pubnub-react';
-//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -46,12 +46,10 @@ function ClubHub({dispatch, navigation, route}) {
 
   const [memberChanges, setMemberChanges] = useState(false);
 
-  /*
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Club Hub');
   }, []);
-*/
 
   var res = [];
 

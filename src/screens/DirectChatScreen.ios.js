@@ -35,7 +35,7 @@ import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import BetterImage from 'react-native-better-image';
 import {BlurView} from '@react-native-community/blur';
-//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -64,14 +64,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
   } = route.params;
   const [channelsHere] = useState([directIdHere]);
 
-  /*
-
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
-
-  */
 
   const [messages, addMessage] = useState([]);
   const [liveMembers, setLiveMembers] = useState([]);

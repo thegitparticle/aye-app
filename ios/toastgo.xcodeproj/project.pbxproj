@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		264D828F2617ACA800C1EE45 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264D828E2617ACA800C1EE45 /* File.swift */; };
 		264EB1EB263316C200950BBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 264EB1EA263316C200950BBD /* GoogleService-Info.plist */; };
+		26A1D07C264D37A8005961A1 /* Filem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D07B264D37A8005961A1 /* Filem.swift */; };
 		26B52F852617B79D00A5A3CF /* GothamRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46441C145B2643BC85AFCF6C /* GothamRounded-Bold.otf */; };
 		26B52F862617B79D00A5A3CF /* GothamRounded-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75B9482E2E5442318A5DABA6 /* GothamRounded-BoldItalic.otf */; };
 		26B52F872617B79D00A5A3CF /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B08B22D468D9305580C /* GothamRounded-Book.otf */; };
@@ -54,6 +55,7 @@
 		264D828E2617ACA800C1EE45 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		264EB1EA263316C200950BBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		265CF2FF2632FBE400888150 /* toastgo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = toastgo.entitlements; path = toastgo/toastgo.entitlements; sourceTree = "<group>"; };
+		26A1D07B264D37A8005961A1 /* Filem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filem.swift; sourceTree = "<group>"; };
 		26C3B500263DB85D0031FEB5 /* libRNSpringScrollView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSpringScrollView.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		27E6540A19D7363C597610A4 /* Pods-toastgo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo.debug.xcconfig"; path = "Target Support Files/Pods-toastgo/Pods-toastgo.debug.xcconfig"; sourceTree = "<group>"; };
 		2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-MediumItalic.otf"; path = "../assets/fonts/GothamRounded-MediumItalic.otf"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				26A1D07B264D37A8005961A1 /* Filem.swift */,
 				264EB1EA263316C200950BBD /* GoogleService-Info.plist */,
 				264D828E2617ACA800C1EE45 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* toastgo */,
@@ -491,6 +494,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				264D828F2617ACA800C1EE45 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				26A1D07C264D37A8005961A1 /* Filem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,7 +686,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -740,7 +743,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -13,7 +13,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {BlurView} from '@react-native-community/blur';
-//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -34,13 +34,10 @@ function DirectHub({dispatch, navigation, route}) {
   const [resolved, setResolved] = useState(false);
   const [otherDetails, setOtherDetails] = useState();
 
-  /*
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Direct Hub');
   }, []);
-
-  */
 
   useEffect(() => {
     if (all_ids[0] === String(current_user)) {

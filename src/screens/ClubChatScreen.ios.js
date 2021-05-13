@@ -34,7 +34,7 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import BetterImage from 'react-native-better-image';
 
 import {BlurView} from '@react-native-community/blur';
-//import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import _ from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
@@ -78,13 +78,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
   }, []);
-  /*
 
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Club Chat');
   }, []);
-  */
 
   const modalizeRefGifSheet = useRef(null);
 
