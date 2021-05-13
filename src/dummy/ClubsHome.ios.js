@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {ListItem, Button} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {GetMyClubs} from '../redux/MyClubsActions';
@@ -9,6 +9,7 @@ import LiveClubs from '../components/LiveClubs';
 import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
+import PushSetup from './PushSetup';
 //import {SpringScrollView} from 'react-native-spring-scrollview';
 
 var state_here = {};
@@ -111,11 +112,60 @@ function ClubsHomeD({dispatch}) {
     }
   }
 
+  function SendPNNotif() {
+    var new_frame_notif_payload = {
+      text: 'new frame started',
+      pn_gcm: {
+        topic: 'new_frame',
+        apns: {
+          payload: {
+            aps: {
+              alert: {
+                title: 'club name',
+                body: 'new frame started',
+              },
+            },
+          },
+          headers: {
+            'apns-push-type': 'alert',
+            'apns-topic': 'org.reactjs.native.example.toastgo-go',
+            'apns-priority': '10',
+          },
+        },
+        android: {
+          notification: {
+            //title: {clubNameHere},
+            title: 'Friends',
+            body: 'new frame started',
+          },
+        },
+      },
+    };
+
+    return (
+      <Button
+        buttonStyle={{width: 200, height: 50}}
+        onPress={() =>
+          pubnub.publish(
+            {
+              channel: '1_c_push',
+              message: new_frame_notif_payload,
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          )
+        }
+      />
+    );
+  }
+
   return (
     <ScrollView
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
       <RenderClubsHere />
+      <PushSetup />
       <BannerToPushToStartClub />
     </ScrollView>
   );
