@@ -79,6 +79,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
     setNowTimeStamp(dayjs().valueOf());
   }, []);
 
+  console.log(nowTimeStamp + 'now main');
+
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Club Chat');
@@ -619,8 +621,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
           channels: [channelsHere],
           includeMeta: true,
           //end: nowTimeStamp,
-          end: '1620948809' + '0000000',
-          start: '1620905609' + '0000000',
+          end: dayjs().valueOf(),
+          //end: '1620948809' + '0000000',
+          //start: '1620905609' + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
@@ -632,11 +635,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       );
     } else {
+      console.log(nowTimeStamp + 'now time');
+      console.log(channelStartTime + 'start time');
+      var now_here = dayjs().valueOf();
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: nowTimeStamp + '0000',
+          end: now_here + '0000',
           start: channelStartTime + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
@@ -727,7 +733,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     var new_frame_notif_payload = {
       pn_gcm: {
         notification: {
-          title: {clubNameHere},
+          title: clubNameHere,
           body: 'new frame started',
         },
       },
@@ -886,7 +892,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 typevalue,
             )
             .then(response => (res = response.data))
-            .then(() => setRec(res[0]))
+            .then(() => setRec(_.concat(res[0], res[1])))
             .catch(err => {
               console.log(err);
             });
@@ -918,7 +924,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     var new_message_notif_payload = {
       pn_gcm: {
         notification: {
-          title: {clubNameHere},
+          title: clubNameHere,
           body: 'new messages for you...',
         },
       },
