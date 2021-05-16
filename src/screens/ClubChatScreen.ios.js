@@ -721,14 +721,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
     var timeToken = dayjs().unix();
 
     var new_frame_notif_payload = {
-      text: 'new frame started',
       pn_gcm: {
-        topic: 'new_frame',
-        android: {
-          notification: {
-            title: {clubNameHere},
-            body: 'new frame started',
-          },
+        notification: {
+          title: {clubNameHere},
+          body: 'new frame started',
         },
       },
     };
@@ -747,11 +743,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
-        /*
         .then(
           pubnub.publish(
             {
-              channel: channelIdHere,
+              channel: channelIdHere + '_push',
               message: new_frame_notif_payload,
             },
             function (status, response) {
@@ -759,7 +754,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
             },
           ),
         )
-        */
         .catch(error => console.log(error));
     } else {
     }

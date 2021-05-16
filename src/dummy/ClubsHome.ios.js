@@ -142,6 +142,21 @@ function ClubsHomeD({dispatch}) {
       },
     };
 
+    var new_frame_android_only_payload = {
+      //pn_debug: true,
+      //text: 'John invited you to chat',
+      pn_gcm: {
+        notification: {
+          title: 'Chat Invitation',
+          body: 'John invited you to chat',
+        },
+      },
+    };
+
+    var simple_notif_load = {
+      pn_gcm: {notification: {body: 'this better works cuz it simple'}},
+    };
+
     return (
       <Button
         buttonStyle={{width: 200, height: 50}}
@@ -149,7 +164,9 @@ function ClubsHomeD({dispatch}) {
           pubnub.publish(
             {
               channel: '1_c_push',
-              message: new_frame_notif_payload,
+              //message: new_frame_notif_payload,
+              message: new_frame_android_only_payload,
+              //message: simple_notif_load,
             },
             function (status, response) {
               console.log(status);
@@ -166,6 +183,7 @@ function ClubsHomeD({dispatch}) {
       showsVerticalScrollIndicator={false}>
       <RenderClubsHere />
       <PushSetup />
+      <SendPNNotif />
       <BannerToPushToStartClub />
     </ScrollView>
   );
