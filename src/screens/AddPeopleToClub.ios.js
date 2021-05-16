@@ -115,21 +115,12 @@ function AddPeopleToClub({dispatch, navigation, route}) {
           .then(() => navigation.goBack())
           .catch(err => {
             console.log(err);
-            console.log(
-              'https://apisayepirates.life/api/users/add_users_to_club/' +
-                String(value) +
-                '/' +
-                String(club_id) +
-                '/',
-            );
           });
       });
     } else {
       navigation.goBack();
     }
   }
-
-  console.log(circle_list_here);
 
   return (
     <View style={styles.overall_container}>

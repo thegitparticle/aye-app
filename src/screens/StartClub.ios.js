@@ -201,8 +201,8 @@ function StartClub({dispatch, navigation}) {
           renderItem={({item}) => (
             <RenderCircleItem
               Name={item.name}
-              ID={item.userid}
-              Avatar={item.displaypic}
+              ID={item.friend_user_id}
+              Avatar={item.profile_pic}
             />
           )}
           keyExtractor={item => item.userid}
