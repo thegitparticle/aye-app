@@ -192,22 +192,28 @@ function StartClub({dispatch, navigation}) {
     var the_list = mystatehere.MyCircleReducer.mycircle;
     var the_one = the_list[0];
 
-    if (the_one.userid === 0) {
-      return <View />;
+    console.log(the_list);
+
+    if (the_list.length > 0) {
+      if (the_one.friend_user_id === 0) {
+        return <View />;
+      } else {
+        return (
+          <FlatList
+            data={mystatehere.MyCircleReducer.mycircle}
+            renderItem={({item}) => (
+              <RenderCircleItem
+                Name={item.name}
+                ID={item.friend_user_id}
+                Avatar={item.profile_pic}
+              />
+            )}
+            keyExtractor={item => item.userid}
+          />
+        );
+      }
     } else {
-      return (
-        <FlatList
-          data={mystatehere.MyCircleReducer.mycircle}
-          renderItem={({item}) => (
-            <RenderCircleItem
-              Name={item.name}
-              ID={item.friend_user_id}
-              Avatar={item.profile_pic}
-            />
-          )}
-          keyExtractor={item => item.userid}
-        />
-      );
+      return <View />;
     }
   }
 

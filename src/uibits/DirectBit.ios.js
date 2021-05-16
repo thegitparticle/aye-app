@@ -34,6 +34,8 @@ function DirectBit(props) {
     }
   }
 
+  console.log(props.Direct);
+
   return (
     <Pressable
       style={styles.overall_view}

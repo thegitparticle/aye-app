@@ -57,7 +57,7 @@ function NudgeToBit(props) {
               type: 'direct',
 
               other_user_name: props.NudgeTo.name,
-              other_user_image: props.NudgeTo.avatar,
+              other_user_image: props.NudgeTo.profile_pic,
               other_user_id: props.NudgeTo.id,
             },
           },
@@ -82,7 +82,7 @@ function NudgeToBit(props) {
     <View style={styles.overall_view}>
       <View style={styles.left_side_things}>
         <FastImage
-          source={{uri: props.NudgeTo.avatar}}
+          source={{uri: props.NudgeTo.profile_pic}}
           style={styles.avatar_of_user}
           size={68}
         />
