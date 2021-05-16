@@ -746,6 +746,16 @@ function DirectChatScreen({navigation, dispatch, route}) {
     //console.log(startTime + 'start time sent here');
     var all_ids = _.split(directIdHere, '_');
     var timeToken = dayjs().unix();
+
+    var new_frame_notif_payload = {
+      pn_gcm: {
+        notification: {
+          title: otherNameHere,
+          body: 'new frame started',
+        },
+      },
+    };
+
     if (messages.length === 0) {
       var config = {
         method: 'post',
@@ -763,7 +773,19 @@ function DirectChatScreen({navigation, dispatch, route}) {
         },
       };
 
-      axios(config).catch(error => console.log(error));
+      axios(config)
+        .then(
+          pubnub.publish(
+            {
+              channel: directIdHere + '_push',
+              message: new_frame_notif_payload,
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          ),
+        )
+        .catch(error => console.log(error));
     } else {
     }
   }
@@ -918,6 +940,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
       }
     }
 
+    var new_message_notif_payload = {
+      pn_gcm: {
+        notification: {
+          title: otherNameHere,
+          body: 'new messages for you ;)',
+        },
+      },
+    };
+
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         if (message) {
@@ -954,6 +985,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
             function (status, response) {
               console.log(status);
               console.log(response);
+              pubnub.publish(
+                {
+                  channel: directIdHere + '_push',
+                  message: new_message_notif_payload,
+                },
+                function (status, response) {
+                  console.log(status);
+                },
+              );
             },
           );
         } else {
@@ -975,6 +1015,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
           },
           function (status, response) {
             console.log(status);
+            pubnub.publish(
+              {
+                channel: directIdHere + '_push',
+                message: new_message_notif_payload,
+              },
+              function (status, response) {
+                console.log(status);
+              },
+            );
           },
         );
       } else {

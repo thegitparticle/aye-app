@@ -915,6 +915,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
       }
     }
 
+    var new_message_notif_payload = {
+      pn_gcm: {
+        notification: {
+          title: {clubNameHere},
+          body: 'new messages for you...',
+        },
+      },
+    };
+
     const sendMessageNewFrame = message => {
       console.log('sending message in new frame');
       if (messages.length === 0) {
@@ -952,6 +961,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
             function (status, response) {
               console.log(status);
               console.log(response);
+              pubnub.publish(
+                {
+                  channel: channelIdHere + '_push',
+                  message: new_message_notif_payload,
+                },
+                function (status, response) {
+                  console.log(status);
+                },
+              );
             },
           );
         } else {
@@ -974,6 +992,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
           function (status, response) {
             console.log(status);
             console.log(response);
+            pubnub.publish(
+              {
+                channel: channelIdHere + '_push',
+                message: new_message_notif_payload,
+              },
+              function (status, response) {
+                console.log(status);
+              },
+            );
           },
         );
       } else {

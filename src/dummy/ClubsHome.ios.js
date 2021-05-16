@@ -113,7 +113,7 @@ function ClubsHomeD({dispatch}) {
   }
 
   function SendPNNotif() {
-    var new_frame_notif_payload = {
+    var new_frame_notif_payload_old = {
       text: 'new frame started',
       pn_gcm: {
         topic: 'new_frame',
@@ -153,6 +153,15 @@ function ClubsHomeD({dispatch}) {
       },
     };
 
+    var new_frame_notif_payload = {
+      pn_gcm: {
+        notification: {
+          title: 'Bohemian Grove',
+          body: 'new frame started',
+        },
+      },
+    };
+
     var simple_notif_load = {
       pn_gcm: {notification: {body: 'this better works cuz it simple'}},
     };
@@ -163,9 +172,9 @@ function ClubsHomeD({dispatch}) {
         onPress={() =>
           pubnub.publish(
             {
-              channel: '1_c_push',
-              //message: new_frame_notif_payload,
-              message: new_frame_android_only_payload,
+              channel: '2_c_push',
+              message: new_frame_notif_payload,
+              //message: new_frame_android_only_payload,
               //message: simple_notif_load,
             },
             function (status, response) {
@@ -182,6 +191,7 @@ function ClubsHomeD({dispatch}) {
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
       <RenderClubsHere />
+      <SendPNNotif />
       <PushSetup />
       <BannerToPushToStartClub />
     </ScrollView>
