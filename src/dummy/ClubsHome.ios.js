@@ -191,7 +191,6 @@ function ClubsHomeD({dispatch}) {
       style={styles.overall_view}
       showsVerticalScrollIndicator={false}>
       <RenderClubsHere />
-      <SendPNNotif />
       <PushSetup />
       <BannerToPushToStartClub />
     </ScrollView>

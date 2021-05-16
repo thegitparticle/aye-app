@@ -635,8 +635,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       );
     } else {
-      console.log(nowTimeStamp + 'now time');
-      console.log(channelStartTime + 'start time');
       var now_here = dayjs().valueOf();
       pubnub.fetchMessages(
         {
