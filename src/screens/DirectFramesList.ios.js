@@ -64,8 +64,8 @@ function DirectFramesList({dispatch, navigation, route}) {
         <Icon
           type="feather"
           color={font_color_header}
-          name="chevron-down"
-          onPress={() => navigation.navigate('Here')}
+          name="chevron-right"
+          onPress={() => navigation.navigate('DirectChatScreen')}
         />
       </Pressable>
     );

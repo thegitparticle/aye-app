@@ -62,8 +62,8 @@ function ClubFramesList({dispatch, navigation, route}) {
     return (
       <Pressable
         style={{width: 75, height: 35}}
-        onPress={() => navigation.goBack()}>
-        <Icon type="feather" color={font_color_header} name="chevron-down" />
+        onPress={() => navigation.navigate('ClubChatScreen')}>
+        <Icon type="feather" color={font_color_header} name="chevron-right" />
       </Pressable>
     );
   }
