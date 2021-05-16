@@ -618,12 +618,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: nowTimeStamp,
+          //end: nowTimeStamp,
+          end: '1620948809' + '0000000',
+          start: '1620905609' + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
           if (response) {
+            console.log(response);
             changeOldMessagesResolve(true);
+            addOldMessages(response);
           }
         },
       );

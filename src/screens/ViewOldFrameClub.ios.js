@@ -38,18 +38,17 @@ function ViewOldFrameClub({route, navigation}) {
     );
   }
 
-  //console.log(old_messages);
-
   useEffect(() => {
     pubnub.fetchMessages(
       {
-        channels: [channel_id],
+        channels: [String(channel_id) + '_c'],
         includeMeta: true,
-        end: end_time + '0000000',
-        start: start_time + '0000000',
+        end: String(end_time) + '0000000',
+        start: String(start_time) + '0000000',
         count: 100, // default/max is 25 messages for multiple channels (up to 500)
       },
       function (status, response) {
+        console.log(status);
         if (response) {
           addOldMessages(response);
           changeOldMessagesResolve(true);
@@ -62,9 +61,9 @@ function ViewOldFrameClub({route, navigation}) {
     if (!old_messages_resolve) {
       return <View />;
     } else {
-      return old_messages.channels[channel_id].map((item, index) => (
-        <ShowMessageOld Message={item} />
-      ));
+      return old_messages.channels[
+        String(channel_id) + '_c'
+      ].map((item, index) => <ShowMessageOld Message={item} />);
     }
   }
 
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    //justifyContent: 'flex-end',
     padding: 0,
     margin: 0,
   },
