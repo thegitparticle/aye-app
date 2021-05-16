@@ -183,7 +183,6 @@ function ClubsHomeD({dispatch}) {
       showsVerticalScrollIndicator={false}>
       <RenderClubsHere />
       <PushSetup />
-      <SendPNNotif />
       <BannerToPushToStartClub />
     </ScrollView>
   );

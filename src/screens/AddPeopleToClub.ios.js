@@ -10,6 +10,7 @@ import {
 import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
+import _ from 'lodash';
 
 import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 import axios from 'axios';
@@ -41,15 +42,16 @@ function AddPeopleToClub({dispatch, navigation, route}) {
   var AddFriendsList = [];
 
   function SelectCircleItem(id) {
-    AddFriendsList.push(id.toString());
+    AddFriendsList.push(id);
   }
 
   function DeSelectCircleItem(id) {
-    AddFriendsList = AddFriendsList.filter(item => item !== id.toString());
+    AddFriendsList = AddFriendsList.filter(item => item !== id);
   }
 
   function RenderCircleItem(props) {
     const [added, setAdded] = useState(false);
+    console.log(props.ID);
     if (added) {
       return (
         <Pressable
@@ -98,24 +100,36 @@ function AddPeopleToClub({dispatch, navigation, route}) {
   }
 
   function SubmitChanges() {
+    console.log(AddFriendsList);
     if (AddFriendsList.length > 0) {
-      for (let i = 0; i < AddFriendsList.length; i++) {
+      _.forEach(AddFriendsList, function (value) {
         axios
           .get(
             'https://apisayepirates.life/api/users/add_users_to_club/' +
-              i +
+              String(value) +
               '/' +
-              String(club_id),
+              String(club_id) +
+              '/',
           )
-          .then(() => console.log('sent'))
-
-          .catch(err => console.log(err));
-      }
-      navigation.goBack();
+          .then(() => console.log('added'))
+          .then(() => navigation.goBack())
+          .catch(err => {
+            console.log(err);
+            console.log(
+              'https://apisayepirates.life/api/users/add_users_to_club/' +
+                String(value) +
+                '/' +
+                String(club_id) +
+                '/',
+            );
+          });
+      });
     } else {
       navigation.goBack();
     }
   }
+
+  console.log(circle_list_here);
 
   return (
     <View style={styles.overall_container}>
@@ -133,8 +147,8 @@ function AddPeopleToClub({dispatch, navigation, route}) {
         renderItem={({item}) => (
           <RenderCircleItem
             Name={item.name}
-            ID={item.userid}
-            Avatar={item.displaypic}
+            ID={item.friend_user_id}
+            Avatar={item.profile_pic}
           />
         )}
         keyExtractor={item => item.userid}

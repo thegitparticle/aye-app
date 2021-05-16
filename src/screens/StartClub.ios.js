@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
   Dimensions,
   StyleSheet,
   View,
   SafeAreaView,
-  PermissionsAndroid,
   TextInput,
   FlatList,
   Text,
@@ -15,7 +13,6 @@ import {Divider, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 //import {getMyContacts} from '../redux/MyContactsActions';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import _ from 'lodash';
@@ -192,19 +189,26 @@ function StartClub({dispatch, navigation}) {
   }
 
   function CircleNew() {
-    return (
-      <FlatList
-        data={mystatehere.MyCircleReducer.mycircle}
-        renderItem={({item}) => (
-          <RenderCircleItem
-            Name={item.name}
-            ID={item.userid}
-            Avatar={item.displaypic}
-          />
-        )}
-        keyExtractor={item => item.userid}
-      />
-    );
+    var the_list = mystatehere.MyCircleReducer.mycircle;
+    var the_one = the_list[0];
+
+    if (the_one.userid === 0) {
+      return <View />;
+    } else {
+      return (
+        <FlatList
+          data={mystatehere.MyCircleReducer.mycircle}
+          renderItem={({item}) => (
+            <RenderCircleItem
+              Name={item.name}
+              ID={item.userid}
+              Avatar={item.displaypic}
+            />
+          )}
+          keyExtractor={item => item.userid}
+        />
+      );
+    }
   }
 
   function ContactsNew() {

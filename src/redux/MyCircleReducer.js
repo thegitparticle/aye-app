@@ -3,10 +3,10 @@ import {ADD_MYCIRCLE} from './types';
 const INITIAL_STATE = {
   mycircle: [
     {
-      userid: 4,
-      username: 'heartdisease',
-      name: 'John Bezzd',
-      displaypic: 'https://randomuser.me/api/portraits/men/91.jpg',
+      userid: 0,
+      username: '',
+      name: 'loading...',
+      displaypic: '',
     },
   ],
 };
