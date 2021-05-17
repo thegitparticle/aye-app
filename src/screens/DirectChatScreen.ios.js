@@ -920,7 +920,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 typevalue,
             )
             .then(response => (res = response.data))
-            .then(() => setRec(res[0]))
+            .then(() => setRec(_.concat(res[0], res[1])))
             .catch(err => {
               console.log(err);
             });
