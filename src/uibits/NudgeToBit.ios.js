@@ -4,16 +4,16 @@ import {Button} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {usePubNub} from 'pubnub-react';
+import {GetDirectsList} from '../redux/DirectsListActions';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
-function NudgeToBit(props) {
+function NudgeToBit(props, {dispatch}) {
   const pubnub = usePubNub();
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
-  //console.log(typeof [String(current_user_id), String(props.NudgeTo.userid)]);
 
   function StartDirectConvo() {
     pubnub.objects.setMemberships(
@@ -44,11 +44,7 @@ function NudgeToBit(props) {
         uuid: String(current_user_id),
         channels: [
           {
-            id:
-              String(current_user_id) +
-              '_' +
-              String(props.NudgeTo.userid) +
-              '_d',
+            id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
             custom: {
               type: 'direct',
 
@@ -64,13 +60,8 @@ function NudgeToBit(props) {
       },
     );
 
-    /*
-    pubnub.objects.removeChannelMembers({
-      channel:
-        String(current_user_id) + '_' + String(props.NudgeTo.userid) + '_d',
-      uuids: [String(current_user_id), String(props.NudgeTo.userid)],
-    });
-*/
+    //dispatch(GetDirectsList(pubnub, current_user_id));
+
     console.log('do the axios call to trigger start of direct convo to server');
   }
 

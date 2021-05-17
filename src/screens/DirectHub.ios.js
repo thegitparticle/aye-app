@@ -91,7 +91,6 @@ function DirectHub({dispatch, navigation, route}) {
 
   useEffect(() => {
     axios
-      //.get('https://run.mocky.io/v3/44922ed3-cc90-454c-bfab-2ba4b1df4cd0')
       .get(
         'https://apisayepirates.life/api/users/profile-update/?id=&user=' +
           otherUser,

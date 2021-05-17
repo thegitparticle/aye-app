@@ -6,24 +6,7 @@ export const GetDirectsList = (pubnub, user_id) => {
 
   return dispatch => {
     var res = [];
-    //console.log('get my profile dispatched');
-    //console.log(phone);
 
-    /*
-    axios
-      .get('https://apisayepirates.life/api/users/profile/' + phone)
-      .then(response => (res = response.data))
-      .then(() => console.log(res))
-      .then(() =>
-        dispatch({
-          type: ADD_DIRECTSLIST,
-          payload: res,
-        }),
-      )
-      .catch(err => {
-        console.log(err);
-      });
-*/
     pubnub.objects.getMemberships(
       {
         //uuid: state_here.MyProfileReducer.myprofile.user.id,

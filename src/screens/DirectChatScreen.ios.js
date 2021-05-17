@@ -69,6 +69,16 @@ function DirectChatScreen({navigation, dispatch, route}) {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
 
+  /*
+
+  useEffect(() => {
+    pubnub.objects.removeMemberships({
+      channels: ['4_undefined_d'],
+    });
+  }, []);
+
+  */
+
   const [messages, addMessage] = useState([]);
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
