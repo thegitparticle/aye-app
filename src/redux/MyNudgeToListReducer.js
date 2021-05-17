@@ -3,10 +3,10 @@ import {ADD_MYNUDGETOLIST} from './types';
 const INITIAL_STATE = {
   mynudgetolist: [
     {
-      userid: 0,
+      id: 0,
       username: '....',
       name: '',
-      displaypic: '',
+      profile_pic: '',
     },
   ],
 };

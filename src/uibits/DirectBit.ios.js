@@ -34,7 +34,7 @@ function DirectBit(props) {
     }
   }
 
-  console.log(props.Direct);
+  //console.log(props.Direct);
 
   return (
     <Pressable

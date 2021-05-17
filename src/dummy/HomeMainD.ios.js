@@ -32,7 +32,7 @@ function HomeMainD({dispatch, navigation}) {
   }
 
   const [updateBannerVisible, setUpdateBannerVisible] = useState(false);
-  const current_app_version = '1.0.0';
+  const current_app_version = '1.0.1';
 
   var res_here = [];
 

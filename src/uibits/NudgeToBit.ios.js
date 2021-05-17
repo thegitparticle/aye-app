@@ -18,15 +18,11 @@ function NudgeToBit(props) {
   function StartDirectConvo() {
     pubnub.objects.setMemberships(
       {
-        uuid: String(props.NudgeTo.userid),
+        uuid: String(props.NudgeTo.id),
 
         channels: [
           {
-            id:
-              String(current_user_id) +
-              '_' +
-              String(props.NudgeTo.userid) +
-              '_d',
+            id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
             custom: {
               type: 'direct',
 
