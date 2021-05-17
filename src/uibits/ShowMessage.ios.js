@@ -65,6 +65,7 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'b') {
+    console.log(props.Message);
     function TextPartHere(props) {
       var x_here = props.Text;
       if (x_here.length > 0) {
@@ -88,7 +89,7 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.b_avatar}
           />
-          <TextPartHere Text={props.Message.message} />
+          <TextPartHere Text={props.Message.message.test} />
         </FastImage>
       </View>
     );
@@ -116,7 +117,7 @@ function ShowMessage(props) {
             size={60}
             containerStyle={styles.c_avatar}
           />
-          <TextPartHere Text={props.Message.message} />
+          <TextPartHere Text={props.Message.message.test} />
         </FastImage>
       </View>
     );

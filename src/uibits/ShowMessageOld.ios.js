@@ -47,6 +47,7 @@ function ShowMessageOld(props) {
       </View>
     );
   } else if (props.Message.meta.type === 'b') {
+    console.log(props.Message);
     function TextPartHere(props) {
       var x_here = props.Text;
       if (x_here.length > 0) {
