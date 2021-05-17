@@ -172,67 +172,37 @@ function DirectChatScreen({navigation, dispatch, route}) {
       console.log('sending picked image - new frames');
       if (messages.length === 0) {
         console.log('no live messsages here');
-        if (message) {
-          pubnub.sendFile(
-            {
-              channel: channelsHere[0],
-              message: {
-                test: message,
-                //value: 42
-              },
-              file: {
-                uri: imagePicked,
-                name: imagePickedName,
-                mimeType: imagePickedMime,
-              },
-              meta: {
-                type: 'b',
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
+        //if (message) {
+        pubnub.sendFile(
+          {
+            channel: channelsHere[0],
+            message: {
+              test: message,
+              //value: 42
             },
-            function (status, response) {
-              //StartFrame();
-              console.log(status);
+            file: {
+              uri: imagePicked,
+              name: imagePickedName,
+              mimeType: imagePickedMime,
             },
-          );
+            meta: {
+              type: 'b',
+              user_dp: state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            //StartFrame();
+            console.log(status);
+          },
+        );
 
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
+        //.then(() => changeTypevalue(''))
+        //.catch(err => console.log(err));
+        // } else {
+        //}
       } else {
         console.log('yes live messsages here');
-        if (message) {
-          pubnub.sendFile(
-            {
-              channel: channelsHere[0],
-              message: {
-                test: message,
-                //value: 42
-              },
-              file: {
-                uri: imagePicked,
-                name: imagePickedName,
-                mimeType: imagePickedMime,
-              },
-              meta: {
-                type: 'b',
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending picked image - old frame');
-      if (message) {
+        // if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
@@ -254,9 +224,39 @@ function DirectChatScreen({navigation, dispatch, route}) {
             console.log(status);
           },
         );
+        //.then(() => changeTypevalue(''))
         //.catch(err => console.log(err));
-      } else {
+        // } else {
+        //}
       }
+    };
+    const sendMessageOldFrame = message => {
+      console.log('sending picked image - old frame');
+      // if (message) {
+      pubnub.sendFile(
+        {
+          channel: channelsHere[0],
+          message: {
+            test: message,
+            //value: 42
+          },
+          file: {
+            uri: imagePicked,
+            name: imagePickedName,
+            mimeType: imagePickedMime,
+          },
+          meta: {
+            type: 'b',
+            user_dp: state_here.MyProfileReducer.myprofile.image,
+          },
+        },
+        function (status, response) {
+          console.log(status);
+        },
+      );
+      //.catch(err => console.log(err));
+      //} else {
+      //}
     };
 
     return (
@@ -348,64 +348,35 @@ function DirectChatScreen({navigation, dispatch, route}) {
     const [textMessage, setTextMessage] = useState('');
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message: {
-                test: message,
-                //value: 42
-              },
-              file: {
-                uri: cameraPicked,
-                name: cameraPickedName,
-                mimeType: cameraPickedMime,
-              },
-              meta: {
-                type: 'c',
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
+        //if (message) {
+        pubnub.publish(
+          {
+            channel: channelsHere[0],
+            message: {
+              test: message,
+              //value: 42
             },
-            function (status, response) {
-              console.log(status.statusCode);
-              //StartFrame();
+            file: {
+              uri: cameraPicked,
+              name: cameraPickedName,
+              mimeType: cameraPickedMime,
             },
-          );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
+            meta: {
+              type: 'c',
+              user_dp: state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status.statusCode);
+            //StartFrame();
+          },
+        );
+        //.then(() => changeTypevalue(''))
+        //.catch(err => console.log(err));
+        //} else {
+        //}
       } else {
-        if (message) {
-          pubnub.sendFile(
-            {
-              channel: channelsHere[0],
-              message: {
-                test: message,
-                //value: 42
-              },
-              file: {
-                uri: cameraPicked,
-                name: cameraPickedName,
-                mimeType: cameraPickedMime,
-              },
-              meta: {
-                type: 'c',
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status.statusCode);
-            },
-          );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      if (message) {
+        //if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
@@ -427,9 +398,38 @@ function DirectChatScreen({navigation, dispatch, route}) {
             console.log(status.statusCode);
           },
         );
+        //.then(() => changeTypevalue(''))
         //.catch(err => console.log(err));
-      } else {
+        // } else {
+        //}
       }
+    };
+    const sendMessageOldFrame = message => {
+      // if (message) {
+      pubnub.sendFile(
+        {
+          channel: channelsHere[0],
+          message: {
+            test: message,
+            //value: 42
+          },
+          file: {
+            uri: cameraPicked,
+            name: cameraPickedName,
+            mimeType: cameraPickedMime,
+          },
+          meta: {
+            type: 'c',
+            user_dp: state_here.MyProfileReducer.myprofile.image,
+          },
+        },
+        function (status, response) {
+          console.log(status.statusCode);
+        },
+      );
+      //.catch(err => console.log(err));
+      // } else {
+      //}
     };
 
     return (
