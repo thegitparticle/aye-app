@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useContext} from 'react';
 import {
   Pressable,
@@ -109,7 +110,7 @@ function DirectHub({dispatch, navigation, route}) {
     return (
       <View style={styles.metrics_of_conv_view}>
         <Text style={styles.metrics_of_conv_text}>
-          {props.FramesCount} <Text style={{fontSize: 25}}>🖼</Text>
+          {props.FramesCount} <Text style={{fontSize: 21}}>frames</Text>
         </Text>
       </View>
     );
@@ -222,7 +223,6 @@ function DirectHub({dispatch, navigation, route}) {
       return (
         <View>
           <FirstBlock />
-
           <SecondBlock />
         </View>
       );
@@ -250,7 +250,7 @@ function DirectHub({dispatch, navigation, route}) {
             bottom: 0,
             right: 0,
             width: windowWidth,
-            height: 200,
+            height: 100,
           }}
           source={require(header_back_image)}
         />
@@ -262,7 +262,7 @@ function DirectHub({dispatch, navigation, route}) {
             bottom: 0,
             right: 0,
             width: windowWidth,
-            height: 200,
+            height: 100,
           }}
           blurType="light"
           blurAmount={50}
@@ -411,7 +411,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: 'center',
     borderRadius: 10,
-    justifyContent: 'center',
+    marginVertical: 20,
+    //justifyContent: 'center',
+    flex: 1,
   },
 
   metrics_of_conv_view: {
