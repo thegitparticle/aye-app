@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useContext, useRef, useEffect, useMemo} from 'react';
 import {
   View,
   ScrollView,
@@ -506,73 +506,77 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
-  function OtherInputBar() {
-    return (
-      <ScrollView
-        horizontal={true}
-        centerContent={true}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.otherinputscrollview}>
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() => {
-            ImagePicker.openCamera({
-              cropping: true,
-            }).then(image => {
-              console.log(image);
-              setCameraPicked(image.path);
-              setCameraPickedMime(image.mime);
-              setCameraPickedName('camera_photo');
-              cameraPickerCraftOverlay();
-            });
-          }}>
-          <Image
-            source={require('../../assets/crazy_camera_e_d.png')}
-            style={styles.OtherInputIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() => {
-            ImagePicker.openPicker({
-              multiple: false,
-              cropping: false,
-            }).then(images => {
-              console.log(images);
-              setImagePicked(images.path);
-              setImagePickedMime(images.mime);
-              setImagePickedName(images.filename);
-              imagePickerCraftOverlay();
-            });
-          }}>
-          <Image
-            source={require('../../assets/crazy_photos_apple_e_d.png')}
-            style={styles.OtherInputIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() => {
-            onOpenBitmojiSheet();
-          }}>
-          <Image
-            source={require('../../assets/crazy_unsplash_e_d.png')}
-            style={styles.OtherInputIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() => {
-            onOpenGifSheet();
-          }}>
-          <Image
-            source={require('../../assets/crazy_gif_e_d.png')}
-            style={styles.OtherInputIcon}
-          />
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  }
+  const OtherInputBar = useMemo(
+    () =>
+      function OtherInputBarX() {
+        return (
+          <ScrollView
+            horizontal={true}
+            centerContent={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.otherinputscrollview}>
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                ImagePicker.openCamera({
+                  cropping: true,
+                }).then(image => {
+                  console.log(image);
+                  setCameraPicked(image.path);
+                  setCameraPickedMime(image.mime);
+                  setCameraPickedName('camera_photo');
+                  cameraPickerCraftOverlay();
+                });
+              }}>
+              <Image
+                source={require('../../assets/crazy_camera_e_d.png')}
+                style={styles.OtherInputIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                ImagePicker.openPicker({
+                  multiple: false,
+                  cropping: false,
+                }).then(images => {
+                  console.log(images);
+                  setImagePicked(images.path);
+                  setImagePickedMime(images.mime);
+                  setImagePickedName(images.filename);
+                  imagePickerCraftOverlay();
+                });
+              }}>
+              <Image
+                source={require('../../assets/crazy_photos_apple_e_d.png')}
+                style={styles.OtherInputIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                onOpenBitmojiSheet();
+              }}>
+              <Image
+                source={require('../../assets/crazy_unsplash_e_d.png')}
+                style={styles.OtherInputIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                onOpenGifSheet();
+              }}>
+              <Image
+                source={require('../../assets/crazy_gif_e_d.png')}
+                style={styles.OtherInputIcon}
+              />
+            </TouchableOpacity>
+          </ScrollView>
+        );
+      },
+    [],
+  );
   /*
   const handleMessage = (event) => {
     //console.log('message event: ' + event.message);
