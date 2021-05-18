@@ -17,6 +17,7 @@ import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -131,6 +132,14 @@ function OTPCheckRegister({navigation, dispatch, route}) {
             onPress={() =>
               axios
                 .get('https://apisayepirates.life/api/users/send_otp/' + phone)
+                .then(() =>
+                  showMessage({
+                    message: 'OTP sent again',
+                    type: 'info',
+                    //backgroundColor: 'mediumseagreen',
+                    backgroundColor: 'indianred',
+                  }),
+                )
                 .catch(err => console.log(err))
             }>
             <Text style={styles.resend_button_text}>resend OTP</Text>

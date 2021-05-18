@@ -14,6 +14,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {connect} from 'react-redux';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import axios from 'axios';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -67,6 +68,13 @@ function EditProfile({navigation, dispatch}) {
 
     axios(config)
       .then(response => (res = response.data))
+      .then(() =>
+        showMessage({
+          message: 'display photo updated',
+          type: 'info',
+          backgroundColor: 'mediumseagreen',
+        }),
+      )
       //.then(console.log(res + 'res back'))
       .then(() => navigation.goBack())
       //.then(() => setShowjoinspinner(false))

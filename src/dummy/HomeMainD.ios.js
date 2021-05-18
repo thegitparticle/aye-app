@@ -9,6 +9,7 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 import axios from 'axios';
 import messaging from '@react-native-firebase/messaging';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -98,6 +99,7 @@ function HomeMainD({dispatch, navigation}) {
   return (
     <View style={styles.overall_view}>
       <HeaderAtHome />
+
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}

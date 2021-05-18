@@ -6,6 +6,7 @@ import {storehere, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import messaging from '@react-native-firebase/messaging';
 import * as Sentry from '@sentry/react-native';
+import FlashMessage from 'react-native-flash-message';
 
 Sentry.init({
   dsn:
@@ -23,6 +24,7 @@ const App: () => Node = () => {
     <Provider store={storehere}>
       <PersistGate loading={null} persistor={persistor}>
         <RootStack />
+        <FlashMessage position="top" />
       </PersistGate>
     </Provider>
   );
