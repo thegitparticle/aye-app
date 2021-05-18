@@ -5,8 +5,6 @@ import HomeStack from './HomeStack';
 import {connect} from 'react-redux';
 import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
-import analytics from '@segment/analytics-react-native';
-import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
 import {Mixpanel} from 'mixpanel-react-native';
@@ -21,20 +19,6 @@ function RootStack() {
 
     return unsubscribe;
   }, []);
-  /*
-  useEffect(() => {
-    const initMixpanel = async () => {
-      const initializedMixpanel = await Mixpanel.init(
-        '3e0fa58ece380382cd406509554aef3b',
-      );
-      setMixpanel(initializedMixpanel);
-
-      //mixpanel.track('init done of mixpanel');
-    };
-
-    initMixpanel();
-  }, []);
-  */
 
   var t_or_f = state_here.AuthStateReducer.logged_in_or_not;
 
@@ -47,15 +31,26 @@ function RootStack() {
     });
 
     const [mixpanel, setMixpanel] = useState();
+
     const initMixpanel = async () => {
       const initializedMixpanel = await Mixpanel.init(
-        '3e0fa58ece380382cd406509554aef3b',
+        '729c55a7e5799a281daa17e4a1d3f8f3',
       );
       setMixpanel(initializedMixpanel);
-      console.log(String(state_here.MyProfileReducer.myprofile.user.id));
+      console.log(
+        String(state_here.MyProfileReducer.myprofile.user.id) +
+          'mixpanel which id goes',
+      );
       mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
-
-      //mixpanel.track('init done of mixpanel');
+      // mixpanel.identify('lol');
+      //const distinctId = await mixpanel.getDistinctId();
+      /*
+      mixpanel.alias(
+        String(state_here.MyProfileReducer.myprofile.user.id),
+        //'xxx',
+        distinctId,
+      );
+      */
     };
 
     useEffect(() => {
@@ -83,28 +78,18 @@ function RootStack() {
     const [mixpanel, setMixpanel] = useState();
     const initMixpanel = async () => {
       const initializedMixpanel = await Mixpanel.init(
-        '3e0fa58ece380382cd406509554aef3b',
+        '729c55a7e5799a281daa17e4a1d3f8f3',
       );
       setMixpanel(initializedMixpanel);
       mixpanel.track('auth stack');
-      console.log('setting mixpanel');
-
-      //mixpanel.track('init done of mixpanel');
     };
 
     useEffect(() => {
+      console.log('bad effect needed');
       initMixpanel();
     }, []);
 
-    /*
-    useEffect(() => {
-      console.log('auth stack running');
-    }, []);
-    */
-
     return (
-      // eslint-disable-next-line react-native/no-inline-styles
-
       <MixpanelProvider value={mixpanel}>
         <NavigationContainer style={{backgroundColor: '#050505'}}>
           <AuthStack />
