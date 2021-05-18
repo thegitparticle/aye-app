@@ -1455,11 +1455,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
       <Pressable
         style={{margin: 3}}
         onPress={() => {
-          setGifSelected(item.item.images.downsized.url);
+          setGifSelected(item.item.images.fixed_height.url);
           gifSelectorCraftOverlay();
         }}>
         <Image
-          source={{uri: item.item.images.preview_gif.url}}
+          source={{uri: item.item.images.fixed_height_small.url}}
           style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
         />
       </Pressable>
