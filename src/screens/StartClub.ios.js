@@ -325,26 +325,28 @@ function StartClub({dispatch, navigation}) {
   }
 
   function AddContactsToClubServerWork(contacts_list, club_id) {
-    // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
+    // https://apisayepirates.life/api/users/send_invite/<str:phone>/<int:user_id>/
     // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
 
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
         axios
           .get(
-            'https://apisayepirates.life/api/users/add_invited_user/' +
+            'https://apisayepirates.life/api/users/send_invite/' +
               value +
               '/' +
-              String(club_id) +
+              String(mystatehere.MyProfileReducer.myprofile.user.id) +
               '/',
           )
           .catch(err => console.log(err));
         axios
           .get(
-            'https://apisayepirates.life/api/users/send_invite_via_sms/' +
+            'https://apisayepirates.life/api/users/add_invited_user/' +
               value +
               '/' +
               String(mystatehere.MyProfileReducer.myprofile.user.id) +
+              '/' +
+              String(club_id) +
               '/',
           )
           .catch(err => console.log(err));

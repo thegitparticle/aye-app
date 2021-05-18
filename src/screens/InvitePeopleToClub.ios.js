@@ -63,19 +63,21 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
       _.forEach(contacts_list, function (value) {
         axios
           .get(
-            'https://apisayepirates.life/api/add_invited_user/' +
+            'https://apisayepirates.life/api/users/send_invite_via_sms' +
               value +
               '/' +
-              String(club_id) +
+              String(mystatehere.MyProfileReducer.myprofile.user.id) +
               '/',
           )
           .catch(err => console.log(err));
         axios
           .get(
-            'https://apisayepirates.life/api/users/send_invite_via_sms' +
+            'https://apisayepirates.life/api/users/add_invited_user/' +
               value +
               '/' +
               String(mystatehere.MyProfileReducer.myprofile.user.id) +
+              '/' +
+              String(club_id) +
               '/',
           )
           .catch(err => console.log(err));
