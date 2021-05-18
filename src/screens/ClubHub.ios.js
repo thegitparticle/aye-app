@@ -140,8 +140,9 @@ function ClubHub({dispatch, navigation, route}) {
   function MetricsOfClub(props) {
     return (
       <View style={styles.metrics_of_club_view}>
-        <Text style={styles.metrics_of_club_text}>{props.FramesCount}</Text>
-        <Icon type="feather" name="layers" color="#7D4DF9" size={26} />
+        <Text style={styles.metrics_of_club_text}>
+          {props.FramesCount} <Text style={{fontSize: 21}}>frames</Text>
+        </Text>
       </View>
     );
   }
