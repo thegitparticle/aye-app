@@ -46,7 +46,7 @@ const background_color = '#FAFAFA';
 const header_color = 'transparent';
 const input_border_color = '#EEEEEE';
 const header_bar_style = 'dark-content';
-const input_background_color = '#EEEEEE';
+const input_background_color = '#EAEAEA';
 const other_input_background_color = '#FAFAFA';
 const reco_background_color = 'transparent';
 const font_color_input = '#050505';
@@ -534,7 +534,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             });
           }}>
           <Image
-            source={require('../../assets/crazy_camera_e.png')}
+            source={require('../../assets/crazy_camera_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -554,7 +554,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             });
           }}>
           <Image
-            source={require('../../assets/crazy_photos_apple_e.png')}
+            source={require('../../assets/crazy_photos_apple_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -564,7 +564,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             onOpenBitmojiSheet();
           }}>
           <Image
-            source={require('../../assets/crazy_unsplash_e.png')}
+            source={require('../../assets/crazy_unsplash_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -574,7 +574,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             onOpenGifSheet();
           }}>
           <Image
-            source={require('../../assets/crazy_gif_e.png')}
+            source={require('../../assets/crazy_gif_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -1613,8 +1613,8 @@ const styles = StyleSheet.create({
 
   OtherInputIcon: {
     marginHorizontal: 20,
-    height: 30,
-    width: 30,
+    height: 32.5,
+    width: 32.5,
   },
   otherinputicon: {
     marginHorizontal: 40,
