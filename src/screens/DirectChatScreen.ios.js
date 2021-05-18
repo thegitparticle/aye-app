@@ -1314,11 +1314,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function GIFSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const [timeToken, setTimeToken] = useState();
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         console.log('new frame, no messages gif');
-        if (message) {
+        if (message.length === 0) {
+          const message = 'jibber$$$';
           pubnub.publish(
             {
               channel: channelsHere[0],
@@ -1335,10 +1335,26 @@ function DirectChatScreen({navigation, dispatch, route}) {
             },
           );
         } else {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'f',
+                image_url: gifSelected,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(response);
+              StartFrame();
+            },
+          );
         }
       } else {
         console.log('new frame, yes messages gif');
-        if (message) {
+        if (message.length === 0) {
+          const message = 'jibber$$$';
           pubnub.publish({
             channel: channelsHere[0],
             message,
@@ -1347,16 +1363,47 @@ function DirectChatScreen({navigation, dispatch, route}) {
               image_url: gifSelected,
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
+            function(status, response) {
+              console.log(status);
+            },
           });
         } else {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'f',
+                image_url: gifSelected,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          );
         }
       }
     };
     const sendMessageOldFrame = message => {
       console.log('old frame, yes messages');
-      if (message) {
-        pubnub
-          .publish({
+      if (message.length === 0) {
+        const message = 'jibber$$$';
+        pubnub.publish({
+          channel: channelsHere[0],
+          message,
+          meta: {
+            type: 'f',
+            image_url: gifSelected,
+            user_dp: state_here.MyProfileReducer.myprofile.image,
+          },
+          function(status, response) {
+            console.log(status);
+          },
+        });
+      } else {
+        pubnub.publish(
+          {
             channel: channelsHere[0],
             message,
             meta: {
@@ -1364,9 +1411,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
               image_url: gifSelected,
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
-          })
-          .catch(err => console.log(err));
-      } else {
+          },
+          function (status, response) {
+            console.log(status);
+          },
+        );
       }
     };
 

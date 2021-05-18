@@ -136,7 +136,7 @@ function ShowMessageOld(props) {
   } else if (props.Message.meta.type === 'f') {
     function TextPartHere(props) {
       var x_here = props.Text;
-      if (x_here.length > 0) {
+      if (x_here !== 'jibber$$$') {
         return (
           <View style={styles.b_text_view}>
             <Text style={styles.b_text}>{props.Text}</Text>

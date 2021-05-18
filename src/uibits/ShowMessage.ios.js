@@ -139,7 +139,7 @@ function ShowMessage(props) {
   } else if (props.Message.userMetadata.type === 'f') {
     function TextPartHere(props) {
       var x_here = props.Text;
-      if (x_here.length > 0) {
+      if (x_here !== 'jibber$$$') {
         return (
           <View style={styles.f_text_view}>
             <Text style={styles.f_text}>{props.Text}</Text>

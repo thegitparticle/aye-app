@@ -330,6 +330,7 @@ function StartClub({dispatch, navigation}) {
 
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
+        /*
         axios
           .get(
             'https://apisayepirates.life/api/users/send_invite/' +
@@ -339,6 +340,7 @@ function StartClub({dispatch, navigation}) {
               '/',
           )
           .catch(err => console.log(err));
+          */
         axios
           .get(
             'https://apisayepirates.life/api/users/add_invited_user/' +
