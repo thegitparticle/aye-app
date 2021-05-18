@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useMemo} from 'react';
 import {
   View,
   Text,
@@ -17,63 +17,68 @@ import {useNavigation} from '@react-navigation/native';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function FirstBlock(props) {
-  const navigation = useNavigation();
-  console.log(props.DPLink);
-  return (
-    <View style={styles.first_block_view}>
-      <Pressable onPress={() => navigation.navigate('EditProfile')}>
-        <Avatar
-          source={{
-            uri: props.DPLink,
-          }}
-          size={windowHeight * 0.15}
-          rounded
-          // eslint-disable-next-line react-native/no-inline-styles
-          containerStyle={{
-            backgroundColor: '#05050510',
-          }}>
-          <Avatar.Accessory size={windowHeight * 0.03} rounded />
-        </Avatar>
-      </Pressable>
-      <Text style={styles.first_view_name}>{props.Name}</Text>
-      <Text style={styles.first_view_username}>{props.UserName}</Text>
-      <View style={styles.frames_component_wrap}>
-        <Icon type="feather" name="layers" color="#7D4DF9" size={16} />
-
-        <Text style={styles.first_view_frames_count}>
-          {props.FrameCount} . Level 1
-        </Text>
-      </View>
-    </View>
-  );
-}
-function SecondBlock(props) {
-  return (
-    <View style={styles.second_block_view}>
-      <View style={styles.show_case_clubs_view}>
-        <View style={styles.clubs_icon_view_wrap}>
-          <FastImage
-            source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
-            style={styles.clubs_icon}
-          />
-        </View>
-        <Text style={styles.clubs_count_text}>{props.ClubsCount}</Text>
-      </View>
-
-      <View style={styles.show_case_circle_view}>
-        <View style={styles.circle_icon_view_wrap}>
-          <FastImage
-            source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
-            style={styles.circle_icon}
-          />
-        </View>
-        <Text style={styles.circle_count_text}>{props.CircleCount}</Text>
-      </View>
-    </View>
-  );
-}
 function MyProfileComponent(props) {
+  const FirstBlock = useMemo(
+    () =>
+      function FirstBlockX(props) {
+        const navigation = useNavigation();
+        //console.log(props.DPLink);
+        return (
+          <View style={styles.first_block_view}>
+            <Pressable onPress={() => navigation.navigate('EditProfile')}>
+              <Avatar
+                source={{
+                  uri: props.DPLink,
+                }}
+                size={windowHeight * 0.15}
+                rounded
+                // eslint-disable-next-line react-native/no-inline-styles
+                containerStyle={{
+                  backgroundColor: '#05050510',
+                }}>
+                <Avatar.Accessory size={windowHeight * 0.03} rounded />
+              </Avatar>
+            </Pressable>
+            <Text style={styles.first_view_name}>{props.Name}</Text>
+            <Text style={styles.first_view_username}>{props.UserName}</Text>
+            <View style={styles.frames_component_wrap}>
+              <Icon type="feather" name="layers" color="#7D4DF9" size={16} />
+
+              <Text style={styles.first_view_frames_count}>
+                {props.FrameCount} . Level 1
+              </Text>
+            </View>
+          </View>
+        );
+      },
+    [],
+  );
+
+  function SecondBlock(props) {
+    return (
+      <View style={styles.second_block_view}>
+        <View style={styles.show_case_clubs_view}>
+          <View style={styles.clubs_icon_view_wrap}>
+            <FastImage
+              source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
+              style={styles.clubs_icon}
+            />
+          </View>
+          <Text style={styles.clubs_count_text}>{props.ClubsCount}</Text>
+        </View>
+
+        <View style={styles.show_case_circle_view}>
+          <View style={styles.circle_icon_view_wrap}>
+            <FastImage
+              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
+              style={styles.circle_icon}
+            />
+          </View>
+          <Text style={styles.circle_count_text}>{props.CircleCount}</Text>
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={styles.containerview}>
       <Header

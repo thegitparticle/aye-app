@@ -12,7 +12,7 @@ function PushSetup({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
   const [deviceToken, setDeviceToken] = useState('');
-  console.log(deviceToken);
+  //console.log(deviceToken);
 
   var list_here = [];
 
@@ -27,7 +27,6 @@ function PushSetup({dispatch}) {
           var here = value.pn_channel_id;
           list_here.push(here + '_push');
         });
-        console.log(list_here);
         pubnub.push.addChannels(
           {
             channels: list_here,

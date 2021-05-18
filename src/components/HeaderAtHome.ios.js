@@ -1,47 +1,55 @@
-import React from 'react';
-import {View, Text, Dimensions, StyleSheet, Pressable} from 'react-native';
+import React, {useMemo} from 'react';
+import {View, Dimensions, StyleSheet, Pressable} from 'react-native';
 import {Header, Divider, Avatar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+//const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
 function HeaderAtHome({dispatch}) {
   const navigation = useNavigation();
 
-  function HeaderLeft() {
-    return (
-      <View style={styles.header_left_view_wrap}>
-        <View style={styles.header_left_image_wrap}>
-          <FastImage
-            style={styles.header_left_image}
-            source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
-          />
-        </View>
-      </View>
-    );
-  }
+  const HeaderLeft = useMemo(
+    () =>
+      function HeaderLeftX() {
+        return (
+          <View style={styles.header_left_view_wrap}>
+            <View style={styles.header_left_image_wrap}>
+              <FastImage
+                style={styles.header_left_image}
+                source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
+              />
+            </View>
+          </View>
+        );
+      },
+    [],
+  );
 
-  function HeaderRight() {
-    return (
-      <Pressable
-        onPress={() => navigation.navigate('MyProfileModalScreens')}
-        style={styles.header_right_view_wrap}>
-        <Avatar
-          rounded
-          containerStyle={styles.header_right_image}
-          size={45}
-          source={{
-            uri: state_here.MyProfileReducer.myprofile.image,
-          }}
-        />
-      </Pressable>
-    );
-  }
+  const HeaderRight = useMemo(
+    () =>
+      function HeaderRightX() {
+        return (
+          <Pressable
+            onPress={() => navigation.navigate('MyProfileModalScreens')}
+            style={styles.header_right_view_wrap}>
+            <Avatar
+              rounded
+              containerStyle={styles.header_right_image}
+              size={45}
+              source={{
+                uri: state_here.MyProfileReducer.myprofile.image,
+              }}
+            />
+          </Pressable>
+        );
+      },
+    [],
+  );
 
   function HeaderMiddle() {
     return <View />;

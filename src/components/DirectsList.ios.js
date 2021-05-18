@@ -17,7 +17,6 @@ function DirectsList({dispatch, navigation}) {
   const pubnub = usePubNub();
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
-  console.log(DirectsListHere);
 
   const user_id_here = state_here.MyProfileReducer.myprofile.user.id;
 
