@@ -138,53 +138,59 @@ function StartClub({dispatch, navigation}) {
 
   function RenderContactItem(props) {
     const [added, setAdded] = useState(false);
+    var number_list = props.PhoneItem;
 
-    if (added) {
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            DeSelectContactItem(props.ID);
-            setAdded(false);
-          }}>
-          <Icon
-            name="checkcircle"
-            type="ant-design"
-            color="#36B37E"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            source={{uri: props.Avatar}}
-            size={windowHeight * 0.06}
-          />
-          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
-        </Pressable>
-      );
+    if (number_list) {
+      console.log(number_list[0].number);
+      if (added) {
+        return (
+          <Pressable
+            style={styles.contact_item_pressable_view}
+            onPress={() => {
+              DeSelectContactItem(number_list[0].number);
+              setAdded(false);
+            }}>
+            <Icon
+              name="checkcircle"
+              type="ant-design"
+              color="#36B37E"
+              style={styles.contact_item_icon}
+            />
+            <Avatar
+              rounded
+              source={{uri: props.Avatar}}
+              size={windowHeight * 0.06}
+            />
+            <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
+          </Pressable>
+        );
+      } else {
+        return (
+          <Pressable
+            style={styles.contact_item_pressable_view}
+            onPress={() => {
+              SelectContactItem(number_list[0].number);
+              setAdded(true);
+            }}>
+            <Icon
+              name="circle"
+              type="entypo"
+              color="#131313"
+              style={styles.contact_item_icon}
+            />
+            <Avatar
+              rounded
+              source={{uri: props.Avatar}}
+              size={windowHeight * 0.06}
+            />
+            <Text style={styles.contact_item_not_selected_text}>
+              {props.Name}
+            </Text>
+          </Pressable>
+        );
+      }
     } else {
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            SelectContactItem(props.ID);
-            setAdded(true);
-          }}>
-          <Icon
-            name="circle"
-            type="entypo"
-            color="#131313"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            source={{uri: props.Avatar}}
-            size={windowHeight * 0.06}
-          />
-          <Text style={styles.contact_item_not_selected_text}>
-            {props.Name}
-          </Text>
-        </Pressable>
-      );
+      return <View />;
     }
   }
 
@@ -226,6 +232,7 @@ function StartClub({dispatch, navigation}) {
           <RenderContactItem
             Name={item.givenName + item.familyName}
             ID={item.userid}
+            PhoneItem={item.phoneNumbers}
             //Avatar={item.displaypic}
           />
         )}
@@ -311,6 +318,7 @@ function StartClub({dispatch, navigation}) {
               String(club_id) +
               '/',
           )
+          .then(() => console.log(value))
           .catch(err => console.log(err));
       });
     }
@@ -324,7 +332,7 @@ function StartClub({dispatch, navigation}) {
       _.forEach(contacts_list, function (value) {
         axios
           .get(
-            'https://apisayepirates.life/api/add_invited_user/' +
+            'https://apisayepirates.life/api/users/add_invited_user/' +
               value +
               '/' +
               String(club_id) +
@@ -333,7 +341,7 @@ function StartClub({dispatch, navigation}) {
           .catch(err => console.log(err));
         axios
           .get(
-            'https://apisayepirates.life/api/users/send_invite_via_sms' +
+            'https://apisayepirates.life/api/users/send_invite_via_sms/' +
               value +
               '/' +
               String(mystatehere.MyProfileReducer.myprofile.user.id) +
@@ -346,7 +354,7 @@ function StartClub({dispatch, navigation}) {
 
   function StartClubName() {
     const [clubName, setClubName] = useState('');
-    console.log(finalAddFriends);
+    //console.log(finalAddFriends);
     console.log(finalAddContacts);
 
     function HandleStartClubButtonPress() {
@@ -365,8 +373,8 @@ function StartClub({dispatch, navigation}) {
 
           axios(config)
             .then(response => {
-              AddFriendsToClubServerWork(finalAddFriends, response.club_id);
-              AddContactsToClubServerWork(finalAddContacts, response.club_id);
+              AddFriendsToClubServerWork(finalAddFriends, response.data.id);
+              AddContactsToClubServerWork(finalAddContacts, response.data.id);
             })
             .then(() => navigation.goBack())
 
