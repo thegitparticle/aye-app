@@ -527,7 +527,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             });
           }}>
           <Image
-            source={require('../../assets/iconcamera.png')}
+            source={require('../../assets/crazy_camera_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -546,7 +546,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             });
           }}>
           <Image
-            source={require('../../assets/icongallery.png')}
+            source={require('../../assets/crazy_photos_apple_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -556,7 +556,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             onOpenBitmojiSheet();
           }}>
           <Image
-            source={require('../../assets/iconbitmoji.png')}
+            source={require('../../assets/crazy_unsplash_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -566,7 +566,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             onOpenGifSheet();
           }}>
           <Image
-            source={require('../../assets/icongif.png')}
+            source={require('../../assets/crazy_gif_e_d.png')}
             style={styles.OtherInputIcon}
           />
         </TouchableOpacity>
@@ -1679,8 +1679,8 @@ const styles = StyleSheet.create({
 
   OtherInputIcon: {
     marginHorizontal: 20,
-    height: 26,
-    width: 26,
+    height: 32.5,
+    width: 32.5,
   },
   otherinputicon: {
     marginHorizontal: 40,
