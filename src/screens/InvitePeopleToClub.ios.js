@@ -270,8 +270,8 @@ const styles = StyleSheet.create({
   right_header_view: {width: 50, height: 35},
 
   header_title: {
-    fontSize: 17,
-    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    fontFamily: 'GothamRounded-Bold',
   },
 
   friend_name: {

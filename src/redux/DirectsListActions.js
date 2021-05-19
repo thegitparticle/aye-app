@@ -20,11 +20,13 @@ export const GetDirectsList = (pubnub, user_id) => {
       },
       (status, response) => {
         //console.log(response.data);
-        res = response.data;
-        dispatch({
-          type: ADD_DIRECTSLIST,
-          payload: res,
-        });
+        if (response) {
+          res = response.data;
+          dispatch({
+            type: ADD_DIRECTSLIST,
+            payload: res,
+          });
+        }
       },
     );
   };
