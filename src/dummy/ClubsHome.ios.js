@@ -200,7 +200,7 @@ function ClubsHomeD({dispatch}) {
   return (
     <PullToRefresh
       isRefreshing={refreshing}
-      animationBackgroundColor={'#564A63'}
+      animationBackgroundColor={'#e3342f'}
       onRefresh={memoizedHandleRefresh}
       pullHeight={180}
       contentView={
@@ -212,10 +212,10 @@ function ClubsHomeD({dispatch}) {
           <BannerToPushToStartClub />
         </ScrollView>
       }
-      onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
-      onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_start.json')}
-      onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_repeat.json')}
-      onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_end.json')}
+      onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+      onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+      onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+      onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
     />
   );
 }
