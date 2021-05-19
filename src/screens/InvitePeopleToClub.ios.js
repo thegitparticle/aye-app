@@ -6,8 +6,9 @@ import {
   Text,
   FlatList,
   Pressable,
+  ScrollView,
 } from 'react-native';
-import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
+import {SearchBar, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import Contacts from 'react-native-contacts';
 import _ from 'lodash';
@@ -21,7 +22,6 @@ var mystatehere = {};
 
 function InvitePeopleToClub({dispatch, navigation, route}) {
   const {club_id} = route.params;
-  const [addedMemberList, setAddedMemberList] = useState([]);
   const [grabedContacts, setGrabedContacts] = useState();
 
   async function GrabContacts() {
@@ -43,14 +43,9 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     );
   }
 
-  var AddFriendsList = [];
-
   function AddContactsToClubServerWork(contacts_list, club_id) {
     // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
     // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
-
-    console.log(contacts_list);
-    console.log(club_id);
 
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
@@ -151,6 +146,18 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
 
   const contacts_list_from_server = JSON.parse(x_here);
 
+  const [contactsSearch, changeContactsSearch] = useState('');
+
+  const [searchedList, setSearchedList] = useState([]);
+
+  useEffect(() => {
+    let newListHere = contacts_list_from_server.filter(
+      item => !item.name.search(contactsSearch),
+    );
+    console.log(newListHere);
+    setSearchedList(newListHere);
+  }, [contactsSearch]);
+
   return (
     <View style={styles.overall_container}>
       <Header
@@ -163,17 +170,33 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
         <Text style={styles.header_title}>invite contacts</Text>
       </View>
 
-      <FlatList
-        data={contacts_list_from_server}
-        renderItem={({item}) => (
-          <RenderContactItem
-            Name={item.name}
-            Item={item}
-            PhoneItem={item.phone}
-          />
-        )}
-        keyExtractor={item => item.phoneNumbers}
-      />
+      <View style={styles.searchbar_wrap_view}>
+        <SearchBar
+          placeholder="Search Contacts..."
+          onChangeText={changeContactsSearch}
+          value={contactsSearch}
+          containerStyle={styles.media_modal_search_bar_container}
+          inputContainerStyle={styles.media_modal_search_bar_input_container}
+        />
+      </View>
+
+      <ScrollView style={styles.list_wrap_view}>
+        <FlatList
+          data={
+            contactsSearch.length === 0
+              ? contacts_list_from_server
+              : searchedList
+          }
+          renderItem={({item}) => (
+            <RenderContactItem
+              Name={item.name}
+              Item={item}
+              PhoneItem={item.phone}
+            />
+          )}
+          keyExtractor={item => item.phoneNumbers}
+        />
+      </ScrollView>
 
       <Button
         title="Done"
@@ -195,6 +218,12 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(InvitePeopleToClub);
 
 const styles = StyleSheet.create({
+  searchbar_wrap_view: {
+    //marginBottom: 20,
+  },
+  list_wrap_view: {
+    marginBottom: windowHeight * 0.1,
+  },
   contact_item_pressable_view: {
     flexDirection: 'row',
     marginHorizontal: 20,
@@ -265,6 +294,16 @@ const styles = StyleSheet.create({
     fontFamily: 'GothamRounded-Bold',
     fontSize: 13,
     color: '#fff',
+  },
+
+  media_modal_search_bar_container: {
+    backgroundColor: '#fafafa',
+    borderBottomWidth: 0,
+    borderTopWidth: 0,
+  },
+  media_modal_search_bar_input_container: {
+    backgroundColor: '#CCCCCC',
+    borderRadius: 15,
   },
 
   circle_item_pressable_view: {

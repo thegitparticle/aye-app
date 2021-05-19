@@ -9,7 +9,14 @@ import {
   Text,
   Pressable,
 } from 'react-native';
-import {Divider, Button, Avatar, Icon, Header} from 'react-native-elements';
+import {
+  Divider,
+  Button,
+  Avatar,
+  Icon,
+  Header,
+  SearchBar,
+} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 //import {getMyContacts} from '../redux/MyContactsActions';
@@ -297,6 +304,18 @@ function StartClub({dispatch, navigation}) {
 
     const contacts_list_from_server = JSON.parse(x_here);
 
+    const [contactsSearch, changeContactsSearch] = useState('');
+
+    const [searchedList, setSearchedList] = useState([]);
+
+    useEffect(() => {
+      let newListHere = contacts_list_from_server.filter(
+        item => !item.name.search(contactsSearch),
+      );
+      console.log(newListHere);
+      setSearchedList(newListHere);
+    }, [contactsSearch]);
+
     return (
       <View style={{flex: 1}}>
         <Header
@@ -307,7 +326,22 @@ function StartClub({dispatch, navigation}) {
           containerStyle={styles.header_container}
         />
         <Divider style={{backgroundColor: '#05050510'}} />
-        <ContactsNew List={contacts_list_from_server} />
+        <View style={styles.searchbar_wrap_view}>
+          <SearchBar
+            placeholder="Search Contacts..."
+            onChangeText={changeContactsSearch}
+            value={contactsSearch}
+            containerStyle={styles.media_modal_search_bar_container}
+            inputContainerStyle={styles.media_modal_search_bar_input_container}
+          />
+        </View>
+        <ContactsNew
+          List={
+            contactsSearch.length === 0
+              ? contacts_list_from_server
+              : searchedList
+          }
+        />
         <Pressable
           style={styles.button_view}
           onPress={() => HandleNextButtonContacts()}>
@@ -470,6 +504,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: windowHeight * 0.8,
     alignSelf: 'center',
+  },
+
+  media_modal_search_bar_container: {
+    backgroundColor: '#fafafa',
+    borderBottomWidth: 0,
+    borderTopWidth: 0,
+  },
+  media_modal_search_bar_input_container: {
+    backgroundColor: '#CCCCCC',
+    borderRadius: 15,
   },
 
   circle_item_pressable_view: {
