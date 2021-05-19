@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {ListItem, Button} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
@@ -10,6 +10,7 @@ import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from './PushSetup';
+import PullToRefresh from 'react-native-pull-refresh';
 //import {SpringScrollView} from 'react-native-spring-scrollview';
 
 var state_here = {};
@@ -18,11 +19,13 @@ function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useFocusEffect(
     React.useCallback(() => {
       pubnub.unsubscribeAll();
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-    }, [dispatch]),
+    }, [dispatch, refreshing]),
   );
 
   useFocusEffect(
@@ -186,14 +189,34 @@ function ClubsHomeD({dispatch}) {
     );
   }
 
+  const memoizedHandleRefresh = useCallback(
+    () => {
+      console.log('refresh happened');
+      dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+    },
+    [], // Tells React to memoize regardless of arguments.
+  );
+
   return (
-    <ScrollView
-      style={styles.overall_view}
-      showsVerticalScrollIndicator={false}>
-      <RenderClubsHere />
-      <PushSetup />
-      <BannerToPushToStartClub />
-    </ScrollView>
+    <PullToRefresh
+      isRefreshing={refreshing}
+      animationBackgroundColor={'#564A63'}
+      onRefresh={memoizedHandleRefresh}
+      pullHeight={180}
+      contentView={
+        <ScrollView
+          style={styles.overall_view}
+          showsVerticalScrollIndicator={false}>
+          <RenderClubsHere />
+          <PushSetup />
+          <BannerToPushToStartClub />
+        </ScrollView>
+      }
+      onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
+      onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_start.json')}
+      onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_repeat.json')}
+      onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_end.json')}
+    />
   );
 }
 

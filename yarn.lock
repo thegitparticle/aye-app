@@ -7001,6 +7001,11 @@ react-native-phone-input@^1.0.3:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
+react-native-pull-refresh@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-pull-refresh/-/react-native-pull-refresh-1.0.0.tgz#890968a002466050c621a628bd095e03bbb6887a"
+  integrity sha1-iQlooAJGYFDGIaYovQleA7u2iHo=
+
 react-native-ratings@^7.3.0:
   version "7.6.1"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.6.1.tgz#b3d8a99a0c12fd6874f7e3c0e492089543d837c8"
