@@ -42,7 +42,7 @@ function StartClub({dispatch, navigation}) {
     });
 
     var x1 = data2.contact_list;
-    console.log(x1);
+    //console.log(x1);
 
     var dataf = {};
     dataf.contact_list = JSON.stringify(x1);
@@ -56,7 +56,7 @@ function StartClub({dispatch, navigation}) {
       data: dataf,
     };
     axios(config)
-      .then(response => console.log(response.data))
+      //.then(response => console.log(response.data))
       .catch(err => console.log(err));
   }
   useEffect(() => {
@@ -70,7 +70,7 @@ function StartClub({dispatch, navigation}) {
 
   function SelectCircleItem(id) {
     AddFriendsList.push(id);
-    console.log(AddFriendsList);
+    //console.log(AddFriendsList);
   }
 
   function DeSelectCircleItem(id) {
@@ -138,60 +138,64 @@ function StartClub({dispatch, navigation}) {
 
   function RenderContactItem(props) {
     const [added, setAdded] = useState(false);
-    var number_list = props.PhoneItem;
+    var number_here = String(props.PhoneItem);
 
-    if (number_list) {
-      console.log(number_list[0].number);
-      if (added) {
-        return (
-          <Pressable
-            style={styles.contact_item_pressable_view}
-            onPress={() => {
-              DeSelectContactItem(number_list[0].number);
-              setAdded(false);
-            }}>
-            <Icon
-              name="checkcircle"
-              type="ant-design"
-              color="#36B37E"
-              style={styles.contact_item_icon}
-            />
-            <Avatar
-              rounded
-              source={{uri: props.Avatar}}
-              size={windowHeight * 0.06}
-            />
-            <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
-          </Pressable>
-        );
-      } else {
-        return (
-          <Pressable
-            style={styles.contact_item_pressable_view}
-            onPress={() => {
-              SelectContactItem(number_list[0].number);
-              setAdded(true);
-            }}>
-            <Icon
-              name="circle"
-              type="entypo"
-              color="#131313"
-              style={styles.contact_item_icon}
-            />
-            <Avatar
-              rounded
-              source={{uri: props.Avatar}}
-              size={windowHeight * 0.06}
-            />
-            <Text style={styles.contact_item_not_selected_text}>
-              {props.Name}
-            </Text>
-          </Pressable>
-        );
-      }
+    //if (number_list) {
+    if (added) {
+      var name_here = props.Name;
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            DeSelectContactItem(number_here);
+            setAdded(false);
+          }}>
+          <Icon
+            name="checkcircle"
+            type="ant-design"
+            color="#36B37E"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            title={name_here.charAt(0)}
+            size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
+          />
+          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
+        </Pressable>
+      );
     } else {
-      return <View />;
+      var name_here = props.Name;
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            SelectContactItem(number_here);
+            setAdded(true);
+          }}>
+          <Icon
+            name="circle"
+            type="entypo"
+            color="#131313"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            title={name_here.charAt(0)}
+            activeOpacity={0.5}
+            size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
+          />
+          <Text style={styles.contact_item_not_selected_text}>
+            {props.Name}
+          </Text>
+        </Pressable>
+      );
     }
+    // } else {
+    //  return <View />;
+    //}
   }
 
   function CircleNew() {
@@ -223,16 +227,17 @@ function StartClub({dispatch, navigation}) {
     }
   }
 
-  function ContactsNew() {
+  function ContactsNew(props) {
+    console.log(props.List);
     return (
       <FlatList
         //data={mystatehere.MyContactsReducer.mycontacts}
-        data={grabedContacts}
+        data={props.List}
         renderItem={({item}) => (
           <RenderContactItem
-            Name={item.givenName + item.familyName}
-            ID={item.userid}
-            PhoneItem={item.phoneNumbers}
+            Name={item.name}
+            Item={item}
+            PhoneItem={item.phone}
             //Avatar={item.displaypic}
           />
         )}
@@ -285,6 +290,13 @@ function StartClub({dispatch, navigation}) {
   }
 
   function ContactsChooseScreen() {
+    const contacts_string_from_server =
+      mystatehere.MyProfileReducer.myprofile.user.contact_list;
+
+    const x_here = contacts_string_from_server.replace(/'/g, '"');
+
+    const contacts_list_from_server = JSON.parse(x_here);
+
     return (
       <View style={{flex: 1}}>
         <Header
@@ -295,7 +307,7 @@ function StartClub({dispatch, navigation}) {
           containerStyle={styles.header_container}
         />
         <Divider style={{backgroundColor: '#05050510'}} />
-        <ContactsNew />
+        <ContactsNew List={contacts_list_from_server} />
         <Pressable
           style={styles.button_view}
           onPress={() => HandleNextButtonContacts()}>
@@ -330,7 +342,6 @@ function StartClub({dispatch, navigation}) {
 
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
-        /*
         axios
           .get(
             'https://apisayepirates.life/api/users/send_invite/' +
@@ -340,7 +351,6 @@ function StartClub({dispatch, navigation}) {
               '/',
           )
           .catch(err => console.log(err));
-          */
         axios
           .get(
             'https://apisayepirates.life/api/users/add_invited_user/' +

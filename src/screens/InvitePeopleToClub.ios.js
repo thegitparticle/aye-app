@@ -45,25 +45,18 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
 
   var AddFriendsList = [];
 
-  function SelectCircleItem(id) {
-    AddFriendsList.push(id.toString());
-    console.log(AddFriendsList);
-  }
-
-  function DeSelectCircleItem(id) {
-    AddFriendsList = AddFriendsList.filter(item => item !== id.toString());
-    console.log(AddFriendsList);
-  }
-
   function AddContactsToClubServerWork(contacts_list, club_id) {
     // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
     // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
+
+    console.log(contacts_list);
+    console.log(club_id);
 
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
         axios
           .get(
-            'https://apisayepirates.life/api/users/send_invite_via_sms' +
+            'https://apisayepirates.life/api/users/send_invite/' +
               value +
               '/' +
               String(mystatehere.MyProfileReducer.myprofile.user.id) +
@@ -97,13 +90,15 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
 
   function RenderContactItem(props) {
     const [added, setAdded] = useState(false);
+    var number_here = String(props.PhoneItem);
+    var name_here = props.Name;
 
     if (added) {
       return (
         <Pressable
           style={styles.contact_item_pressable_view}
           onPress={() => {
-            DeSelectContactItem(props.ID);
+            DeSelectContactItem(number_here);
             setAdded(false);
           }}>
           <Icon
@@ -114,8 +109,9 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
           />
           <Avatar
             rounded
-            source={{uri: props.Avatar}}
+            title={name_here.charAt(0)}
             size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
           />
           <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
         </Pressable>
@@ -125,7 +121,7 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
         <Pressable
           style={styles.contact_item_pressable_view}
           onPress={() => {
-            SelectContactItem(props.ID);
+            SelectContactItem(number_here);
             setAdded(true);
           }}>
           <Icon
@@ -136,8 +132,9 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
           />
           <Avatar
             rounded
-            source={{uri: props.Avatar}}
+            title={name_here.charAt(0)}
             size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
           />
           <Text style={styles.contact_item_not_selected_text}>
             {props.Name}
@@ -147,11 +144,18 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     }
   }
 
+  const contacts_string_from_server =
+    mystatehere.MyProfileReducer.myprofile.user.contact_list;
+
+  const x_here = contacts_string_from_server.replace(/'/g, '"');
+
+  const contacts_list_from_server = JSON.parse(x_here);
+
   return (
     <View style={styles.overall_container}>
       <Header
         rightComponent={<RightHeaderComponent />}
-        backgroundColor="#FFFFFF"
+        backgroundColor="#FaFaFa"
         containerStyle={styles.header_container}
         //barStyle="dark-content"
       />
@@ -160,11 +164,12 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
       </View>
 
       <FlatList
-        data={grabedContacts}
+        data={contacts_list_from_server}
         renderItem={({item}) => (
           <RenderContactItem
-            Name={item.givenName + item.familyName}
-            ID={item.userid}
+            Name={item.name}
+            Item={item}
+            PhoneItem={item.phone}
           />
         )}
         keyExtractor={item => item.phoneNumbers}
@@ -176,7 +181,7 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
         buttonStyle={styles.NextButton}
         titleStyle={styles.NextButtonLabel}
         containerStyle={styles.NextButtonContainer}
-        onPress={() => AddContactsToClubServerWork(AddFriendsList, club_id)}
+        onPress={() => AddContactsToClubServerWork(AddContactsList, club_id)}
       />
     </View>
   );
