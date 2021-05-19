@@ -11,7 +11,7 @@ import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 import _ from 'lodash';
-
+import {showMessage, hideMessage} from 'react-native-flash-message';
 import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 import axios from 'axios';
 
@@ -111,7 +111,14 @@ function AddPeopleToClub({dispatch, navigation, route}) {
               String(club_id) +
               '/',
           )
-          .then(() => console.log('added'))
+          .then(() =>
+            showMessage({
+              message: 'your friend added to this clan',
+              type: 'info',
+              backgroundColor: 'mediumseagreen',
+              //backgroundColor: 'indianred',
+            }),
+          )
           .then(() => navigation.goBack())
           .catch(err => {
             console.log(err);
