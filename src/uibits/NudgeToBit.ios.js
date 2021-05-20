@@ -25,6 +25,9 @@ function NudgeToBit(props, {dispatch}) {
             id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
             custom: {
               type: 'direct',
+              ongoing_frame: false,
+              start_time: null,
+              end_time: null,
 
               other_user_name:
                 state_here.MyProfileReducer.myprofile.user.full_name,
@@ -47,6 +50,9 @@ function NudgeToBit(props, {dispatch}) {
             id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
             custom: {
               type: 'direct',
+              ongoing_frame: false,
+              start_time: null,
+              end_time: null,
 
               other_user_name: props.NudgeTo.name,
               other_user_image: props.NudgeTo.profile_pic,

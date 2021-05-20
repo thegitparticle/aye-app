@@ -30,6 +30,13 @@ function RootStack() {
       //logVerbosity: true,
     });
 
+    pubnub.objects.setUUIDMetadata({
+      data: {
+        name: state_here.MyProfileReducer.myprofile.user.name,
+        image: state_here.MyProfileReducer.myprofile.image,
+      },
+    });
+
     const [mixpanel, setMixpanel] = useState();
 
     const initMixpanel = async () => {

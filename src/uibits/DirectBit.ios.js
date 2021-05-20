@@ -46,9 +46,9 @@ function DirectBit(props) {
             otherNameHere: props.Direct.custom.other_user_name,
             //channelIdHere: props.club_id.toString() + '_c',
             directIdHere: props.Direct.channel.id,
-            channelOnGoing: false,
-            channelStartTime: null,
-            channelEndTime: null,
+            channelOnGoing: props.Direct.custom.ongoing_frame,
+            channelStartTime: props.Direct.custom.start_time,
+            channelEndTime: props.Direct.custom.end_time,
           },
         })
       }>

@@ -22,7 +22,7 @@ function PushSetup({dispatch}) {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
         setDeviceToken(fcmToken);
-        console.log('Your Firebase Token is:', fcmToken);
+        //console.log('Your Firebase Token is:', fcmToken);
         _.forEach(my_clubs, function (value) {
           var here = value.pn_channel_id;
           list_here.push(here + '_push');
@@ -43,7 +43,7 @@ function PushSetup({dispatch}) {
             pushGateway: 'gcm', // apns, apns2, gcm
           },
           function (status, response) {
-            console.log(response);
+            //console.log(response);
           },
         );
       } else {
