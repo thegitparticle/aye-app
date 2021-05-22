@@ -251,6 +251,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   a_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -271,6 +272,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   d_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -294,6 +296,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   b_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -321,6 +324,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   c_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -359,6 +363,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   f_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -383,6 +388,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   g_text: {
     fontFamily: 'GothamRounded-Medium',
@@ -407,6 +413,7 @@ const styles = StyleSheet.create({
     right: '15%',
     padding: 10,
     borderRadius: 5,
+    maxWidth: windowWidth * 0.85,
   },
   h_text: {
     fontFamily: 'GothamRounded-Medium',
