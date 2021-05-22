@@ -10,7 +10,8 @@ import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from './PushSetup';
-import PullToRefresh from 'react-native-pull-refresh';
+//import PullToRefresh from 'react-native-pull-refresh';
+import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 //import {SpringScrollView} from 'react-native-spring-scrollview';
 
 var state_here = {};
@@ -198,7 +199,7 @@ function ClubsHomeD({dispatch}) {
   );
 
   return (
-    <PullToRefresh
+    <AnimatedPullToRefresh
       isRefreshing={refreshing}
       animationBackgroundColor={'#e3342f'}
       onRefresh={memoizedHandleRefresh}

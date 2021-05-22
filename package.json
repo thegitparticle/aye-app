@@ -23,6 +23,7 @@
     "@segment/analytics-react-native": "^1.4.3",
     "@sentry/react-native": "^2.4.1",
     "axios": "^0.21.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "dayjs": "^1.10.4",
     "depcheck": "^1.4.0",
     "lodash": "^4.17.21",

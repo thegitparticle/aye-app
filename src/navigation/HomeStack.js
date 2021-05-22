@@ -23,10 +23,12 @@ import InvitePeopleToClub from '../screens/InvitePeopleToClub';
 import OtherProfile from '../screens/OtherProfile';
 import ViewOldFrameClub from '../screens/ViewOldFrameClub';
 import ViewOldFrameDirect from '../screens/ViewOldFrameDirect';
+import TheAyeScreen from '../screens/TheAyeScreen';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
 const MyProfileStack = createStackNavigator();
+const TheAyeStack = createStackNavigator();
 const ClubChatStack = createStackNavigator();
 const DirectChatStack = createStackNavigator();
 
@@ -60,6 +62,14 @@ function MyProfileModalScreens() {
       <MyProfileStack.Screen name="EditProfile" component={EditProfile} />
       <MyProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </MyProfileStack.Navigator>
+  );
+}
+
+function TheAyeStackScreens() {
+  return (
+    <TheAyeStack.Navigator headerMode="none">
+      <TheAyeStack.Screen name="TheAyeScreen" component={TheAyeScreen} />
+    </TheAyeStack.Navigator>
   );
 }
 
@@ -153,6 +163,19 @@ function HomeStack() {
       <StackMain.Screen
         name="MyProfileModalScreens"
         component={MyProfileModalScreens}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="TheAyeStackScreens"
+        component={TheAyeStackScreens}
         options={{
           headerShown: false,
           gestureEnabled: true,

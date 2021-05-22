@@ -17,14 +17,16 @@ function HeaderAtHome({dispatch}) {
     () =>
       function HeaderLeftX() {
         return (
-          <View style={styles.header_left_view_wrap}>
+          <Pressable
+            style={styles.header_left_view_wrap}
+            onPress={() => navigation.navigate('TheAyeStackScreens')}>
             <View style={styles.header_left_image_wrap}>
               <FastImage
                 style={styles.header_left_image}
                 source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
               />
             </View>
-          </View>
+          </Pressable>
         );
       },
     [],

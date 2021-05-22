@@ -5,7 +5,8 @@ import NudgeToList from '../components/NudgeToList';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
-import PullToRefresh from 'react-native-pull-refresh';
+//import PullToRefresh from 'react-native-pull-refresh';
+import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {usePubNub} from 'pubnub-react';
 
 var state_here = {};
@@ -26,7 +27,7 @@ function DirectsHomeD({dispatch}) {
   );
 
   return (
-    <PullToRefresh
+    <AnimatedPullToRefresh
       isRefreshing={refreshing}
       //animationBackgroundColor={'#564A63'}
 
