@@ -930,6 +930,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     var chosenMedia = '';
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
+
     const _keyboardDidShow = () => {
       setKeyboardStatus(true);
     };
@@ -1211,18 +1212,25 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              disabled={typevalue.length > 0 ? false : true}
+              //disabled={ ? false : true}
               onPress={() => {
                 Keyboard.dismiss;
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(typevalue);
+                if (chosenMedia.length > 0) {
+                  if (!channelOnGoing) {
+                    sendMessageNewFrame(typevalue);
+                  } else {
+                    sendMessageOldFrame(typevalue);
+                  }
+                  changeTypevalue('');
                 } else {
-                  sendMessageOldFrame(typevalue);
+                  showMessage({
+                    message: 'Please choose an image or gif to send message!',
+                    type: 'info',
+                    backgroundColor: 'indianred',
+                  });
                 }
-
-                changeTypevalue('');
               }}>
-              <IconlyDirectIcon Color="#36B37E" />
+              <IconlyDirectIcon Color={'#36B37E'} />
             </Pressable>
           </View>
         </View>
