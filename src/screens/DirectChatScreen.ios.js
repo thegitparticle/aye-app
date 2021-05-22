@@ -16,9 +16,17 @@ import {
   Pressable,
   ImageBackground,
 } from 'react-native';
-import {Icon, Overlay, Header, Avatar, SearchBar} from 'react-native-elements';
+import {
+  Icon,
+  Overlay,
+  Header,
+  Avatar,
+  SearchBar,
+  Button,
+} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-
+import {showMessage} from 'react-native-flash-message';
+import Clipboard from '@react-native-clipboard/clipboard';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
@@ -506,6 +514,131 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
+  const [pasteLinkVisible, setPasteLinkVisible] = useState(false);
+
+  const togglePasteLinkOverlay = () => {
+    setPasteLinkVisible(false);
+  };
+
+  function PasteLinkOverlay() {
+    const [copiedText, setCopiedText] = useState('');
+
+    const fetchCopiedText = async () => {
+      const text = await Clipboard.getString();
+      if (await Clipboard.hasURL()) {
+        console.log(await Clipboard.hasURL());
+        setCopiedText(text);
+      } else {
+        showMessage({
+          message: 'Please paste only links here',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+      }
+    };
+
+    const sendMessageNewFrame = message => {
+      if (messages.length === 0) {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'd',
+                pasted_url: copiedText,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+              StartFrame();
+            },
+          );
+        } else {
+        }
+      } else {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'd',
+                pasted_url: copiedText,
+                pasted_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          );
+        } else {
+        }
+      }
+    };
+    const sendMessageOldFrame = message => {
+      if (message) {
+        pubnub.publish(
+          {
+            channel: channelsHere[0],
+            message,
+            meta: {
+              type: 'd',
+              pasted_url: copiedText,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status);
+          },
+        );
+      } else {
+      }
+    };
+
+    function ButtonHere() {
+      if (copiedText.length > 0) {
+        return (
+          <Button
+            title="Send"
+            type="solid"
+            onPress={() => {
+              if (!channelOnGoing) {
+                sendMessageNewFrame(copiedText);
+              } else {
+                sendMessageOldFrame(copiedText);
+              }
+              togglePasteLinkOverlay();
+            }}
+            titleStyle={styles.send_pasted_link_button_title_style}
+            buttonStyle={styles.send_pasted_link_button_style}
+            containerStyle={styles.send_pasted_link_button_container}
+          />
+        );
+      } else {
+        return (
+          <Button
+            title="Paste"
+            type="solid"
+            onPress={() => fetchCopiedText()}
+            titleStyle={styles.paste_button_title_style}
+            buttonStyle={styles.paste_button_style}
+            containerStyle={styles.paste_button_container}
+          />
+        );
+      }
+    }
+
+    return (
+      <View style={styles.paste_link_overlay_view}>
+        <Text style={styles.paste_link_heading}>only links can be sent</Text>
+        <Text style={styles.paste_link_copied_string}>{copiedText}</Text>
+        <ButtonHere />
+      </View>
+    );
+  }
+
   const OtherInputBar = useMemo(
     () =>
       function OtherInputBarX() {
@@ -569,6 +702,16 @@ function DirectChatScreen({navigation, dispatch, route}) {
               }}>
               <Image
                 source={require('../../assets/crazy_gif_e_d.png')}
+                style={styles.OtherInputIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => {
+                setPasteLinkVisible(true);
+              }}>
+              <Image
+                source={require('../../assets/crazy_link_apple_e_d_big.png')}
                 style={styles.OtherInputIcon}
               />
             </TouchableOpacity>
@@ -1648,6 +1791,12 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
         }
       />
+      <Overlay
+        isVisible={pasteLinkVisible}
+        onBackdropPress={togglePasteLinkOverlay}
+        overlayStyle={styles.paste_link_overlay_style}>
+        <PasteLinkOverlay />
+      </Overlay>
     </View>
   );
 }
@@ -1660,6 +1809,69 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(DirectChatScreen);
 
 const styles = StyleSheet.create({
+  paste_link_overlay_style: {
+    height: 180,
+    width: windowWidth * 0.8,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  paste_link_overlay_view: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 180,
+    width: windowWidth * 0.8,
+  },
+
+  paste_link_heading: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 17,
+    color: '#050505',
+    marginTop: 15,
+  },
+
+  paste_link_copied_string: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 17,
+    color: 'dodgerblue',
+    marginTop: 15,
+  },
+
+  paste_button_container: {
+    width: '100%',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    backgroundColor: 'dodgerblue',
+  },
+
+  paste_button_title_style: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    color: 'white',
+  },
+
+  paste_button_style: {
+    backgroundColor: 'dodgerblue',
+  },
+
+  send_pasted_link_button_container: {
+    width: '100%',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    backgroundColor: 'lightgreen',
+  },
+
+  send_pasted_link_button_title_style: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    color: 'white',
+  },
+
+  send_pasted_link_button_style: {
+    backgroundColor: '#36B37E',
+  },
+
   header_container: {
     borderBottomWidth: 0,
   },

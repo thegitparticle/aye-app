@@ -49,19 +49,17 @@ function ShowMessage(props) {
 
     return (
       <View>
-        <FastImage
-          source={{uri: props.Message.userMetadata.user_dp}}
-          style={styles.b_type_image}>
+        <View style={styles.d_type_image}>
           <Avatar
             rounded
             source={{uri: props.Message.userMetadata.user_dp}}
             size={60}
-            containerStyle={styles.a_avatar}
+            containerStyle={styles.d_avatar}
           />
-          <View style={styles.a_text_view}>
-            <Autolink style={styles.a_text} text={props.Message.message} />
+          <View style={styles.d_text_view}>
+            <Autolink style={styles.d_text} text={props.Message.message} />
           </View>
-        </FastImage>
+        </View>
       </View>
     );
   } else if (props.Message.userMetadata.type === 'b') {
@@ -259,11 +257,16 @@ const styles = StyleSheet.create({
   },
   d_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
-    flexDirection: 'column-reverse',
+    height: windowHeight * 0.1,
+
+    marginVertical: 10,
+    marginHorizontal: 10,
+    flexDirection: 'row',
+
+    alignItems: 'center',
   },
   d_avatar: {
-    left: '5%',
+    marginLeft: '5%',
   },
   d_text_view: {
     backgroundColor: '#fafafa',

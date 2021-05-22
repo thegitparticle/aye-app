@@ -38,12 +38,16 @@ function ShowMessageOld(props) {
     );
   } else if (props.Message.meta.type === 'd') {
     return (
-      <View>
-        <FastImage
+      <View style={styles.d_type_image}>
+        <Avatar
+          rounded
           source={{uri: props.Message.meta.user_dp}}
-          style={styles.b_type_image}>
-          <Autolink style={styles.a_text} text={props.Message.message} />
-        </FastImage>
+          size={60}
+          containerStyle={styles.d_avatar}
+        />
+        <View style={styles.d_text_view}>
+          <Autolink style={styles.d_text} text={props.Message.message} />
+        </View>
       </View>
     );
   } else if (props.Message.meta.type === 'b') {
@@ -250,6 +254,34 @@ const styles = StyleSheet.create({
     fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
+
+  d_type_image: {
+    width: windowWidth,
+    height: windowHeight * 0.1,
+
+    marginVertical: 10,
+    marginHorizontal: 10,
+    flexDirection: 'row',
+
+    alignItems: 'center',
+  },
+  d_avatar: {
+    marginLeft: '5%',
+  },
+  d_text_view: {
+    backgroundColor: '#fafafa',
+    alignSelf: 'flex-start',
+    left: '15%',
+    right: '15%',
+    padding: 10,
+    borderRadius: 5,
+    maxWidth: windowWidth * 0.8,
+  },
+  d_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+  },
+
   text: {
     fontFamily: 'GothamRounded-Medium',
   },
