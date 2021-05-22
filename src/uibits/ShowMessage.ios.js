@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   a_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   d_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   b_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   c_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   f_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   g_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   h_text_view: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ffffff',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
