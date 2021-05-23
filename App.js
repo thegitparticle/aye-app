@@ -24,7 +24,12 @@ const App: () => Node = () => {
     <Provider store={storehere}>
       <PersistGate loading={null} persistor={persistor}>
         <RootStack />
-        <FlashMessage position="top" />
+        <FlashMessage
+          position="top"
+          duration={3000}
+          textStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
+          titleStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
+        />
       </PersistGate>
     </Provider>
   );
