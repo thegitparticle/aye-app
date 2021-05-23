@@ -23,7 +23,7 @@ function DirectsList({dispatch, navigation}) {
   useFocusEffect(
     React.useCallback(() => {
       if (user_id_here > 0) {
-        dispatch(GetDirectsList(pubnub, user_id_here));
+        dispatch(GetDirectsList(user_id_here));
       }
     }, [dispatch, user_id_here]),
   );

@@ -20,7 +20,7 @@ function DirectsHomeD({dispatch}) {
   const memoizedHandleRefresh = useCallback(
     () => {
       console.log('refresh happened');
-      dispatch(GetDirectsList(pubnub, user_id_here));
+      dispatch(GetDirectsList(user_id_here));
       dispatch(GetMyNudgeToList(user_id_here));
     },
     [], // Tells React to memoize regardless of arguments.

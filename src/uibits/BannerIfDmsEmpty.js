@@ -24,7 +24,7 @@ function BannerIfDmsEmpty() {
         <ImageBackground
           style={styles.banner_view}
           imageStyle={{borderRadius: 20}}
-          source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1.gif')}>
+          source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1_static.png')}>
           <Button
             clear
             buttonStyle={styles.start_club_button_style}
@@ -55,7 +55,7 @@ function BannerIfDmsEmpty() {
       <ImageBackground
         style={styles.banner_view}
         imageStyle={{borderRadius: 20}}
-        source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1.gif')}>
+        source={require('/Users/san/Desktop/toastgo/assets/direct_banner_1_static.png')}>
         <Button
           clear
           buttonStyle={styles.start_club_button_style}

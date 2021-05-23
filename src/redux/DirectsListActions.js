@@ -1,33 +1,40 @@
 import {ADD_DIRECTSLIST} from './types';
-import {usePubNub} from 'pubnub-react';
+import axios from 'axios';
 
-export const GetDirectsList = (pubnub, user_id) => {
-  //const pubnub = usePubNub();
-
+export const GetDirectsList = user_id => {
+  console.log(user_id, 'keep track of this object or not');
   return dispatch => {
     var res = [];
+    //https://apisayepirates.life/api/users/my_directs_trigger/58/
 
-    pubnub.objects.getMemberships(
-      {
-        //uuid: state_here.MyProfileReducer.myprofile.user.id,
-        uuid: user_id,
-        include: {
-          channelFields: true,
-          customChannelFields: true,
-          customFields: true,
-        },
-        sort: {updated: 'desc'},
-      },
-      (status, response) => {
-        //console.log(response.data);
-        if (response) {
-          res = response.data;
-          dispatch({
-            type: ADD_DIRECTSLIST,
-            payload: res,
-          });
-        }
-      },
-    );
+    axios
+
+      .get(
+        'https://apisayepirates.life/api/users/my_directs_trigger/' +
+          String(user_id) +
+          '/',
+      )
+
+      .catch(err => {
+        console.log(err);
+      });
+
+    axios
+
+      .get(
+        'https://apisayepirates.life/api/users/my_directs/' + String(user_id),
+        //+ '/',
+      )
+
+      .then(response => (res = response.data))
+      .then(() =>
+        dispatch({
+          type: ADD_DIRECTSLIST,
+          payload: res,
+        }),
+      )
+      .catch(err => {
+        console.log(err);
+      });
   };
 };

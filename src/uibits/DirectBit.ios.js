@@ -43,26 +43,26 @@ function DirectBit(props) {
         navigation.navigate('DirectInteractionScreens', {
           screen: 'DirectChatScreen',
           params: {
-            otherNameHere: props.Direct.custom.other_user_name,
+            otherNameHere: props.Direct.display_guys.full_name,
             //channelIdHere: props.club_id.toString() + '_c',
-            directIdHere: props.Direct.channel.id,
-            channelOnGoing: props.Direct.custom.ongoing_frame,
-            channelStartTime: props.Direct.custom.start_time,
-            channelEndTime: props.Direct.custom.end_time,
+            directIdHere: props.Direct.direct_channel_id,
+            channelOnGoing: props.Direct.ongoing_frame,
+            channelStartTime: props.Direct.start_time,
+            channelEndTime: props.Direct.end_time,
           },
         })
       }>
       <FastImage
-        source={{uri: props.Direct.custom.other_user_image}}
+        source={{uri: props.Direct.display_guys.profile_picture}}
         style={styles.avatar_of_club}
         size={68}
       />
       <View style={styles.text_block_view}>
         <Text style={styles.name_of_other_person}>
-          {props.Direct.custom.other_user_name}
+          {props.Direct.display_guys.full_name}
         </Text>
 
-        <UnreadStatus Status={props.Direct.on_going_frame} />
+        <UnreadStatus Status={props.Direct.ongoing_frame} />
       </View>
     </Pressable>
   );

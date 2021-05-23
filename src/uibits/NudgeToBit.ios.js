@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Dimensions, Platform} from 'react-native';
 import {Button} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
-import {usePubNub} from 'pubnub-react';
+import axios from 'axios';
 import {GetDirectsList} from '../redux/DirectsListActions';
 
 const windowHeight = Dimensions.get('window').height;
@@ -12,63 +12,30 @@ const windowWidth = Dimensions.get('window').width;
 var state_here = {};
 
 function NudgeToBit(props, {dispatch}) {
-  const pubnub = usePubNub();
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
+  //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
+
+  const id_here_making =
+    String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
   function StartDirectConvo() {
-    pubnub.objects.setMemberships(
-      {
-        uuid: String(props.NudgeTo.id),
+    var res = [];
+    axios
 
-        channels: [
-          {
-            id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
-            custom: {
-              type: 'direct',
-              ongoing_frame: false,
-              start_time: null,
-              end_time: null,
-
-              other_user_name:
-                state_here.MyProfileReducer.myprofile.user.full_name,
-              other_user_image: state_here.MyProfileReducer.myprofile.image,
-              other_user_id: state_here.MyProfileReducer.myprofile.user.id,
-            },
-          },
-        ],
-      },
-      (status, response) => {
-        console.log(status);
-      },
-    );
-
-    pubnub.objects.setMemberships(
-      {
-        uuid: String(current_user_id),
-        channels: [
-          {
-            id: String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d',
-            custom: {
-              type: 'direct',
-              ongoing_frame: false,
-              start_time: null,
-              end_time: null,
-
-              other_user_name: props.NudgeTo.name,
-              other_user_image: props.NudgeTo.profile_pic,
-              other_user_id: props.NudgeTo.id,
-            },
-          },
-        ],
-      },
-      (status, response) => {
-        console.log(status);
-      },
-    );
-
-    //dispatch(GetDirectsList(pubnub, current_user_id));
-
-    console.log('do the axios call to trigger start of direct convo to server');
+      .get(
+        'https://apisayepirates.life/api/users/start_chat/' +
+          String(current_user_id) +
+          '/' +
+          String(props.NudgeTo.id) +
+          '/' +
+          id_here_making +
+          '/',
+      )
+      .then(response => (res = response.data))
+      .then(() => dispatch(GetDirectsList(current_user_id)))
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   return (

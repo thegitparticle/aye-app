@@ -10,6 +10,7 @@ var state_here = {};
 
 function PushSetup({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
+  const my_directs = state_here.DirectsListReducer.directslist;
   const pubnub = usePubNub();
   const [deviceToken, setDeviceToken] = useState('');
   //console.log(deviceToken);
@@ -25,6 +26,10 @@ function PushSetup({dispatch}) {
         //console.log('Your Firebase Token is:', fcmToken);
         _.forEach(my_clubs, function (value) {
           var here = value.pn_channel_id;
+          list_here.push(here + '_push');
+        });
+        _.forEach(my_directs, function (value) {
+          var here = value.direct_channel_id;
           list_here.push(here + '_push');
         });
         pubnub.push.addChannels(
