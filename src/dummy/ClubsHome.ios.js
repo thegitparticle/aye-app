@@ -201,7 +201,7 @@ function ClubsHomeD({dispatch}) {
   return (
     <AnimatedPullToRefresh
       isRefreshing={refreshing}
-      animationBackgroundColor={'#e3342f'}
+      animationBackgroundColor={'#FFFFFF'}
       onRefresh={memoizedHandleRefresh}
       pullHeight={180}
       contentView={

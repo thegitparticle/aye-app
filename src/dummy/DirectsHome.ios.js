@@ -31,7 +31,7 @@ function DirectsHomeD({dispatch}) {
       isRefreshing={refreshing}
       //animationBackgroundColor={'#564A63'}
 
-      animationBackgroundColor={'#e3342f'}
+      animationBackgroundColor={'#FFFFFF'}
       onRefresh={memoizedHandleRefresh}
       pullHeight={180}
       contentView={
@@ -58,5 +58,9 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(DirectsHomeD);
 
 const styles = StyleSheet.create({
-  overall_view: {flex: 1, overflow: 'visible', backgroundColor: '#FFF'},
+  overall_view: {
+    flex: 1,
+    overflow: 'visible',
+    backgroundColor: '#FFF',
+  },
 });

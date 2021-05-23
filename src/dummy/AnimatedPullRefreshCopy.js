@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   View,
@@ -285,7 +286,7 @@ class AnimatedPullToRefresh extends React.Component {
           onScrollEndDrag={() => {
             this.isScrolledToTop();
           }}>
-          <Animated.View style={{marginTop: animateHeight}}>
+          <Animated.View style={{marginTop: animateHeight, flex: 1}}>
             {React.cloneElement(this.props.contentView, {
               scrollEnabled: false,
               ref: 'scrollComponentRef',
