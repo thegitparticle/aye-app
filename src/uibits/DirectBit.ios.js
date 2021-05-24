@@ -34,6 +34,10 @@ function DirectBit(props) {
     }
   }
 
+  if (props.Direct.direct_channel_id === '0') {
+    return <View />;
+  } else {
+  }
   return (
     <Pressable
       style={styles.overall_view}
