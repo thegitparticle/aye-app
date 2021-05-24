@@ -18,6 +18,7 @@ function NudgeToBit(props, {dispatch}) {
 
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
+
   function StartDirectConvo() {
     var res = [];
     axios
@@ -38,6 +39,24 @@ function NudgeToBit(props, {dispatch}) {
       });
   }
 
+  function ShowStartButton(props) {
+    if (props.OnlyUserId === 0) {
+      return <View />;
+    } else {
+      return (
+        <Button
+          raised
+          title="START"
+          type="solid"
+          containerStyle={styles.AddButtonContainer}
+          titleStyle={styles.AddButtonTitle}
+          buttonStyle={styles.AddButton}
+          onPress={() => StartDirectConvo()}
+        />
+      );
+    }
+  }
+
   return (
     <View style={styles.overall_view}>
       <View style={styles.left_side_things}>
@@ -51,15 +70,7 @@ function NudgeToBit(props, {dispatch}) {
         </View>
       </View>
 
-      <Button
-        raised
-        title="START"
-        type="solid"
-        containerStyle={styles.AddButtonContainer}
-        titleStyle={styles.AddButtonTitle}
-        buttonStyle={styles.AddButton}
-        onPress={() => StartDirectConvo()}
-      />
+      <ShowStartButton OnlyUserId={props.NudgeTo.id} />
     </View>
   );
 }

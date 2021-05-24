@@ -27,34 +27,38 @@ function DormantClubBit(props) {
     }
   }
 
-  return (
-    <Pressable
-      style={styles.overall_view}
-      onPress={() =>
-        navigation.navigate('ClubInteractionScreens', {
-          screen: 'ClubChatScreen',
-          params: {
-            clubNameHere: props.Club.club_name,
-            channelIdHere: props.Club.pn_channel_id,
-            channelOnGoing: props.Club.on_going_frame,
-            channelStartTime: props.Club.start_time,
-            channelEndTime: props.Club.end_time,
-            clubID: props.Club.club_id,
-          },
-        })
-      }>
-      <FastImage
-        source={{uri: props.Club.club_profile_pic}}
-        style={styles.avatar_of_club}
-        size={68}
-      />
-      <View style={styles.text_block_view}>
-        <Text style={styles.name_of_club}>{props.Club.club_name}</Text>
+  if (!props.Club.club_id === 0) {
+    return (
+      <Pressable
+        style={styles.overall_view}
+        onPress={() =>
+          navigation.navigate('ClubInteractionScreens', {
+            screen: 'ClubChatScreen',
+            params: {
+              clubNameHere: props.Club.club_name,
+              channelIdHere: props.Club.pn_channel_id,
+              channelOnGoing: props.Club.on_going_frame,
+              channelStartTime: props.Club.start_time,
+              channelEndTime: props.Club.end_time,
+              clubID: props.Club.club_id,
+            },
+          })
+        }>
+        <FastImage
+          source={{uri: props.Club.club_profile_pic}}
+          style={styles.avatar_of_club}
+          size={68}
+        />
+        <View style={styles.text_block_view}>
+          <Text style={styles.name_of_club}>{props.Club.club_name}</Text>
 
-        <OnGoingFrameText Status={props.Club.on_going_frame} />
-      </View>
-    </Pressable>
-  );
+          <OnGoingFrameText Status={props.Club.on_going_frame} />
+        </View>
+      </Pressable>
+    );
+  } else {
+    return <View />;
+  }
 }
 
 export default DormantClubBit;

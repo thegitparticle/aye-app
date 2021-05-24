@@ -3,21 +3,16 @@ import {ADD_DIRECTSLIST} from './types';
 const INITIAL_STATE = {
   directslist: [
     {
-      channel: {
-        custom: null,
-        description: null,
-        eTag: '...',
-        id: '...',
-        name: null,
-        updated: '...',
+      direct_channel_id: '0',
+      display_guys: {
+        user_id: '0',
+        profile_picture: '',
+        full_name: '...',
       },
-      custom: {
-        other_user_image: '...',
-        other_user_name: '...',
-        type: '...',
-      },
-      eTag: '...',
-      updated: '...',
+      frame_total: 0,
+      ongoing_frame: false,
+      start_time: null,
+      end_time: null,
     },
   ],
 };

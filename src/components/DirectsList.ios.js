@@ -37,7 +37,6 @@ function DirectsList({dispatch, navigation}) {
   }
 
   if (DirectsListHere.length > 0) {
-    console.log(DirectsListHere);
     return (
       <View style={styles.overall_view}>
         <Text style={styles.directs_heading}>DMs</Text>
