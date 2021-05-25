@@ -56,7 +56,7 @@ function ClubHub({dispatch, navigation, route}) {
 
   useEffect(() => {
     axios
-      .get('https://apisayepirates.life/api/clubs/' + String(club_id))
+      .get('https://apisayepirates.life/api/clubs/' + String(club_id) + '/')
 
       .then(response => (res = response.data))
       .then(response => console.log(response))
@@ -344,9 +344,6 @@ function ClubHub({dispatch, navigation, route}) {
     console.log(viewProfileId + 'view profile id');
     return (
       <View style={styles.member_options_view}>
-        <TouchableOpacity>
-          <Text style={styles.start_talking_text}>start talking</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setOptionsVisible(false);
@@ -458,7 +455,7 @@ function ClubHub({dispatch, navigation, route}) {
         onBackdropPress={() => setOtherProfileVisible(false)}>
         <OtherProfileSheet />
       </Overlay>
-      <Modalize ref={memberOptionsModalizeRef} modalHeight={windowHeight * 0.5}>
+      <Modalize ref={memberOptionsModalizeRef} modalHeight={windowHeight * 0.2}>
         <MemberOptionsModalize />
       </Modalize>
     </View>
@@ -606,7 +603,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     backgroundColor: '#fff',
-    height: 250,
+    height: 125,
   },
   body: {
     borderTopLeftRadius: 10,

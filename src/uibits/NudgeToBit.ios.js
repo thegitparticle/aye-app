@@ -5,13 +5,16 @@ import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {GetDirectsList} from '../redux/DirectsListActions';
+import {showMessage, hideMessage} from 'react-native-flash-message';
+import {useDispatch} from 'react-redux';
+import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
-function NudgeToBit(props, {dispatch}) {
+function NudgeToBit(props) {
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
   //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
@@ -19,10 +22,17 @@ function NudgeToBit(props, {dispatch}) {
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
 
+  const dispatch = useDispatch();
   function StartDirectConvo() {
     var res = [];
-    axios
+    showMessage({
+      message: 'Starting a conversation 3..2..1.. hooray!',
+      type: 'info',
+      backgroundColor: 'mediumseagreen',
+      //backgroundColor: 'indianred',
+    });
 
+    axios
       .get(
         'https://apisayepirates.life/api/users/start_chat/' +
           String(current_user_id) +
@@ -33,7 +43,11 @@ function NudgeToBit(props, {dispatch}) {
           '/',
       )
       .then(response => (res = response.data))
-      .then(() => dispatch(GetDirectsList(current_user_id)))
+
+      .then(() => {
+        dispatch(GetDirectsList(current_user_id));
+        dispatch(dispatch(GetMyNudgeToList(current_user_id)));
+      })
       .catch(err => {
         console.log(err);
       });

@@ -52,7 +52,7 @@ function ShowMessage(props) {
         <View style={styles.d_type_image}>
           <Avatar
             rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
+            source={{uri: props.Message.userMetadata.pasted_dp}}
             size={60}
             containerStyle={styles.d_avatar}
           />

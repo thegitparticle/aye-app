@@ -27,7 +27,7 @@ function TheAyeScreen({navigation, dispatch}) {
   function StartDirectConvoWithFounder() {
     const randomValue = Math.random();
 
-    var chosenValue = randomValue < 0.5 ? 4 : 1;
+    var chosenValue = randomValue < 0.5 ? 4 : 53;
     var chosenName = randomValue < 0.5 ? 'Sanjit' : 'Aditya';
 
     const id_here_making =

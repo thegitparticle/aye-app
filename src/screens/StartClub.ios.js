@@ -436,7 +436,7 @@ function StartClub({dispatch, navigation}) {
     return (
       <View style={styles.name_input_container}>
         <Header
-          leftComponent={<HeaderTitleHere screen="NAME your CLUB" />}
+          leftComponent={<HeaderTitleHere screen="NAME your CLAN" />}
           centerComponent={<View />}
           rightComponent={<BackChevronDownIcon />}
           backgroundColor="#fafafa"
@@ -445,7 +445,7 @@ function StartClub({dispatch, navigation}) {
         <Divider style={{backgroundColor: '#05050510'}} />
         <View style={styles.containerview_name_input}>
           <TextInput
-            placeholder="Club Name"
+            placeholder="Clan Name"
             placeholderTextColor="#bdc2d9"
             style={styles.inputcontainerview_name_input}
             textAlign="center"

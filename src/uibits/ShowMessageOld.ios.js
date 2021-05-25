@@ -41,7 +41,7 @@ function ShowMessageOld(props) {
       <View style={styles.d_type_image}>
         <Avatar
           rounded
-          source={{uri: props.Message.meta.user_dp}}
+          source={{uri: props.Message.meta.pasted_dp}}
           size={60}
           containerStyle={styles.d_avatar}
         />
