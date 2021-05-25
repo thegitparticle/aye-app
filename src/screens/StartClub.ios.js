@@ -25,6 +25,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -429,7 +430,20 @@ function StartClub({dispatch, navigation}) {
             .catch(error => console.log(error));
         } else {
           setShowNameScreen('friends');
+          showMessage({
+            message: 'Choose atleast one more friend to start a clan',
+            type: 'info',
+            //backgroundColor: 'mediumseagreen',
+            backgroundColor: 'indianred',
+          });
         }
+      } else {
+        showMessage({
+          message: 'Club name must be between 4 - 15 letters',
+          type: 'info',
+          backgroundColor: 'mediumseagreen',
+          //backgroundColor: 'indianred',
+        });
       }
     }
 
