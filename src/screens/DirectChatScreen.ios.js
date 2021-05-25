@@ -827,7 +827,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const LiveMessagesView = useMemo(
     () =>
-      function LiveMessagesView() {
+      function LiveMessagesViewX() {
         const scrollView = useRef();
 
         if (!old_messages_resolve) {
@@ -905,7 +905,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           }
         }
       },
-    [],
+    [messages, old_messages],
   );
 
   function StartFrame() {

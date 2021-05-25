@@ -878,7 +878,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           }
         }
       },
-    [],
+    [messages, old_messages],
   );
 
   function StartFrame() {
