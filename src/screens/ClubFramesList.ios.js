@@ -53,7 +53,7 @@ function ClubFramesList({dispatch, navigation, route}) {
             club_name: club_name,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="octagon" />
+        <Icon type="feather" color={font_color_header} name="users" />
       </Pressable>
     );
   }

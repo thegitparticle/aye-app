@@ -51,7 +51,7 @@ function DirectFramesList({dispatch, navigation, route}) {
             other_name: other_name,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="command" />
+        <Icon type="feather" color={font_color_header} name="user" />
       </Pressable>
     );
   }

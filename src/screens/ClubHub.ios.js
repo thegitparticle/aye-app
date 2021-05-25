@@ -1,5 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+  useCallback,
+} from 'react';
 import {
   ScrollView,
   Text,
@@ -21,7 +27,7 @@ import {
 } from 'react-native-elements';
 import {connect} from 'react-redux';
 import OtherProfile from './OtherProfile';
-
+import {useFocusEffect} from '@react-navigation/native';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
@@ -54,18 +60,19 @@ function ClubHub({dispatch, navigation, route}) {
 
   var res = [];
 
-  useEffect(() => {
-    axios
-      .get('https://apisayepirates.life/api/clubs/' + String(club_id) + '/')
+  useFocusEffect(
+    React.useCallback(() => {
+      axios
+        .get('https://apisayepirates.life/api/clubs/' + String(club_id) + '/')
 
-      .then(response => (res = response.data))
-      .then(response => console.log(response))
-      .then(() => setClubDetails(res))
-      .then(() => setResolved(true))
-      .catch(err => {
-        console.log(err);
-      });
-  }, [memberChanges]);
+        .then(response => (res = response.data))
+        .then(() => setClubDetails(res))
+        .then(() => setResolved(true))
+        .catch(err => {
+          console.log(err);
+        });
+    }, [memberChanges]),
+  );
 
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [exitclubVisible, setExitClubVisible] = useState(false);
@@ -270,7 +277,6 @@ function ClubHub({dispatch, navigation, route}) {
   }
 
   function RemovePersonOverlay() {
-    console.log(typeof viewProfileId);
     return (
       <View style={styles.exit_club_overlay_view}>
         <Text style={styles.exit_club_confirm_question}>Are you sure?</Text>
@@ -292,7 +298,7 @@ function ClubHub({dispatch, navigation, route}) {
                 .then(() => {
                   //do pubnub stuff
                 })
-                .then(() => setMemberChanges())
+                .then(() => setMemberChanges(true))
                 .then(() => toggleRemovePersonOverlay())
                 .catch(err => console.log(err));
             }}

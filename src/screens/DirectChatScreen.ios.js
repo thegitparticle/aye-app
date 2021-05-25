@@ -803,11 +803,12 @@ function DirectChatScreen({navigation, dispatch, route}) {
         },
       );
     } else {
+      var now_here = dayjs().valueOf();
       pubnub.fetchMessages(
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: nowTimeStamp + '0000',
+          end: now_here + '0000',
           start: channelStartTime + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
@@ -836,8 +837,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
         />
       );
     } else {
-      console.log(old_messages);
-
       if (!channelOnGoing) {
         return (
           <ScrollView
