@@ -27,7 +27,9 @@ function DormantClubBit(props) {
     }
   }
 
-  if (!props.Club.club_id === 0) {
+  if (props.Club.club_id === 0) {
+    return <View />;
+  } else {
     return (
       <Pressable
         style={styles.overall_view}
@@ -56,8 +58,6 @@ function DormantClubBit(props) {
         </View>
       </Pressable>
     );
-  } else {
-    return <View />;
   }
 }
 
