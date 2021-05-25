@@ -803,73 +803,83 @@ function ClubChatScreen({navigation, dispatch, route}) {
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
-  function LiveMessagesView() {
-    const scrollView = useRef();
+  const LiveMessagesView = useMemo(
+    () =>
+      function LiveMessagesViewX() {
+        const scrollView = useRef();
 
-    if (!old_messages_resolve) {
-      return (
-        <ScrollView
-          style={styles.body_scroll_view}
-          contentContainerStyle={styles.body_scroll_view_content_container}
-          showsVerticalScrollIndicator={false}
-        />
-      );
-    } else {
-      if (!channelOnGoing) {
-        return (
-          <ScrollView
-            style={styles.body_scroll_view}
-            contentContainerStyle={styles.body_scroll_view_content_container}
-            showsVerticalScrollIndicator={false}
-            ref={scrollView}
-            onContentSizeChange={() =>
-              scrollView.current.scrollToEnd({animated: true})
-            }>
-            {_.uniqBy(messages, 'timetoken').map((message, index) => (
-              <ShowMessage Message={message} />
-            ))}
-          </ScrollView>
-        );
-      } else {
-        if (Object.entries(old_messages.channels).length === 0) {
+        if (!old_messages_resolve) {
           return (
             <ScrollView
               style={styles.body_scroll_view}
               contentContainerStyle={styles.body_scroll_view_content_container}
               showsVerticalScrollIndicator={false}
-              ref={scrollView}
-              onContentSizeChange={() =>
-                scrollView.current.scrollToEnd({animated: true})
-              }>
-              {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                <ShowMessage Message={message} />
-              ))}
-            </ScrollView>
+            />
           );
         } else {
-          var x_here = old_messages.channels[channelIdHere];
+          if (!channelOnGoing) {
+            return (
+              <ScrollView
+                style={styles.body_scroll_view}
+                contentContainerStyle={
+                  styles.body_scroll_view_content_container
+                }
+                showsVerticalScrollIndicator={false}
+                ref={scrollView}
+                onContentSizeChange={() =>
+                  scrollView.current.scrollToEnd({animated: true})
+                }>
+                {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                  <ShowMessage Message={message} />
+                ))}
+              </ScrollView>
+            );
+          } else {
+            if (Object.entries(old_messages.channels).length === 0) {
+              return (
+                <ScrollView
+                  style={styles.body_scroll_view}
+                  contentContainerStyle={
+                    styles.body_scroll_view_content_container
+                  }
+                  showsVerticalScrollIndicator={false}
+                  ref={scrollView}
+                  onContentSizeChange={() =>
+                    scrollView.current.scrollToEnd({animated: true})
+                  }>
+                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                    <ShowMessage Message={message} />
+                  ))}
+                </ScrollView>
+              );
+            } else {
+              var x_here = old_messages.channels[channelIdHere];
 
-          return (
-            <ScrollView
-              style={styles.body_scroll_view}
-              contentContainerStyle={styles.body_scroll_view_content_container}
-              showsVerticalScrollIndicator={false}
-              ref={scrollView}
-              onContentSizeChange={() =>
-                scrollView.current.scrollToEnd({animated: true})
-              }>
-              {old_messages.channels[channelIdHere].map((item, index) => (
-                <ShowMessageOld Message={item} />
-              ))}
-              {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                <ShowMessage Message={message} />
-              ))}
-            </ScrollView>
-          );
+              return (
+                <ScrollView
+                  style={styles.body_scroll_view}
+                  contentContainerStyle={
+                    styles.body_scroll_view_content_container
+                  }
+                  showsVerticalScrollIndicator={false}
+                  ref={scrollView}
+                  onContentSizeChange={() =>
+                    scrollView.current.scrollToEnd({animated: true})
+                  }>
+                  {old_messages.channels[channelIdHere].map((item, index) => (
+                    <ShowMessageOld Message={item} />
+                  ))}
+                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                    <ShowMessage Message={message} />
+                  ))}
+                </ScrollView>
+              );
+            }
+          }
         }
-      }
-    }
-  }
+      },
+    [],
+  );
 
   function StartFrame() {
     var timeToken = dayjs().unix();

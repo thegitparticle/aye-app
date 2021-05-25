@@ -825,78 +825,88 @@ function DirectChatScreen({navigation, dispatch, route}) {
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
-  function LiveMessagesView() {
-    const scrollView = useRef();
+  const LiveMessagesView = useMemo(
+    () =>
+      function LiveMessagesView() {
+        const scrollView = useRef();
 
-    if (!old_messages_resolve) {
-      return (
-        <ScrollView
-          style={styles.body_scroll_view}
-          contentContainerStyle={styles.body_scroll_view_content_container}
-          showsVerticalScrollIndicator={false}
-        />
-      );
-    } else {
-      if (!channelOnGoing) {
-        return (
-          <ScrollView
-            style={styles.body_scroll_view}
-            contentContainerStyle={styles.body_scroll_view_content_container}
-            showsVerticalScrollIndicator={false}
-            ref={scrollView}
-            onContentSizeChange={() =>
-              scrollView.current.scrollToEnd({animated: true})
-            }>
-            {_.uniqBy(messages, 'timetoken').map((message, index) => (
-              <ShowMessage Message={message} />
-            ))}
-          </ScrollView>
-        );
-      } else {
-        if (Object.entries(old_messages.channels).length === 0) {
-          console.log('no old messages');
-          //console.log(old_messages.channels[channelIdHere].length);
+        if (!old_messages_resolve) {
           return (
             <ScrollView
               style={styles.body_scroll_view}
               contentContainerStyle={styles.body_scroll_view_content_container}
               showsVerticalScrollIndicator={false}
-              ref={scrollView}
-              onContentSizeChange={() =>
-                scrollView.current.scrollToEnd({animated: true})
-              }>
-              {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                <ShowMessage Message={message} />
-              ))}
-            </ScrollView>
+            />
           );
         } else {
-          //console.log(old_messages.channels);
-          //console.log('yes old messages');
-          //console.log(old_messages.channels[channelIdHere] + 'map array');
-          //console.log('old messages are there');
-          return (
-            <ScrollView
-              style={styles.body_scroll_view}
-              contentContainerStyle={styles.body_scroll_view_content_container}
-              showsVerticalScrollIndicator={false}
-              ref={scrollView}
-              onContentSizeChange={() =>
-                scrollView.current.scrollToEnd({animated: true})
-              }>
-              {old_messages.channels[directIdHere].map((item, index) => (
-                <ShowMessageOld Message={item} />
-                //<Text>{item.message}</Text>
-              ))}
-              {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                <ShowMessage Message={message} />
-              ))}
-            </ScrollView>
-          );
+          if (!channelOnGoing) {
+            return (
+              <ScrollView
+                style={styles.body_scroll_view}
+                contentContainerStyle={
+                  styles.body_scroll_view_content_container
+                }
+                showsVerticalScrollIndicator={false}
+                ref={scrollView}
+                onContentSizeChange={() =>
+                  scrollView.current.scrollToEnd({animated: true})
+                }>
+                {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                  <ShowMessage Message={message} />
+                ))}
+              </ScrollView>
+            );
+          } else {
+            if (Object.entries(old_messages.channels).length === 0) {
+              console.log('no old messages');
+              //console.log(old_messages.channels[channelIdHere].length);
+              return (
+                <ScrollView
+                  style={styles.body_scroll_view}
+                  contentContainerStyle={
+                    styles.body_scroll_view_content_container
+                  }
+                  showsVerticalScrollIndicator={false}
+                  ref={scrollView}
+                  onContentSizeChange={() =>
+                    scrollView.current.scrollToEnd({animated: true})
+                  }>
+                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                    <ShowMessage Message={message} />
+                  ))}
+                </ScrollView>
+              );
+            } else {
+              //console.log(old_messages.channels);
+              //console.log('yes old messages');
+              //console.log(old_messages.channels[channelIdHere] + 'map array');
+              //console.log('old messages are there');
+              return (
+                <ScrollView
+                  style={styles.body_scroll_view}
+                  contentContainerStyle={
+                    styles.body_scroll_view_content_container
+                  }
+                  showsVerticalScrollIndicator={false}
+                  ref={scrollView}
+                  onContentSizeChange={() =>
+                    scrollView.current.scrollToEnd({animated: true})
+                  }>
+                  {old_messages.channels[directIdHere].map((item, index) => (
+                    <ShowMessageOld Message={item} />
+                    //<Text>{item.message}</Text>
+                  ))}
+                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                    <ShowMessage Message={message} />
+                  ))}
+                </ScrollView>
+              );
+            }
+          }
         }
-      }
-    }
-  }
+      },
+    [],
+  );
 
   function StartFrame() {
     //console.log(startTime + 'start time sent here');
