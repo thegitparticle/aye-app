@@ -47,6 +47,7 @@ import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
 import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
 import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
 import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessage';
+import CraftAndSendCameraMessage from '../chatitems/camera/CraftAndSendCameraMessage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -348,177 +349,32 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   function CameraPickerOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        //if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
-            },
-            meta: {
-              type: 'c',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-            StartFrame();
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        //} else {
-        //}
-      } else {
-        // if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
-            },
-            meta: {
-              type: 'c',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
-      }
-    };
-    const sendMessageOldFrame = message => {
-      //if (message) {
-      pubnub.sendFile(
-        {
-          channel: channelsHere[0],
-          message: {
-            test: message,
-            //value: 42
-          },
-          file: {
-            uri: cameraPicked,
-            name: cameraPickedName,
-            mimeType: cameraPickedMime,
-          },
-          meta: {
-            type: 'c',
-            user_dp: state_here.MyProfileReducer.myprofile.image,
-          },
-        },
-        function (status, response) {
-          console.log(status);
-        },
-      );
-      //.catch(err => console.log(err));
-      //} else {
-      //}
-    };
-
     return (
       <Overlay
         isVisible={cameraPickerCraftVisible}
         onBackdropPress={cameraPickerCraftOverlay}
         overlayStyle={styles.camera_picker_craft_overlay}>
-        <SafeAreaView style={styles.camera_picker_craft_items_view}>
+        <SafeAreaView>
           <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            style={{
+              alignSelf: 'flex-end',
+              marginHorizontal: 10,
+              height: windowHeight * 0.05,
+            }}
             onPress={() => cameraPickerCraftOverlay()}>
             <IconlyCloseSquareIcon />
           </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: cameraPicked}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.c_avatar}
-              />
-              <View style={styles.c_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.c_text}
-                  multiline
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                imageSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                cameraPickerCraftOverlay();
-                setCameraPicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
+          <CraftAndSendCameraMessage
+            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+            SelectedCameraShot={cameraPicked}
+            SelectedCameraShotName={cameraPickedName}
+            SelectedCameraShotMime={cameraPickedMime}
+            ChannelOnGoing={channelOnGoing}
+            Messages={messages}
+            ChannelID={channelsHere[0]}
+            ClubID={clubID}
+            ToggleOverlay={cameraPickerCraftOverlay}
+          />
         </SafeAreaView>
       </Overlay>
     );
