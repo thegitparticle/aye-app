@@ -178,6 +178,10 @@ function CraftAndSendGifMessage(props) {
     }
   };
 
+  function HandleGoingBack() {
+    props.ToggleOverlay();
+  }
+
   return (
     <SafeAreaView style={styles.gif_selector_craft_items_view}>
       <FastImage
@@ -236,8 +240,9 @@ function CraftAndSendGifMessage(props) {
             }
 
             Keyboard.dismiss;
-            setTextMessage('');
-            navigation.goBack();
+            HandleGoingBack();
+            //setTextMessage('');
+            //props.ToggleOverlay();
           }}>
           <IconlyDirectIcon Color="lightgreen" />
         </Pressable>

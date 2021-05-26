@@ -1447,6 +1447,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             Messages={messages}
             ChannelID={channelsHere[0]}
             ClubID={clubID}
+            ToggleOverlay={gifSelectorCraftOverlay}
           />
         </SafeAreaView>
       </Overlay>
