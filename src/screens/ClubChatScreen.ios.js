@@ -45,6 +45,8 @@ import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import _ from 'lodash';
 import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
 import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
+import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
+import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -1259,137 +1261,31 @@ function ClubChatScreen({navigation, dispatch, route}) {
     setImageSelectorCraftVisible(!imageSelectorCraftVisible);
   };
 
-  function ImageSelectorOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'g',
-                image_url: imageSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-              StartFrame();
-            },
-          );
-        } else {
-        }
-      } else {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'g',
-                image_url: imageSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'g',
-              image_url: imageSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-      } else {
-      }
-    };
-
+  function ImageSelectorOverlayInputHere() {
     return (
       <Overlay
         isVisible={imageSelectorCraftVisible}
         onBackdropPress={imageSelectorCraftOverlay}
         overlayStyle={styles.image_selector_craft_overlay}>
-        <SafeAreaView style={styles.image_selector_craft_items_view}>
+        <SafeAreaView>
           <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            style={{
+              alignSelf: 'flex-end',
+              marginHorizontal: 10,
+              height: windowHeight * 0.05,
+            }}
             onPress={() => imageSelectorCraftOverlay()}>
             <IconlyCloseSquareIcon />
           </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imageSelected}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
-              />
-              <View style={styles.g_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.g_text}
-                  multiline
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                imageSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
+          <CraftAndSendImageMessage
+            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+            SelectedImage={imageSelected}
+            ChannelOnGoing={channelOnGoing}
+            Messages={messages}
+            ChannelID={channelsHere[0]}
+            ClubID={clubID}
+            ToggleOverlay={imageSelectorCraftOverlay}
+          />
         </SafeAreaView>
       </Overlay>
     );
@@ -1409,10 +1305,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           setImageSelected(item.item.urls.regular);
           imageSelectorCraftOverlay();
         }}>
-        <Image
-          source={{uri: item.item.urls.thumb}}
-          style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
-        />
+        <RenderSearchedImageItem Item={item} />
       </Pressable>
     );
   }
@@ -1449,192 +1342,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
             ClubID={clubID}
             ToggleOverlay={gifSelectorCraftOverlay}
           />
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
-
-  function GIFSelectorOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        console.log('new frame, no messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        }
-      } else {
-        console.log('new frame, yes messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('old frame, yes messages');
-
-      if (message.length === 0) {
-        const message = 'jibber$$$';
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'f',
-              image_url: gifSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-      } else {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'f',
-              image_url: gifSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-      }
-    };
-
-    return (
-      <Overlay
-        isVisible={gifSelectorCraftVisible}
-        onBackdropPress={gifSelectorCraftOverlay}
-        overlayStyle={styles.gif_selector_craft_overlay}>
-        <SafeAreaView style={styles.gif_selector_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => gifSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: gifSelected}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.f_avatar}
-              />
-              <View style={styles.f_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.f_text}
-                  multiline
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                gifSelectorCraftOverlay();
-                setGifSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
         </SafeAreaView>
       </Overlay>
     );
@@ -1719,7 +1426,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <OtherInputBar />
       </View>
       <ImagePickerOverlayInput />
-      <ImageSelectorOverlayInput />
+      <ImageSelectorOverlayInputHere />
       <CameraPickerOverlayInput />
       <GIFSelectorOverlayInputHere />
       <Modalize

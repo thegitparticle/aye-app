@@ -20,7 +20,7 @@ import axios from 'axios';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function CraftAndSendGifMessage(props) {
+function CraftAndSendImageMessage(props) {
   const pubnub = usePubNub();
 
   const [textMessage, setTextMessage] = useState('');
@@ -69,52 +69,33 @@ function CraftAndSendGifMessage(props) {
 
   const sendMessageNewFrame = message => {
     if (props.Messages.length === 0) {
-      console.log('new frame, no messages gif');
-      if (message.length === 0) {
-        const message = 'jibber$$$';
+      if (message) {
         pubnub.publish(
           {
             channel: props.ChannelID,
             message,
             meta: {
-              type: 'f',
-              image_url: props.SelectedGIF,
+              type: 'g',
+              image_url: props.SelectedImage,
               user_dp: props.ProfileAvatar,
             },
           },
           function (status, response) {
-            console.log(response);
+            console.log(status);
             StartFrame();
           },
         );
       } else {
-        pubnub.publish(
-          {
-            channel: props.ChannelID,
-            message,
-            meta: {
-              type: 'f',
-              image_url: props.SelectedGIF,
-              user_dp: props.ProfileAvatar,
-            },
-          },
-          function (status, response) {
-            console.log(response);
-            StartFrame();
-          },
-        );
       }
     } else {
-      console.log('new frame, yes messages gif');
-      if (message.length === 0) {
-        const message = 'jibber$$$';
+      if (message) {
         pubnub.publish(
           {
             channel: props.ChannelID,
             message,
             meta: {
-              type: 'f',
-              image_url: props.SelectedGIF,
+              type: 'g',
+              image_url: props.SelectedImage,
               user_dp: props.ProfileAvatar,
             },
           },
@@ -123,35 +104,18 @@ function CraftAndSendGifMessage(props) {
           },
         );
       } else {
-        pubnub.publish(
-          {
-            channel: props.ChannelID,
-            message,
-            meta: {
-              type: 'f',
-              image_url: props.SelectedGIF,
-              user_dp: props.ProfileAvatar,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
       }
     }
   };
   const sendMessageOldFrame = message => {
-    console.log('old frame, yes messages');
-
-    if (message.length === 0) {
-      const message = 'jibber$$$';
+    if (message) {
       pubnub.publish(
         {
           channel: props.ChannelID,
           message,
           meta: {
-            type: 'f',
-            image_url: props.SelectedGIF,
+            type: 'g',
+            image_url: props.SelectedImage,
             user_dp: props.ProfileAvatar,
           },
         },
@@ -160,20 +124,6 @@ function CraftAndSendGifMessage(props) {
         },
       );
     } else {
-      pubnub.publish(
-        {
-          channel: props.ChannelID,
-          message,
-          meta: {
-            type: 'f',
-            image_url: props.SelectedGIF,
-            user_dp: props.ProfileAvatar,
-          },
-        },
-        function (status, response) {
-          console.log(status);
-        },
-      );
     }
   };
 
@@ -182,7 +132,7 @@ function CraftAndSendGifMessage(props) {
   }
 
   return (
-    <SafeAreaView style={styles.gif_selector_craft_items_view}>
+    <SafeAreaView style={styles.image_selector_craft_items_view}>
       <FastImage
         style={{
           width: '100%',
@@ -191,7 +141,7 @@ function CraftAndSendGifMessage(props) {
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}
-        source={{uri: props.SelectedGIF}}>
+        source={{uri: props.SelectedImage}}>
         <View
           style={{
             width: '100%',
@@ -203,16 +153,15 @@ function CraftAndSendGifMessage(props) {
             rounded
             source={{uri: props.ProfileAvatar}}
             size={60}
-            containerStyle={styles.f_avatar}
+            containerStyle={styles.g_avatar}
           />
-          <View style={styles.f_text_view}>
+          <View style={styles.g_text_view}>
             <TextInput
               placeholder="type..."
               placeholderTextColor="#fafafa50"
-              style={styles.f_text}
+              style={styles.g_text}
               multiline
               autoline
-              autoFocus={true}
               maxLength={140}
               onChangeText={text => setTextMessage(text)}
             />
@@ -240,8 +189,6 @@ function CraftAndSendGifMessage(props) {
 
             Keyboard.dismiss;
             HandleGoingBack();
-            //setTextMessage('');
-            //props.ToggleOverlay();
           }}>
           <IconlyDirectIcon Color="lightgreen" />
         </Pressable>
@@ -250,42 +197,42 @@ function CraftAndSendGifMessage(props) {
   );
 }
 
-export default CraftAndSendGifMessage;
+export default CraftAndSendImageMessage;
 
 const styles = StyleSheet.create({
-  gif_selector_craft_overlay: {
+  image_selector_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
     backgroundColor: '#131313',
     alignItems: 'center',
   },
-  gif_selector_craft_items_view: {
+  image_selector_craft_items_view: {
     alignItems: 'center',
     height: windowHeight * 0.6,
     //justifyContent: 'space-around',
   },
-  gif_selector_craft_keyboard_view: {
+  image_selector_craft_keyboard_view: {
     flexDirection: 'row',
     width: windowWidth,
   },
-  gif_selector_craft_text: {
-    color: '#FFFFFF',
+  image_selector_craft_text: {
+    color: '#fafafa',
     width: windowWidth * 0.9,
     height: 50,
     borderBottomWidth: 2,
     borderColor: '#fafafa25',
     paddingHorizontal: 20,
   },
-  f_type_image: {
+  g_type_image: {
     width: windowWidth,
     height: windowWidth / 2,
     flexDirection: 'column-reverse',
   },
-  f_avatar: {
+  g_avatar: {
     left: '5%',
   },
-  f_text_view: {
-    backgroundColor: '#FFFFFF',
+  g_text_view: {
+    backgroundColor: '#fafafa',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -293,11 +240,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  f_text: {
+  g_text: {
     fontFamily: 'GothamRounded-Book',
     fontSize: 15,
   },
-  f_type_view: {
+  g_type_view: {
     marginVertical: 10,
     alignItems: 'center',
   },

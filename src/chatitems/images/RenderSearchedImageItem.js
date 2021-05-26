@@ -4,14 +4,13 @@ import {Image, Dimensions} from 'react-native';
 //const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function RenderSearchedGifItem(props) {
-  //console.log(props.Item.item.images.fixed_height_small.url);
+function RenderSearchedImageItem(props) {
   return (
     <Image
-      source={{uri: props.Item.item.images.fixed_height_small.url}}
+      source={{uri: props.Item.item.urls.thumb}}
       style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
     />
   );
 }
 
-export default RenderSearchedGifItem;
+export default RenderSearchedImageItem;
