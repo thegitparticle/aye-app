@@ -43,6 +43,8 @@ import {showMessage} from 'react-native-flash-message';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import _ from 'lodash';
+import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
+import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -1422,6 +1424,35 @@ function ClubChatScreen({navigation, dispatch, route}) {
     setGifSelectorCraftVisible(!gifSelectorCraftVisible);
   };
 
+  function GIFSelectorOverlayInputHere() {
+    return (
+      <Overlay
+        isVisible={gifSelectorCraftVisible}
+        onBackdropPress={gifSelectorCraftOverlay}
+        overlayStyle={styles.gif_selector_craft_overlay}>
+        <SafeAreaView>
+          <Pressable
+            style={{
+              alignSelf: 'flex-end',
+              marginHorizontal: 10,
+              height: windowHeight * 0.05,
+            }}
+            onPress={() => gifSelectorCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <CraftAndSendGifMessage
+            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+            SelectedGIF={gifSelected}
+            ChannelOnGoing={channelOnGoing}
+            Messages={messages}
+            ChannelID={channelsHere[0]}
+            ClubID={clubID}
+          />
+        </SafeAreaView>
+      </Overlay>
+    );
+  }
+
   function GIFSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
     const sendMessageNewFrame = message => {
@@ -1614,7 +1645,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
     dispatch(TrendingGifsActions(gifsSearch));
   }, [dispatch, gifsSearch]);
 
-  function RenderTrendingGifs(item) {
+  function RenderTrendingGifsHere(item) {
     return (
       <Pressable
         style={{margin: 3}}
@@ -1622,10 +1653,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           setGifSelected(item.item.images.fixed_height.url);
           gifSelectorCraftOverlay();
         }}>
-        <Image
-          source={{uri: item.item.images.fixed_height_small.url}}
-          style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
-        />
+        <RenderSearchedGifItem Item={item} />
       </Pressable>
     );
   }
@@ -1692,7 +1720,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       <ImagePickerOverlayInput />
       <ImageSelectorOverlayInput />
       <CameraPickerOverlayInput />
-      <GIFSelectorOverlayInput />
+      <GIFSelectorOverlayInputHere />
       <Modalize
         ref={modalizeRefBitmojiSheet}
         snapPoint={1000}
@@ -1740,7 +1768,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }
         flatListProps={{
           data: trending_gifs_data_block,
-          renderItem: RenderTrendingGifs,
+          renderItem: RenderTrendingGifsHere,
           keyExtractor: item => item.id,
           numColumns: 2,
         }}
