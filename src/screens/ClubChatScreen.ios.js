@@ -50,6 +50,8 @@ import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessa
 import CraftAndSendCameraMessage from '../chatitems/camera/CraftAndSendCameraMessage';
 import CraftAndSendGalleryMessage from '../chatitems/gallery/CraftAndSendGalleryMessage';
 import CraftAndSendLinkMessage from '../chatitems/links/CraftAndSendLinkMessage';
+import EachRecoItem from '../chatitems/typed/EachRecoItem';
+import RecosOverlay from '../chatitems/typed/RecosOverlay';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -738,120 +740,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
       chosenMedia = '';
     }
 
-    function EachRecoItem(props) {
-      const [selected, setSelected] = useState(false);
-
-      if (selected) {
-        return (
-          <Pressable
-            style={{
-              shadowColor: '#000',
-              width: 125,
-              height: 72.5,
-              marginHorizontal: 5,
-            }}
-            onPress={() => {
-              SetChosenMediaEmpty();
-              setSelected(false);
-            }}>
-            <BetterImage
-              viewStyle={{
-                width: 125,
-                height: 72.5,
-                borderRadius: 10,
-                borderWidth: 3,
-                borderColor: '#36B37E',
-              }}
-              source={{
-                uri: props.Item,
-              }}
-              thumbnailSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-              fallbackSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-            />
-          </Pressable>
-        );
-      } else {
-        return (
-          <Pressable
-            style={{
-              borderRadius: 3,
-              width: 125,
-              height: 72.5,
-              marginHorizontal: 5,
-              backgroundColor: '#FFFFFF80',
-            }}
-            onPress={() => {
-              setSelected(true);
-              SetChosenMedia(props.Item);
-            }}>
-            <BetterImage
-              viewStyle={{
-                width: 125,
-                height: 72.5,
-              }}
-              source={{
-                uri: props.Item,
-              }}
-              thumbnailSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-              thumbnailBlurRadius={-10}
-              fallbackSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-            />
-          </Pressable>
-        );
-      }
-    }
-
-    function RecoOverLay() {
-      const [rec, setRec] = useState([
-        'loading',
-        'loading',
-        'loading',
-        'loading',
-      ]);
-
-      var res = [];
-
+    function RecoOverLayHereShow() {
       if (keyboardStatus) {
-        useEffect(() => {
-          axios
-            .get(
-              'https://apisayepirates.life/api/users/recommend_images/' +
-                String(state_here.MyProfileReducer.myprofile.user.id) +
-                '/' +
-                typevalue,
-            )
-            .then(response => (res = response.data))
-            .then(() => setRec(_.concat(res[0], res[1])))
-            .catch(err => {
-              console.log(err);
-            });
-        }, [typevalue]);
         return (
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            style={{
-              height: windowHeight * 0.1,
-              width: windowWidth,
-              backgroundColor: reco_background_color,
-              borderRadius: 0,
-            }}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            {rec.map((item, index) => (
-              <EachRecoItem Item={item} />
-            ))}
-          </ScrollView>
+          <RecosOverlay
+            UserID={state_here.MyProfileReducer.myprofile.user.id}
+            TypeValue={typevalue}
+            SetChosenMediaEmpty={SetChosenMediaEmpty}
+            SetChosenMedia={SetChosenMedia}
+          />
         );
       } else {
         return <View />;
@@ -959,7 +856,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <RecoOverLay />
+        <RecoOverLayHereShow />
 
         <View style={styles.textinputview}>
           <View
