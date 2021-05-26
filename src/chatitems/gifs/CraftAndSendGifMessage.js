@@ -68,7 +68,8 @@ function CraftAndSendGifMessage(props) {
   }
 
   const sendMessageNewFrame = message => {
-    if (props.Messages.length === 0) {
+    var messages_here = props.Messages;
+    if (messages_here.length === 0) {
       console.log('new frame, no messages gif');
       if (message.length === 0) {
         const message = 'jibber$$$';

@@ -20,7 +20,7 @@ import axios from 'axios';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function CraftAndSendCameraMessage(props) {
+function CraftAndSendGalleryMessage(props) {
   const pubnub = usePubNub();
 
   const [textMessage, setTextMessage] = useState('');
@@ -68,8 +68,10 @@ function CraftAndSendCameraMessage(props) {
   }
 
   const sendMessageNewFrame = message => {
+    console.log('sending picked image - new frames');
     var messages_here = props.Messages;
     if (messages_here.length === 0) {
+      console.log('no live messsages here');
       //if (message) {
       pubnub.sendFile(
         {
@@ -79,26 +81,28 @@ function CraftAndSendCameraMessage(props) {
             //value: 42
           },
           file: {
-            uri: props.SelectedCameraShot,
-            name: props.SelectedCameraShotName,
-            mimeType: props.SelectedCameraShotMime,
+            uri: props.SelectedGalleryShot,
+            name: props.SelectedGalleyShotName,
+            mimeType: props.SelectedGalleryShotMime,
           },
           meta: {
-            type: 'c',
+            type: 'b',
             user_dp: props.ProfileAvatar,
           },
         },
         function (status, response) {
-          console.log(status);
           StartFrame();
+          console.log(status);
         },
       );
+
       //.then(() => changeTypevalue(''))
       //.catch(err => console.log(err));
-      //} else {
+      // } else {
       //}
     } else {
-      // if (message) {
+      console.log('yes live messsages here');
+      //if (message) {
       pubnub.sendFile(
         {
           channel: props.ChannelID,
@@ -107,12 +111,12 @@ function CraftAndSendCameraMessage(props) {
             //value: 42
           },
           file: {
-            uri: props.SelectedCameraShot,
-            name: props.SelectedCameraShotName,
-            mimeType: props.SelectedCameraShotMime,
+            uri: props.SelectedGalleryShot,
+            name: props.SelectedGalleyShotName,
+            mimeType: props.SelectedGalleryShotMime,
           },
           meta: {
-            type: 'c',
+            type: 'b',
             user_dp: props.ProfileAvatar,
           },
         },
@@ -122,11 +126,12 @@ function CraftAndSendCameraMessage(props) {
       );
       //.then(() => changeTypevalue(''))
       //.catch(err => console.log(err));
-      // } else {
+      //} else {
       //}
     }
   };
   const sendMessageOldFrame = message => {
+    console.log('sending picked image - old frame');
     //if (message) {
     pubnub.sendFile(
       {
@@ -136,12 +141,12 @@ function CraftAndSendCameraMessage(props) {
           //value: 42
         },
         file: {
-          uri: props.SelectedCameraShot,
-          name: props.SelectedCameraShotName,
-          mimeType: props.SelectedCameraShotMime,
+          uri: props.SelectedGalleryShot,
+          name: props.SelectedGalleyShotName,
+          mimeType: props.SelectedGalleryShotMime,
         },
         meta: {
-          type: 'c',
+          type: 'b',
           user_dp: props.ProfileAvatar,
         },
       },
@@ -150,7 +155,7 @@ function CraftAndSendCameraMessage(props) {
       },
     );
     //.catch(err => console.log(err));
-    //} else {
+    // } else {
     //}
   };
 
@@ -159,7 +164,7 @@ function CraftAndSendCameraMessage(props) {
   }
 
   return (
-    <SafeAreaView style={styles.camera_picker_craft_items_view}>
+    <SafeAreaView style={styles.image_picker_craft_items_view}>
       <FastImage
         style={{
           width: '100%',
@@ -168,25 +173,25 @@ function CraftAndSendCameraMessage(props) {
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}
-        source={{uri: props.SelectedCameraShot}}>
+        source={{uri: props.SelectedGalleryShot}}>
         <View
           style={{
             width: '100%',
-            //height: undefined,
-            //aspectRatio: 1,
+            height: undefined,
+            aspectRatio: 1,
             flexDirection: 'column-reverse',
           }}>
           <Avatar
             rounded
-            source={{uri: props.ProfileAvatar}}
+            source={{url: props.ProfileAvatar}}
             size={60}
-            containerStyle={styles.c_avatar}
+            containerStyle={styles.g_avatar}
           />
-          <View style={styles.c_text_view}>
+          <View style={styles.g_text_view}>
             <TextInput
               placeholder="type..."
               placeholderTextColor="#fafafa50"
-              style={styles.c_text}
+              style={styles.g_text}
               multiline
               autoline
               autoFocus={true}
@@ -226,25 +231,25 @@ function CraftAndSendCameraMessage(props) {
   );
 }
 
-export default CraftAndSendCameraMessage;
+export default CraftAndSendGalleryMessage;
 
 const styles = StyleSheet.create({
-  camera_picker_craft_overlay: {
+  image_picker_craft_overlay: {
     height: windowHeight,
     width: windowWidth,
     backgroundColor: '#131313',
     alignItems: 'center',
   },
-  camera_picker_craft_items_view: {
+  image_picker_craft_items_view: {
     alignItems: 'center',
     height: windowHeight * 0.6,
     //justifyContent: 'space-around',
   },
-  camera_picker_craft_keyboard_view: {
+  image_picker_craft_keyboard_view: {
     flexDirection: 'row',
     width: windowWidth,
   },
-  camera_picker_craft_text: {
+  image_picker_craft_text: {
     color: '#fafafa',
     width: windowWidth * 0.9,
     height: 50,
@@ -252,28 +257,28 @@ const styles = StyleSheet.create({
     borderColor: '#fafafa25',
     paddingHorizontal: 20,
   },
-  c_type_image: {
+  g_type_image: {
     width: windowWidth,
     height: windowWidth / 2,
     flexDirection: 'column-reverse',
   },
-  c_avatar: {
+  g_avatar: {
     left: '5%',
   },
-  c_text_view: {
+  g_text_view: {
     backgroundColor: '#fafafa',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
+    maxWidth: windowWidth * 0.8,
     padding: 10,
     borderRadius: 5,
-    maxWidth: windowWidth * 0.8,
   },
-  c_text: {
+  g_text: {
     fontFamily: 'GothamRounded-Book',
     fontSize: 15,
   },
-  c_type_view: {
+  g_type_view: {
     marginVertical: 10,
     alignItems: 'center',
   },

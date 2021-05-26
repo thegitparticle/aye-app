@@ -48,6 +48,7 @@ import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
 import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
 import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessage';
 import CraftAndSendCameraMessage from '../chatitems/camera/CraftAndSendCameraMessage';
+import CraftAndSendGalleryMessage from '../chatitems/gallery/CraftAndSendGalleryMessage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -77,8 +78,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   } = route.params;
   const [channelsHere] = useState([channelIdHere]);
 
-  console.log(channelOnGoing);
-
   const [messages, addMessage] = useState([]);
   const [liveWho, setLiveWho] = useState();
 
@@ -90,8 +89,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   useEffect(() => {
     setNowTimeStamp(dayjs().valueOf());
   }, []);
-
-  console.log(nowTimeStamp + 'now main');
 
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
@@ -171,6 +168,34 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   function ImagePickerOverlayInput() {
+    return (
+      <Overlay
+        isVisible={imagePickerCraftVisible}
+        onBackdropPress={imagePickerCraftOverlay}
+        overlayStyle={styles.image_picker_craft_overlay}>
+        <SafeAreaView>
+          <Pressable
+            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
+            onPress={() => imagePickerCraftOverlay()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+          <CraftAndSendGalleryMessage
+            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+            SelectedGalleryShot={imagePicked}
+            SelectedGalleryShotName={imagePickedName}
+            SelectedGalleryShotMime={imagePickedMime}
+            ChannelOnGoing={channelOnGoing}
+            Messages={messages}
+            ChannelID={channelsHere[0]}
+            ClubID={clubID}
+            ToggleOverlay={imagePickerCraftOverlay}
+          />
+        </SafeAreaView>
+      </Overlay>
+    );
+  }
+
+  function ImagePickerOverlayInputX() {
     const [textMessage, setTextMessage] = useState('');
     const sendMessageNewFrame = message => {
       console.log('sending picked image - new frames');
@@ -1281,7 +1306,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }}>
         <OtherInputBar />
       </View>
-      <ImagePickerOverlayInput />
+      <ImagePickerOverlayInputX />
       <ImageSelectorOverlayInputHere />
       <CameraPickerOverlayInput />
       <GIFSelectorOverlayInputHere />

@@ -68,7 +68,8 @@ function CraftAndSendImageMessage(props) {
   }
 
   const sendMessageNewFrame = message => {
-    if (props.Messages.length === 0) {
+    var messages_here = props.Messages;
+    if (messages_here.length === 0) {
       if (message) {
         pubnub.publish(
           {
