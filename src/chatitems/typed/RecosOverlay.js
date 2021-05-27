@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {ScrollView, Dimensions} from 'react-native';
+import React, {useState, useEffect, useMemo} from 'react';
+import {ScrollView, Dimensions, View} from 'react-native';
 import EachRecoItem from './EachRecoItem';
 import axios from 'axios';
 import _ from 'lodash';
@@ -32,32 +32,36 @@ function RecosOverlay(props) {
     props.SetChosenMedia(link);
   }
 
-  function HandleSettingChosenMediaEmpty() {
-    props.SetChosenMediaEmpty();
-  }
-
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      horizontal
+    <View
+      keyboardShouldPersistTaps="always"
       style={{
         height: windowHeight * 0.1,
         width: windowWidth,
         backgroundColor: 'transparent',
         borderRadius: 0,
-      }}
-      contentContainerStyle={{
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      {rec.map((item, index) => (
-        <EachRecoItem
-          Item={item}
-          SetChosenMediaEmpty={HandleSettingChosenMediaEmpty}
-          SetChosenMedia={HandleSettingChosenMedia}
-        />
-      ))}
-    </ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={{
+          height: windowHeight * 0.1,
+          width: windowWidth,
+          backgroundColor: 'transparent',
+          borderRadius: 0,
+        }}
+        contentContainerStyle={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        {rec.map((item, index) => (
+          <EachRecoItem Item={item} SetChosenMedia={HandleSettingChosenMedia} />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 

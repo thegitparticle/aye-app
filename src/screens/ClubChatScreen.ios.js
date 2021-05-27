@@ -52,6 +52,7 @@ import CraftAndSendGalleryMessage from '../chatitems/gallery/CraftAndSendGallery
 import CraftAndSendLinkMessage from '../chatitems/links/CraftAndSendLinkMessage';
 import EachRecoItem from '../chatitems/typed/EachRecoItem';
 import RecosOverlay from '../chatitems/typed/RecosOverlay';
+import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -543,6 +544,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
     handleHereNowResponse();
   }, []);
 
+  // console.log('Is the entire thing re-loading when dispatching?');
+
   useEffect(() => {
     pubnub.subscribe({channels: channelsHere});
     if (!channelOnGoing) {
@@ -721,7 +724,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     const [typevalue, changeTypevalue] = useState('');
 
-    var chosenMedia = '';
+    const [pick, setPick] = useState('');
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
 
@@ -733,22 +736,29 @@ function ClubChatScreen({navigation, dispatch, route}) {
     };
 
     function SetChosenMedia(image_link) {
-      chosenMedia = image_link;
+      setPick(image_link);
     }
 
-    function SetChosenMediaEmpty() {
-      chosenMedia = '';
-    }
+    function SetChosenMediaEmpty() {}
 
     function RecoOverLayHereShow() {
       if (keyboardStatus) {
         return (
-          <RecosOverlay
-            UserID={state_here.MyProfileReducer.myprofile.user.id}
-            TypeValue={typevalue}
-            SetChosenMediaEmpty={SetChosenMediaEmpty}
-            SetChosenMedia={SetChosenMedia}
-          />
+          <View
+            keyboardShouldPersistTaps={'always'}
+            style={{
+              flexDirection: 'row',
+              width: windowWidth,
+              alignItems: 'center',
+            }}>
+            <ChosenRecoItem Link={pick} />
+            <RecosOverlay
+              UserID={state_here.MyProfileReducer.myprofile.user.id}
+              TypeValue={typevalue}
+              SetChosenMediaEmpty={SetChosenMediaEmpty}
+              SetChosenMedia={SetChosenMedia}
+            />
+          </View>
         );
       } else {
         return <View />;
@@ -774,7 +784,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
               message,
               meta: {
                 type: 'h',
-                image_url: chosenMedia,
+
+                image_url: pick,
                 user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
@@ -794,7 +805,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               message,
               meta: {
                 type: 'h',
-                image_url: chosenMedia,
+                image_url: pick,
                 user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
@@ -825,7 +836,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             message,
             meta: {
               type: 'h',
-              image_url: chosenMedia,
+              image_url: pick,
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
@@ -849,6 +860,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     return (
       <View
+        keyboardShouldPersistTaps={'always'}
         style={{
           backgroundColor: 'transparent',
           borderColor: input_border_color,
@@ -904,7 +916,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               //disabled={ ? false : true}
               onPress={() => {
                 Keyboard.dismiss;
-                if (chosenMedia.length > 0) {
+                if (pick.length > 0) {
                   if (!channelOnGoing) {
                     sendMessageNewFrame(typevalue);
                   } else {
