@@ -109,7 +109,7 @@ class AnimatedPullToRefresh extends React.Component {
         (gestureState.dy >= 0 && this.state.scrollY._value === 0) ||
         this.state.refreshHeight._value > 0
       ) {
-        this.state.refreshHeight.setValue(-1 * gestureState.dy * 0.5);
+        this.state.refreshHeight.setValue(-1 * gestureState.dy * 0.8);
       } else {
         // Native android scrolling
         this.refs.scrollComponentRef.scrollTo({

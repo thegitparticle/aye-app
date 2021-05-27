@@ -5,7 +5,6 @@ import NudgeToList from '../components/NudgeToList';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
-//import PullToRefresh from 'react-native-pull-refresh';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {usePubNub} from 'pubnub-react';
 
@@ -17,14 +16,11 @@ function DirectsHomeD({dispatch}) {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const memoizedHandleRefresh = useCallback(
-    () => {
-      console.log('refresh happened');
-      dispatch(GetDirectsList(user_id_here));
-      dispatch(GetMyNudgeToList(user_id_here));
-    },
-    [], // Tells React to memoize regardless of arguments.
-  );
+  const memoizedHandleRefresh = useCallback(() => {
+    console.log('refresh happened');
+    dispatch(GetDirectsList(user_id_here));
+    dispatch(GetMyNudgeToList(user_id_here));
+  }, []);
 
   return (
     <AnimatedPullToRefresh
@@ -46,6 +42,12 @@ function DirectsHomeD({dispatch}) {
       onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
       onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
       onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+      /*
+      onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
+      onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
+      onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
+      onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/umbrella_full.json')}
+      */
     />
   );
 }

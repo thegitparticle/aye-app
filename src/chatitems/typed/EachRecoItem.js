@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {Pressable} from 'react-native';
 import BetterImage from 'react-native-better-image';
 
 function EachRecoItem(props) {
