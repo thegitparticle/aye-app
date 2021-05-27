@@ -44,6 +44,7 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import BetterImage from 'react-native-better-image';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -307,6 +308,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.g_text}
                   multiline
                   autoline
+                  autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />
@@ -479,6 +481,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   placeholderTextColor="#fafafa50"
                   style={styles.c_text}
                   multiline
+                  autoFocus={true}
                   autoline
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -969,93 +972,52 @@ function DirectChatScreen({navigation, dispatch, route}) {
     }, []);
 
     const [typevalue, changeTypevalue] = useState('');
-    //const [chosenMedia, changeChosenMedia] = useState('');
 
-    var chosenMedia = '';
+    const [pick, setPick] = useState('');
 
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const _keyboardDidShow = () => setKeyboardStatus(true);
     const _keyboardDidHide = () => setKeyboardStatus(false);
 
     function SetChosenMedia(image_link) {
-      chosenMedia = image_link;
+      setPick(image_link);
     }
 
-    function SetChosenMediaEmpty() {
-      chosenMedia = '';
-    }
+    function SetChosenMediaEmpty() {}
 
     function EachRecoItem(props) {
-      const [selected, setSelected] = useState(false);
-
-      if (selected) {
-        return (
-          <Pressable
-            style={{
-              shadowColor: '#000',
+      return (
+        <Pressable
+          style={{
+            shadowColor: '#000',
+            width: 125,
+            height: 72.5,
+            marginHorizontal: 5,
+          }}
+          keyboardShouldPersistTaps="always"
+          onPress={() => {
+            SetChosenMedia(props.Item);
+          }}>
+          <BetterImage
+            viewStyle={{
               width: 125,
               height: 72.5,
-              marginHorizontal: 5,
+              borderRadius: 10,
             }}
-            onPress={() => {
-              SetChosenMediaEmpty();
-              setSelected(false);
-            }}>
-            <BetterImage
-              viewStyle={{
-                width: 125,
-                height: 72.5,
-                borderRadius: 10,
-                borderWidth: 3,
-                borderColor: '#36B37E',
-              }}
-              source={{
-                uri: props.Item,
-              }}
-              thumbnailSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-              fallbackSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-            />
-          </Pressable>
-        );
-      } else {
-        return (
-          <Pressable
-            style={{
-              borderRadius: 3,
-              width: 125,
-              height: 72.5,
-              marginHorizontal: 5,
-              backgroundColor: '#FFFFFF80',
+            source={{
+              uri: props.Item,
             }}
-            onPress={() => {
-              setSelected(true);
-              SetChosenMedia(props.Item);
-              //changeChosenMedia(props.Item);
-            }}>
-            <BetterImage
-              viewStyle={{
-                width: 125,
-                height: 72.5,
-              }}
-              source={{
-                uri: props.Item,
-              }}
-              thumbnailSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-              thumbnailBlurRadius={-10}
-              fallbackSource={{
-                uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-              }}
-            />
-          </Pressable>
-        );
-      }
+            thumbnailSource={{
+              uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+            }}
+            fallbackSource={{
+              uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+            }}
+          />
+        </Pressable>
+      );
     }
+
     function RecoOverLay() {
       const [rec, setRec] = useState([
         'loading',
@@ -1083,23 +1045,32 @@ function DirectChatScreen({navigation, dispatch, route}) {
         }, [typevalue]);
 
         return (
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal
+          <View
+            keyboardShouldPersistTaps={'always'}
             style={{
-              height: windowHeight * 0.1,
-              width: windowWidth,
-              backgroundColor: reco_background_color,
-              borderRadius: 0,
-            }}
-            contentContainerStyle={{
               flexDirection: 'row',
+              width: windowWidth,
               alignItems: 'center',
             }}>
-            {rec.map((item, index) => (
-              <EachRecoItem Item={item} />
-            ))}
-          </ScrollView>
+            <ChosenRecoItem Link={pick} />
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              style={{
+                height: windowHeight * 0.1,
+                width: windowWidth,
+                backgroundColor: reco_background_color,
+                borderRadius: 0,
+              }}
+              contentContainerStyle={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              {rec.map((item, index) => (
+                <EachRecoItem Item={item} />
+              ))}
+            </ScrollView>
+          </View>
         );
       } else {
         return <View />;
@@ -1124,7 +1095,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               message,
               meta: {
                 type: 'h',
-                image_url: chosenMedia,
+                image_url: pick,
                 user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
@@ -1144,7 +1115,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               message,
               meta: {
                 type: 'h',
-                image_url: chosenMedia,
+                image_url: pick,
                 user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
@@ -1175,7 +1146,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             message,
             meta: {
               type: 'h',
-              image_url: chosenMedia,
+              image_url: pick,
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
@@ -1198,6 +1169,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
     return (
       <View
+        keyboardShouldPersistTaps="always"
         style={{
           //flex: 0.05,
           //backgroundColor: input_background_color,
@@ -1256,7 +1228,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               //disabled={typevalue.length > 0 ? false : true}
               onPress={() => {
                 Keyboard.dismiss;
-                if (chosenMedia.length > 0) {
+                if (pick.length > 0) {
                   if (!channelOnGoing) {
                     sendMessageNewFrame(typevalue);
                   } else {
@@ -1396,6 +1368,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   placeholderTextColor="#fafafa50"
                   style={styles.g_text}
                   multiline
+                  autoFocus={true}
                   autoline
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -1616,6 +1589,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.f_text}
                   multiline
                   autoline
+                  autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />

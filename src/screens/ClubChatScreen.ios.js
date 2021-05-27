@@ -860,7 +860,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     return (
       <View
-        keyboardShouldPersistTaps={'always'}
+        keyboardShouldPersistTaps="always"
         style={{
           backgroundColor: 'transparent',
           borderColor: input_border_color,
