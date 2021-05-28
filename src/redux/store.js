@@ -14,6 +14,7 @@ import MyClubsReducer from './MyClubsReducer';
 import DirectsListReducer from './DirectsListReducer';
 import RecoOnTypeReducer from './RecoOnTypeReducer';
 import MyNudgeToListReducer from './MyNudgeToListReducer';
+import ChosenRecoItemReducer from './ChosenRecoItemReducer';
 
 export const persistConfigAuth = {
   key: 'auth_here',
@@ -77,6 +78,11 @@ export const persistConfigRecoOnType = {
   storage: AsyncStorage,
 };
 
+export const persistConfigChosenReco = {
+  key: 'chosen_reco',
+  storage: AsyncStorage,
+};
+
 const rootReducer = combineReducers({
   AuthStateReducer: persistReducer(persistConfigAuth, AuthStateReducer),
   MyProfileReducer: persistReducer(persistConfigMyProfile, MyProfileReducer),
@@ -104,6 +110,10 @@ const rootReducer = combineReducers({
     DirectsListReducer,
   ),
   RecoOnTypeReducer: persistReducer(persistConfigRecoOnType, RecoOnTypeReducer),
+  ChosenRecoItemReducer: persistReducer(
+    persistConfigChosenReco,
+    ChosenRecoItemReducer,
+  ),
 });
 
 export const storehere = createStore(rootReducer, applyMiddleware(thunk));
