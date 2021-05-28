@@ -983,40 +983,70 @@ function DirectChatScreen({navigation, dispatch, route}) {
       setPick(image_link);
     }
 
-    function SetChosenMediaEmpty() {}
+    const EachRecoItem = useMemo(
+      () =>
+        function EachRecoItemX(props) {
+          return (
+            <Pressable
+              style={{
+                shadowColor: '#000',
+                width: 125,
+                height: 72.5,
+                marginHorizontal: 5,
+              }}
+              keyboardShouldPersistTaps="always"
+              onPress={() => {
+                SetChosenMedia(props.Item);
+              }}>
+              <BetterImage
+                viewStyle={{
+                  width: 125,
+                  height: 72.5,
+                  borderRadius: 10,
+                }}
+                source={{
+                  uri: props.Item,
+                }}
+                thumbnailSource={{
+                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+                }}
+                fallbackSource={{
+                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
+                }}
+              />
+            </Pressable>
+          );
+        },
+      [typevalue],
+    );
 
-    function EachRecoItem(props) {
-      return (
-        <Pressable
-          style={{
-            shadowColor: '#000',
-            width: 125,
-            height: 72.5,
-            marginHorizontal: 5,
-          }}
-          keyboardShouldPersistTaps="always"
-          onPress={() => {
-            SetChosenMedia(props.Item);
-          }}>
-          <BetterImage
-            viewStyle={{
-              width: 125,
-              height: 72.5,
-              borderRadius: 10,
-            }}
-            source={{
-              uri: props.Item,
-            }}
-            thumbnailSource={{
-              uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-            }}
-            fallbackSource={{
-              uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-            }}
-          />
-        </Pressable>
-      );
-    }
+    const RecoItemsList = useMemo(
+      () =>
+        function RecoItemsListX(props) {
+          var list_here = props.Rec;
+
+          return (
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              style={{
+                height: windowHeight * 0.1,
+                width: windowWidth,
+                backgroundColor: reco_background_color,
+                borderRadius: 0,
+              }}
+              contentContainerStyle={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              {list_here.map((item, index) => (
+                <EachRecoItem Item={item} />
+              ))}
+            </ScrollView>
+          );
+        },
+      [typevalue],
+    );
 
     function RecoOverLay() {
       const [rec, setRec] = useState([
@@ -1053,23 +1083,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               alignItems: 'center',
             }}>
             <ChosenRecoItem Link={pick} />
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              style={{
-                height: windowHeight * 0.1,
-                width: windowWidth,
-                backgroundColor: reco_background_color,
-                borderRadius: 0,
-              }}
-              contentContainerStyle={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              {rec.map((item, index) => (
-                <EachRecoItem Item={item} />
-              ))}
-            </ScrollView>
+            <RecoItemsList Rec={rec} />
           </View>
         );
       } else {
