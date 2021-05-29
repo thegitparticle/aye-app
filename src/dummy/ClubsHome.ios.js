@@ -89,7 +89,10 @@ function ClubsHomeD({dispatch}) {
     function RenderLive() {
       return (
         <View>
-          <LiveClubs ClubsData={live_clubs} />
+          <LiveClubs
+            ClubsData={live_clubs}
+            UserID={state_here.MyProfileReducer.myprofile.user.id}
+          />
         </View>
       );
     }

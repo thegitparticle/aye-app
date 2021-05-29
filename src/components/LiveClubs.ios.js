@@ -21,7 +21,7 @@ function LiveClubs(props) {
   const navigation = useNavigation();
 
   return (
-    <ScrollView
+    <View
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
         marginBottom: live_clubs_data_here.length > 0 ? windowHeight * 0.05 : 0,
@@ -49,7 +49,11 @@ function LiveClubs(props) {
             })
           }>
           <ListItem.Content style={styles.ImagesContainer}>
-            <LiveClubComponent Club={comp} LiveMembers={comp.display_photos} />
+            <LiveClubComponent
+              Club={comp}
+              LiveMembers={comp.display_photos}
+              UserID={props.UserID}
+            />
           </ListItem.Content>
           <ListItem.Content style={styles.list_item_content}>
             <ListItem.Title style={styles.LiveClubName}>
@@ -66,7 +70,7 @@ function LiveClubs(props) {
           </ListItem.Content>
         </ListItem>
       ))}
-    </ScrollView>
+    </View>
   );
 }
 
