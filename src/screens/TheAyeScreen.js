@@ -105,7 +105,7 @@ function TheAyeScreen({navigation, dispatch}) {
             containerStyle={styles.header_container_style}
           />
           <Image
-            source={require('/Users/san/Desktop/toastgo/assets/zcool_aye_logo.png')}
+            source={require('/Users/san/Desktop/toastgo/assets/bubblaye3.png')}
             style={styles.logo_style}
           />
         </View>
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   logo_style: {
-    width: windowWidth * 0.65,
-    height: windowWidth * 0.25,
+    width: windowWidth * 0.4 * 1.37,
+    height: windowWidth * 0.4,
     marginVertical: windowHeight * 0.05,
   },
   things_list_view_wrap: {

@@ -30,7 +30,7 @@ function WelcomeScreen({navigation}) {
           colors={['#05050500', '#050505']}
           style={styles.linearGradient}>
           <Image
-            source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
+            source={require('/Users/san/Desktop/toastgo/assets/bubblaye3.png')}
             style={styles.logo_image}
           />
         </LinearGradient>
