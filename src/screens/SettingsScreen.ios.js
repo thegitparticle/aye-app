@@ -6,6 +6,8 @@ import {
   Dimensions,
   Switch,
   SafeAreaView,
+  Pressable,
+  Linking,
 } from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import {LOGOUT} from '../redux/types';
@@ -35,18 +37,39 @@ function SettingsScreen({navigation, dispatch}) {
     <SafeAreaView style={styles.container}>
       <Text style={styles.header_text}>settings</Text>
       <Divider style={styles.log_out_divider} />
-      <View style={styles.log_out_button_view_wrap}>
-        <Button
-          raised
-          type="clear"
-          //        containerStyle={styles.log_out_button_container_style}
-          titleStyle={styles.log_out_button_title_style}
-          title="log out"
-          onPress={() => {
-            dispatch({type: LOGOUT});
-            AsyncStorage.clear();
-          }}
-        />
+
+      <View style={styles.things_list_view_wrap}>
+        <Pressable
+          style={styles.things_list_item_view}
+          onPress={() =>
+            Linking.openURL(
+              'https://www.notion.so/ayespaces/Privacy-Policy-b2f432d16d88458281babd62457df2b4',
+            )
+          }>
+          <Text style={styles.things_item_text}>Privacy Policy</Text>
+        </Pressable>
+        <Pressable
+          style={styles.things_list_item_view}
+          onPress={() =>
+            Linking.openURL(
+              'https://www.notion.so/ayespaces/Terms-of-Service-93d01782de4042708a5c10decaa1484c',
+            )
+          }>
+          <Text style={styles.things_item_text}>T & C</Text>
+        </Pressable>
+        <View style={styles.log_out_button_view_wrap}>
+          <Button
+            raised
+            type="clear"
+            //        containerStyle={styles.log_out_button_container_style}
+            titleStyle={styles.log_out_button_title_style}
+            title="log out"
+            onPress={() => {
+              dispatch({type: LOGOUT});
+              AsyncStorage.clear();
+            }}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -67,6 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fafafa',
+    alignItems: 'center',
   },
   header_text: {
     fontFamily: 'GothamRounded-Bold',
@@ -77,7 +101,6 @@ const styles = StyleSheet.create({
   log_out_button_view_wrap: {
     marginHorizontal: 20,
     marginVertical: windowHeight * 0.05,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -93,5 +116,25 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: windowWidth * 0.8,
     backgroundColor: '#e1e8ee',
+  },
+
+  things_list_view_wrap: {
+    width: windowWidth * 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: windowHeight * 0.05,
+  },
+  things_list_item_view: {
+    width: windowWidth * 0.9,
+    height: 50,
+    backgroundColor: '#11111110',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: windowHeight * 0.01,
+  },
+  things_item_text: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
   },
 });
