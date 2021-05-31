@@ -113,7 +113,7 @@ function AddPeopleToClub({dispatch, navigation, route}) {
           )
           .then(() =>
             showMessage({
-              message: 'your friend added to this clan',
+              message: 'your friend is added to this clan',
               type: 'info',
               backgroundColor: 'mediumseagreen',
               //backgroundColor: 'indianred',

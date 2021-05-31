@@ -15,6 +15,7 @@ import axios from 'axios';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -103,8 +104,16 @@ function SignUpDetailsInput({route, navigation}) {
           style={styles.button_view}
           onPress={() => {
             if (name.length > 3 && username.length > 3) {
+              console.log('submit pressed');
               OnSubmit();
               setShowSpinner(true);
+            } else {
+              showMessage({
+                message: 'Name and username must be between 4 and 15 letters',
+                type: 'info',
+                //backgroundColor: 'mediumseagreen',
+                backgroundColor: 'indianred',
+              });
             }
           }}>
           <SharedElement id="next_button_1">

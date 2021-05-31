@@ -43,7 +43,7 @@ function LiveClubComponent(props) {
       }
     });
     return <TwoPeopleLiveClub URLList={imageslist} />;
-  } else {
+  } else if (numberofpeople > 3) {
     var imageslist = [];
 
     _.forEach(live_members, function (value, key) {
@@ -60,17 +60,30 @@ function LiveClubComponent(props) {
       }
       */
     });
+    var ifmore = numberofpeople - 3;
+    console.log(numberofpeople);
+    console.log(ifmore + 'fi more');
     return (
       <View>
         <ThreePeopleLiveClub URLList={imageslist} />
         <Badge
-          value={`+${numberofpeople - 3}`}
+          value={`+${ifmore}`}
           badgeStyle={styles.extracountbadge}
           textStyle={styles.extracountbadgetext}
           containerStyle={styles.extracountbadgecontainer}
         />
       </View>
     );
+  } else {
+    var imageslist = [];
+
+    _.forEach(live_members, function (value, key) {
+      if (value.user_id !== props.UserID) {
+        imageslist.push(value.display_pic);
+      } else {
+      }
+    });
+    return <OnePersonLiveClub URLList={imageslist} />;
   }
 }
 

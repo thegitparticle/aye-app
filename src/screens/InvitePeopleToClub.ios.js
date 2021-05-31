@@ -44,9 +44,6 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
   }
 
   function AddContactsToClubServerWork(contacts_list, club_id) {
-    // https://apisayepirates.life/api/users/send_invite_via_sms/<str:phone>/<int:user_id>/
-    // https://apisayepirates.life/api/add_invited_user/<str:phone>/<int:club_id>/
-
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
         axios
@@ -142,9 +139,13 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
   const contacts_string_from_server =
     mystatehere.MyProfileReducer.myprofile.user.contact_list;
 
-  const x_here = contacts_string_from_server.replace(/'/g, '"');
+  var contacts_list_from_server = [];
 
-  const contacts_list_from_server = JSON.parse(x_here);
+  if (contacts_string_from_server.length > 0) {
+    const x_here = contacts_string_from_server.replace(/'/g, '"');
+
+    contacts_list_from_server = JSON.parse(x_here);
+  }
 
   const [contactsSearch, changeContactsSearch] = useState('');
 

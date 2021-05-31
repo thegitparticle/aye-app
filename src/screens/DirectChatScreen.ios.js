@@ -1440,11 +1440,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'flex-end',
-          }}>
-          <Text style={{color: '#FFF'}}>
-            by {item.item.user.name} on unsplash
-          </Text>
-        </ImageBackground>
+          }}
+        />
       </Pressable>
     );
   }
