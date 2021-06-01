@@ -41,13 +41,6 @@ function MyProfileComponent(props) {
             </Pressable>
             <Text style={styles.first_view_name}>{props.Name}</Text>
             <Text style={styles.first_view_username}>{props.UserName}</Text>
-            <View style={styles.frames_component_wrap}>
-              <Icon type="feather" name="layers" color="#7D4DF9" size={16} />
-
-              <Text style={styles.first_view_frames_count}>
-                {props.FrameCount} . Level 1
-              </Text>
-            </View>
           </View>
         );
       },
@@ -69,12 +62,9 @@ function MyProfileComponent(props) {
 
         <View style={styles.show_case_circle_view}>
           <View style={styles.circle_icon_view_wrap}>
-            <FastImage
-              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
-              style={styles.circle_icon}
-            />
+            <Icon type="feather" name="layers" color="#7D4DF9" size={32} />
           </View>
-          <Text style={styles.circle_count_text}>{props.CircleCount}</Text>
+          <Text style={styles.circle_count_text}>{props.FrameCount}</Text>
         </View>
       </View>
     );
@@ -96,7 +86,7 @@ function MyProfileComponent(props) {
 
           <SecondBlock
             ClubsCount={props.Profile.user.number_of_clubs_joined}
-            CircleCount={props.Profile.circle}
+            FrameCount={props.Profile.user.total_frames_participation}
           />
         </View>
       </View>
@@ -176,7 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   circle_icon_view_wrap: {
-    backgroundColor: '#D8ECFC',
+    backgroundColor: '#7D4DF925',
     width: 60,
     height: 60,
     alignItems: 'center',
@@ -199,6 +189,6 @@ const styles = StyleSheet.create({
   circle_count_text: {
     fontFamily: 'GothamRounded-Bold',
     fontSize: 25,
-    color: '#008DFF',
+    color: '#7D4DF9',
   },
 });

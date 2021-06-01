@@ -278,7 +278,6 @@ function DirectHub({dispatch, navigation, route}) {
         </Header>
       </View>
       <View style={styles.body_view}>
-        <MetricsOfConversation FramesCount="99" />
         <OtherProfile />
       </View>
     </View>
