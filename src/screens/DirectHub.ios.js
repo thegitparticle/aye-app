@@ -106,16 +106,6 @@ function DirectHub({dispatch, navigation, route}) {
       });
   }, [otherUser]);
 
-  function MetricsOfConversation(props) {
-    return (
-      <View style={styles.metrics_of_conv_view}>
-        <Text style={styles.metrics_of_conv_text}>
-          {props.FramesCount} <Text style={{fontSize: 21}}>frames</Text>
-        </Text>
-      </View>
-    );
-  }
-
   function FirstBlockDummy(props) {
     return (
       <View style={styles.first_block_view}>
@@ -149,10 +139,7 @@ function DirectHub({dispatch, navigation, route}) {
         </View>
         <View style={styles.show_case_circle_view}>
           <View style={styles.circle_icon_view_wrap}>
-            <Image
-              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
-              style={styles.circle_icon}
-            />
+            <Icon type="feather" name="layers" color="#7D4DF9" size={32} />
           </View>
           <Text style={styles.circle_count_text}>0</Text>
         </View>
@@ -200,12 +187,11 @@ function DirectHub({dispatch, navigation, route}) {
         </View>
         <View style={styles.show_case_circle_view}>
           <View style={styles.circle_icon_view_wrap}>
-            <Image
-              source={require('/Users/san/Desktop/toastgo/assets/people_closed_color1.png')}
-              style={styles.circle_icon}
-            />
+            <Icon type="feather" name="layers" color="#7D4DF9" size={32} />
           </View>
-          <Text style={styles.circle_count_text}>999</Text>
+          <Text style={styles.circle_count_text}>
+            {otherDetails[0].user.total_frames_participation}
+          </Text>
         </View>
       </View>
     );
@@ -342,7 +328,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   circle_icon_view_wrap: {
-    backgroundColor: '#D8ECFC',
+    backgroundColor: '#7D4DF925',
     width: 60,
     height: 60,
     alignItems: 'center',
@@ -365,7 +351,7 @@ const styles = StyleSheet.create({
   circle_count_text: {
     fontFamily: 'GothamRounded-Bold',
     fontSize: 25,
-    color: '#008DFF',
+    color: '#7D4DF9',
   },
   containerview: {
     backgroundColor: '#FFFFFF',
