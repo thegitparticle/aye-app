@@ -275,7 +275,7 @@ function DirectFramesList({dispatch, navigation, route}) {
               }>
               <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
                 <FastImage
-                  source={{uri: props.Render.frame_picture}}
+                  source={{uri: props.Render.frame_picture_link}}
                   style={styles.frame_thumbnail_on_strip_image}
                   size={80}
                 />
@@ -304,7 +304,7 @@ function DirectFramesList({dispatch, navigation, route}) {
             }>
             <View style={styles.frame_thumbnail_on_strip_one_frame_view}>
               <FastImage
-                source={{uri: props.Render.frame_picture}}
+                source={{uri: props.Render.frame_picture_link}}
                 style={styles.frame_thumbnail_on_strip_image}
               />
               <Badge
@@ -363,7 +363,7 @@ function DirectFramesList({dispatch, navigation, route}) {
           id: 4,
           club_name: 1,
           published_date: '2021-04-03',
-          frame_picture:
+          frame_picture_link:
             'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
           frame_status: false,
           channel_id: '1_c',
@@ -374,7 +374,8 @@ function DirectFramesList({dispatch, navigation, route}) {
           id: 5,
           club_name: 1,
           published_date: '2021-04-03',
-          frame_picture: 'https://apisayepirates.life/media/club_images/3.jpeg',
+          frame_picture_link:
+            'https://apisayepirates.life/media/club_images/3.jpeg',
           frame_status: false,
           channel_id: '1_c',
           start_time: '1616780946.5139637',
@@ -495,7 +496,7 @@ function DirectFramesList({dispatch, navigation, route}) {
           id: 4,
           club_name: 1,
           published_date: '2021-04-03',
-          frame_picture:
+          frame_picture_link:
             'https://apisayepirates.life/media/club_images/1XLzCRzy_400x400.jpg',
           frame_status: false,
           channel_id: '1_c',
