@@ -306,9 +306,23 @@ function StartClub({dispatch, navigation}) {
     var contacts_list_from_server = [];
 
     if (contacts_string_from_server.length > 0) {
-      const x_here = contacts_string_from_server.replace(/'/g, '"');
+      function EditBefore(match, p1, p2, p3, offset, string) {
+        var x_here = match.charAt(0);
+        return x_here + '"';
+      }
 
-      contacts_list_from_server = JSON.parse(x_here);
+      function EditAfter(match, p1, p2, p3, offset, string) {
+        // console.log(match);
+        var y_here = match.charAt(1);
+        return '"' + y_here;
+      }
+
+      const x_here = contacts_string_from_server.replace(/\W'/g, EditBefore);
+      // console.log(x_here + 'xxx');
+      const y_here = x_here.replace(/'\W/g, EditAfter);
+      // console.log(y_here, 'yyyy');
+
+      contacts_list_from_server = JSON.parse(y_here);
     }
 
     const [contactsSearch, changeContactsSearch] = useState('');
