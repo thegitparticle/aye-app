@@ -244,8 +244,10 @@ function ClubHub({dispatch, navigation, route}) {
                 )
                 .then(() => setMemberChanges())
                 .then(() => {
-                  pubnub.push.deleteDevice(
+                  var channel_id = String(club_id) + '_c';
+                  pubnub.push.removeChannels(
                     {
+                      channels: [channel_id],
                       device: String(
                         statehere.MyProfileReducer.myprofile.user.id,
                       ),
@@ -297,6 +299,21 @@ function ClubHub({dispatch, navigation, route}) {
                 )
                 .then(() => {
                   //do pubnub stuff
+                  var channel_id = String(club_id) + '_c';
+                  pubnub.push.removeChannels(
+                    {
+                      channels: [channel_id],
+                      device: String(viewProfileId),
+                      pushGateway: 'gcm', // apns, apns2, gcm
+                    },
+                    function (status) {
+                      if (status.error) {
+                        console.log('operation failed w/ error:', status);
+                      } else {
+                        console.log('operation done!');
+                      }
+                    },
+                  );
                 })
                 .then(() => setMemberChanges(true))
                 .then(() => toggleRemovePersonOverlay())

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   View,
@@ -7,8 +8,9 @@ import {
   Dimensions,
   Pressable,
   TextInput,
+  Linking,
 } from 'react-native';
-import {Icon, Overlay} from 'react-native-elements';
+import {Checkbox, Overlay} from 'react-native-elements';
 import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
@@ -88,17 +90,64 @@ function SignUpDetailsInput({route, navigation}) {
         <TextInput
           value={name}
           onChangeText={text => setName(text)}
-          placeholder="not your superhero alias"
+          placeholder="your name"
           placeholderTextColor="#FFFFFF50"
           style={styles.name_input}
+          maxLength={14}
+          autoFocus={true}
         />
         <TextInput
           value={username}
-          onChangeText={text => setUsername(text)}
+          onChangeText={text => setUsername(text.replace(/\s/g, ''))}
           placeholder="username"
           placeholderTextColor="#FFFFFF50"
           style={styles.username_input}
+          maxLength={14}
         />
+
+        <Text style={styles.acknowledge_text}>
+          By tapping the Next button below, you acknowledge that you have read
+          the Privacy Policy{' '}
+          <Pressable
+            style={{alignItems: 'center', justifyContent: 'center'}}
+            onPress={() =>
+              Linking.openURL(
+                'https://www.notion.so/ayespaces/Privacy-Policy-b2f432d16d88458281babd62457df2b4',
+              )
+            }>
+            <Text
+              style={{
+                fontSize: 11,
+                fontFamily: 'GothamRounded-Book',
+                color: '#008DFF',
+              }}>
+              Privacy Policy
+            </Text>
+          </Pressable>{' '}
+          and agree to the{' '}
+          <Pressable
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+            onPress={() =>
+              Linking.openURL(
+                'https://www.notion.so/ayespaces/Terms-of-Service-93d01782de4042708a5c10decaa1484c',
+              )
+            }>
+            <Text
+              style={{
+                fontSize: 11,
+                fontFamily: 'GothamRounded-Book',
+                color: '#008DFF',
+                alignSelf: 'center',
+              }}>
+              Terms of Service
+            </Text>
+          </Pressable>
+          .
+        </Text>
 
         <Pressable
           style={styles.button_view}
@@ -225,4 +274,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   OverlayText: {color: '#fff', fontFamily: 'GothamRounded-Book'},
+  acknowledge_text: {
+    fontSize: 11,
+    fontFamily: 'GothamRounded-Book',
+    color: '#FFFFFF50',
+    width: windowWidth * 0.8,
+  },
 });
