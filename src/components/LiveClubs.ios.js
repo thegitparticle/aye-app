@@ -64,7 +64,7 @@ function LiveClubs(props) {
             <ListItem.Subtitle>
               <View style={styles.subtitle_view}>
                 <Icon type="feather" color="#7D4DF9" name="layers" size={16} />
-                <Text style={styles.subtitle_text}>new frames</Text>
+                <Text style={styles.subtitle_text}>frame going on</Text>
               </View>
             </ListItem.Subtitle>
           </ListItem.Content>

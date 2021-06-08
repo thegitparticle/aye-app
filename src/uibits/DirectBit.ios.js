@@ -19,7 +19,7 @@ function DirectBit(props) {
             name="layers"
             size={14}
           />
-          <Text style={styles.subtitle_text}>new frame</Text>
+          <Text style={styles.subtitle_text}>frame going on</Text>
         </View>
       );
     } else {
