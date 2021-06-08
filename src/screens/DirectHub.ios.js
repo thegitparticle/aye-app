@@ -8,7 +8,14 @@ import {
   Image,
   View,
 } from 'react-native';
-import {Avatar, Header, Icon, Divider} from 'react-native-elements';
+import {
+  Avatar,
+  Header,
+  Icon,
+  Button,
+  Overlay,
+  CheckBox,
+} from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
@@ -164,9 +171,6 @@ function DirectHub({dispatch, navigation, route}) {
         <Text style={styles.first_view_username}>
           {otherDetails[0].user.username}
         </Text>
-        <Text style={styles.first_view_frames_count}>
-          {otherDetails[0].user.total_frames_participation} . Level 1
-        </Text>
       </View>
     );
   }
@@ -197,19 +201,133 @@ function DirectHub({dispatch, navigation, route}) {
     );
   }
 
+  const [blockOverlayVisible, setBlockOverlayVisible] = useState(false);
+
+  const toggleBlockOverlay = () => {
+    setBlockOverlayVisible(false);
+  };
+
+  const [abuse, setAbuse] = useState(false);
+  const [spam, setSpam] = useState(false);
+  const [bae, setBae] = useState(false);
+  const [ex, setEx] = useState(false);
+
+  function BlockOrReportOverlay() {
+    return (
+      <View style={styles.block_overlay_view}>
+        <Text style={styles.block_confirm_question}>Why So?</Text>
+        <CheckBox
+          title="Abuse"
+          textStyle={styles.checkbox_text}
+          containerStyle={styles.checkbox_container}
+          checked={abuse}
+          onPress={() => setAbuse(!abuse)}
+        />
+        <CheckBox
+          title="Spam"
+          textStyle={styles.checkbox_text}
+          containerStyle={styles.checkbox_container}
+          checked={spam}
+          onPress={() => setSpam(!spam)}
+        />
+
+        <CheckBox
+          title="Angry BAE blocking"
+          textStyle={styles.checkbox_text}
+          containerStyle={styles.checkbox_container}
+          checked={bae}
+          onPress={() => setBae(!bae)}
+        />
+        <CheckBox
+          title="Ex"
+          textStyle={styles.checkbox_text}
+          containerStyle={styles.checkbox_container}
+          checked={ex}
+          onPress={() => setEx(!ex)}
+        />
+        <View style={styles.block_overlay_button_wrap}>
+          <Button
+            type="outline"
+            title="BLOCK"
+            titleStyle={styles.re_confirm_yes_text}
+            buttonStyle={styles.block_yes_button}
+            onPress={() => {
+              axios
+                .get()
+                .then(() => navigation.navigate('Here'))
+
+                .then(() => toggleBlockOverlay())
+                .catch(err => console.log(err));
+            }}
+          />
+          <Button
+            type="outline"
+            title="NO"
+            titleStyle={styles.re_confirm_no_text}
+            buttonStyle={styles.block_no_button}
+            onPress={() => toggleBlockOverlay()}
+          />
+        </View>
+      </View>
+    );
+  }
+
+  function BlockOrReport() {
+    return (
+      <Pressable
+        onPress={() => setBlockOverlayVisible(true)}
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 25,
+          height: windowHeight * 0.05,
+          width: windowWidth * 0.8,
+          backgroundColor: '#EC193E25',
+          marginVertical: windowHeight * 0.02,
+        }}>
+        <Text
+          style={{
+            fontFamily: 'GothamRounded-Bold',
+            fontSize: 15,
+            color: '#EC193E',
+          }}>
+          Block
+        </Text>
+      </Pressable>
+    );
+  }
+
   function RenderFinal() {
     if (!resolved) {
       return (
-        <View>
-          <FirstBlockDummy />
-          <SecondBlockDummy />
+        <View
+          style={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'column',
+            flex: 1,
+          }}>
+          <View>
+            <FirstBlockDummy />
+            <SecondBlockDummy />
+          </View>
+          <BlockOrReport />
         </View>
       );
     } else {
       return (
-        <View>
-          <FirstBlock />
-          <SecondBlock />
+        <View
+          style={{
+            justifyContent: 'space-between',
+            flexDirection: 'column',
+            alignItems: 'center',
+            flex: 1,
+          }}>
+          <View>
+            <FirstBlock />
+            <SecondBlock />
+          </View>
+          <BlockOrReport />
         </View>
       );
     }
@@ -266,6 +384,12 @@ function DirectHub({dispatch, navigation, route}) {
       <View style={styles.body_view}>
         <OtherProfile />
       </View>
+      <Overlay
+        isVisible={blockOverlayVisible}
+        onBackdropPress={toggleBlockOverlay}
+        overlayStyle={styles.block_overlay_style}>
+        <BlockOrReportOverlay />
+      </Overlay>
     </View>
   );
 }
@@ -443,5 +567,62 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.8,
     backgroundColor: '#e1e8ee',
     marginVertical: 20,
+  },
+
+  block_overlay_style: {
+    height: windowHeight * 0.5,
+    width: windowWidth * 0.8,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  block_overlay_button_wrap: {
+    flexDirection: 'row',
+  },
+
+  block_no_button: {
+    width: windowWidth * 0.4,
+    height: 60,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
+
+  block_yes_button: {
+    width: windowWidth * 0.4,
+    height: 60,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
+
+  block_overlay_view: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: windowHeight * 0.5,
+  },
+
+  block_confirm_question: {
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 21,
+    color: '#050505',
+    marginTop: 15,
+  },
+
+  re_confirm_yes_text: {
+    color: '#ec193e',
+    fontFamily: 'GothamRounded-Medium',
+  },
+  re_confirm_no_text: {
+    color: '#36B37E',
+    fontFamily: 'GothamRounded-Medium',
+  },
+  checkbox_text: {
+    color: '#050505',
+    fontFamily: 'GothamRounded-Medium',
+    fontSize: 15,
+  },
+  checkbox_container: {
+    width: windowWidth * 0.6,
+    justifyContent: 'center',
   },
 });
