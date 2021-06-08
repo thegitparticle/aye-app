@@ -233,7 +233,16 @@ function StartClub({dispatch, navigation}) {
         );
       }
     } else {
-      return <View />;
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontFamily: 'GothamRounded-Medium'}}>
+            We could not find any of your contacts on Aye
+          </Text>
+          <Text style={{fontFamily: 'GothamRounded-Medium'}}>
+            Click next and invite friends onto Aye.
+          </Text>
+        </View>
+      );
     }
   }
 
