@@ -253,7 +253,13 @@ function DirectHub({dispatch, navigation, route}) {
             buttonStyle={styles.block_yes_button}
             onPress={() => {
               axios
-                .get()
+                .get(
+                  'https://apisayepirates.life/api/users/block_user/' +
+                    String(current_user) +
+                    '/' +
+                    otherUser +
+                    '/',
+                )
                 .then(() => navigation.navigate('Here'))
 
                 .then(() => toggleBlockOverlay())
