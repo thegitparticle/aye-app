@@ -569,7 +569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
@@ -593,7 +593,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go";
 				PRODUCT_NAME = toastgo;
-				PROVISIONING_PROFILE_SPECIFIER = toastgodis;
+				PROVISIONING_PROFILE_SPECIFIER = toastgosqaure;
 				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -608,7 +608,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
@@ -627,7 +627,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go";
 				PRODUCT_NAME = toastgo;
-				PROVISIONING_PROFILE_SPECIFIER = toastgodis;
+				PROVISIONING_PROFILE_SPECIFIER = toastgosqaure;
 				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

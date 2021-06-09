@@ -200,7 +200,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             },
           },
           function (status, response) {
-            //StartFrame();
+            StartFrame();
             console.log(status);
           },
         );
@@ -359,7 +359,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
     const sendMessageNewFrame = message => {
       if (messages.length === 0) {
         //if (message) {
-        pubnub.publish(
+        pubnub.sendFile(
           {
             channel: channelsHere[0],
             message: {
@@ -378,7 +378,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           },
           function (status, response) {
             console.log(status.statusCode);
-            //StartFrame();
+            StartFrame();
           },
         );
         //.then(() => changeTypevalue(''))
@@ -1312,7 +1312,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             },
             function (status, response) {
               console.log(status);
-              //StartFrame();
+              StartFrame();
             },
           );
           //.then(() => changeTypevalue(''))
