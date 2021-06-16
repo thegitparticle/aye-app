@@ -340,7 +340,7 @@ function StartClub({dispatch, navigation}) {
 
     useEffect(() => {
       let newListHere = contacts_list_from_server.filter(
-        item => !item.name.search(contactsSearch),
+        item => !item.name.toLowerCase().search(contactsSearch.toLowerCase()),
       );
       console.log(newListHere);
       setSearchedList(newListHere);
