@@ -47,12 +47,8 @@ function OtherProfile({navigation, route}) {
       <View style={styles.first_block_view}>
         <Avatar
           rounded
-          source={{
-            //uri: myprofiledetails.MyProfileReducer.myprofile.displayurl,
-            uri:
-              'https://www.hawtcelebs.com/wp-content/uploads/2019/12/camila-cabello-in-reve-magazine-december-2019-january-2020-0.jpg',
-          }}
           size={windowHeight * 0.15}
+          containerStyle={{backgroundColor: 'aliceblue'}}
         />
         <Text style={styles.first_view_name}>loading...</Text>
         <Text style={styles.first_view_username}>loading...</Text>
