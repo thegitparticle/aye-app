@@ -8,6 +8,8 @@ import {GetDirectsList} from '../redux/DirectsListActions';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
+import {Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +20,8 @@ function NudgeToBit(props) {
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
   //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
+
+  const navigation = useNavigation();
 
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
@@ -73,7 +77,13 @@ function NudgeToBit(props) {
 
   return (
     <View style={styles.overall_view}>
-      <View style={styles.left_side_things}>
+      <Pressable
+        style={styles.left_side_things}
+        onPress={() =>
+          navigation.navigate('OtherProfile', {
+            other_user_id: props.NudgeTo.id,
+          })
+        }>
         <FastImage
           source={{uri: props.NudgeTo.profile_pic}}
           style={styles.avatar_of_user}
@@ -82,7 +92,7 @@ function NudgeToBit(props) {
         <View style={styles.text_block_view}>
           <Text style={styles.user_name}>{props.NudgeTo.name}</Text>
         </View>
-      </View>
+      </Pressable>
 
       <ShowStartButton OnlyUserId={props.NudgeTo.id} />
     </View>
