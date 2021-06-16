@@ -6913,6 +6913,11 @@ react-native-contacts@^6.0.4:
   resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-6.0.5.tgz#26503c862a197eef790aee243053c0ceb23d7a0f"
   integrity sha512-2BPW1bODJPnKbi/Wr2+m43hlrxcYrzMkWVAre3nMwqekSrsapMu/iSpQbxcB3Ia8cvBNH6Cu2tSqGpqY4Lc/lg==
 
+react-native-custom-icon@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-custom-icon/-/react-native-custom-icon-0.0.3.tgz#e716115adc35dc9f0e7e6ee3daaf7be8e70b4a14"
+  integrity sha512-JuZ0Y1R5+Z7vg8Ityi+L8d8gAJJunbod47d4pUUqWawxLXpvGAW2msyD4aHWQHLSE71lWdK3ey/KVopTG0QnGQ==
+
 react-native-elements@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-3.4.0.tgz#6717a9de89fc037b9cb3b0ff1dc45f1fd0526276"
