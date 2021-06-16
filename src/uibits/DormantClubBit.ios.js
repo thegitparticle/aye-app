@@ -1,8 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
   const navigation = useNavigation();
@@ -89,6 +92,8 @@ const styles = StyleSheet.create({
   overall_view: {
     flexDirection: 'row',
     marginHorizontal: 10,
+    width: windowWidth - 40,
+    height: 60,
   },
   text_block_view: {
     flexDirection: 'column',

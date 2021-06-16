@@ -60,9 +60,15 @@ function ViewOldFrameDirect({route, navigation}) {
     if (!old_messages_resolve) {
       return <View />;
     } else {
-      return old_messages.channels[channel_id].map((item, index) => (
-        <ShowMessageOld Message={item} />
-      ));
+      var x_here = old_messages.channels[channel_id];
+
+      if (x_here.length > 0) {
+        return old_messages.channels[channel_id].map((item, index) => (
+          <ShowMessageOld Message={item} />
+        ));
+      } else {
+        return <View />;
+      }
     }
   }
 
