@@ -75,7 +75,7 @@ function DirectFramesList({dispatch, navigation, route}) {
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
-          {other_name.substring(0, 13)}
+          {other_name.substring(0, 14)}
         </Text>
         <View style={styles.center_header_people_view}>
           {[].map(item => (
