@@ -1233,6 +1233,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-11.3.2.tgz#9ada09b6f7f34e9612636e05c9813892866832b4"
   integrity sha512-8P8P328Asxri5/70bZDg7Fd2vPPeN1dAEHuKBKUsXHJVNzNpu6qxkArpWXyn5vJAOYY/Tny5fb2pydiDUdQkEg==
 
+"@react-native-masked-view/masked-view@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.4.tgz#305a548abd47dee494a38f90016432d3a6e4164c"
+  integrity sha512-2Y9OXWHRutYmdyW+bNMaFTW8uTBpaaK20xdIFoVtqahEOO9++B+ut3CAWKPZcdRtb9ikG0LUKChGqMeocg0PGA==
+
 "@react-native-picker/picker@^1.9.11":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.14.0.tgz#9c3ce0be162239a7a05b994f2bdcf5660b5466b9"
@@ -3742,6 +3747,11 @@ fbjs@^3.0.0:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
+
+figma-squircle@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/figma-squircle/-/figma-squircle-0.1.2.tgz#fa97de644131d99f2c42a2d8b70d56a36783c234"
+  integrity sha512-S5t05Sfo5N7oH4/diQEbTSbzfuiRTWTfkoyfhNTmPHhmQRu9kAFKCcTnQSyBp6bnGv0dk/1ewiPZBVtUKPq+1A==
 
 figures@^2.0.0:
   version "2.0.0"
@@ -6936,6 +6946,13 @@ react-native-fast-image@^8.3.4:
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.3.4.tgz#79edca177e30311b19d59ff335625bcbe22650d7"
   integrity sha512-LpzAdjUphihUpVEBn5fEv5AILe55rHav0YiZroPZ1rumKDhAl4u2cG01ku2Pb7l8sayjTsNu7FuURAlXUUDsow==
+
+react-native-figma-squircle@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-figma-squircle/-/react-native-figma-squircle-0.1.1.tgz#680e41034099d4a620d4c8e2ffb2c9bd53a6f8e1"
+  integrity sha512-E06G/wF7Vub4LnpNyTTX7jTMs9Ql0LQU6Hkspk8/fyAe0rLYiXkdHNn6p4XADv8w2XyYpoToHvehQMxJ351UfA==
+  dependencies:
+    figma-squircle "^0.1.2"
 
 react-native-flash-message@^0.1.23:
   version "0.1.23"

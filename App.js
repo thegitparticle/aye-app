@@ -7,6 +7,8 @@ import {PersistGate} from 'redux-persist/integration/react';
 import messaging from '@react-native-firebase/messaging';
 import * as Sentry from '@sentry/react-native';
 import FlashMessage from 'react-native-flash-message';
+import {ThemeProvider} from './src/themes/Theme';
+import {ButterTheme} from './src/themes/ButterTheme';
 
 Sentry.init({
   dsn:
@@ -23,13 +25,15 @@ const App: () => Node = () => {
   return (
     <Provider store={storehere}>
       <PersistGate loading={null} persistor={persistor}>
-        <RootStack />
-        <FlashMessage
-          position="top"
-          duration={3000}
-          textStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
-          titleStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
-        />
+        <ThemeProvider value={ButterTheme}>
+          <RootStack />
+          <FlashMessage
+            position="top"
+            duration={3000}
+            textStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
+            titleStyle={{fontFamily: 'GothamRounded-Medium', fontSize: 17}}
+          />
+        </ThemeProvider>
       </PersistGate>
     </Provider>
   );

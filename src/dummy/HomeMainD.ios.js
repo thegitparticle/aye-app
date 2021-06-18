@@ -1,5 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Dimensions, Text, Linking} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect, useContext} from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  Linking,
+  Pressable,
+} from 'react-native';
 import {Overlay, Button} from 'react-native-elements';
 import HeaderAtHome from '../components/HeaderAtHome';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view-tgp';
@@ -9,17 +17,23 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 import axios from 'axios';
 import messaging from '@react-native-firebase/messaging';
+import Contacts from 'react-native-contacts';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 // import {showMessage, hideMessage} from 'react-native-flash-message';
 
-//const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function HomeMainD({dispatch, navigation}) {
+  const theme = useContext(ThemeContext);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {key: 'clubs', title: 'clubs', icon: 'home'},
     {key: 'directs', title: 'directs', icon: 'send'},
   ]);
+
+  const [giveContactsVisible, setGiveContactsVisible] = useState(false);
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -35,9 +49,8 @@ function HomeMainD({dispatch, navigation}) {
   const [updateBannerVisible, setUpdateBannerVisible] = useState(false);
   const current_app_version = '1.0.2';
 
-  var res_here = [];
-
   useEffect(() => {
+    var res_here = [];
     requestUserPermission();
     axios
       .get('https://apisayepirates.life/api/clubs/app_version_apple/')
@@ -46,6 +59,20 @@ function HomeMainD({dispatch, navigation}) {
         setUpdateBannerVisible(!(current_app_version === res_here[0].version)),
       )
       .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    Contacts.checkPermission().then(permission => {
+      if (permission === 'undefined') {
+        console.log('undefined permissions');
+      }
+      if (permission === 'authorized') {
+        console.log('all cool, have the permissions');
+      }
+      if (permission === 'denied') {
+        setGiveContactsVisible(true);
+      }
+    });
   }, []);
 
   const renderScene = SceneMap({
@@ -99,7 +126,6 @@ function HomeMainD({dispatch, navigation}) {
   return (
     <View style={styles.overall_view}>
       <HeaderAtHome />
-
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}
@@ -113,6 +139,61 @@ function HomeMainD({dispatch, navigation}) {
         }}
         style={styles.tab_view}
       />
+      <Overlay isVisible={giveContactsVisible} fullScreen>
+        <View style={styles.contacts_banner_view}>
+          <View style={styles.contacts_banner_text_wrap}>
+            <Text
+              style={{
+                ...theme.text.title_2,
+                color: theme.colors.full_dark,
+                marginVertical: 20,
+                maxWidth: windowWidth * 0.9,
+                textAlign: 'center',
+              }}>
+              Aye needs access to your contacts to connect you with your friends
+              seemlessly.
+            </Text>
+            <Text
+              style={{
+                ...theme.text.subhead,
+                color: theme.colors.mid_dark,
+                marginVertical: 20,
+                maxWidth: windowWidth * 0.9,
+                textAlign: 'center',
+              }}>
+              Allow contacts to be accessed by us in a secure way and connect
+              with your best friends on Aye.
+            </Text>
+          </View>
+          <Pressable
+            style={{
+              marginVertical: 20,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => {
+              Linking.openSettings();
+            }}>
+            <SquircleView
+              style={{
+                width: windowWidth * 0.8,
+                height: 60,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              squircleParams={{
+                cornerSmoothing: 1,
+                cornerRadius: 15,
+                fillColor: theme.colors.success_green,
+              }}>
+              <Text
+                style={{...theme.text.title_3, color: theme.colors.full_light}}>
+                Go to settings
+              </Text>
+            </SquircleView>
+          </Pressable>
+        </View>
+      </Overlay>
       <Overlay isVisible={updateBannerVisible} fullScreen>
         <View style={styles.update_banner_view}>
           <Text style={styles.update_banner_text_main}>
@@ -222,4 +303,15 @@ const styles = StyleSheet.create({
     paddingTop: 2.5,
   },
   tab_icon: {},
+
+  contacts_banner_view: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  contacts_banner_text_wrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
