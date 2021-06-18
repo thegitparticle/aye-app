@@ -127,12 +127,12 @@ class AnimatedPullToRefresh extends React.Component {
         Animated.parallel([
           Animated.spring(this.state.refreshHeight, {
             toValue: -this.props.pullHeight,
-            //useNativeDriver: false
+            useNativeDriver: false,
           }),
           Animated.timing(this.state.initAnimationProgress, {
             toValue: 1,
             duration: 1000,
-            //useNativeDriver: false
+            useNativeDriver: false,
           }),
         ]).start(() => {
           this.state.initAnimationProgress.setValue(0);
@@ -142,7 +142,7 @@ class AnimatedPullToRefresh extends React.Component {
       } else if (this.state.refreshHeight._value <= 0) {
         Animated.spring(this.state.refreshHeight, {
           toValue: 0,
-          // useNativeDriver: false
+          useNativeDriver: false,
         }).start();
       }
 
@@ -158,7 +158,7 @@ class AnimatedPullToRefresh extends React.Component {
     Animated.timing(this.state.repeatAnimationProgress, {
       toValue: 1,
       duration: 1000,
-      //useNativeDriver: false
+      useNativeDriver: false,
     }).start(() => {
       if (this.props.isRefreshing) {
         this.onRepeatAnimation();
@@ -175,12 +175,12 @@ class AnimatedPullToRefresh extends React.Component {
       Animated.timing(this.state.finalAnimationProgress, {
         toValue: 1,
         duration: 1000,
-        //useNativeDriver: false
+        useNativeDriver: false,
       }),
       Animated.spring(this.state.refreshHeight, {
         toValue: 0,
         bounciness: 12,
-        // useNativeDriver: false
+        useNativeDriver: false,
       }),
     ]).start(() => {
       this.state.finalAnimationProgress.setValue(0);

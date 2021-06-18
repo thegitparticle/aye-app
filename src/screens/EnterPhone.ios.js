@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -15,11 +15,13 @@ import axios from 'axios';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ThemeContext from '../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function EnterPhone({navigation}) {
+  const theme = useContext(ThemeContext);
   const [value, setValue] = useState('');
   const [country, setCountry] = useState('in');
   const phoneRef = useRef(undefined);
@@ -28,7 +30,6 @@ function EnterPhone({navigation}) {
   function SendOTP() {
     axios
       .get('https://apisayepirates.life/api/users/send_otp/' + value)
-
       .then(response =>
         navigation.navigate(
           response.data.user_exists === 'True'
@@ -39,7 +40,6 @@ function EnterPhone({navigation}) {
       )
       .then(() => setShowSpinner(false))
       .then(() => console.log('yes, pressed and sendiing success'))
-
       .catch(error => console.log(error));
   }
 
@@ -60,20 +60,19 @@ function EnterPhone({navigation}) {
         resizeMode="cover"
       />
       <View style={styles.body_view}>
-        <Text style={styles.text}>phone number</Text>
+        <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+          phone number
+        </Text>
         <Spinner
           visible={showSpinner}
-          //textContent={'Loading...'}
-          //textStyle={styles.spinnerTextStyle}
           indicatorStyle={styles.indicator_style}
-          color="#50E3C2"
+          color={theme.colors.success_green}
         />
         <View style={styles.phone_input}>
           <PhoneInput
             ref={phoneRef}
-            //value={value}
             textProps={{autoFocus: true}}
-            textStyle={styles.phone_input_text}
+            textStyle={{...theme.text.title_3, color: theme.colors.full_light}}
             buttonTextStyle={styles.phone_input_picker_button}
             onSelectCountry={item => setCountry(item)}
             initialCountry="in"
@@ -92,7 +91,7 @@ function EnterPhone({navigation}) {
             }
           }}>
           <SharedElement id="next_button_1">
-            <IconlyNextIcon Color="#eee" />
+            <IconlyNextIcon Color={theme.colors.off_light} />
           </SharedElement>
         </Pressable>
       </View>
@@ -128,14 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: windowWidth * 0.1,
   },
-  phone_input_text: {
-    fontSize: 21,
-    fontFamily: 'GothamRounded-Bold',
-    color: '#FFFFFF',
-    //marginHorizontal: ,
-    //paddingVertical: 30,
-    //backgroundColor: '#33333325',
-  },
+
   view: {
     backgroundColor: '#050505',
     flex: 1,
@@ -149,15 +141,9 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.5,
     marginTop: windowHeight * 0.05,
   },
-  text: {
-    fontSize: 21,
-    fontFamily: 'GothamRounded-Bold',
-    color: '#FFFFFF',
-  },
 
   button_view: {
     flex: 0.2,
-    //alignItems: 'flex-end',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,

@@ -21,7 +21,6 @@ function WelcomeScreen({navigation}) {
     <View style={styles.view}>
       <StatusBar backgroundColor="transparent" barStyle="light-content" />
       <ImageBackground
-        //source={require('/Users/san/Desktop/toast1/assets/welcome_1.gif')}
         source={{
           uri: 'https://media.giphy.com/media/nbR3NEcLHM9eLXLgPx/giphy.gif',
         }}
@@ -30,7 +29,7 @@ function WelcomeScreen({navigation}) {
           colors={['#05050500', '#050505']}
           style={styles.linearGradient}>
           <Image
-            source={require('/Users/san/Desktop/toastgo/assets/bubblaye3.png')}
+            source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
             style={styles.logo_image}
           />
         </LinearGradient>

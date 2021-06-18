@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import {Button, Icon, Overlay} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
 import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import OTPInput from 'react-native-otp';
 import {connect} from 'react-redux';
@@ -18,12 +18,14 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
+import ThemeContext from '../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function OTPCheck({route, navigation, dispatch}) {
+  const theme = useContext(ThemeContext);
   const [otp, setOTP] = useState('');
   const [overlayVisible, setOverlayVisible] = useState(false);
   const {phone, iso_code} = route.params;
@@ -85,13 +87,13 @@ function OTPCheck({route, navigation, dispatch}) {
         resizeMode="cover"
       />
       <View style={styles.body_view}>
-        <Text style={styles.text}>one time password</Text>
+        <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+          one time password
+        </Text>
         <Spinner
           visible={showSpinner}
-          //textContent={'Loading...'}
-          //textStyle={styles.spinnerTextStyle}
           indicatorStyle={styles.indicator_style}
-          color="#50E3C2"
+          color={theme.colors.success_green}
         />
         <View>
           <OTPInput
@@ -109,7 +111,6 @@ function OTPCheck({route, navigation, dispatch}) {
 
         <View style={styles.button_view}>
           <Pressable
-            //style={styles.button_view}
             onPress={() => {
               if (otp.length === 4) {
                 setShowSpinner(true);
@@ -117,7 +118,7 @@ function OTPCheck({route, navigation, dispatch}) {
               }
             }}>
             <SharedElement id="next_button_1">
-              <IconlyNextIcon Color="#eee" />
+              <IconlyNextIcon Color={theme.colors.off_light} />
             </SharedElement>
           </Pressable>
           <Pressable
@@ -129,8 +130,7 @@ function OTPCheck({route, navigation, dispatch}) {
                   showMessage({
                     message: 'OTP sent again',
                     type: 'info',
-                    //backgroundColor: 'mediumseagreen',
-                    backgroundColor: 'indianred',
+                    backgroundColor: theme.colors.danger_red,
                   }),
                 )
                 .catch(err => console.log(err))

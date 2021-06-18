@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import {Button, Icon, Overlay} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
 import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import OTPInput from 'react-native-otp';
 import LottieView from 'lottie-react-native';
@@ -17,7 +17,8 @@ import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
+import ThemeContext from '../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,6 +26,7 @@ const windowHeight = Dimensions.get('window').height;
 var state_here = {};
 
 function OTPCheckRegister({navigation, dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const [otp, setOTP] = useState('');
   const {phone, iso_code} = route.params;
 
@@ -70,7 +72,6 @@ function OTPCheckRegister({navigation, dispatch, route}) {
       )
       .then(() => setShowSpinner(false))
 
-      //.catch((err) => console.log(err));
       .catch(() => toggleOverlay());
   }
 
@@ -92,12 +93,12 @@ function OTPCheckRegister({navigation, dispatch, route}) {
         resizeMode="cover"
       />
       <View style={styles.body_view}>
-        <Text style={styles.text}>one time password</Text>
+        <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+          one time password
+        </Text>
         <Spinner
           visible={showSpinner}
-          //textContent={'Loading...'}
-          //textStyle={styles.spinnerTextStyle}
-          color="#50E3C2"
+          color={theme.colors.success_green}
           indicatorStyle={styles.indicator_style}
         />
         <View>
@@ -124,7 +125,7 @@ function OTPCheckRegister({navigation, dispatch, route}) {
               }
             }}>
             <SharedElement id="next_button_1">
-              <IconlyNextIcon Color="#eee" />
+              <IconlyNextIcon Color={theme.colors.off_light} />
             </SharedElement>
           </Pressable>
           <Pressable
@@ -136,8 +137,7 @@ function OTPCheckRegister({navigation, dispatch, route}) {
                   showMessage({
                     message: 'OTP sent again',
                     type: 'info',
-                    //backgroundColor: 'mediumseagreen',
-                    backgroundColor: 'indianred',
+                    backgroundColor: theme.colors.danger_red,
                   }),
                 )
                 .catch(err => console.log(err))
