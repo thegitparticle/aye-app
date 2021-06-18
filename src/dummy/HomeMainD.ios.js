@@ -9,8 +9,7 @@ import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import IconlyHomeClubsIcon from '../uibits/IconlyHomeClubsIcon';
 import axios from 'axios';
 import messaging from '@react-native-firebase/messaging';
-import {showMessage, hideMessage} from 'react-native-flash-message';
-import Iconly from '../pnstuff/Iconly';
+// import {showMessage, hideMessage} from 'react-native-flash-message';
 
 //const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -59,7 +58,7 @@ function HomeMainD({dispatch, navigation}) {
       if (focused) {
         return (
           <View style={styles.tab_icon_view}>
-            <Iconly name="HomeBold" size={30} color="black" />
+            <IconlyHomeClubsIcon Color="black" />
           </View>
         );
       } else {

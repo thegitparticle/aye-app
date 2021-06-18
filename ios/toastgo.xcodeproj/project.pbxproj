@@ -24,6 +24,7 @@
 		26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		91EDD0203BD5DD3611462675 /* libPods-toastgo-toastgoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */; };
+		AB69484D4E4D40B09F310123 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11456C7045434C5D8AA77A58 /* icomoon.ttf */; };
 		DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2C998B38596D239FCA3457 /* libPods-toastgo.a */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* toastgoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = toastgoTests.m; sourceTree = "<group>"; };
 		08A618BE8F694F0C92E16B8F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		11456C7045434C5D8AA77A58 /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* toastgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toastgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = toastgo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = toastgo/AppDelegate.m; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */,
 				BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */,
 				2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */,
+				11456C7045434C5D8AA77A58 /* icomoon.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				264EB1EB263316C200950BBD /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AB69484D4E4D40B09F310123 /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@ import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from './PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
+import Iconly from '../pnstuff/Iconly';
 
 var state_here = {};
 
@@ -134,6 +135,7 @@ function ClubsHomeD({dispatch}) {
           showsVerticalScrollIndicator={false}>
           <RenderClubsHere />
           <PushSetup />
+
           <BannerToPushToStartClub />
         </ScrollView>
       }

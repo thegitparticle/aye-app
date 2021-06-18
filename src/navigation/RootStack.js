@@ -49,15 +49,6 @@ function RootStack() {
           'mixpanel which id goes',
       );
       mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
-      // mixpanel.identify('lol');
-      //const distinctId = await mixpanel.getDistinctId();
-      /*
-      mixpanel.alias(
-        String(state_here.MyProfileReducer.myprofile.user.id),
-        //'xxx',
-        distinctId,
-      );
-      */
     };
 
     useEffect(() => {

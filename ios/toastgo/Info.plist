@@ -42,7 +42,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>To help you find your friends</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To send photos to your friends.</string>
 	<key>UIAppFonts</key>
@@ -71,6 +71,7 @@
 		<string>GothamRounded-Medium.otf</string>
 		<string>GothamRounded-MediumItalic.otf</string>
 		<string>FontAwesome5_Regular.ttf</string>
+		<string>icomoon.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
