@@ -20,6 +20,7 @@ import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {showMessage} from 'react-native-flash-message';
 import ThemeContext from '../themes/Theme';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -48,6 +49,12 @@ function OTPCheck({route, navigation, dispatch}) {
 
     axios(config)
       .then(() => dispatch(GetMyProfile(phone)))
+      .then(() =>
+        ReactNativeHapticFeedback.trigger('impactHeavy', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: false,
+        }),
+      )
       .then(() => console.log('profile called'))
 
       .then(() => {

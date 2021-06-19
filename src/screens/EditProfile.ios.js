@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import axios from 'axios';
 import {showMessage, hideMessage} from 'react-native-flash-message';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -75,7 +76,17 @@ function EditProfile({navigation, dispatch}) {
           backgroundColor: 'mediumseagreen',
         }),
       )
-      //.then(console.log(res + 'res back'))
+      .then(() =>
+        dispatch(
+          GetMyProfile(state_here.MyProfileReducer.myprofile.user.phone),
+        ),
+      )
+      .then(() =>
+        ReactNativeHapticFeedback.trigger('impactHeavy', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: false,
+        }),
+      )
       .then(() => navigation.goBack())
       //.then(() => setShowjoinspinner(false))
 

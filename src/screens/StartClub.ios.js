@@ -27,6 +27,7 @@ import _ from 'lodash';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {showMessage, hideMessage} from 'react-native-flash-message';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -454,6 +455,12 @@ function StartClub({dispatch, navigation}) {
               AddFriendsToClubServerWork(finalAddFriends, response.data.id);
               AddContactsToClubServerWork(finalAddContacts, response.data.id);
             })
+            .then(() =>
+              ReactNativeHapticFeedback.trigger('impactHeavy', {
+                enableVibrateFallback: true,
+                ignoreAndroidSystemSettings: false,
+              }),
+            )
             .then(() => navigation.goBack())
 
             .catch(error => console.log(error));
@@ -462,7 +469,6 @@ function StartClub({dispatch, navigation}) {
           showMessage({
             message: 'Choose atleast one more friend to start a clan',
             type: 'info',
-            //backgroundColor: 'mediumseagreen',
             backgroundColor: 'indianred',
           });
         }
@@ -471,7 +477,6 @@ function StartClub({dispatch, navigation}) {
           message: 'Club name must be between 4 - 15 letters',
           type: 'info',
           backgroundColor: 'mediumseagreen',
-          //backgroundColor: 'indianred',
         });
       }
     }

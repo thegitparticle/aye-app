@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
 import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -47,7 +48,12 @@ function NudgeToBit(props) {
           '/',
       )
       .then(response => (res = response.data))
-
+      .then(() => {
+        ReactNativeHapticFeedback.trigger('impactHeavy', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: false,
+        });
+      })
       .then(() => {
         dispatch(GetDirectsList(current_user_id));
         dispatch(dispatch(GetMyNudgeToList(current_user_id)));
