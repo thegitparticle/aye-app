@@ -17,6 +17,7 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import messaging from '@react-native-firebase/messaging';
 import ThemeContext from '../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -84,6 +85,10 @@ function PermissionsAfterRegister({dispatch, route}) {
           justifyContent: 'center',
         }}
         onPress={() => {
+          ReactNativeHapticFeedback.trigger('impactHeavy', {
+            enableVibrateFallback: true,
+            ignoreAndroidSystemSettings: false,
+          });
           requestUserPermission();
           GrabContacts();
           dispatch({type: LOGIN});

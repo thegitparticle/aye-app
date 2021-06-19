@@ -19,6 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 import {showMessage} from 'react-native-flash-message';
 import ThemeContext from '../themes/Theme';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -52,6 +53,12 @@ function OTPCheckRegister({navigation, dispatch, route}) {
     axios(config)
       .then(() => console.log('sign up success'))
       .then(() => dispatch(GetMyProfile(phone)))
+      .then(() =>
+        ReactNativeHapticFeedback.trigger('impactHeavy', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: false,
+        }),
+      )
       .then(() => console.log('get profile success'))
       .then(() => {
         return axios.get(
