@@ -3,30 +3,13 @@ import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import Autolink from 'react-native-autolink';
+import Draggable from 'react-native-draggable';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-/*
-
- <RNUrlPreview
-        text={
-          'any text to be parsed , https://www.vogue.in/fashion/content/the-model-approved-ways-to-wear-a-vintage-or-vegan-leather-jacket-now'
-        }
-        description={false}
-        imageStyle={{width: windowWidth, height: windowWidth}}>
-        <Text>kjsdkkjkf</Text>
-        <Text>kjsdkkjkf</Text>
-        <Text>kjsdkkjkf</Text>
-      </RNUrlPreview>
-
-      */
-
 function ShowMessage(props) {
-  //console.log('xxx-show');
   if (props.Message.userMetadata.type === 'a') {
-    // console.log(props.Message);
-
     return (
       <View>
         <FastImage
@@ -45,8 +28,6 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'd') {
-    //console.log(props.Message.userMetadata.user_dp);
-
     return (
       <View>
         <View style={styles.d_type_image}>
@@ -63,7 +44,6 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'b') {
-    console.log(props.Message);
     function TextPartHere(props) {
       var x_here = props.Text;
       if (x_here.length > 0) {
@@ -80,15 +60,8 @@ function ShowMessage(props) {
       <View style={styles.b_type_view}>
         <FastImage
           source={{uri: props.Message.file.url}}
-          style={styles.b_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.b_avatar}
-          />
-          <TextPartHere Text={props.Message.message.test} />
-        </FastImage>
+          style={styles.b_type_image}
+        />
       </View>
     );
   } else if (props.Message.userMetadata.type === 'c') {
@@ -135,30 +108,15 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'f') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here !== 'jibber$$$') {
-        return (
-          <View style={styles.f_text_view}>
-            <Text style={styles.f_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
     return (
       <View style={styles.f_type_view}>
         <FastImage
           source={{uri: props.Message.userMetadata.image_url}}
           style={styles.f_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.f_avatar}
+          <FastImage
+            source={{uri: props.Message.file.url}}
+            style={styles.f_type_image_upper}
           />
-          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
@@ -179,15 +137,15 @@ function ShowMessage(props) {
     return (
       <View style={styles.g_type_view}>
         <FastImage
-          source={{uri: props.Message.userMetadata.image_url}}
+          source={{uri: props.Message.file.url}}
           style={styles.g_type_image}>
-          <Avatar
+          {/* <Avatar
             rounded
             source={{uri: props.Message.userMetadata.user_dp}}
             size={60}
             containerStyle={styles.g_avatar}
           />
-          <TextPartHere Text={props.Message.message} />
+          <TextPartHere Text={props.Message.message} /> */}
         </FastImage>
       </View>
     );
@@ -207,15 +165,15 @@ function ShowMessage(props) {
     return (
       <View style={styles.h_type_view}>
         <FastImage
-          source={{uri: props.Message.userMetadata.image_url}}
+          source={{uri: props.Message.file.url}}
           style={styles.h_type_image}>
-          <Avatar
+          {/* <Avatar
             rounded
             source={{uri: props.Message.userMetadata.user_dp}}
             size={60}
             containerStyle={styles.h_avatar}
           />
-          <TextPartHere Text={props.Message.message} />
+          <TextPartHere Text={props.Message.message} /> */}
         </FastImage>
       </View>
     );
@@ -353,8 +311,19 @@ const styles = StyleSheet.create({
   },
   f_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
-    flexDirection: 'column-reverse',
+    height: undefined,
+    aspectRatio: 1,
+    marginVertical: windowHeight * 0.01,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  f_type_image_upper: {
+    width: windowWidth,
+    height: undefined,
+    aspectRatio: 1,
+    // marginVertical: windowHeight * 0.01,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   f_avatar: {
     left: '5%',
@@ -378,7 +347,9 @@ const styles = StyleSheet.create({
   },
   g_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
+    //width: '100%',
+    height: undefined,
+    aspectRatio: 1,
     flexDirection: 'column-reverse',
   },
   g_avatar: {

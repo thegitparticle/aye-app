@@ -27,6 +27,8 @@ pod 'Firebase/Analytics'
 
 
 
+  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
   target 'toastgoTests' do
     inherit! :complete
     # Pods for testing

@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
+import Draggable from 'react-native-draggable';
 
 /*
 
@@ -101,7 +102,6 @@ function ShowMessageOld(props) {
     return (
       <View style={styles.c_type_view}>
         <FastImage
-          //source={{uri: props.Message.file.url}}
           source={{
             uri: pubnub.getFileUrl({
               channel: props.Message.channel,
@@ -136,32 +136,25 @@ function ShowMessageOld(props) {
       </View>
     );
   } else if (props.Message.meta.type === 'f') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here !== 'jibber$$$') {
-        return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
+    // console.log(props.Message);
 
     return (
       <View style={styles.f_type_view}>
         <FastImage
-          source={{uri: props.Message.meta.image_url}}
+          source={{
+            uri: props.Message.meta.image_url,
+          }}
           style={styles.f_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.meta.user_dp}}
-            size={60}
-            containerStyle={styles.f_avatar}
+          <FastImage
+            source={{
+              uri: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            }}
+            style={styles.f_type_image_upper}
           />
-
-          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );
@@ -182,15 +175,21 @@ function ShowMessageOld(props) {
     return (
       <View style={styles.g_type_view}>
         <FastImage
-          source={{uri: props.Message.meta.image_url}}
+          source={{
+            uri: pubnub.getFileUrl({
+              channel: props.Message.channel,
+              id: props.Message.message.file.id,
+              name: props.Message.message.file.name,
+            }),
+          }}
           style={styles.g_type_image}>
-          <Avatar
+          {/* <Avatar
             rounded
             source={{uri: props.Message.meta.user_dp}}
             size={60}
             containerStyle={styles.g_avatar}
           />
-          <TextPartHere Text={props.Message.message} />
+          <TextPartHere Text={props.Message.message} /> */}
         </FastImage>
       </View>
     );
@@ -356,8 +355,19 @@ const styles = StyleSheet.create({
   },
   f_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
-    flexDirection: 'column-reverse',
+    height: undefined,
+    aspectRatio: 1,
+    marginVertical: windowHeight * 0.01,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  f_type_image_upper: {
+    width: windowWidth,
+    height: undefined,
+    aspectRatio: 1,
+    // marginVertical: windowHeight * 0.01,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   f_avatar: {
     left: '5%',
@@ -381,7 +391,9 @@ const styles = StyleSheet.create({
   },
   g_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
+    //width: '100%',
+    height: undefined,
+    aspectRatio: 1,
     flexDirection: 'column-reverse',
   },
   g_avatar: {

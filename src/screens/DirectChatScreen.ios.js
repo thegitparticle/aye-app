@@ -92,6 +92,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
   const [old_messages, addOldMessages] = useState();
+  // console.log(old_messages);
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
 
   useEffect(() => {
