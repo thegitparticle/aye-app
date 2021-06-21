@@ -1607,7 +1607,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           setImageSelected(item.item.urls.regular);
           imageSelectorCraftOverlay();
         }}>
-        <ImageBackground
+        <Image
           source={{uri: item.item.urls.thumb}}
           style={{
             width: (windowWidth - 10) / 2,
@@ -1616,6 +1616,45 @@ function DirectChatScreen({navigation, dispatch, route}) {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
+          PlaceholderContent={
+            <View
+              style={{
+                width: (windowWidth - 10) / 2,
+                height: windowWidth / 2,
+                borderRadius: 10,
+              }}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  opacity: 0.25,
+                  width: (windowWidth - 10) / 2,
+                  height: windowWidth / 2,
+                }}
+                colors={['#F76B1C', '#FAD961', '#F76B1C']}
+              />
+              <BlurView
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: (windowWidth - 10) / 2,
+                  height: windowWidth / 2,
+                  opacity: 0.25,
+                }}
+                blurType="dark"
+                blurAmount={1}
+                reducedTransparencyFallbackColor="blue"
+              />
+            </View>
+          }
         />
       </Pressable>
     );
@@ -1874,6 +1913,45 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <Image
           source={{uri: item.item.images.fixed_height_small.url}}
           style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
+          PlaceholderContent={
+            <View
+              style={{
+                width: (windowWidth - 10) / 2,
+                height: windowWidth / 2,
+                borderRadius: 10,
+              }}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  opacity: 0.25,
+                  width: (windowWidth - 10) / 2,
+                  height: windowWidth / 2,
+                }}
+                colors={['#F76B1C', '#FAD961', '#F76B1C']}
+              />
+              <BlurView
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: (windowWidth - 10) / 2,
+                  height: windowWidth / 2,
+                  opacity: 0.25,
+                }}
+                blurType="dark"
+                blurAmount={1}
+                reducedTransparencyFallbackColor="blue"
+              />
+            </View>
+          }
         />
       </Pressable>
     );
