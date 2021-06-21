@@ -308,6 +308,8 @@ PODS:
   - React-jsinspector (0.64.0)
   - react-native-blur (0.8.0):
     - React
+  - react-native-blurhash (1.1.4):
+    - React-Core
   - react-native-contacts (6.0.5):
     - React-Core
   - react-native-pager-view (5.1.2):
@@ -468,6 +470,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-blurhash (from `../node_modules/react-native-blurhash`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -570,6 +573,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-blurhash:
+    :path: "../node_modules/react-native-blurhash"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
   react-native-pager-view:
@@ -686,6 +691,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-blurhash: ec98d751a9cb9075cef0b9e3188244c517d6ab22
   react-native-contacts: 931baebf460125c5a7bbce1c4521a96c69795123
   react-native-pager-view: c1ec84a464024641ccb1102e9ec12be020d3d74c
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79

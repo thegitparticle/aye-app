@@ -8,7 +8,7 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
-  Image,
+  // Image,
   Keyboard,
   KeyboardAvoidingView,
   Pressable,
@@ -21,6 +21,7 @@ import {
   Avatar,
   SearchBar,
   Button,
+  Image,
 } from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {showMessage} from 'react-native-flash-message';
@@ -39,7 +40,6 @@ import _ from 'lodash';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
-import BetterImage from 'react-native-better-image';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
@@ -48,6 +48,7 @@ import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -1064,8 +1065,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
               onPress={() => {
                 SetChosenMedia(props.Item);
               }}>
-              <BetterImage
-                viewStyle={{
+              <Image
+                style={{
                   width: 125,
                   height: 72.5,
                   borderRadius: 10,
@@ -1073,12 +1074,47 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 source={{
                   uri: props.Item,
                 }}
-                thumbnailSource={{
-                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-                }}
-                fallbackSource={{
-                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-                }}
+                PlaceholderContent={
+                  <View
+                    style={{
+                      width: 125,
+                      height: 72.5,
+                      borderRadius: 10,
+                    }}>
+                    <LinearGradient
+                      start={{x: 0, y: 0}}
+                      end={{x: 1, y: 0}}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        opacity: 0.25,
+                        borderRadius: 10,
+                        width: 125,
+                        height: 72.5,
+                      }}
+                      colors={['#F76B1C', '#FAD961', '#F76B1C']}
+                    />
+                    <BlurView
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        borderRadius: 10,
+                        width: 125,
+                        height: 72.5,
+                        opacity: 0.25,
+                      }}
+                      blurType="dark"
+                      blurAmount={1}
+                      reducedTransparencyFallbackColor="blue"
+                    />
+                  </View>
+                }
               />
             </Pressable>
           );
