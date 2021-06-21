@@ -72,17 +72,21 @@ function MyProfileComponent(props) {
       </View>
     );
   }
+  const navigation = useNavigation();
+
   return (
     <View style={styles.containerview}>
       <Header
         rightComponent={
-          <View style={{width: 50, height: 50}}>
+          <Pressable
+            style={{width: 50, height: 50}}
+            onPress={() => navigation.goBack()}>
             <Iconly
               name="ChevronDownBroken"
               color={theme.colors.off_dark}
               size={30}
             />
-          </View>
+          </Pressable>
         }
         backgroundColor="#fafafa"
       />
