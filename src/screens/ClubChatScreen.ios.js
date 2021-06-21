@@ -465,6 +465,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
               onPress={() => {
                 ImagePicker.openCamera({
                   cropping: true,
+                  compressImageQuality: 1,
+                  width: 1200, // Add this
+                  height: 1500, // Add this
                 }).then(image => {
                   console.log(image);
                   setCameraPicked(image.path);

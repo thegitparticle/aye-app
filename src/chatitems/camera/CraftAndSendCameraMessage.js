@@ -173,7 +173,7 @@ function CraftAndSendCameraMessage(props) {
           <TextInput
             placeholder="type..."
             placeholderTextColor="#fafafa50"
-            style={styles.f_text}
+            style={styles.c_text}
             multiline
             autoline
             autoFocus={true}
@@ -185,7 +185,7 @@ function CraftAndSendCameraMessage(props) {
           rounded
           source={{uri: props.ProfileAvatar}}
           size={60}
-          containerStyle={styles.f_avatar}
+          containerStyle={styles.c_avatar}
         />
       </View>
     );
