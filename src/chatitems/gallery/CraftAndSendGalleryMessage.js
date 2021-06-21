@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,17 +10,23 @@ import {
   Dimensions,
   Keyboard,
 } from 'react-native';
-import {Avatar} from 'react-native-elements';
+import {Avatar, Header} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '/Users/san/Desktop/toastgo/src/uibits/IconlyDirectIcon';
 import {usePubNub} from 'pubnub-react';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import Draggable from 'react-native-draggable';
+import ViewShot, {captureRef} from 'react-native-view-shot';
+import ThemeContext from '../../themes/Theme';
+import IconlyCloseSquareIcon from '../../uibits/IconlyCloseSquareIcon';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function CraftAndSendGalleryMessage(props) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
 
   const [textMessage, setTextMessage] = useState('');
@@ -67,27 +73,26 @@ function CraftAndSendGalleryMessage(props) {
     }
   }
 
-  const sendMessageNewFrame = message => {
+  const sendMessageNewFrame = (shot, message) => {
     console.log('sending picked image - new frames');
     var messages_here = props.Messages;
     if (messages_here.length === 0) {
       console.log('no live messsages here');
-      //if (message) {
       pubnub.sendFile(
         {
           channel: props.ChannelID,
           message: {
-            test: message,
-            //value: 42
+            test: '',
           },
           file: {
-            uri: props.SelectedGalleryShot,
-            name: props.SelectedGalleyShotName,
-            mimeType: props.SelectedGalleryShotMime,
+            uri: shot,
+            name: 'galgalgal',
+            mimeType: 'png',
           },
           meta: {
             type: 'b',
             user_dp: props.ProfileAvatar,
+            view_shot: shot,
           },
         },
         function (status, response) {
@@ -95,139 +100,206 @@ function CraftAndSendGalleryMessage(props) {
           console.log(status);
         },
       );
-
-      //.then(() => changeTypevalue(''))
-      //.catch(err => console.log(err));
-      // } else {
-      //}
     } else {
       console.log('yes live messsages here');
-      //if (message) {
+
       pubnub.sendFile(
         {
           channel: props.ChannelID,
           message: {
-            test: message,
-            //value: 42
+            test: '',
           },
           file: {
-            uri: props.SelectedGalleryShot,
-            name: props.SelectedGalleyShotName,
-            mimeType: props.SelectedGalleryShotMime,
+            uri: shot,
+            name: 'galgalgal',
+            mimeType: 'png',
           },
           meta: {
             type: 'b',
             user_dp: props.ProfileAvatar,
+            view_shot: shot,
           },
         },
         function (status, response) {
           console.log(status);
         },
       );
-      //.then(() => changeTypevalue(''))
-      //.catch(err => console.log(err));
-      //} else {
-      //}
     }
   };
-  const sendMessageOldFrame = message => {
+  const sendMessageOldFrame = (shot, message) => {
     console.log('sending picked image - old frame');
-    //if (message) {
+
     pubnub.sendFile(
       {
         channel: props.ChannelID,
         message: {
-          test: message,
-          //value: 42
+          test: '',
         },
         file: {
-          uri: props.SelectedGalleryShot,
-          name: props.SelectedGalleyShotName,
-          mimeType: props.SelectedGalleryShotMime,
+          uri: shot,
+          name: 'galgalgal',
+          mimeType: 'png',
         },
         meta: {
           type: 'b',
           user_dp: props.ProfileAvatar,
+          view_shot: shot,
         },
       },
       function (status, response) {
         console.log(status);
       },
     );
-    //.catch(err => console.log(err));
-    // } else {
-    //}
   };
 
   function HandleGoingBack() {
     props.ToggleOverlay();
   }
 
-  return (
-    <SafeAreaView style={styles.image_picker_craft_items_view}>
-      <FastImage
-        style={{
-          width: '100%',
-          height: undefined,
-          aspectRatio: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-        source={{uri: props.SelectedGalleryShot}}>
+  const viewShotGalleryPickerRef = useRef(null);
+
+  const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+  function Children() {
+    return (
+      <View>
         <View
           style={{
-            width: '100%',
-            height: undefined,
-            aspectRatio: 1,
-            flexDirection: 'column-reverse',
+            backgroundColor: theme.colors.full_light,
+            alignSelf: 'flex-start',
+            left: windowWidth * 0.05 + 30,
+            right: windowWidth * 0.05,
+            padding: 10,
+            borderBottomRightRadius: 15,
+            borderTopRightRadius: 15,
+            borderTopLeftRadius: 15,
+            maxWidth: windowWidth * 0.8,
+            opacity: textOpacity,
           }}>
-          <Avatar
-            rounded
-            source={{url: props.ProfileAvatar}}
-            size={60}
-            containerStyle={styles.g_avatar}
+          <TextInput
+            placeholder="type..."
+            placeholderTextColor="#fafafa50"
+            style={styles.b_text}
+            multiline
+            autoline
+            autoFocus={true}
+            maxLength={140}
+            onChangeText={text => setTextMessage(text)}
           />
-          <View style={styles.g_text_view}>
-            <TextInput
-              placeholder="type..."
-              placeholderTextColor="#fafafa50"
-              style={styles.g_text}
-              multiline
-              autoline
-              autoFocus={true}
-              maxLength={140}
-              onChangeText={text => setTextMessage(text)}
+        </View>
+        <Avatar
+          rounded
+          source={{uri: props.ProfileAvatar}}
+          size={60}
+          containerStyle={styles.b_avatar}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.image_picker_craft_items_view}>
+      <Header
+        backgroundColor="#131313"
+        containerStyle={{borderBottomWidth: 0}}
+        barStyle="light-content"
+        leftComponent={
+          <Pressable
+            style={{
+              alignSelf: 'flex-start',
+              height: windowHeight * 0.05,
+              justifyContent: 'flex-end',
+            }}
+            onPress={() => HandleGoingBack()}>
+            <IconlyCloseSquareIcon />
+          </Pressable>
+        }
+        rightComponent={
+          <Pressable
+            style={{
+              alignSelf: 'flex-end',
+              height: windowHeight * 0.05,
+              justifyContent: 'flex-end',
+            }}
+            onPress={() => {
+              if (textMessage.length === 0) {
+                setTextOpacity(0, textOpacity => {
+                  if (textOpacity === 0) {
+                    Keyboard.dismiss();
+
+                    captureRef(viewShotGalleryPickerRef, {
+                      format: 'png',
+                      quality: 0.9,
+                    })
+                      .then(uri => {
+                        if (props.ChannelOnGoing) {
+                          sendMessageOldFrame(uri, textMessage);
+                        } else {
+                          sendMessageNewFrame(uri, textMessage);
+                        }
+                        HandleGoingBack();
+                      })
+                      .then(uri => {});
+                  } else {
+                    Keyboard.dismiss();
+                  }
+                });
+              } else {
+                Keyboard.dismiss();
+                captureRef(viewShotGalleryPickerRef, {
+                  format: 'png',
+                  quality: 0.9,
+                })
+                  .then(uri => {
+                    if (props.ChannelOnGoing) {
+                      sendMessageOldFrame(uri, textMessage);
+                    } else {
+                      sendMessageNewFrame(uri, textMessage);
+                    }
+
+                    HandleGoingBack();
+                  })
+                  .then(uri => {});
+              }
+            }}>
+            <IconlyDirectIcon Color={theme.colors.success_green} />
+          </Pressable>
+        }
+      />
+      <FastImage
+        style={{
+          width: windowWidth,
+          height: undefined,
+          aspectRatio: 1,
+          marginVertical: windowHeight * 0.01,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
+        source={{uri: props.SelectedGalleryShot}}>
+        <ViewShot
+          ref={viewShotGalleryPickerRef}
+          options={{format: 'png', quality: 0.9}}>
+          <View
+            style={{
+              width: windowWidth,
+              height: undefined,
+              aspectRatio: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+            }}>
+            <Draggable
+              children={Children()}
+              x={0}
+              y={windowWidth * 0.7}
+              minX={windowWidth * 0.0}
+              minY={windowHeight * 0.01}
+              maxX={windowWidth * 0.8}
+              maxY={windowWidth}
             />
           </View>
-        </View>
+        </ViewShot>
       </FastImage>
-      <KeyboardAvoidingView
-        behavior={'padding'}
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          width: '100%',
-        }}>
-        <Pressable
-          style={{
-            marginVertical: 10,
-            marginHorizontal: 10,
-          }}
-          onPress={() => {
-            if (props.ChannelOnGoing) {
-              sendMessageOldFrame(textMessage);
-            } else {
-              sendMessageNewFrame(textMessage);
-            }
-
-            Keyboard.dismiss;
-            setTextMessage('');
-            HandleGoingBack();
-          }}>
-          <IconlyDirectIcon Color="lightgreen" />
-        </Pressable>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -250,23 +322,23 @@ const styles = StyleSheet.create({
     width: windowWidth,
   },
   image_picker_craft_text: {
-    color: '#fafafa',
+    color: '#FFFFFF',
     width: windowWidth * 0.9,
     height: 50,
     borderBottomWidth: 2,
     borderColor: '#fafafa25',
     paddingHorizontal: 20,
   },
-  g_type_image: {
+  b_type_image: {
     width: windowWidth,
     height: windowWidth / 2,
     flexDirection: 'column-reverse',
   },
-  g_avatar: {
+  b_avatar: {
     left: '5%',
   },
-  g_text_view: {
-    backgroundColor: '#fafafa',
+  b_text_view: {
+    backgroundColor: '#FFFFFF',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -274,11 +346,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  g_text: {
-    fontFamily: 'GothamRounded-Book',
+  b_text: {
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
-  g_type_view: {
+  b_type_view: {
     marginVertical: 10,
     alignItems: 'center',
   },

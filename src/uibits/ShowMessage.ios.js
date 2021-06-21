@@ -44,18 +44,6 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'b') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
     return (
       <View style={styles.b_type_view}>
         <FastImage
@@ -65,31 +53,12 @@ function ShowMessage(props) {
       </View>
     );
   } else if (props.Message.userMetadata.type === 'c') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.c_text_view}>
-            <Text style={styles.c_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
     return (
       <View style={styles.c_type_view}>
         <FastImage
           source={{uri: props.Message.file.url}}
-          style={styles.c_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.c_avatar}
-          />
-          <TextPartHere Text={props.Message.message.test} />
-        </FastImage>
+          style={styles.c_type_image}
+        />
       </View>
     );
   } else if (props.Message.userMetadata.type === 'e') {

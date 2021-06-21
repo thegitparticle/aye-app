@@ -46,6 +46,8 @@ import RecosOverlay from '../chatitems/typed/RecosOverlay';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
 import Draggable from 'react-native-draggable';
 import ViewShot, {captureRef} from 'react-native-view-shot';
+import ThemeContext from '../themes/Theme';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -64,6 +66,7 @@ const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function ClubChatScreen({navigation, dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const {
     clubID,
@@ -165,10 +168,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   function ImagePickerOverlayInputX() {
-    const sendMessageNewFrame = shot => {
-      console.log('sending picked image - new frames');
+    const [textMessage, setTextMessage] = useState('');
+    const sendMessageNewFrame = (shot, message) => {
       if (messages.length === 0) {
-        console.log('no live messsages here');
+        console.log('new frame, no live messsages here');
         pubnub.sendFile(
           {
             channel: channelsHere[0],
@@ -192,7 +195,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           },
         );
       } else {
-        console.log('yes live messsages here');
+        console.log('new frame, yes live messsages here');
         pubnub.sendFile(
           {
             channel: channelsHere[0],
@@ -217,7 +220,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       }
     };
     const sendMessageOldFrame = shot => {
-      console.log(shot);
+      console.log('old frame, yes messages');
       pubnub.sendFile(
         {
           channel: channelsHere[0],
@@ -243,15 +246,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     function Children() {
       return (
-        <View
-          style={
-            {
-              // width: '100%',
-              // height: undefined,
-              // aspectRatio: 1,
-              // flexDirection: 'column-reverse',
-            }
-          }>
+        <View>
           <View
             style={{
               backgroundColor: '#ffffff',
@@ -263,6 +258,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               borderTopRightRadius: 15,
               borderTopLeftRadius: 15,
               maxWidth: windowWidth * 0.8,
+              opacity: textOpacity,
             }}>
             <TextInput
               placeholder="type..."
@@ -286,17 +282,90 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     const viewShotGalleryRef = useRef(null);
 
+    const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
     return (
       <Overlay
         isVisible={imagePickerCraftVisible}
         onBackdropPress={imagePickerCraftOverlay}
         overlayStyle={styles.image_picker_craft_overlay}>
-        <SafeAreaView style={styles.image_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imagePickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
+        <View style={styles.image_picker_craft_items_view}>
+          <Header
+            backgroundColor="#131313"
+            containerStyle={{borderBottomWidth: 0}}
+            barStyle="light-content"
+            leftComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-start',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => imagePickerCraftOverlay()}>
+                <IconlyCloseSquareIcon />
+              </Pressable>
+            }
+            rightComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-end',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => {
+                  if (textMessage.length === 0) {
+                    setTextOpacity(0, textOpacity => {
+                      if (textOpacity === 0) {
+                        Keyboard.dismiss();
+                        // console.log('first' + textOpacity);
+
+                        captureRef(viewShotGalleryRef, {
+                          format: 'jpg',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (!channelOnGoing) {
+                              sendMessageNewFrame(uri);
+                            } else {
+                              sendMessageOldFrame(uri);
+                            }
+                            Keyboard.dismiss;
+                            imagePickerCraftOverlay();
+                            setImagePicked('');
+                          })
+                          .then(uri => {
+                            console.log('Image saved to', uri);
+                          });
+                      } else {
+                        Keyboard.dismiss();
+                        // console.log('second' + textOpacity);
+                      }
+                    });
+                  } else {
+                    Keyboard.dismiss();
+                    captureRef(viewShotGalleryRef, {
+                      format: 'jpg',
+                      quality: 0.9,
+                    })
+                      .then(uri => {
+                        if (!channelOnGoing) {
+                          sendMessageNewFrame(uri);
+                        } else {
+                          sendMessageOldFrame(uri);
+                        }
+                        Keyboard.dismiss;
+                        imagePickerCraftOverlay();
+                        setImagePicked('');
+                      })
+                      .then(uri => {
+                        console.log('Image saved to', uri);
+                      });
+                  }
+                }}>
+                <IconlyDirectIcon Color={theme.colors.success_green} />
+              </Pressable>
+            }
+          />
           <ViewShot
             ref={viewShotGalleryRef}
             options={{format: 'jpg', quality: 0.9}}>
@@ -321,37 +390,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               />
             </FastImage>
           </ViewShot>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                captureRef(viewShotGalleryRef, {
-                  format: 'jpg',
-                  quality: 0.9,
-                })
-                  .then(uri => {
-                    if (!channelOnGoing) {
-                      sendMessageNewFrame(uri);
-                    } else {
-                      sendMessageOldFrame(uri);
-                    }
-                    Keyboard.dismiss;
-                    imagePickerCraftOverlay();
-                    setImagePicked('');
-                  })
-                  .then(uri => {
-                    console.log('Image saved to', uri);
-                  });
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
       </Overlay>
     );
   }
@@ -373,28 +412,17 @@ function ClubChatScreen({navigation, dispatch, route}) {
         isVisible={cameraPickerCraftVisible}
         onBackdropPress={cameraPickerCraftOverlay}
         overlayStyle={styles.camera_picker_craft_overlay}>
-        <SafeAreaView>
-          <Pressable
-            style={{
-              alignSelf: 'flex-end',
-              marginHorizontal: 10,
-              height: windowHeight * 0.05,
-            }}
-            onPress={() => cameraPickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <CraftAndSendCameraMessage
-            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-            SelectedCameraShot={cameraPicked}
-            SelectedCameraShotName={cameraPickedName}
-            SelectedCameraShotMime={cameraPickedMime}
-            ChannelOnGoing={channelOnGoing}
-            Messages={messages}
-            ChannelID={channelsHere[0]}
-            ClubID={clubID}
-            ToggleOverlay={cameraPickerCraftOverlay}
-          />
-        </SafeAreaView>
+        <CraftAndSendCameraMessage
+          ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+          SelectedCameraShot={cameraPicked}
+          SelectedCameraShotName={cameraPickedName}
+          SelectedCameraShotMime={cameraPickedMime}
+          ChannelOnGoing={channelOnGoing}
+          Messages={messages}
+          ChannelID={channelsHere[0]}
+          ClubID={clubID}
+          ToggleOverlay={cameraPickerCraftOverlay}
+        />
       </Overlay>
     );
   }
@@ -1473,7 +1501,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   b_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   b_type_view: {

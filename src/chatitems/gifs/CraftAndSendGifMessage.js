@@ -1,12 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef, useContext, useEffect} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   View,
   Pressable,
   TextInput,
-  KeyboardAvoidingView,
   Dimensions,
   Keyboard,
 } from 'react-native';
@@ -28,7 +26,6 @@ const windowWidth = Dimensions.get('window').width;
 function CraftAndSendGifMessage(props) {
   const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
-  console.log('channle on going or not: ' + props.ChannelOnGoing);
   const [textMessage, setTextMessage] = useState('');
 
   function StartFrame() {

@@ -45,6 +45,10 @@ import BetterImage from 'react-native-better-image';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
+import Draggable from 'react-native-draggable';
+import ViewShot, {captureRef} from 'react-native-view-shot';
+import ThemeContext from '../themes/Theme';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -63,6 +67,7 @@ const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function DirectChatScreen({navigation, dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const {
     otherNameHere,
@@ -178,26 +183,24 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function ImagePickerOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      console.log('sending picked image - new frames');
+    const sendMessageNewFrame = (shot, message) => {
       if (messages.length === 0) {
         console.log('no live messsages here');
-        //if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
             message: {
-              test: message,
-              //value: 42
+              test: '',
             },
             file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'jpg',
             },
             meta: {
               type: 'b',
               user_dp: state_here.MyProfileReducer.myprofile.image,
+              view_shot: shot,
             },
           },
           function (status, response) {
@@ -205,55 +208,43 @@ function DirectChatScreen({navigation, dispatch, route}) {
             console.log(status);
           },
         );
-
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
       } else {
         console.log('yes live messsages here');
-        // if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
             message: {
-              test: message,
-              //value: 42
+              test: '',
             },
             file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'jpg',
             },
             meta: {
               type: 'b',
               user_dp: state_here.MyProfileReducer.myprofile.image,
+              view_shot: shot,
             },
           },
           function (status, response) {
             console.log(status);
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
       }
     };
     const sendMessageOldFrame = message => {
       console.log('sending picked image - old frame');
-      // if (message) {
       pubnub.sendFile(
         {
           channel: channelsHere[0],
           message: {
-            test: message,
-            //value: 42
+            test: '',
           },
           file: {
-            uri: imagePicked,
-            name: imagePickedName,
-            mimeType: imagePickedMime,
+            uri: shot,
+            name: 'galgalgal',
+            mimeType: 'jpg',
           },
           meta: {
             type: 'b',
@@ -264,82 +255,154 @@ function DirectChatScreen({navigation, dispatch, route}) {
           console.log(status);
         },
       );
-      //.catch(err => console.log(err));
-      //} else {
-      //}
     };
+
+    function Children() {
+      return (
+        <View>
+          <View
+            style={{
+              backgroundColor: '#ffffff',
+              alignSelf: 'flex-start',
+              left: windowWidth * 0.05 + 60,
+              right: windowWidth * 0.05,
+              padding: 10,
+              borderBottomRightRadius: 15,
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
+              maxWidth: windowWidth * 0.8,
+              opacity: textOpacity,
+            }}>
+            <TextInput
+              placeholder="type..."
+              placeholderTextColor="#fafafa50"
+              style={styles.g_text}
+              multiline
+              autoline
+              maxLength={140}
+              onChangeText={text => setTextMessage(text)}
+            />
+          </View>
+          <Avatar
+            rounded
+            source={{uri: state_here.MyProfileReducer.myprofile.image}}
+            size={60}
+            containerStyle={styles.g_avatar}
+          />
+        </View>
+      );
+    }
+
+    const viewShotGalleryRef = useRef(null);
+
+    const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
 
     return (
       <Overlay
         isVisible={imagePickerCraftVisible}
         onBackdropPress={imagePickerCraftOverlay}
         overlayStyle={styles.image_picker_craft_overlay}>
-        <SafeAreaView style={styles.image_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imagePickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imagePicked}}>
-            <View
+        <View style={styles.image_picker_craft_items_view}>
+          <Header
+            backgroundColor="#131313"
+            containerStyle={{borderBottomWidth: 0}}
+            barStyle="light-content"
+            leftComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-start',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => imagePickerCraftOverlay()}>
+                <IconlyCloseSquareIcon />
+              </Pressable>
+            }
+            rightComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-end',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => {
+                  if (textMessage.length === 0) {
+                    setTextOpacity(0, textOpacity => {
+                      if (textOpacity === 0) {
+                        Keyboard.dismiss();
+                        // console.log('first' + textOpacity);
+
+                        captureRef(viewShotGalleryRef, {
+                          format: 'jpg',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (!channelOnGoing) {
+                              sendMessageNewFrame(uri);
+                            } else {
+                              sendMessageOldFrame(uri);
+                            }
+                            Keyboard.dismiss;
+                            imagePickerCraftOverlay();
+                            setImagePicked('');
+                          })
+                          .then(uri => {
+                            console.log('Image saved to', uri);
+                          });
+                      } else {
+                        Keyboard.dismiss();
+                        // console.log('second' + textOpacity);
+                      }
+                    });
+                  } else {
+                    Keyboard.dismiss();
+                    captureRef(viewShotGalleryRef, {
+                      format: 'jpg',
+                      quality: 0.9,
+                    })
+                      .then(uri => {
+                        if (!channelOnGoing) {
+                          sendMessageNewFrame(uri);
+                        } else {
+                          sendMessageOldFrame(uri);
+                        }
+                        Keyboard.dismiss;
+                        imagePickerCraftOverlay();
+                        setImagePicked('');
+                      })
+                      .then(uri => {
+                        console.log('Image saved to', uri);
+                      });
+                  }
+                }}>
+                <IconlyDirectIcon Color={theme.colors.success_green} />
+              </Pressable>
+            }
+          />
+          <ViewShot
+            ref={viewShotGalleryRef}
+            options={{format: 'jpg', quality: 0.9}}>
+            <FastImage
               style={{
                 width: '100%',
                 height: undefined,
                 aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              source={{uri: imagePicked}}>
+              <Draggable
+                children={Children()}
+                x={0}
+                y={windowWidth * 0.7}
+                minX={windowWidth * 0.0}
+                minY={windowHeight * 0.01}
+                maxX={windowWidth * 0.8}
+                maxY={windowWidth}
               />
-              <View style={styles.g_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.g_text}
-                  multiline
-                  autoline
-                  autoFocus={true}
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                imagePickerCraftOverlay();
-                setImagePicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
+            </FastImage>
+          </ViewShot>
+        </View>
       </Overlay>
     );
   }
@@ -357,24 +420,23 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function CameraPickerOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
+    const sendMessageNewFrame = (shot, message) => {
       if (messages.length === 0) {
-        //if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
             message: {
-              test: message,
-              //value: 42
+              test: '',
             },
             file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'png',
             },
             meta: {
               type: 'c',
               user_dp: state_here.MyProfileReducer.myprofile.image,
+              view_shot: shot,
             },
           },
           function (status, response) {
@@ -382,138 +444,199 @@ function DirectChatScreen({navigation, dispatch, route}) {
             StartFrame();
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        //} else {
-        //}
       } else {
-        //if (message) {
         pubnub.sendFile(
           {
             channel: channelsHere[0],
             message: {
-              test: message,
-              //value: 42
+              test: '',
             },
             file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'png',
             },
             meta: {
               type: 'c',
               user_dp: state_here.MyProfileReducer.myprofile.image,
+              view_shot: shot,
             },
           },
           function (status, response) {
             console.log(status.statusCode);
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
       }
     };
     const sendMessageOldFrame = message => {
-      // if (message) {
       pubnub.sendFile(
         {
           channel: channelsHere[0],
           message: {
-            test: message,
-            //value: 42
+            test: '',
           },
           file: {
-            uri: cameraPicked,
-            name: cameraPickedName,
-            mimeType: cameraPickedMime,
+            uri: shot,
+            name: 'galgalgal',
+            mimeType: 'png',
           },
           meta: {
             type: 'c',
             user_dp: state_here.MyProfileReducer.myprofile.image,
+            view_shot: shot,
           },
         },
         function (status, response) {
           console.log(status.statusCode);
         },
       );
-      //.catch(err => console.log(err));
-      // } else {
-      //}
     };
+
+    const viewShotCameraPickerRef = useRef(null);
+
+    const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+    function Children() {
+      return (
+        <View>
+          <View
+            style={{
+              backgroundColor: theme.colors.full_light,
+              alignSelf: 'flex-start',
+              left: windowWidth * 0.05 + 30,
+              right: windowWidth * 0.05,
+              padding: 10,
+              borderBottomRightRadius: 15,
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
+              maxWidth: windowWidth * 0.8,
+              opacity: textOpacity,
+            }}>
+            <TextInput
+              placeholder="type..."
+              placeholderTextColor="#fafafa50"
+              style={styles.f_text}
+              multiline
+              autoline
+              autoFocus={true}
+              maxLength={140}
+              onChangeText={text => setTextMessage(text)}
+            />
+          </View>
+          <Avatar
+            rounded
+            source={{uri: props.ProfileAvatar}}
+            size={60}
+            containerStyle={styles.f_avatar}
+          />
+        </View>
+      );
+    }
 
     return (
       <Overlay
         isVisible={cameraPickerCraftVisible}
         onBackdropPress={cameraPickerCraftOverlay}
         overlayStyle={styles.camera_picker_craft_overlay}>
-        <SafeAreaView style={styles.camera_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => cameraPickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: cameraPicked}}>
-            <View
+        <View style={styles.camera_picker_craft_items_view}>
+          <Header
+            backgroundColor="#131313"
+            containerStyle={{borderBottomWidth: 0}}
+            barStyle="light-content"
+            leftComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-start',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => cameraPickerCraftOverlay()}>
+                <IconlyCloseSquareIcon />
+              </Pressable>
+            }
+            rightComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-end',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => {
+                  if (textMessage.length === 0) {
+                    setTextOpacity(0, textOpacity => {
+                      if (textOpacity === 0) {
+                        Keyboard.dismiss();
+                        // console.log('first' + textOpacity);
+
+                        captureRef(viewShotCameraPickerRef, {
+                          format: 'png',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (props.ChannelOnGoing) {
+                              sendMessageOldFrame(uri, textMessage);
+                            } else {
+                              sendMessageNewFrame(uri, textMessage);
+                            }
+                            HandleGoingBack();
+                          })
+                          .then(uri => {
+                            // console.log('Image saved to', uri);
+                          });
+                      } else {
+                        Keyboard.dismiss();
+                        // console.log('second' + textOpacity);
+                      }
+                    });
+                  } else {
+                    Keyboard.dismiss();
+                    captureRef(viewShotCameraPickerRef, {
+                      format: 'png',
+                      quality: 0.9,
+                    })
+                      .then(uri => {
+                        if (props.ChannelOnGoing) {
+                          sendMessageOldFrame(uri, textMessage);
+                        } else {
+                          sendMessageNewFrame(uri, textMessage);
+                        }
+
+                        HandleGoingBack();
+                      })
+                      .then(uri => {
+                        // console.log('Image saved to', uri);
+                      });
+                  }
+                }}>
+                <IconlyDirectIcon Color={theme.colors.success_green} />
+              </Pressable>
+            }
+          />
+          <ViewShot
+            ref={viewShotCameraPickerRef}
+            options={{format: 'png', quality: 0.9}}
+            style={{backgroundColor: 'transparent'}}>
+            <FastImage
               style={{
                 width: '100%',
                 height: undefined,
                 aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.c_avatar}
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              source={{uri: cameraPicked}}>
+              <Draggable
+                children={Children()}
+                x={0}
+                y={windowWidth * 0.7}
+                minX={windowWidth * 0.0}
+                minY={windowHeight * 0.01}
+                maxX={windowWidth * 0.8}
+                maxY={windowWidth}
               />
-              <View style={styles.c_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.c_text}
-                  multiline
-                  autoFocus={true}
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                cameraPickerCraftOverlay();
-                setCameraPicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
+            </FastImage>
+          </ViewShot>
+        </View>
       </Overlay>
     );
   }
@@ -1277,13 +1400,20 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function ImageSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
+    const sendMessageNewFrame = (shot, message) => {
       if (messages.length === 0) {
         if (message) {
-          pubnub.publish(
+          pubnub.sendFile(
             {
               channel: channelsHere[0],
-              message,
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'jpg',
+              },
               meta: {
                 type: 'g',
                 image_url: imageSelected,
@@ -1295,16 +1425,26 @@ function DirectChatScreen({navigation, dispatch, route}) {
               StartFrame();
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
+          showMessage({
+            message: 'write a message to send',
+            type: 'info',
+            backgroundColor: theme.colors.danger_red,
+          });
         }
       } else {
         if (message) {
-          pubnub.publish(
+          pubnub.sendFile(
             {
               channel: channelsHere[0],
-              message,
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'jpg',
+              },
               meta: {
                 type: 'g',
                 image_url: imageSelected,
@@ -1316,18 +1456,28 @@ function DirectChatScreen({navigation, dispatch, route}) {
               StartFrame();
             },
           );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
         } else {
+          showMessage({
+            message: 'write a message to send',
+            type: 'info',
+            backgroundColor: theme.colors.danger_red,
+          });
         }
       }
     };
-    const sendMessageOldFrame = message => {
+    const sendMessageOldFrame = (shot, message) => {
       if (message) {
         pubnub.publish(
           {
             channel: channelsHere[0],
-            message,
+            message: {
+              test: '',
+            },
+            file: {
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'jpg',
+            },
             meta: {
               type: 'g',
               image_url: imageSelected,
@@ -1338,83 +1488,129 @@ function DirectChatScreen({navigation, dispatch, route}) {
             console.log(status);
           },
         );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
       } else {
+        showMessage({
+          message: 'write a message to send',
+          type: 'info',
+          backgroundColor: theme.colors.danger_red,
+        });
       }
     };
+
+    const viewShotImagePickerRef = useRef(null);
+
+    function Children() {
+      return (
+        <View>
+          <View
+            style={{
+              backgroundColor: theme.colors.full_light,
+              alignSelf: 'flex-start',
+              left: windowWidth * 0.05 + 30,
+              right: windowWidth * 0.05,
+              padding: 10,
+              borderBottomRightRadius: 15,
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
+              maxWidth: windowWidth * 0.8,
+            }}>
+            <TextInput
+              placeholder="type..."
+              placeholderTextColor={theme.colors.mid_light}
+              style={styles.g_text}
+              multiline
+              autoline
+              autoFocus={true}
+              maxLength={140}
+              onChangeText={text => setTextMessage(text)}
+            />
+          </View>
+          <Avatar
+            rounded
+            source={{uri: props.ProfileAvatar}}
+            size={60}
+            containerStyle={styles.g_avatar}
+          />
+        </View>
+      );
+    }
 
     return (
       <Overlay
         isVisible={imageSelectorCraftVisible}
         onBackdropPress={imageSelectorCraftOverlay}
         overlayStyle={styles.image_selector_craft_overlay}>
-        <SafeAreaView style={styles.image_selector_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imageSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imageSelected}}>
-            <View
+        <View style={styles.image_selector_craft_items_view}>
+          <Header
+            backgroundColor="#131313"
+            containerStyle={{borderBottomWidth: 0}}
+            barStyle="light-content"
+            leftComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-start',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => imageSelectorCraftOverlay()}>
+                <IconlyCloseSquareIcon />
+              </Pressable>
+            }
+            rightComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-end',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  captureRef(viewShotImagePickerRef, {
+                    format: 'jpg',
+                    quality: 0.9,
+                  })
+                    .then(uri => {
+                      if (props.ChannelOnGoing) {
+                        sendMessageOldFrame(uri, textMessage);
+                      } else {
+                        sendMessageNewFrame(uri, textMessage);
+                      }
+
+                      HandleGoingBack();
+                    })
+                    .then(uri => {
+                      console.log('Image saved to', uri);
+                    });
+                }}>
+                <IconlyDirectIcon Color={theme.colors.success_green} />
+              </Pressable>
+            }
+          />
+          <ViewShot
+            ref={viewShotImagePickerRef}
+            options={{format: 'jpg', quality: 0.9}}>
+            <FastImage
               style={{
-                width: '100%',
+                width: windowWidth,
                 height: undefined,
                 aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
+                marginVertical: windowHeight * 0.01,
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+              }}
+              source={{uri: imageSelected}}>
+              <Draggable
+                children={Children()}
+                x={0}
+                y={windowWidth * 0.7}
+                minX={windowWidth * 0.0}
+                minY={windowHeight * 0.01}
+                maxX={windowWidth * 0.8}
+                maxY={windowWidth}
               />
-              <View style={styles.g_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.g_text}
-                  multiline
-                  autoFocus={true}
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-            </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                imageSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
+            </FastImage>
+          </ViewShot>
+        </View>
       </Overlay>
     );
   }
@@ -1456,84 +1652,44 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   function GIFSelectorOverlayInput() {
     const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
+    const sendMessageNewFrame = (shot, message) => {
       if (messages.length === 0) {
         console.log('new frame, no messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        }
-      } else {
-        console.log('new frame, yes messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish({
+
+        pubnub.sendFile(
+          {
             channel: channelsHere[0],
-            message,
+            message: {
+              test: '',
+            },
+            file: {
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'png',
+            },
             meta: {
               type: 'f',
               image_url: gifSelected,
               user_dp: state_here.MyProfileReducer.myprofile.image,
             },
-            function(status, response) {
-              console.log(status);
-            },
-          });
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('old frame, yes messages');
-      if (message.length === 0) {
-        const message = 'jibber$$$';
-        pubnub.publish({
+          },
+          function (status, response) {
+            console.log(response);
+            StartFrame();
+          },
+        );
+      } else {
+        console.log('new frame, yes messages gif');
+        pubnub.sendFile({
           channel: channelsHere[0],
-          message,
+          message: {
+            test: '',
+          },
+          file: {
+            uri: shot,
+            name: 'galgalgal',
+            mimeType: 'png',
+          },
           meta: {
             type: 'f',
             image_url: gifSelected,
@@ -1543,95 +1699,189 @@ function DirectChatScreen({navigation, dispatch, route}) {
             console.log(status);
           },
         });
-      } else {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'f',
-              image_url: gifSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
       }
     };
+    const sendMessageOldFrame = (shot, message) => {
+      console.log('old frame, yes messages');
+
+      pubnub.sendFile({
+        channel: channelsHere[0],
+        message: {
+          test: '',
+        },
+        file: {
+          uri: shot,
+          name: 'galgalgal',
+          mimeType: 'png',
+        },
+        meta: {
+          type: 'f',
+          image_url: gifSelected,
+          user_dp: state_here.MyProfileReducer.myprofile.image,
+        },
+        function(status, response) {
+          console.log(status);
+        },
+      });
+    };
+
+    const viewShotGIFPickerRef = useRef(null);
+
+    const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+    function Children() {
+      return (
+        <View>
+          <View
+            style={{
+              backgroundColor: theme.colors.full_light,
+              alignSelf: 'flex-start',
+              left: windowWidth * 0.05 + 30,
+              right: windowWidth * 0.05,
+              padding: 10,
+              borderBottomRightRadius: 15,
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
+              maxWidth: windowWidth * 0.8,
+              opacity: textOpacity,
+            }}>
+            <TextInput
+              placeholder="type..."
+              placeholderTextColor="#fafafa50"
+              style={styles.f_text}
+              multiline
+              autoline
+              autoFocus={true}
+              maxLength={140}
+              onChangeText={text => setTextMessage(text)}
+            />
+          </View>
+          <Avatar
+            rounded
+            source={{uri: props.ProfileAvatar}}
+            size={60}
+            containerStyle={styles.f_avatar}
+          />
+        </View>
+      );
+    }
 
     return (
       <Overlay
         isVisible={gifSelectorCraftVisible}
         onBackdropPress={gifSelectorCraftOverlay}
         overlayStyle={styles.gif_selector_craft_overlay}>
-        <SafeAreaView style={styles.gif_selector_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => gifSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
+        <View style={styles.gif_selector_craft_items_view}>
+          <Header
+            backgroundColor="#131313"
+            containerStyle={{borderBottomWidth: 0}}
+            barStyle="light-content"
+            leftComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-start',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => gifSelectorCraftOverlay()}>
+                <IconlyCloseSquareIcon />
+              </Pressable>
+            }
+            rightComponent={
+              <Pressable
+                style={{
+                  alignSelf: 'flex-end',
+                  height: windowHeight * 0.05,
+                  justifyContent: 'flex-end',
+                }}
+                onPress={() => {
+                  if (textMessage.length === 0) {
+                    setTextOpacity(0, textOpacity => {
+                      if (textOpacity === 0) {
+                        Keyboard.dismiss();
+                        // console.log('first' + textOpacity);
+
+                        captureRef(viewShotGIFPickerRef, {
+                          format: 'png',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (props.ChannelOnGoing) {
+                              sendMessageOldFrame(uri, textMessage);
+                            } else {
+                              sendMessageNewFrame(uri, textMessage);
+                            }
+                            HandleGoingBack();
+                          })
+                          .then(uri => {
+                            // console.log('Image saved to', uri);
+                          });
+                      } else {
+                        Keyboard.dismiss();
+                        // console.log('second' + textOpacity);
+                      }
+                    });
+                  } else {
+                    Keyboard.dismiss();
+                    captureRef(viewShotGIFPickerRef, {
+                      format: 'png',
+                      quality: 0.9,
+                    })
+                      .then(uri => {
+                        if (props.ChannelOnGoing) {
+                          sendMessageOldFrame(uri, textMessage);
+                        } else {
+                          sendMessageNewFrame(uri, textMessage);
+                        }
+
+                        HandleGoingBack();
+                      })
+                      .then(uri => {
+                        // console.log('Image saved to', uri);
+                      });
+                  }
+                }}>
+                <IconlyDirectIcon Color={theme.colors.success_green} />
+              </Pressable>
+            }
+          />
           <FastImage
             style={{
-              width: '100%',
+              width: windowWidth,
               height: undefined,
               aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              marginVertical: windowHeight * 0.01,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
             }}
             source={{uri: gifSelected}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.f_avatar}
-              />
-              <View style={styles.f_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.f_text}
-                  multiline
-                  autoline
-                  autoFocus={true}
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
+            <ViewShot
+              ref={viewShotGIFPickerRef}
+              options={{format: 'png', quality: 0.9}}
+              style={{backgroundColor: 'transparent'}}>
+              <View
+                style={{
+                  width: windowWidth,
+                  height: undefined,
+                  aspectRatio: 1,
+                  // marginVertical: windowHeight * 0.01,
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  backgroundColor: 'transparent',
+                }}>
+                <Draggable
+                  children={Children()}
+                  x={0}
+                  y={windowWidth * 0.7}
+                  minX={windowWidth * 0.0}
+                  minY={windowHeight * 0.01}
+                  maxX={windowWidth * 0.8}
+                  maxY={windowWidth}
                 />
               </View>
-            </View>
+            </ViewShot>
           </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
-
-                Keyboard.dismiss;
-                setTextMessage('');
-                gifSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
       </Overlay>
     );
   }

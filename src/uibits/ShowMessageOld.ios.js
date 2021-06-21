@@ -51,19 +51,6 @@ function ShowMessageOld(props) {
       </View>
     );
   } else if (props.Message.meta.type === 'b') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
-
     return (
       <View style={styles.b_type_view}>
         <FastImage
@@ -74,31 +61,11 @@ function ShowMessageOld(props) {
               name: props.Message.message.file.name,
             }),
           }}
-          style={styles.b_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.meta.user_dp}}
-            size={60}
-            containerStyle={styles.b_avatar}
-          />
-
-          <TextPartHere Text={props.Message.message.message.test} />
-        </FastImage>
+          style={styles.b_type_image}
+        />
       </View>
     );
   } else if (props.Message.meta.type === 'c') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
     return (
       <View style={styles.c_type_view}>
         <FastImage
@@ -109,15 +76,8 @@ function ShowMessageOld(props) {
               name: props.Message.message.file.name,
             }),
           }}
-          style={styles.c_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.meta.user_dp}}
-            size={60}
-            containerStyle={styles.c_avatar}
-          />
-          <TextPartHere Text={props.Message.message.message.test} />
-        </FastImage>
+          style={styles.c_type_image}
+        />
       </View>
     );
   } else if (props.Message.meta.type === 'e') {
