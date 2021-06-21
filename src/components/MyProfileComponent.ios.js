@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,11 +13,14 @@ import {Avatar, Header, Icon} from 'react-native-elements';
 import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import Iconly from '../pnstuff/Iconly';
+import ThemeContext from '../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function MyProfileComponent(props) {
+  const theme = useContext(ThemeContext);
   const FirstBlock = useMemo(
     () =>
       function FirstBlockX(props) {
@@ -72,7 +75,15 @@ function MyProfileComponent(props) {
   return (
     <View style={styles.containerview}>
       <Header
-        rightComponent={<BackChevronDownIcon />}
+        rightComponent={
+          <View style={{width: 50, height: 50}}>
+            <Iconly
+              name="ChevronDownBroken"
+              color={theme.colors.off_dark}
+              size={30}
+            />
+          </View>
+        }
         backgroundColor="#fafafa"
       />
       <View style={styles.body_view}>

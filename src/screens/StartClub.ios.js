@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useState, useContext} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -24,10 +25,10 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import _ from 'lodash';
-import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
-import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import Iconly from '../pnstuff/Iconly';
+import ThemeContext from '../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -35,6 +36,7 @@ const windowWidth = Dimensions.get('window').width;
 var mystatehere = {};
 
 function StartClub({dispatch, navigation}) {
+  const theme = useContext(ThemeContext);
   const [grabedContacts, setGrabedContacts] = useState();
 
   const [showNameScreen, setShowNameScreen] = useState('friends');
@@ -293,8 +295,15 @@ function StartClub({dispatch, navigation}) {
       <View style={{flex: 1}}>
         <Header
           leftComponent={<HeaderTitleHere screen="FRIENDS on AYE" />}
-          centerComponent={<View />}
-          rightComponent={<BackChevronDownIcon />}
+          rightComponent={
+            <View style={{width: 50, height: 30}}>
+              <Iconly
+                name="ChevronDownBroken"
+                color={theme.colors.off_dark}
+                size={30}
+              />
+            </View>
+          }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
         />
@@ -303,7 +312,11 @@ function StartClub({dispatch, navigation}) {
         <Pressable
           style={styles.button_view}
           onPress={() => HandleNextButtonCircle()}>
-          <IconlyNextIcon Color="#3f9ffe" />
+          <Iconly
+            name="ArrowRightBold"
+            color={theme.colors.friends_prime}
+            size={50}
+          />
         </Pressable>
       </View>
     );
@@ -351,8 +364,15 @@ function StartClub({dispatch, navigation}) {
       <View style={{flex: 1}}>
         <Header
           leftComponent={<HeaderTitleHere screen="INVITE your CONTACTS" />}
-          centerComponent={<View />}
-          rightComponent={<BackChevronDownIcon />}
+          rightComponent={
+            <View style={{width: 50, height: 30}}>
+              <Iconly
+                name="ChevronDownBroken"
+                color={theme.colors.off_dark}
+                size={30}
+              />
+            </View>
+          }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
         />
@@ -376,7 +396,11 @@ function StartClub({dispatch, navigation}) {
         <Pressable
           style={styles.button_view}
           onPress={() => HandleNextButtonContacts()}>
-          <IconlyNextIcon Color="#3f9ffe" />
+          <Iconly
+            name="ArrowRightBold"
+            color={theme.colors.friends_prime}
+            size={50}
+          />
         </Pressable>
       </View>
     );
@@ -485,8 +509,15 @@ function StartClub({dispatch, navigation}) {
       <View style={styles.name_input_container}>
         <Header
           leftComponent={<HeaderTitleHere screen="NAME your CLAN" />}
-          centerComponent={<View />}
-          rightComponent={<BackChevronDownIcon />}
+          rightComponent={
+            <View>
+              <Iconly
+                name="ChevronDownBroken"
+                color={theme.colors.off_dark}
+                size={30}
+              />
+            </View>
+          }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
         />
@@ -540,7 +571,10 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(StartClub);
 
 const styles = StyleSheet.create({
-  header_container: {},
+  header_container: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
 
   header_title: {
     fontFamily: 'GothamRounded-Bold',

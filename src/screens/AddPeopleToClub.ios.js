@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -12,8 +12,9 @@ import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 import _ from 'lodash';
 import {showMessage, hideMessage} from 'react-native-flash-message';
-import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 import axios from 'axios';
+import ThemeContext from '../themes/Theme';
+import Iconly from '../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -21,6 +22,7 @@ const windowWidth = Dimensions.get('window').width;
 var mystatehere = {};
 
 function AddPeopleToClub({dispatch, navigation, route}) {
+  const theme = useContext(ThemeContext);
   const {club_id} = route.params;
 
   useEffect(() => {
@@ -32,7 +34,11 @@ function AddPeopleToClub({dispatch, navigation, route}) {
       <Pressable
         style={styles.right_header_view}
         onPress={() => navigation.goBack()}>
-        <IconlyBackChevronDown />
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
+        />
       </Pressable>
     );
   }

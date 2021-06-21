@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,14 @@ import {
 } from 'react-native';
 import {Avatar, Icon, Header} from 'react-native-elements';
 import axios from 'axios';
+import ThemeContext from '../themes/Theme';
+import Iconly from '../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function OtherProfile({navigation, route}) {
+  const theme = useContext(ThemeContext);
   const other_user_id = route.params;
 
   const [otherDetails, setOtherDetails] = useState({});

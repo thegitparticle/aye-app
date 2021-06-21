@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import MyProfileComponent from '../components/MyProfileComponent';
 import AccountToolKitButtons from '../uibits/AccountToolKitButtons';
 import {usePubNub} from 'pubnub-react';
+import ThemeContext from '../themes/Theme';
+import Iconly from '../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -48,6 +50,7 @@ pubnub.publish(
 var state_here = {};
 
 function MyProfileScreen({dispatch, navigation}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
 
   useEffect(() => {
