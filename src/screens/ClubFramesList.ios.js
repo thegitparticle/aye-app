@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   ScrollView,
@@ -17,6 +18,8 @@ import FastImage from 'react-native-fast-image';
 import analytics from '@segment/analytics-react-native';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import Iconly from '../pnstuff/Iconly';
+import ThemeContext from '../themes/Theme';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -29,6 +32,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function ClubFramesList({dispatch, navigation, route}) {
+  const theme = useContext(ThemeContext);
   const {club_id, live_who, club_name} = route.params;
   const [thisMonth, setThisMonth] = useState(); // actual month IRL
   const [currentmonth, setCurrentmonth] = useState(); // string value of rendering month
@@ -45,7 +49,13 @@ function ClubFramesList({dispatch, navigation, route}) {
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() =>
           navigation.navigate('ClubHub', {
             club_id: club_id,
@@ -53,7 +63,7 @@ function ClubFramesList({dispatch, navigation, route}) {
             club_name: club_name,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="users" />
+        <Icon type="feather" color={theme.colors.off_dark} name="users" />
       </Pressable>
     );
   }
@@ -61,9 +71,19 @@ function ClubFramesList({dispatch, navigation, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() => navigation.navigate('ClubChatScreen')}>
-        <Icon type="feather" color={font_color_header} name="chevron-right" />
+        <Iconly
+          name="ChevronRightBroken"
+          color={theme.colors.off_dark}
+          size={30}
+        />
       </Pressable>
     );
   }
@@ -74,16 +94,6 @@ function ClubFramesList({dispatch, navigation, route}) {
         <Text style={styles.center_header_club_name}>
           {club_name.substring(0, 14)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
   }

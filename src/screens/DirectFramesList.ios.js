@@ -16,6 +16,8 @@ import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import Iconly from '../pnstuff/Iconly';
+import ThemeContext from '../themes/Theme';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -28,6 +30,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function DirectFramesList({dispatch, navigation, route}) {
+  const theme = useContext(ThemeContext);
   const {direct_id, other_name} = route.params;
   const [thisMonth, setThisMonth] = useState(); // actual month IRL
   const [currentmonth, setCurrentmonth] = useState(); // string value of rendering month
@@ -44,14 +47,20 @@ function DirectFramesList({dispatch, navigation, route}) {
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() =>
           navigation.navigate('DirectHub', {
             direct_id: direct_id,
             other_name: other_name,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="user" />
+        <Icon type="feather" color={theme.colors.off_dark} name="user" />
       </Pressable>
     );
   }
@@ -59,13 +68,18 @@ function DirectFramesList({dispatch, navigation, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
-        onPress={() => navigation.goBack()}>
-        <Icon
-          type="feather"
-          color={font_color_header}
-          name="chevron-right"
-          onPress={() => navigation.navigate('DirectChatScreen')}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
+        onPress={() => navigation.navigate('DirectChatScreen')}>
+        <Iconly
+          name="ChevronRightBroken"
+          color={theme.colors.off_dark}
+          size={30}
         />
       </Pressable>
     );
@@ -77,16 +91,6 @@ function DirectFramesList({dispatch, navigation, route}) {
         <Text style={styles.center_header_club_name}>
           {other_name.substring(0, 14)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
   }

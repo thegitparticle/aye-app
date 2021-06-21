@@ -47,6 +47,7 @@ import Draggable from 'react-native-draggable';
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
+import Iconly from '../pnstuff/Iconly';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -110,15 +111,20 @@ function DirectChatScreen({navigation, dispatch, route}) {
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() =>
           navigation.navigate('DirectFramesList', {
             direct_id: directIdHere,
-            //live_who: liveWho,
             other_name: otherNameHere,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="layers" />
+        <Icon type="feather" color={theme.colors.off_dark} name="layers" />
       </Pressable>
     );
   }
@@ -126,13 +132,18 @@ function DirectChatScreen({navigation, dispatch, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() => navigation.goBack()}>
-        <Icon
-          type="feather"
-          color={font_color_header}
-          name="chevron-down"
-          onPress={() => navigation.goBack()}
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
         />
       </Pressable>
     );
@@ -144,16 +155,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <Text style={styles.center_header_club_name}>
           {otherNameHere.substring(0, 14)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
   }
