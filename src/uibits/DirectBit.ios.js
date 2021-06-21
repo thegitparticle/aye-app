@@ -42,21 +42,7 @@ function DirectBit(props) {
   } else {
   }
   return (
-    <Pressable
-      style={styles.overall_view}
-      onPress={() =>
-        navigation.navigate('DirectInteractionScreens', {
-          screen: 'DirectChatScreen',
-          params: {
-            otherNameHere: props.Direct.display_guys.full_name,
-            //channelIdHere: props.club_id.toString() + '_c',
-            directIdHere: props.Direct.direct_channel_id,
-            channelOnGoing: props.Direct.ongoing_frame,
-            channelStartTime: props.Direct.start_time,
-            channelEndTime: props.Direct.end_time,
-          },
-        })
-      }>
+    <View style={styles.overall_view}>
       <FastImage
         source={{uri: props.Direct.display_guys.profile_picture}}
         style={styles.avatar_of_club}
@@ -69,7 +55,7 @@ function DirectBit(props) {
 
         <UnreadStatus Status={props.Direct.ongoing_frame} />
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -104,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 10,
     width: windowWidth - 40,
-    height: 60,
+    alignItems: 'center',
   },
   text_block_view: {
     flexDirection: 'column',

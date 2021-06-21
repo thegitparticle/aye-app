@@ -34,7 +34,6 @@ function NudgeToBit(props) {
       message: 'Starting a conversation 3..2..1.. hooray!',
       type: 'info',
       backgroundColor: 'mediumseagreen',
-      //backgroundColor: 'indianred',
     });
 
     axios
@@ -83,13 +82,7 @@ function NudgeToBit(props) {
 
   return (
     <View style={styles.overall_view}>
-      <Pressable
-        style={styles.left_side_things}
-        onPress={() =>
-          navigation.navigate('OtherProfile', {
-            other_user_id: props.NudgeTo.id,
-          })
-        }>
+      <View style={styles.left_side_things}>
         <FastImage
           source={{uri: props.NudgeTo.profile_pic}}
           style={styles.avatar_of_user}
@@ -98,7 +91,7 @@ function NudgeToBit(props) {
         <View style={styles.text_block_view}>
           <Text style={styles.user_name}>{props.NudgeTo.name}</Text>
         </View>
-      </Pressable>
+      </View>
 
       <ShowStartButton OnlyUserId={props.NudgeTo.id} />
     </View>

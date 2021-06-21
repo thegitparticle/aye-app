@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -11,13 +11,17 @@ import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from './PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
-import Iconly from '../pnstuff/Iconly';
+import {useNavigation} from '@react-navigation/native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
+  const navigation = useNavigation();
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -78,7 +82,21 @@ function ClubsHomeD({dispatch}) {
             <View>
               <ListItem
                 bottomDivider
-                containerStyle={styles.list_item_container}>
+                underlayColor="#EEEEEE"
+                containerStyle={styles.list_item_container}
+                onPress={() => {
+                  navigation.navigate('ClubInteractionScreens', {
+                    screen: 'ClubChatScreen',
+                    params: {
+                      clubNameHere: item.club_name,
+                      channelIdHere: item.pn_channel_id,
+                      channelOnGoing: item.on_going_frame,
+                      channelStartTime: item.start_time,
+                      channelEndTime: item.end_time,
+                      clubID: item.club_id,
+                    },
+                  });
+                }}>
                 <DormantClubBit Club={item} />
               </ListItem>
             </View>
@@ -159,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     borderColor: '#05050510',
+    width: windowWidth,
   },
   overall_view: {flex: 1, overflow: 'visible', backgroundColor: '#FFF'},
 });
