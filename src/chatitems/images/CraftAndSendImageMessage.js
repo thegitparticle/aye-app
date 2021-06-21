@@ -244,7 +244,7 @@ function CraftAndSendImageMessage(props) {
                 quality: 0.9,
               })
                 .then(uri => {
-                  if (props.channelOnGoing) {
+                  if (props.ChannelOnGoing) {
                     sendMessageOldFrame(uri, textMessage);
                   } else {
                     sendMessageNewFrame(uri, textMessage);

@@ -28,7 +28,7 @@ const windowWidth = Dimensions.get('window').width;
 function CraftAndSendGifMessage(props) {
   const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
-
+  console.log('channle on going or not: ' + props.ChannelOnGoing);
   const [textMessage, setTextMessage] = useState('');
 
   function StartFrame() {
@@ -236,7 +236,7 @@ function CraftAndSendGifMessage(props) {
                       quality: 0.9,
                     })
                       .then(uri => {
-                        if (props.channelOnGoing) {
+                        if (props.ChannelOnGoing) {
                           sendMessageOldFrame(uri, textMessage);
                         } else {
                           sendMessageNewFrame(uri, textMessage);
@@ -258,7 +258,7 @@ function CraftAndSendGifMessage(props) {
                   quality: 0.9,
                 })
                   .then(uri => {
-                    if (props.channelOnGoing) {
+                    if (props.ChannelOnGoing) {
                       sendMessageOldFrame(uri, textMessage);
                     } else {
                       sendMessageNewFrame(uri, textMessage);
