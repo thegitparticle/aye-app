@@ -11,8 +11,6 @@ import {
   Image,
   Keyboard,
   KeyboardAvoidingView,
-  SafeAreaView,
-  Platform,
   Pressable,
   ImageBackground,
 } from 'react-native';
@@ -83,21 +81,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
 
-  /*
-
-  useEffect(() => {
-    pubnub.objects.removeMemberships({
-      channels: ['4_undefined_d'],
-    });
-  }, []);
-
-  */
-
   const [messages, addMessage] = useState([]);
-  const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
   const [old_messages, addOldMessages] = useState();
-  // console.log(old_messages);
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
 
   useEffect(() => {
@@ -233,7 +219,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         );
       }
     };
-    const sendMessageOldFrame = message => {
+    const sendMessageOldFrame = (shot, message) => {
       console.log('sending picked image - old frame');
       pubnub.sendFile(
         {
@@ -330,7 +316,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     setTextOpacity(0, textOpacity => {
                       if (textOpacity === 0) {
                         Keyboard.dismiss();
-                        // console.log('first' + textOpacity);
 
                         captureRef(viewShotGalleryRef, {
                           format: 'jpg',
@@ -351,7 +336,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
                           });
                       } else {
                         Keyboard.dismiss();
-                        // console.log('second' + textOpacity);
                       }
                     });
                   } else {
@@ -468,7 +452,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         );
       }
     };
-    const sendMessageOldFrame = message => {
+    const sendMessageOldFrame = (shot, message) => {
       pubnub.sendFile(
         {
           channel: channelsHere[0],
@@ -525,7 +509,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
           <Avatar
             rounded
-            source={{uri: props.ProfileAvatar}}
+            source={{uri: state_here.MyProfileReducer.myprofile.image}}
             size={60}
             containerStyle={styles.f_avatar}
           />
@@ -566,26 +550,22 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     setTextOpacity(0, textOpacity => {
                       if (textOpacity === 0) {
                         Keyboard.dismiss();
-                        // console.log('first' + textOpacity);
 
                         captureRef(viewShotCameraPickerRef, {
                           format: 'png',
                           quality: 0.9,
                         })
                           .then(uri => {
-                            if (props.ChannelOnGoing) {
+                            if (channelOnGoing) {
                               sendMessageOldFrame(uri, textMessage);
                             } else {
                               sendMessageNewFrame(uri, textMessage);
                             }
-                            HandleGoingBack();
+                            cameraPickerCraftOverlay();
                           })
-                          .then(uri => {
-                            // console.log('Image saved to', uri);
-                          });
+                          .then(uri => {});
                       } else {
                         Keyboard.dismiss();
-                        // console.log('second' + textOpacity);
                       }
                     });
                   } else {
@@ -595,17 +575,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       quality: 0.9,
                     })
                       .then(uri => {
-                        if (props.ChannelOnGoing) {
+                        if (channelOnGoing) {
                           sendMessageOldFrame(uri, textMessage);
                         } else {
                           sendMessageNewFrame(uri, textMessage);
                         }
 
-                        HandleGoingBack();
+                        cameraPickerCraftOverlay();
                       })
-                      .then(uri => {
-                        // console.log('Image saved to', uri);
-                      });
+                      .then(uri => {});
                   }
                 }}>
                 <IconlyDirectIcon Color={theme.colors.success_green} />
@@ -847,41 +825,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
       },
     [],
   );
-  /*
-  const handleMessage = (event) => {
-    //console.log('message event: ' + event.message);
-    const message = event.message;
-    //console.log(event.userMetadata.type);
-    if (event.userMetadata.type === 'd') {
-      // if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //}
-    } else {
-      //if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //console.log(messages);
-      // }
-    }
-  };
-*/
-  /*
-  const handlePresenceChange = (event) => {
-    console.log(event);
-    console.log(event.action + ' ' + event.uuid + ' ' + 'ACTION OF PRESENCE');
-    const user_id = event.uuid;
-    if (event.action === 'join') {
-      setLiveMembers((liveMembers) => [...liveMembers, user_id]);
-    } else {
-      var index = liveMembers.indexOf(user_id);
-      var list_here = liveMembers.splice(index, 1);
-      setLiveMembers(list_here);
-    }
-  };
-  */
 
   const handleMessage = event => {
     if (messages.includes(event) === false) {
@@ -948,7 +891,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
       );
     }
     pubnub.addListener({message: handleMessage});
-    //pubnub.addListener({presence: handleHereNowResponse});
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
@@ -1036,7 +978,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
   );
 
   function StartFrame() {
-    //console.log(startTime + 'start time sent here');
     var all_ids = _.split(directIdHere, '_');
     var timeToken = dayjs().unix();
 
@@ -1527,7 +1468,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
           <Avatar
             rounded
-            source={{uri: props.ProfileAvatar}}
+            source={{uri: state_here.MyProfileReducer.myprofile.image}}
             size={60}
             containerStyle={styles.g_avatar}
           />
@@ -1570,13 +1511,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     quality: 0.9,
                   })
                     .then(uri => {
-                      if (props.ChannelOnGoing) {
+                      if (channelOnGoing) {
                         sendMessageOldFrame(uri, textMessage);
                       } else {
                         sendMessageNewFrame(uri, textMessage);
                       }
 
-                      HandleGoingBack();
+                      imageSelectorCraftOverlay();
                     })
                     .then(uri => {
                       console.log('Image saved to', uri);
@@ -1758,7 +1699,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
           <Avatar
             rounded
-            source={{uri: props.ProfileAvatar}}
+            source={{uri: state_here.MyProfileReducer.myprofile.image}}
             size={60}
             containerStyle={styles.f_avatar}
           />
@@ -1799,26 +1740,22 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     setTextOpacity(0, textOpacity => {
                       if (textOpacity === 0) {
                         Keyboard.dismiss();
-                        // console.log('first' + textOpacity);
 
                         captureRef(viewShotGIFPickerRef, {
                           format: 'png',
                           quality: 0.9,
                         })
                           .then(uri => {
-                            if (props.ChannelOnGoing) {
+                            if (channelOnGoing) {
                               sendMessageOldFrame(uri, textMessage);
                             } else {
                               sendMessageNewFrame(uri, textMessage);
                             }
-                            HandleGoingBack();
+                            gifSelectorCraftOverlay();
                           })
-                          .then(uri => {
-                            // console.log('Image saved to', uri);
-                          });
+                          .then(uri => {});
                       } else {
                         Keyboard.dismiss();
-                        // console.log('second' + textOpacity);
                       }
                     });
                   } else {
@@ -1828,17 +1765,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       quality: 0.9,
                     })
                       .then(uri => {
-                        if (props.ChannelOnGoing) {
+                        if (channelOnGoing) {
                           sendMessageOldFrame(uri, textMessage);
                         } else {
                           sendMessageNewFrame(uri, textMessage);
                         }
 
-                        HandleGoingBack();
+                        gifSelectorCraftOverlay();
                       })
-                      .then(uri => {
-                        // console.log('Image saved to', uri);
-                      });
+                      .then(uri => {});
                   }
                 }}>
                 <IconlyDirectIcon Color={theme.colors.success_green} />
@@ -1864,7 +1799,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   width: windowWidth,
                   height: undefined,
                   aspectRatio: 1,
-                  // marginVertical: windowHeight * 0.01,
                   flexDirection: 'column',
                   justifyContent: 'flex-end',
                   backgroundColor: 'transparent',
@@ -1953,7 +1887,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
           backgroundColor: background_color,
           borderRadius: 20,
           margin: 0,
-          //paddingBottom: 10,
         }}
         behavior="padding"
         keyboardVerticalOffset={30}>
@@ -2029,7 +1962,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
               width: '100%',
               alignItems: 'center',
               justifyContent: 'center',
-              //zIndex: 9999,
               position: 'absolute',
               bottom: 0.2,
               marginBottom: 10,
