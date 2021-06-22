@@ -182,6 +182,7 @@ function CraftAndSendGifMessage(props) {
             style={styles.f_text}
             multiline
             autoline
+            autoCorrect={false}
             autoFocus={true}
             maxLength={140}
             onChangeText={text => setTextMessage(text)}

@@ -182,6 +182,7 @@ function CraftAndSendGalleryMessage(props) {
             style={styles.b_text}
             multiline
             autoline
+            autoCorrect={false}
             autoFocus={true}
             maxLength={140}
             onChangeText={text => setTextMessage(text)}

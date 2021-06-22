@@ -176,6 +176,7 @@ function CraftAndSendCameraMessage(props) {
             style={styles.c_text}
             multiline
             autoline
+            autoCorrect={false}
             autoFocus={true}
             maxLength={140}
             onChangeText={text => setTextMessage(text)}

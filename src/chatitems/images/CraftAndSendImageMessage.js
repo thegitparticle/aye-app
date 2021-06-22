@@ -197,6 +197,7 @@ function CraftAndSendImageMessage(props) {
             placeholderTextColor={theme.colors.mid_light}
             style={styles.g_text}
             multiline
+            autoCorrect={false}
             autoline
             autoFocus={true}
             maxLength={140}
