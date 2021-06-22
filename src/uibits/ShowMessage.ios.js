@@ -134,15 +134,15 @@ function ShowMessage(props) {
     return (
       <View style={styles.h_type_view}>
         <FastImage
-          source={{uri: props.Message.file.url}}
+          source={{uri: props.Message.userMetadata.image_url}}
           style={styles.h_type_image}>
-          {/* <Avatar
+          <Avatar
             rounded
             source={{uri: props.Message.userMetadata.user_dp}}
             size={60}
             containerStyle={styles.h_avatar}
           />
-          <TextPartHere Text={props.Message.message} /> */}
+          <TextPartHere Text={props.Message.message} />
         </FastImage>
       </View>
     );

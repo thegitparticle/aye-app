@@ -12,7 +12,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Pressable,
-  ImageBackground,
 } from 'react-native';
 import {
   Icon,
@@ -835,26 +834,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
       addMessage(messages => [...messages, event]);
     } else {
       addMessage(messages);
-    }
-  };
-
-  const handleHereNowResponse = event => {
-    pubnub.hereNow(
-      {
-        channels: [directIdHere],
-        includeUUIDs: true,
-        includeState: true,
-      },
-      (status, response) => {
-        internalHandle(response);
-      },
-    );
-    function internalHandle(res) {
-      if (res) {
-        var people_here = res.channels[directIdHere].occupants;
-
-        //setLiveWho(people_here);
-      }
     }
   };
 
