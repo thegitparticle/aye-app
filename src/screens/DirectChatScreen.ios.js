@@ -159,6 +159,24 @@ function DirectChatScreen({navigation, dispatch, route}) {
     );
   }
 
+  function CheckFrameLapsedOrNot() {
+    if (typeof channelEndTime === 'number') {
+      if (channelEndTime > dayjs().unix()) {
+        console.log('time still there');
+        console.log(dayjs().unix());
+      } else {
+        console.log(channelEndTime);
+        showMessage({
+          message: 'Oops! frame expired.',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+        navigation.goBack();
+      }
+    } else {
+    }
+  }
+
   const [imagePicked, setImagePicked] = useState('');
   const [imagePickedMime, setImagePickedMime] = useState('');
   const [imagePickedName, setImagePickedName] = useState('');
@@ -166,6 +184,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const imagePickerCraftOverlay = () => {
     setImagePickerCraftVisible(!imagePickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const ImagePickerOverlayInput = useMemo(
@@ -405,6 +424,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const cameraPickerCraftOverlay = () => {
     setCameraPickerCraftVisible(!cameraPickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const CameraPickerOverlayInput = useMemo(
@@ -1042,7 +1062,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
         const [pick, setPick] = useState('');
 
         const [keyboardStatus, setKeyboardStatus] = useState(false);
-        const _keyboardDidShow = () => setKeyboardStatus(true);
+        const _keyboardDidShow = () => {
+          setKeyboardStatus(true);
+          CheckFrameLapsedOrNot();
+        };
         const _keyboardDidHide = () => setKeyboardStatus(false);
 
         function SetChosenMedia(image_link) {
@@ -1376,6 +1399,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const imageSelectorCraftOverlay = () => {
     setImageSelectorCraftVisible(!imageSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const ImageSelectorOverlayInputHere = useMemo(
@@ -1671,6 +1695,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const gifSelectorCraftOverlay = () => {
     setGifSelectorCraftVisible(!gifSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const GIFSelectorOverlayInputHere = useMemo(
@@ -2027,9 +2052,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <OtherInputBar />
       </View>
       <ImagePickerOverlayInput />
-      <ImageSelectorOverlayInput />
+      <ImageSelectorOverlayInputHere />
       <CameraPickerOverlayInput />
-      <GIFSelectorOverlayInput />
+      <GIFSelectorOverlayInputHere />
       <Modalize
         ref={modalizeRefBitmojiSheet}
         snapPoint={1000}

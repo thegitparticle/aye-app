@@ -168,6 +168,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const imagePickerCraftOverlay = () => {
     setImagePickerCraftVisible(!imagePickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const ImagePickerOverlayInputX = useMemo(
@@ -412,6 +413,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const cameraPickerCraftOverlay = () => {
     setCameraPickerCraftVisible(!cameraPickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const CameraPickerOverlayInput = useMemo(
@@ -723,6 +725,24 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }
   }
 
+  function CheckFrameLapsedOrNot() {
+    if (typeof channelEndTime === 'number') {
+      if (channelEndTime > dayjs().unix()) {
+        console.log('time still there');
+        console.log(dayjs().unix());
+      } else {
+        console.log(channelEndTime);
+        showMessage({
+          message: 'Oops! frame expired.',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+        navigation.goBack();
+      }
+    } else {
+    }
+  }
+
   const InputXXX = useMemo(
     () =>
       function InputXXXx() {
@@ -745,6 +765,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
         const _keyboardDidShow = () => {
           setKeyboardStatus(true);
+          CheckFrameLapsedOrNot();
         };
         const _keyboardDidHide = () => {
           setKeyboardStatus(false);
@@ -964,6 +985,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const imageSelectorCraftOverlay = () => {
     setImageSelectorCraftVisible(!imageSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const ImageSelectorOverlayInputHere = useMemo(
@@ -1013,6 +1035,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const gifSelectorCraftOverlay = () => {
     setGifSelectorCraftVisible(!gifSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
   const GIFSelectorOverlayInputHere = useMemo(
