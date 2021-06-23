@@ -29,7 +29,7 @@ function DirectsHomeD({dispatch}) {
 
       animationBackgroundColor={'#FFFFFF'}
       onRefresh={memoizedHandleRefresh}
-      pullHeight={180}
+      pullHeight={100}
       contentView={
         <ScrollView
           style={styles.overall_view}

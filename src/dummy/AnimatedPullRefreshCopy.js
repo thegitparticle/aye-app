@@ -279,7 +279,7 @@ class AnimatedPullToRefresh extends React.Component {
           ref="scrollComponentRef"
           scrollEnabled={this.state.isScrollFree}
           onScroll={onScrollEvent}
-          scrollEventThrottle={16}
+          scrollEventThrottle={0}
           onTouchEnd={() => {
             this.isScrolledToTop();
           }}
