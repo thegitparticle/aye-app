@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import DirectBit from '../uibits/DirectBit';
 import {ListItem} from 'react-native-elements';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {usePubNub} from 'pubnub-react';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
@@ -13,8 +13,9 @@ const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
-function DirectsList({dispatch, navigation}) {
+function DirectsList({dispatch}) {
   const pubnub = usePubNub();
+  const navigation = useNavigation();
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
 

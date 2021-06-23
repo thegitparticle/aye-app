@@ -45,6 +45,7 @@ import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
+import {MMKV} from 'react-native-mmkv';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -141,7 +142,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
           flexDirection: 'column',
           justifyContent: 'flex-start',
         }}
-        onPress={() => navigation.goBack()}>
+        onPress={() => {
+          navigation.goBack();
+          MMKV.set(channelIdHere, dayjs().unix());
+        }}>
         <Iconly
           name="ChevronDownBroken"
           color={theme.colors.off_dark}

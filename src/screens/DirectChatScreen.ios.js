@@ -48,6 +48,7 @@ import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
 import LinearGradient from 'react-native-linear-gradient';
+import {MMKV} from 'react-native-mmkv';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -139,7 +140,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
           flexDirection: 'column',
           justifyContent: 'flex-start',
         }}
-        onPress={() => navigation.goBack()}>
+        onPress={() => {
+          navigation.goBack();
+          MMKV.set(directIdHere, dayjs().unix());
+        }}>
         <Iconly
           name="ChevronDownBroken"
           color={theme.colors.off_dark}

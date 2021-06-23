@@ -1,15 +1,20 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, Badge} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
+import {MMKV} from 'react-native-mmkv';
+import {usePubNub} from 'pubnub-react';
+import ThemeContext from '../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function DirectBit(props) {
-  const navigation = useNavigation();
-  //console.log(props.Direct);
+  // const navigation = useNavigation();
+  const theme = useContext(ThemeContext);
+  const pubnub = usePubNub();
 
   function UnreadStatus(props) {
     if (props.Status) {
@@ -41,19 +46,57 @@ function DirectBit(props) {
     return <View />;
   } else {
   }
+
+  function NewMessageOrNot() {
+    const last_seen = MMKV.getNumber(props.Direct.direct_channel_id);
+
+    const [newMessages, setNewMessages] = useState(0);
+    // console.log(last_seen);
+
+    if (last_seen !== 0) {
+      pubnub.messageCounts(
+        {
+          channels: [props.Direct.direct_channel_id],
+          channelTimetokens: [String(last_seen * 10000000)],
+        },
+        (status, results) => {
+          var more_messages = results.channels[props.Direct.direct_channel_id];
+          setNewMessages(more_messages);
+        },
+      );
+    }
+
+    return (
+      <Badge
+        badgeStyle={{
+          backgroundColor: newMessages > 0 ? theme.colors.chat_prime : '',
+        }}
+      />
+    );
+  }
+
   return (
     <View style={styles.overall_view}>
-      <FastImage
-        source={{uri: props.Direct.display_guys.profile_picture}}
-        style={styles.avatar_of_club}
-        size={68}
-      />
-      <View style={styles.text_block_view}>
-        <Text style={styles.name_of_other_person}>
-          {props.Direct.display_guys.full_name}
-        </Text>
-
-        <UnreadStatus Status={props.Direct.ongoing_frame} />
+      <View style={{flexDirection: 'row'}}>
+        <FastImage
+          source={{uri: props.Direct.display_guys.profile_picture}}
+          style={styles.avatar_of_club}
+          size={68}
+        />
+        <View style={styles.text_block_view}>
+          <Text style={styles.name_of_other_person}>
+            {props.Direct.display_guys.full_name}
+          </Text>
+          <UnreadStatus Status={props.Direct.ongoing_frame} />
+        </View>
+      </View>
+      <View
+        style={{
+          width: windowWidth * 0.1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <NewMessageOrNot />
       </View>
     </View>
   );
@@ -91,6 +134,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: windowWidth - 40,
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   text_block_view: {
     flexDirection: 'column',

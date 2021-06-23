@@ -7012,6 +7012,11 @@ react-native-loading-spinner-overlay@^2.0.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-mmkv@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-1.1.6.tgz#562699c57fc55ec84b17ef675f6f609339096dfd"
+  integrity sha512-mvpnGLkXsEwlhGc2IoiqwI+7F9PwkcoJdt3PZOMtSCrt1ngDPJXXfyIxJ4/Ia8vd/gm7K3G+/mfusjEoiOsjxw==
+
 react-native-modalize@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/react-native-modalize/-/react-native-modalize-2.0.8.tgz#5dcb2c56d82e3dbd271582f832e7e02ae4cbb503"
