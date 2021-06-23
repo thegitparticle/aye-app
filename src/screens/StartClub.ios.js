@@ -296,13 +296,15 @@ function StartClub({dispatch, navigation}) {
         <Header
           leftComponent={<HeaderTitleHere screen="FRIENDS on AYE" />}
           rightComponent={
-            <View style={{width: 50, height: 30}}>
+            <Pressable
+              style={{width: 50, height: 30}}
+              onPress={() => navigation.goBack()}>
               <Iconly
                 name="ChevronDownBroken"
                 color={theme.colors.off_dark}
                 size={30}
               />
-            </View>
+            </Pressable>
           }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
@@ -365,13 +367,15 @@ function StartClub({dispatch, navigation}) {
         <Header
           leftComponent={<HeaderTitleHere screen="INVITE your CONTACTS" />}
           rightComponent={
-            <View style={{width: 50, height: 30}}>
+            <Pressable
+              style={{width: 50, height: 30}}
+              onPress={() => navigation.goBack()}>
               <Iconly
                 name="ChevronDownBroken"
                 color={theme.colors.off_dark}
                 size={30}
               />
-            </View>
+            </Pressable>
           }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
@@ -510,13 +514,15 @@ function StartClub({dispatch, navigation}) {
         <Header
           leftComponent={<HeaderTitleHere screen="NAME your CLAN" />}
           rightComponent={
-            <View>
+            <Pressable
+              style={{width: 50, height: 30}}
+              onPress={() => navigation.goBack()}>
               <Iconly
                 name="ChevronDownBroken"
                 color={theme.colors.off_dark}
                 size={30}
               />
-            </View>
+            </Pressable>
           }
           backgroundColor="#fafafa"
           containerStyle={styles.header_container}
