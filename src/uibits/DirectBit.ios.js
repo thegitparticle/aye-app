@@ -60,8 +60,11 @@ function DirectBit(props) {
           channelTimetokens: [String(last_seen * 10000000)],
         },
         (status, results) => {
-          var more_messages = results.channels[props.Direct.direct_channel_id];
-          setNewMessages(more_messages);
+          if (results) {
+            var more_messages =
+              results.channels[props.Direct.direct_channel_id];
+            setNewMessages(more_messages);
+          }
         },
       );
     }

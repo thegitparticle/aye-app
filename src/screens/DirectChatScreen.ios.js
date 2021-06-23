@@ -49,6 +49,8 @@ import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
 import LinearGradient from 'react-native-linear-gradient';
 import {MMKV} from 'react-native-mmkv';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
+import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -276,7 +278,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                 style={{
                   backgroundColor: '#ffffff',
                   alignSelf: 'flex-start',
-                  left: windowWidth * 0.05 + 60,
+                  left: windowWidth * 0.05 + 30,
                   right: windowWidth * 0.05,
                   padding: 10,
                   borderBottomRightRadius: 15,
@@ -291,6 +293,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.g_text}
                   multiline
                   autoline
+                  autoCorrect={false}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />
@@ -533,6 +536,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.f_text}
                   multiline
                   autoline
+                  autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -1101,45 +1105,23 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       uri: props.Item,
                     }}
                     PlaceholderContent={
-                      <View
-                        style={{
-                          width: 125,
-                          height: 72.5,
-                          borderRadius: 10,
-                        }}>
-                        <LinearGradient
-                          start={{x: 0, y: 0}}
-                          end={{x: 1, y: 0}}
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
-                            right: 0,
-                            opacity: 0.25,
-                            borderRadius: 10,
-                            width: 125,
-                            height: 72.5,
-                          }}
-                          colors={['#F76B1C', '#FAD961', '#F76B1C']}
+                      <ContentLoader
+                        speed={2}
+                        width={125}
+                        height={72.5}
+                        viewBox="0 0 125 72.5"
+                        backgroundColor={theme.colors.off_light}
+                        foregroundColor={theme.colors.mid_light}
+                        {...props}>
+                        <Rect
+                          x="0"
+                          y="0"
+                          rx="0"
+                          ry="0"
+                          width="125"
+                          height="72.5"
                         />
-                        <BlurView
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
-                            right: 0,
-                            borderRadius: 10,
-                            width: 125,
-                            height: 72.5,
-                            opacity: 0.25,
-                          }}
-                          blurType="dark"
-                          blurAmount={1}
-                          reducedTransparencyFallbackColor="blue"
-                        />
-                      </View>
+                      </ContentLoader>
                     }
                   />
                 </Pressable>
@@ -1530,6 +1512,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.g_text}
                   multiline
                   autoline
+                  autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -1650,45 +1633,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
-          PlaceholderContent={
-            <View
-              style={{
-                width: (windowWidth - 10) / 2,
-                height: windowWidth / 2,
-                borderRadius: 10,
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  opacity: 0.25,
-                  width: (windowWidth - 10) / 2,
-                  height: windowWidth / 2,
-                }}
-                colors={['#F76B1C', '#FAD961', '#F76B1C']}
-              />
-              <BlurView
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  width: (windowWidth - 10) / 2,
-                  height: windowWidth / 2,
-                  opacity: 0.25,
-                }}
-                blurType="dark"
-                blurAmount={1}
-                reducedTransparencyFallbackColor="blue"
-              />
-            </View>
-          }
+          PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
+          placeholderStyle={{backgroundColor: '#050505'}}
         />
       </Pressable>
     );
@@ -1805,6 +1751,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.f_text}
                   multiline
                   autoline
+                  autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -1952,45 +1899,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <Image
           source={{uri: item.item.images.fixed_height_small.url}}
           style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
-          PlaceholderContent={
-            <View
-              style={{
-                width: (windowWidth - 10) / 2,
-                height: windowWidth / 2,
-                borderRadius: 10,
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  opacity: 0.25,
-                  width: (windowWidth - 10) / 2,
-                  height: windowWidth / 2,
-                }}
-                colors={['#F76B1C', '#FAD961', '#F76B1C']}
-              />
-              <BlurView
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  width: (windowWidth - 10) / 2,
-                  height: windowWidth / 2,
-                  opacity: 0.25,
-                }}
-                blurType="dark"
-                blurAmount={1}
-                reducedTransparencyFallbackColor="blue"
-              />
-            </View>
-          }
+          PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
+          placeholderStyle={{backgroundColor: '#050505'}}
         />
       </Pressable>
     );
@@ -2209,7 +2119,7 @@ const styles = StyleSheet.create({
   },
 
   header_container: {
-    borderBottomWidth: 0,
+    borderBottomWidth: 2,
   },
   modal_search_view_wrap: {
     width: windowWidth,
@@ -2411,7 +2321,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   f_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   f_type_view: {
@@ -2436,7 +2346,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   g_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   g_type_view: {
@@ -2461,7 +2371,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   b_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   b_type_view: {
@@ -2487,7 +2397,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   c_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   c_type_view: {

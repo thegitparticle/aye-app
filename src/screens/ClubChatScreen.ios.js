@@ -261,7 +261,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 style={{
                   backgroundColor: '#ffffff',
                   alignSelf: 'flex-start',
-                  left: windowWidth * 0.05 + 60,
+                  left: windowWidth * 0.05 + 30,
                   right: windowWidth * 0.05,
                   padding: 10,
                   borderBottomRightRadius: 15,
@@ -603,7 +603,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const LiveMessagesView = useMemo(
     () =>
       function LiveMessagesViewX() {
-        console.log(old_messages);
+        // console.log(old_messages);
         const scrollView = useRef();
 
         if (!old_messages_resolve) {
@@ -732,10 +732,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   function CheckFrameLapsedOrNot() {
     if (typeof channelEndTime === 'number') {
       if (channelEndTime > dayjs().unix()) {
-        console.log('time still there');
-        console.log(dayjs().unix());
       } else {
-        console.log(channelEndTime);
         showMessage({
           message: 'Oops! frame expired.',
           type: 'info',

@@ -158,8 +158,8 @@ function ShowMessageOld(props) {
       var x_here = props.Text;
       if (x_here.length > 0) {
         return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
+          <View style={styles.h_text_view}>
+            <Text style={styles.h_text}>{props.Text}</Text>
           </View>
         );
       } else {
@@ -390,8 +390,10 @@ const styles = StyleSheet.create({
     left: '15%',
     right: '15%',
     padding: 10,
-    borderRadius: 5,
     maxWidth: windowWidth * 0.85,
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
   },
   h_text: {
     fontFamily: 'GothamRounded-Medium',

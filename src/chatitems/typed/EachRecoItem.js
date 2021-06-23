@@ -4,6 +4,7 @@ import {Pressable, View} from 'react-native';
 import {Image} from 'react-native-elements';
 import {BlurView} from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 
 function EachRecoItem(props) {
   function HandleSettingChosenMedia(link) {
@@ -32,45 +33,16 @@ function EachRecoItem(props) {
           uri: props.Item,
         }}
         PlaceholderContent={
-          <View
-            style={{
-              width: 125,
-              height: 72.5,
-              borderRadius: 10,
-            }}>
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                opacity: 0.25,
-                borderRadius: 10,
-                width: 125,
-                height: 72.5,
-              }}
-              colors={['#F76B1C', '#FAD961', '#F76B1C']}
-            />
-            <BlurView
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                borderRadius: 10,
-                width: 125,
-                height: 72.5,
-                opacity: 0.25,
-              }}
-              blurType="dark"
-              blurAmount={1}
-              reducedTransparencyFallbackColor="blue"
-            />
-          </View>
+          <ContentLoader
+            speed={2}
+            width={125}
+            height={72.5}
+            viewBox="0 0 125 72.5"
+            backgroundColor="#FFFFFF"
+            foregroundColor="#CCCCCC"
+            {...props}>
+            <Rect x="0" y="0" rx="0" ry="0" width="125" height="72.5" />
+          </ContentLoader>
         }
       />
     </Pressable>

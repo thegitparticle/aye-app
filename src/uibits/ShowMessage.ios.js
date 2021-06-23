@@ -355,8 +355,11 @@ const styles = StyleSheet.create({
     left: '15%',
     right: '15%',
     padding: 10,
-    borderRadius: 5,
     maxWidth: windowWidth * 0.85,
+
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
   },
   h_text: {
     fontFamily: 'GothamRounded-Medium',
