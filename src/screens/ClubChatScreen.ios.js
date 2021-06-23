@@ -46,6 +46,7 @@ import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
 import {MMKV} from 'react-native-mmkv';
+// import {SelectableText} from '@astrocoders/react-native-selectable-text';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -759,6 +760,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }, []);
 
         const [typevalue, changeTypevalue] = useState('');
+        const [selectedValue, changeSelectedValue] = useState('');
 
         const [pick, setPick] = useState('');
 
@@ -792,6 +794,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 <RecosOverlay
                   UserID={state_here.MyProfileReducer.myprofile.user.id}
                   TypeValue={typevalue}
+                  SelectedValue={selectedValue}
                   SetChosenMediaEmpty={SetChosenMediaEmpty}
                   SetChosenMedia={SetChosenMedia}
                 />
@@ -926,7 +929,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   style={{
                     fontSize: 16,
                     fontFamily: 'GothamRounded-Medium',
-                    color: font_color_input,
+                    // color: 'transparent',
+                    color: 'black',
                     paddingHorizontal: 10,
                     marginLeft: 10,
                     width: windowWidth * 0.8,
@@ -937,8 +941,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   }}
                   onChangeText={changeTypevalue}
                   value={typevalue}
+                  autoCorrect={false}
                   placeholder="type fun stuff..."
                   placeholderTextColor="#666"
+                  onSelectionChange={({nativeEvent: {selection, text}}) => {
+                    changeSelectedValue(
+                      typevalue.slice(selection.start, selection.end),
+                    );
+                  }}
                   multiline={true}
                   maxLength={140}
                 />
@@ -960,6 +970,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                         sendMessageOldFrame(typevalue);
                       }
                       changeTypevalue('');
+                      changeSelectedValue('');
                     } else {
                       showMessage({
                         message:

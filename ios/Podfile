@@ -29,6 +29,8 @@ pod 'Firebase/Analytics'
 
   pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
 
+  # pod 'RNSelectableText', :path => '../node_modules/@astrocoders/react-native-selectable-text/ios/RNSelectableText.podspec'
+
   target 'toastgoTests' do
     inherit! :complete
     # Pods for testing
