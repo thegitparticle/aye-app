@@ -45,7 +45,7 @@ function RecosOverlay(props) {
           console.log(err);
         });
     }
-  }, [props.TypeValue]);
+  }, [props.TypeValue, props.SelectedValue]);
 
   function HandleSettingChosenMedia(link) {
     props.SetChosenMedia(link);

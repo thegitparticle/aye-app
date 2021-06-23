@@ -929,8 +929,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   style={{
                     fontSize: 16,
                     fontFamily: 'GothamRounded-Medium',
-                    // color: 'transparent',
-                    color: 'black',
+                    color: font_color_input,
                     paddingHorizontal: 10,
                     marginLeft: 10,
                     width: windowWidth * 0.8,

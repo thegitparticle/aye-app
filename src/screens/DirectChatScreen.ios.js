@@ -1066,6 +1066,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         }, []);
 
         const [typevalue, changeTypevalue] = useState('');
+        const [selectedValue, changeSelectedValue] = useState('');
 
         const [pick, setPick] = useState('');
 
@@ -1170,19 +1171,34 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
           if (keyboardStatus) {
             useEffect(() => {
-              axios
-                .get(
-                  'https://apisayepirates.life/api/users/recommend_images/' +
-                    String(state_here.MyProfileReducer.myprofile.user.id) +
-                    '/' +
-                    typevalue,
-                )
-                .then(response => (res = response.data))
-                .then(() => setRec(_.concat(res[0], res[1])))
-                .catch(err => {
-                  console.log(err);
-                });
-            }, [typevalue]);
+              if (selectedValue.length > 2) {
+                axios
+                  .get(
+                    'https://apisayepirates.life/api/users/recommend_images/' +
+                      String(state_here.MyProfileReducer.myprofile.user.id) +
+                      '/' +
+                      selectedValue,
+                  )
+                  .then(response => (res = response.data))
+                  .then(() => setRec(_.concat(res[0], res[1])))
+                  .catch(err => {
+                    console.log(err);
+                  });
+              } else {
+                axios
+                  .get(
+                    'https://apisayepirates.life/api/users/recommend_images/' +
+                      String(state_here.MyProfileReducer.myprofile.user.id) +
+                      '/' +
+                      typevalue,
+                  )
+                  .then(response => (res = response.data))
+                  .then(() => setRec(_.concat(res[0], res[1])))
+                  .catch(err => {
+                    console.log(err);
+                  });
+              }
+            }, [typevalue, selectedValue]);
 
             return (
               <View
@@ -1334,7 +1350,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     justifyContent: 'center',
                     flexDirection: 'column',
                   }}
+                  autoCorrect={false}
                   onChangeText={changeTypevalue}
+                  onSelectionChange={({nativeEvent: {selection, text}}) => {
+                    changeSelectedValue(
+                      typevalue.slice(selection.start, selection.end),
+                    );
+                  }}
                   value={typevalue}
                   placeholder="type fun stuff..."
                   placeholderTextColor="#666"
