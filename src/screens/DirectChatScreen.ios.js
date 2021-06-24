@@ -1964,6 +1964,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
             width: windowWidth,
             height: 200,
           }}
+          containerStyle={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
           source={require(header_back_image)}
         />
         <BlurView
@@ -2065,22 +2074,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
           keyExtractor: item => item.id,
           numColumns: 2,
         }}
-        FooterComponent={
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'absolute',
-              bottom: 0.2,
-              marginBottom: 10,
-            }}>
-            <Image
-              source={require('../../assets/giphy_branding.png')}
-              style={{backgroundColor: 'black'}}
-            />
-          </View>
-        }
       />
       <Overlay
         isVisible={pasteLinkVisible}
