@@ -865,11 +865,23 @@ function DirectChatScreen({navigation, dispatch, route}) {
     [],
   );
 
+  const [didFrameStart, setDidFrameStart] = useState(false);
+
   const handleMessage = event => {
-    if (messages.includes(event) === false) {
-      addMessage(messages => [...messages, event]);
+    if (messages.length === 0) {
+      setDidFrameStart(true);
+
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
     } else {
-      addMessage(messages);
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
     }
   };
 
@@ -1035,6 +1047,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
+        .then(() => setDidFrameStart(true))
         .then(
           pubnub.publish(
             {
@@ -1054,10 +1067,13 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const InputXXX = useMemo(
     () =>
       function InputXXXx() {
+        const [didFrameStartInside, setDidFrameStartInside] = useState(false);
         useEffect(() => {
           Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
           Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-
+          if (didFrameStart) {
+            setDidFrameStartInside(true);
+          }
           // cleanup function
           return () => {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
@@ -1177,7 +1193,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     'https://apisayepirates.life/api/users/recommend_images/' +
                       String(state_here.MyProfileReducer.myprofile.user.id) +
                       '/' +
-                      selectedValue,
+                      selectedValue +
+                      '/' +
+                      'False',
                   )
                   .then(response => (res = response.data))
                   .then(() => setRec(_.concat(res[0], res[1])))
@@ -1190,7 +1208,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     'https://apisayepirates.life/api/users/recommend_images/' +
                       String(state_here.MyProfileReducer.myprofile.user.id) +
                       '/' +
-                      typevalue,
+                      typevalue +
+                      '/' +
+                      'True',
                   )
                   .then(response => (res = response.data))
                   .then(() => setRec(_.concat(res[0], res[1])))
@@ -1227,7 +1247,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         };
 
         const sendMessageNewFrame = message => {
-          if (messages.length === 0) {
+          if (!didFrameStartInside) {
             if (message) {
               pubnub.publish(
                 {
@@ -1381,6 +1401,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
                         sendMessageOldFrame(typevalue);
                       }
                       changeTypevalue('');
+                      changeSelectedValue('');
+                      setPick('');
                     } else {
                       showMessage({
                         message:
@@ -1397,7 +1419,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
         );
       },
-    [],
+    [didFrameStart],
   );
 
   const [imageSelected, setImageSelected] = useState('beach');
@@ -1537,6 +1559,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
+                  value={textMessage}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>

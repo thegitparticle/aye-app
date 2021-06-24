@@ -81,7 +81,7 @@ function BannerToPushToStartClub() {
             }}>
             <Text
               style={{...theme.text.title_3, color: theme.colors.full_light}}>
-              START
+              start clan
             </Text>
           </SquircleView>
         </Pressable>
@@ -109,7 +109,7 @@ function BannerToPushToStartClub() {
             fillColor: theme.colors.success_green,
           }}>
           <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
-            START
+            start clan
           </Text>
         </SquircleView>
       </Pressable>
@@ -137,7 +137,7 @@ function BannerToPushToStartClub() {
             fillColor: theme.colors.success_green,
           }}>
           <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
-            START
+            start clan
           </Text>
         </SquircleView>
       </Pressable>

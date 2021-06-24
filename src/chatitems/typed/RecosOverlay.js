@@ -24,7 +24,9 @@ function RecosOverlay(props) {
           'https://apisayepirates.life/api/users/recommend_images/' +
             String(props.UserID) +
             '/' +
-            s_word,
+            s_word +
+            '/' +
+            'False',
         )
         .then(response => (res = response.data))
         .then(() => setRec(_.concat(res[0], res[1])))
@@ -37,7 +39,9 @@ function RecosOverlay(props) {
           'https://apisayepirates.life/api/users/recommend_images/' +
             String(props.UserID) +
             '/' +
-            props.TypeValue,
+            props.TypeValue +
+            '/' +
+            'True',
         )
         .then(response => (res = response.data))
         .then(() => setRec(_.concat(res[0], res[1])))

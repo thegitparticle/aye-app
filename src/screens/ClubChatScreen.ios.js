@@ -553,11 +553,23 @@ function ClubChatScreen({navigation, dispatch, route}) {
     [],
   );
 
+  const [didFrameStart, setDidFrameStart] = useState(false);
+
   const handleMessage = event => {
-    if (messages.includes(event) === false) {
-      addMessage(messages => [...messages, event]);
+    if (messages.length === 0) {
+      setDidFrameStart(true);
+
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
     } else {
-      addMessage(messages);
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
     }
   };
 
@@ -714,6 +726,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
+        .then(() => setDidFrameStart(true))
         .then(
           pubnub.publish(
             {
@@ -748,10 +761,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const InputXXX = useMemo(
     () =>
       function InputXXXx() {
+        const [didFrameStartInside, setDidFrameStartInside] = useState(false);
         useEffect(() => {
           Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
           Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-
+          if (didFrameStart) {
+            setDidFrameStartInside(true);
+          }
           // cleanup function
           return () => {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
@@ -816,7 +832,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
         const sendMessageNewFrame = message => {
           console.log('sending message in new frame');
-          if (messages.length === 0) {
+          if (!didFrameStartInside) {
             if (message) {
               pubnub.publish(
                 {
@@ -970,6 +986,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                       }
                       changeTypevalue('');
                       changeSelectedValue('');
+                      setPick('');
                     } else {
                       showMessage({
                         message:
@@ -986,7 +1003,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         );
       },
-    [],
+    [didFrameStart],
   );
 
   const [imageSelected, setImageSelected] = useState('');
