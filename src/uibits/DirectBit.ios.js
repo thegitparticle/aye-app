@@ -72,7 +72,7 @@ function DirectBit(props) {
     return (
       <Badge
         badgeStyle={{
-          backgroundColor: newMessages > 0 ? theme.colors.chat_prime : '',
+          backgroundColor: newMessages > 0 ? '#7D4DF9' : '',
         }}
       />
     );
