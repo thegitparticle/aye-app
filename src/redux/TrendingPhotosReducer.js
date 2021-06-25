@@ -3,8 +3,8 @@ import {ADD_TRENDINGPHOTOS} from './types';
 const INITIAL_STATE = {
   trending_photos: [
     {
-      width: 5030,
-      height: 4024,
+      width: 500,
+      height: 250,
       urls: {
         thumb:
           'https://images.unsplash.com/photo-&fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
