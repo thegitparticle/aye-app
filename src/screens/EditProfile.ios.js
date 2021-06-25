@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import axios from 'axios';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import ThemeContext from '../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -24,6 +25,7 @@ var state_here = {};
 
 function EditProfile({navigation, dispatch}) {
   const [showImagePicked, setShowImagePicked] = useState();
+  const theme = useContext(ThemeContext);
   useEffect(() => {
     dispatch(GetMyProfile(state_here.MyProfileReducer.myprofile.user.phone));
     setShowImagePicked(state_here.MyProfileReducer.myprofile.image);
@@ -38,7 +40,7 @@ function EditProfile({navigation, dispatch}) {
   function SaveChanges() {
     const data = new FormData();
 
-    if (imagePicked !== null) {
+    if (imagePicked !== null && imagePicked) {
       data.append('bio', 'blahed');
       data.append('image', {
         uri: imagePicked,
@@ -49,6 +51,11 @@ function EditProfile({navigation, dispatch}) {
     } else {
       data.append('bio', 'else, blahed');
       data.append('image', imagePicked);
+      showMessage({
+        message: 'A valid image is not selected, try another image',
+        type: 'info',
+        backgroundColor: theme.colors.danger_red,
+      });
     }
 
     var res = {};
