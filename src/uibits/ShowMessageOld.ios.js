@@ -26,85 +26,34 @@ const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
   const pubnub = usePubNub();
-  if (props.Message.meta.type === 'a') {
-    return (
-      <View>
-        <FastImage
-          source={{uri: props.Message.meta.user_dp}}
-          style={styles.b_type_image}>
-          <Autolink style={styles.a_text} text={props.Message.message} />
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.meta.type === 'd') {
-    return (
-      <View style={styles.d_type_image}>
-        <Avatar
-          rounded
-          source={{uri: props.Message.meta.pasted_dp}}
-          size={60}
-          containerStyle={styles.d_avatar}
-        />
-        <View style={styles.d_text_view}>
-          <Autolink style={styles.d_text} text={props.Message.message} />
+  if (props.Message) {
+    if (props.Message.meta.type === 'a') {
+      return (
+        <View>
+          <FastImage
+            source={{uri: props.Message.meta.user_dp}}
+            style={styles.b_type_image}>
+            <Autolink style={styles.a_text} text={props.Message.message} />
+          </FastImage>
         </View>
-      </View>
-    );
-  } else if (props.Message.meta.type === 'b') {
-    return (
-      <View style={styles.b_type_view}>
-        <FastImage
-          source={{
-            uri: pubnub.getFileUrl({
-              channel: props.Message.channel,
-              id: props.Message.message.file.id,
-              name: props.Message.message.file.name,
-            }),
-          }}
-          style={styles.b_type_image}
-        />
-      </View>
-    );
-  } else if (props.Message.meta.type === 'c') {
-    return (
-      <View style={styles.c_type_view}>
-        <FastImage
-          source={{
-            uri: pubnub.getFileUrl({
-              channel: props.Message.channel,
-              id: props.Message.message.file.id,
-              name: props.Message.message.file.name,
-            }),
-          }}
-          style={styles.c_type_image}
-        />
-      </View>
-    );
-  } else if (props.Message.meta.type === 'e') {
-    return (
-      <View style={styles.e_type_view}>
-        <FastImage
-          source={{uri: props.Message.meta.image_url}}
-          style={styles.e_type_image}>
+      );
+    } else if (props.Message.meta.type === 'd') {
+      return (
+        <View style={styles.d_type_image}>
           <Avatar
             rounded
-            source={{uri: props.Message.meta.user_dp}}
+            source={{uri: props.Message.meta.pasted_dp}}
             size={60}
-            containerStyle={styles.e_avatar}
+            containerStyle={styles.d_avatar}
           />
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.meta.type === 'f') {
-    // console.log(props.Message);
-
-    return (
-      <View style={styles.f_type_view}>
-        <FastImage
-          source={{
-            uri: props.Message.meta.image_url,
-          }}
-          style={styles.f_type_image}>
+          <View style={styles.d_text_view}>
+            <Autolink style={styles.d_text} text={props.Message.message} />
+          </View>
+        </View>
+      );
+    } else if (props.Message.meta.type === 'b') {
+      return (
+        <View style={styles.b_type_view}>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -113,77 +62,132 @@ function ShowMessageOld(props) {
                 name: props.Message.message.file.name,
               }),
             }}
-            style={styles.f_type_image_upper}
+            style={styles.b_type_image}
           />
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.meta.type === 'g') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.b_text_view}>
-            <Text style={styles.b_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
+        </View>
+      );
+    } else if (props.Message.meta.type === 'c') {
+      return (
+        <View style={styles.c_type_view}>
+          <FastImage
+            source={{
+              uri: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            }}
+            style={styles.c_type_image}
+          />
+        </View>
+      );
+    } else if (props.Message.meta.type === 'e') {
+      return (
+        <View style={styles.e_type_view}>
+          <FastImage
+            source={{uri: props.Message.meta.image_url}}
+            style={styles.e_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.meta.user_dp}}
+              size={60}
+              containerStyle={styles.e_avatar}
+            />
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.meta.type === 'f') {
+      // console.log(props.Message);
 
-    return (
-      <View style={styles.g_type_view}>
-        <FastImage
-          source={{
-            uri: pubnub.getFileUrl({
-              channel: props.Message.channel,
-              id: props.Message.message.file.id,
-              name: props.Message.message.file.name,
-            }),
-          }}
-          style={styles.g_type_image}>
-          {/* <Avatar
+      return (
+        <View style={styles.f_type_view}>
+          <FastImage
+            source={{
+              uri: props.Message.meta.image_url,
+            }}
+            style={styles.f_type_image}>
+            <FastImage
+              source={{
+                uri: pubnub.getFileUrl({
+                  channel: props.Message.channel,
+                  id: props.Message.message.file.id,
+                  name: props.Message.message.file.name,
+                }),
+              }}
+              style={styles.f_type_image_upper}
+            />
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.meta.type === 'g') {
+      function TextPartHere(props) {
+        var x_here = props.Text;
+        if (x_here.length > 0) {
+          return (
+            <View style={styles.b_text_view}>
+              <Text style={styles.b_text}>{props.Text}</Text>
+            </View>
+          );
+        } else {
+          return <View />;
+        }
+      }
+
+      return (
+        <View style={styles.g_type_view}>
+          <FastImage
+            source={{
+              uri: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            }}
+            style={styles.g_type_image}>
+            {/* <Avatar
             rounded
             source={{uri: props.Message.meta.user_dp}}
             size={60}
             containerStyle={styles.g_avatar}
           />
           <TextPartHere Text={props.Message.message} /> */}
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.meta.type === 'h') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.h_text_view}>
-            <Text style={styles.h_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.meta.type === 'h') {
+      function TextPartHere(props) {
+        var x_here = props.Text;
+        if (x_here.length > 0) {
+          return (
+            <View style={styles.h_text_view}>
+              <Text style={styles.h_text}>{props.Text}</Text>
+            </View>
+          );
+        } else {
+          return <View />;
+        }
       }
-    }
 
-    return (
-      <View style={styles.h_type_view}>
-        <FastImage
-          source={{uri: props.Message.meta.image_url}}
-          style={styles.h_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.meta.user_dp}}
-            size={60}
-            containerStyle={styles.h_avatar}
-          />
-          <TextPartHere Text={props.Message.message} />
-        </FastImage>
-      </View>
-    );
+      return (
+        <View style={styles.h_type_view}>
+          <FastImage
+            source={{uri: props.Message.meta.image_url}}
+            style={styles.h_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.meta.user_dp}}
+              size={60}
+              containerStyle={styles.h_avatar}
+            />
+            <TextPartHere Text={props.Message.message} />
+          </FastImage>
+        </View>
+      );
+    } else {
+      return <View />;
+    }
   } else {
-    return <Text style={styles.text}>{props.Message.message.test}</Text>;
+    return <View />;
   }
 }
 

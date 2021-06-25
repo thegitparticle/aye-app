@@ -9,145 +9,149 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessage(props) {
-  if (props.Message.userMetadata.type === 'a') {
-    return (
-      <View>
-        <FastImage
-          source={{uri: props.Message.userMetadata.user_dp}}
-          style={styles.b_type_image}>
-          <Avatar
-            rounded
+  if (props.Message) {
+    if (props.Message.userMetadata.type === 'a') {
+      return (
+        <View>
+          <FastImage
             source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.a_avatar}
-          />
-          <View style={styles.a_text_view}>
-            <Autolink style={styles.a_text} text={props.Message.message} />
-          </View>
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'd') {
-    return (
-      <View>
-        <View style={styles.d_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.pasted_dp}}
-            size={60}
-            containerStyle={styles.d_avatar}
-          />
-          <View style={styles.d_text_view}>
-            <Autolink style={styles.d_text} text={props.Message.message} />
+            style={styles.b_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.userMetadata.user_dp}}
+              size={60}
+              containerStyle={styles.a_avatar}
+            />
+            <View style={styles.a_text_view}>
+              <Autolink style={styles.a_text} text={props.Message.message} />
+            </View>
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'd') {
+      return (
+        <View>
+          <View style={styles.d_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.userMetadata.pasted_dp}}
+              size={60}
+              containerStyle={styles.d_avatar}
+            />
+            <View style={styles.d_text_view}>
+              <Autolink style={styles.d_text} text={props.Message.message} />
+            </View>
           </View>
         </View>
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'b') {
-    return (
-      <View style={styles.b_type_view}>
-        <FastImage
-          source={{uri: props.Message.file.url}}
-          style={styles.b_type_image}
-        />
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'c') {
-    return (
-      <View style={styles.c_type_view}>
-        <FastImage
-          source={{uri: props.Message.file.url}}
-          style={styles.c_type_image}
-        />
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'e') {
-    return (
-      <View style={styles.e_type_view}>
-        <FastImage
-          source={{uri: props.Message.userMetadata.image_url}}
-          style={styles.e_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.e_avatar}
-          />
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'f') {
-    return (
-      <View style={styles.f_type_view}>
-        <FastImage
-          source={{uri: props.Message.userMetadata.image_url}}
-          style={styles.f_type_image}>
+      );
+    } else if (props.Message.userMetadata.type === 'b') {
+      return (
+        <View style={styles.b_type_view}>
           <FastImage
             source={{uri: props.Message.file.url}}
-            style={styles.f_type_image_upper}
+            style={styles.b_type_image}
           />
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'g') {
-    function TextPartHere(props) {
-      var x_here = props.Text;
-      if (x_here.length > 0) {
-        return (
-          <View style={styles.g_text_view}>
-            <Text style={styles.g_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'c') {
+      return (
+        <View style={styles.c_type_view}>
+          <FastImage
+            source={{uri: props.Message.file.url}}
+            style={styles.c_type_image}
+          />
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'e') {
+      return (
+        <View style={styles.e_type_view}>
+          <FastImage
+            source={{uri: props.Message.userMetadata.image_url}}
+            style={styles.e_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.userMetadata.user_dp}}
+              size={60}
+              containerStyle={styles.e_avatar}
+            />
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'f') {
+      return (
+        <View style={styles.f_type_view}>
+          <FastImage
+            source={{uri: props.Message.userMetadata.image_url}}
+            style={styles.f_type_image}>
+            <FastImage
+              source={{uri: props.Message.file.url}}
+              style={styles.f_type_image_upper}
+            />
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'g') {
+      function TextPartHere(props) {
+        var x_here = props.Text;
+        if (x_here.length > 0) {
+          return (
+            <View style={styles.g_text_view}>
+              <Text style={styles.g_text}>{props.Text}</Text>
+            </View>
+          );
+        } else {
+          return <View />;
+        }
       }
-    }
 
-    return (
-      <View style={styles.g_type_view}>
-        <FastImage
-          source={{uri: props.Message.file.url}}
-          style={styles.g_type_image}>
-          {/* <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.g_avatar}
-          />
-          <TextPartHere Text={props.Message.message} /> */}
-        </FastImage>
-      </View>
-    );
-  } else if (props.Message.userMetadata.type === 'h') {
-    function TextPartHere(props) {
-      if (props.Text.length > 0) {
-        return (
-          <View style={styles.h_text_view}>
-            <Text style={styles.h_text}>{props.Text}</Text>
-          </View>
-        );
-      } else {
-        return <View />;
+      return (
+        <View style={styles.g_type_view}>
+          <FastImage
+            source={{uri: props.Message.file.url}}
+            style={styles.g_type_image}>
+            {/* <Avatar
+              rounded
+              source={{uri: props.Message.userMetadata.user_dp}}
+              size={60}
+              containerStyle={styles.g_avatar}
+            />
+            <TextPartHere Text={props.Message.message} /> */}
+          </FastImage>
+        </View>
+      );
+    } else if (props.Message.userMetadata.type === 'h') {
+      function TextPartHere(props) {
+        if (props.Text.length > 0) {
+          return (
+            <View style={styles.h_text_view}>
+              <Text style={styles.h_text}>{props.Text}</Text>
+            </View>
+          );
+        } else {
+          return <View />;
+        }
       }
-    }
 
-    return (
-      <View style={styles.h_type_view}>
-        <FastImage
-          source={{uri: props.Message.userMetadata.image_url}}
-          style={styles.h_type_image}>
-          <Avatar
-            rounded
-            source={{uri: props.Message.userMetadata.user_dp}}
-            size={60}
-            containerStyle={styles.h_avatar}
-          />
-          <TextPartHere Text={props.Message.message} />
-        </FastImage>
-      </View>
-    );
+      return (
+        <View style={styles.h_type_view}>
+          <FastImage
+            source={{uri: props.Message.userMetadata.image_url}}
+            style={styles.h_type_image}>
+            <Avatar
+              rounded
+              source={{uri: props.Message.userMetadata.user_dp}}
+              size={60}
+              containerStyle={styles.h_avatar}
+            />
+            <TextPartHere Text={props.Message.message} />
+          </FastImage>
+        </View>
+      );
+    } else {
+      return <View />;
+    }
   } else {
-    return <Text style={styles.text}>{props.Message.message}</Text>;
+    return <View />;
   }
 }
 
