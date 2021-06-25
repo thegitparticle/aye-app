@@ -1311,7 +1311,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           pn_gcm: {
             notification: {
               title: otherNameHere,
-              body: 'new messages for you ;)',
+              body: `new messages for you from ${otherNameHere} :)`,
             },
           },
         };
