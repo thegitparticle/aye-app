@@ -185,6 +185,7 @@ function CraftAndSendGifMessage(props) {
             autoCorrect={false}
             autoFocus={true}
             maxLength={140}
+            value={textMessage}
             onChangeText={text => setTextMessage(text)}
           />
         </View>

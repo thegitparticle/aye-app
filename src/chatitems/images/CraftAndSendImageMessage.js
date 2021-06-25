@@ -200,6 +200,7 @@ function CraftAndSendImageMessage(props) {
             autoCorrect={false}
             autoline
             autoFocus={true}
+            value={textMessage}
             maxLength={140}
             onChangeText={text => setTextMessage(text)}
           />

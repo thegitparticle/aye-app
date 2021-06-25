@@ -363,6 +363,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.g_text}
                   multiline
                   autoline
+                  value={textMessage}
                   autoCorrect={false}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
@@ -605,6 +606,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   placeholderTextColor="#fafafa50"
                   style={styles.f_text}
                   multiline
+                  value={textMessage}
                   autoline
                   autoCorrect={false}
                   autoFocus={true}
@@ -1626,6 +1628,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.g_text}
                   multiline
                   autoline
+                  value={textMessage}
                   autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
@@ -1866,6 +1869,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   style={styles.f_text}
                   multiline
                   autoline
+                  value={textMessage}
                   autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}

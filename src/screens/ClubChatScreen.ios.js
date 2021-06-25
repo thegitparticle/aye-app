@@ -349,6 +349,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   autoline
                   maxLength={140}
                   autoCorrect={false}
+                  value={textMessage}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
