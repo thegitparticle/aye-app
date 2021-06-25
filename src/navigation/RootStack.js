@@ -28,7 +28,7 @@ function RootStack() {
       subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
       uuid: state_here.MyProfileReducer.myprofile.user.id,
       heartbeatInterval: 15,
-      // keepAlive: true,
+      keepAlive: true,
       // logVerbosity: true,
     });
 
