@@ -26,6 +26,7 @@ const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
   const pubnub = usePubNub();
+  // console.log(props.Message);
   if (props.Message) {
     if (props.Message.meta.type === 'a') {
       return (

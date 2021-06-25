@@ -9,6 +9,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessage(props) {
+  // console.log(props.Message);
   if (props.Message) {
     if (props.Message.userMetadata.type === 'a') {
       return (

@@ -1575,7 +1575,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         };
         const sendMessageOldFrame = (shot, message) => {
           if (message) {
-            pubnub.publish(
+            pubnub.sendFile(
               {
                 channel: channelsHere[0],
                 message: {
@@ -1632,7 +1632,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
-                  value={textMessage}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
