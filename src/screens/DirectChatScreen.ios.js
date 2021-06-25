@@ -110,35 +110,35 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block_empty = [
     {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
       },
     },
     {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
       },
     },
     {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
       },
     },
     {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
       },
     },
   ];
@@ -2119,9 +2119,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
         }
         flatListProps={{
           data:
-            trending_photos_data_block.length > 2
-              ? trending_photos_data_block
-              : trending_photos_data_block_empty,
+            // trending_photos_data_block.length <= 0
+            // ? // trending_photos_data_block[0].width === 500
+            // trending_photos_data_block_empty
+            trending_photos_data_block,
           renderItem: RenderTrendingPhotos,
           keyExtractor: item => item.id,
           numColumns: 2,
@@ -2146,10 +2147,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data:
-            trending_gifs_data_block.length > 2
-              ? trending_gifs_data_block
-              : trending_gifs_data_block_empty,
+          data: trending_gifs_data_block,
           renderItem: RenderTrendingGifs,
           keyExtractor: item => item.id,
           numColumns: 2,

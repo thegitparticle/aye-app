@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   trending_gifs: [
     {
       images: {
-        downsized_still: {
+        fixed_height_small: {
           url:
             'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq/giphy.gif?cid=60184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
         },

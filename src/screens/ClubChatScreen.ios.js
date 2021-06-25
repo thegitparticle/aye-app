@@ -1263,10 +1263,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data:
-            trending_photos_data_block.length > 2
-              ? trending_photos_data_block
-              : trending_photos_data_block_empty,
+          data: trending_photos_data_block,
           renderItem: RenderTrendingPhotos,
           keyExtractor: item => item.id,
           numColumns: 2,
@@ -1291,10 +1288,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data:
-            trending_gifs_data_block.length > 2
-              ? trending_gifs_data_block
-              : trending_gifs_data_block_empty,
+          data: trending_gifs_data_block,
           renderItem: RenderTrendingGifsHere,
           keyExtractor: item => item.id,
           numColumns: 2,
