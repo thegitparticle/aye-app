@@ -46,11 +46,6 @@ function RootStack() {
         '729c55a7e5799a281daa17e4a1d3f8f3',
       );
       setMixpanel(initializedMixpanel);
-      console.log(
-        String(state_here.MyProfileReducer.myprofile.user.id) +
-          'mixpanel which id goes',
-      );
-      mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
     };
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useContext, useEffect} from 'react';
 import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import _ from 'lodash';
 import PushSetup from './PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {useNavigation} from '@react-navigation/native';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -31,6 +32,14 @@ function ClubsHomeD({dispatch}) {
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
     }, [dispatch, refreshing]),
   );
+
+  const mixpanel = useContext(MixpanelContext);
+  useEffect(() => {
+    if (mixpanel) {
+      mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
+    } else {
+    }
+  }, [mixpanel]);
 
   useFocusEffect(
     React.useCallback(() => {
