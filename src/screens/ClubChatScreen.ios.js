@@ -108,8 +108,78 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
 
+  var trending_gifs_data_block_empty = [
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+  ];
+
   var trending_photos_data_block =
     state_here.TrendingPhotosReducer.trending_photos;
+
+  var trending_photos_data_block_empty = [
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+  ];
 
   function LeftHeaderComponent() {
     return (
@@ -1192,7 +1262,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data: trending_photos_data_block,
+          data:
+            trending_photos_data_block.length > 2
+              ? trending_photos_data_block
+              : trending_photos_data_block_empty,
           renderItem: RenderTrendingPhotos,
           keyExtractor: item => item.id,
           numColumns: 2,
@@ -1217,7 +1290,10 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data: trending_gifs_data_block,
+          data:
+            trending_gifs_data_block.length > 2
+              ? trending_gifs_data_block
+              : trending_gifs_data_block_empty,
           renderItem: RenderTrendingGifsHere,
           keyExtractor: item => item.id,
           numColumns: 2,
