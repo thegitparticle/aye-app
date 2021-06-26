@@ -1,21 +1,30 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, View} from 'react-native';
-import {Image} from 'react-native-elements';
-import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
+import {Dimensions, Pressable, Linking, Text} from 'react-native';
+import {ImageBackground} from 'react-native-elements';
+import {DoubleBounce} from 'react-native-loader';
 
-//const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function RenderSearchedImageItem(props) {
   return (
-    <Image
+    <ImageBackground
       source={{uri: props.Item.item.urls.thumb}}
       style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
       PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
-      placeholderStyle={{backgroundColor: '#050505'}}
-    />
+      placeholderStyle={{backgroundColor: '#050505'}}>
+      <Pressable
+        onPress={() => {
+          Linking.openURL(props.Item.item.user.links.html);
+        }}>
+        <Text style={{fontFamily: 'GothamRounded-Light', fontSize: 11}}>
+          by {props.Item.item.user.name} on unsplash
+        </Text>
+      </Pressable>
+    </ImageBackground>
   );
 }
 
 export default RenderSearchedImageItem;
+
+////https://api.unsplash.com/photos/a0TJ3hy-UD8/download/?client_id=kJLvNUiTzhjWDxf2a2plyRFdbHbjD9MT84insrzOu9Q
