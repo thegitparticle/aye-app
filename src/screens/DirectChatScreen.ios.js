@@ -85,6 +85,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
 
+  const name_of_craftsman =
+    state_here.MyProfileReducer.myprofile.user.full_name;
+
   const [messages, addMessage] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
   const [old_messages, addOldMessages] = useState();
@@ -1312,8 +1315,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
         var new_message_notif_payload = {
           pn_gcm: {
             notification: {
-              title: otherNameHere,
-              body: `new messages for you from ${otherNameHere} :)`,
+              title: name_of_craftsman,
+              body: `new messages for you from ${name_of_craftsman} :)`,
             },
           },
         };

@@ -508,6 +508,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               ChannelOnGoing={channelOnGoing}
               Messages={messages}
               ChannelID={channelsHere[0]}
+              ClubName={clubNameHere}
               ClubID={clubID}
               ToggleOverlay={cameraPickerCraftOverlay}
             />
@@ -532,6 +533,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           Messages={messages}
           ChannelID={channelsHere[0]}
           ClubID={clubID}
+          ClubName={clubNameHere}
           ToggleOverlay={togglePasteLinkOverlay}
         />
       </View>
@@ -1102,6 +1104,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               Messages={messages}
               ChannelID={channelsHere[0]}
               ClubID={clubID}
+              ClubName={clubNameHere}
               ToggleOverlay={imageSelectorCraftOverlay}
             />
           </Overlay>
@@ -1152,6 +1155,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               Messages={messages}
               ChannelID={channelsHere[0]}
               ClubID={clubID}
+              ClubName={clubNameHere}
               ToggleOverlay={gifSelectorCraftOverlay}
             />
           </Overlay>

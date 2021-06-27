@@ -34,7 +34,7 @@ function CraftAndSendGifMessage(props) {
     var new_frame_notif_payload = {
       pn_gcm: {
         notification: {
-          title: props.ChannelID,
+          title: props.ClubName,
           body: 'new frame started',
         },
       },

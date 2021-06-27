@@ -35,7 +35,7 @@ function CraftAndSendImageMessage(props) {
     var new_frame_notif_payload = {
       pn_gcm: {
         notification: {
-          title: props.ChannelID,
+          title: props.ClubName,
           body: 'new frame started',
         },
       },
@@ -255,7 +255,7 @@ function CraftAndSendImageMessage(props) {
                   HandleGoingBack();
                 })
                 .then(uri => {
-                  console.log('Image saved to', uri);
+                  // console.log('Image saved to', uri);
                 });
             }}>
             <IconlyDirectIcon Color={theme.colors.success_green} />

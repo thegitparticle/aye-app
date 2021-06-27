@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, Pressable, Linking, Text} from 'react-native';
+import {Dimensions, Pressable, Linking, Text, Image} from 'react-native';
 import {ImageBackground} from 'react-native-elements';
 import {DoubleBounce} from 'react-native-loader';
 
@@ -8,20 +8,12 @@ const windowWidth = Dimensions.get('window').width;
 
 function RenderSearchedImageItem(props) {
   return (
-    <ImageBackground
+    <Image
       source={{uri: props.Item.item.urls.thumb}}
       style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
       PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
-      placeholderStyle={{backgroundColor: '#050505'}}>
-      <Pressable
-        onPress={() => {
-          Linking.openURL(props.Item.item.user.links.html);
-        }}>
-        <Text style={{fontFamily: 'GothamRounded-Light', fontSize: 11}}>
-          by {props.Item.item.user.name} on unsplash
-        </Text>
-      </Pressable>
-    </ImageBackground>
+      placeholderStyle={{backgroundColor: '#050505'}}
+    />
   );
 }
 

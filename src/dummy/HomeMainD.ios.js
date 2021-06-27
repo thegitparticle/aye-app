@@ -207,7 +207,7 @@ function HomeMainD({dispatch, navigation}) {
             containerStyle={styles.update_button_container}
             titleStyle={styles.update_button_title}
             title="Update"
-            onPress={() => Linking.openURL('http://bit.ly/aye_ios_store_link')}
+            onPress={() => Linking.openURL('https://bit.ly/aye_app_store')}
           />
         </View>
       </Overlay>
