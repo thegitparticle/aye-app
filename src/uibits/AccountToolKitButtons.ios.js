@@ -12,7 +12,7 @@ function AccountToolKitButtons() {
     <View style={styles.third_block_view}>
       <Pressable
         style={styles.edit_icon_view_wrap}
-        onPress={() => navigation.navigate('EditProfile')}>
+        onPress={() => navigation.navigate('Network')}>
         <Image
           source={require('/Users/san/Desktop/toastgo/assets/edit_icon.png')}
           style={styles.edit_icon}
