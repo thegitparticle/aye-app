@@ -23,7 +23,7 @@ function HeaderAtHome({dispatch}) {
             <View style={styles.header_left_image_wrap}>
               <FastImage
                 style={styles.header_left_image}
-                source={require('/Users/san/Desktop/toastgo/assets/bubblaye3.png')}
+                source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
               />
             </View>
           </Pressable>

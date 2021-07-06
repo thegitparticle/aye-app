@@ -1,8 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
   const navigation = useNavigation();
@@ -31,32 +34,39 @@ function DormantClubBit(props) {
     return <View />;
   } else {
     return (
-      <Pressable
-        style={styles.overall_view}
-        onPress={() =>
-          navigation.navigate('ClubInteractionScreens', {
-            screen: 'ClubChatScreen',
-            params: {
-              clubNameHere: props.Club.club_name,
-              channelIdHere: props.Club.pn_channel_id,
-              channelOnGoing: props.Club.on_going_frame,
-              channelStartTime: props.Club.start_time,
-              channelEndTime: props.Club.end_time,
-              clubID: props.Club.club_id,
-            },
-          })
-        }>
-        <FastImage
-          source={{uri: props.Club.club_profile_pic}}
-          style={styles.avatar_of_club}
-          size={68}
-        />
-        <View style={styles.text_block_view}>
-          <Text style={styles.name_of_club}>{props.Club.club_name}</Text>
+      <View
+      // style={({pressed}) => [
+      //   {
+      //     backgroundColor: pressed ? '#eee' : 'white',
+      //   },
+      //   styles.pressable_view,
+      // ]}
+      // onPress={() =>
+      //   navigation.navigate('ClubInteractionScreens', {
+      //     screen: 'ClubChatScreen',
+      //     params: {
+      //       clubNameHere: props.Club.club_name,
+      //       channelIdHere: props.Club.pn_channel_id,
+      //       channelOnGoing: props.Club.on_going_frame,
+      //       channelStartTime: props.Club.start_time,
+      //       channelEndTime: props.Club.end_time,
+      //       clubID: props.Club.club_id,
+      //     },
+      //   })
+      >
+        <View style={styles.overall_view_under}>
+          <FastImage
+            source={{uri: props.Club.club_profile_pic}}
+            style={styles.avatar_of_club}
+            size={68}
+          />
+          <View style={styles.text_block_view}>
+            <Text style={styles.name_of_club}>{props.Club.club_name}</Text>
 
-          <OnGoingFrameText Status={props.Club.on_going_frame} />
+            <OnGoingFrameText Status={props.Club.on_going_frame} />
+          </View>
         </View>
-      </Pressable>
+      </View>
     );
   }
 }
@@ -86,9 +96,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
   },
-  overall_view: {
+
+  overall_view_under: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginHorizontal: 10,
+    width: windowWidth - 40,
+    // height: 60,
   },
   text_block_view: {
     flexDirection: 'column',

@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2604834726834F6E00ACCA66 /* libReactNativeART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2604834626834F6E00ACCA66 /* libReactNativeART.a */; };
 		264D828F2617ACA800C1EE45 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264D828E2617ACA800C1EE45 /* File.swift */; };
 		264EB1EB263316C200950BBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 264EB1EA263316C200950BBD /* GoogleService-Info.plist */; };
 		26A1D07C264D37A8005961A1 /* Filem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D07B264D37A8005961A1 /* Filem.swift */; };
@@ -24,6 +25,7 @@
 		26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		91EDD0203BD5DD3611462675 /* libPods-toastgo-toastgoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */; };
+		AB69484D4E4D40B09F310123 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11456C7045434C5D8AA77A58 /* icomoon.ttf */; };
 		DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2C998B38596D239FCA3457 /* libPods-toastgo.a */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* toastgoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = toastgoTests.m; sourceTree = "<group>"; };
 		08A618BE8F694F0C92E16B8F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		11456C7045434C5D8AA77A58 /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* toastgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toastgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = toastgo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = toastgo/AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-toastgoTests.release.xcconfig"; path = "Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-LightItalic.otf"; path = "../assets/fonts/GothamRounded-LightItalic.otf"; sourceTree = "<group>"; };
 		2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-toastgo-toastgoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2604834626834F6E00ACCA66 /* libReactNativeART.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReactNativeART.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		264D828D2617ACA700C1EE45 /* toastgo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "toastgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		264D828E2617ACA800C1EE45 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		264EB1EA263316C200950BBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2604834726834F6E00ACCA66 /* libReactNativeART.a in Frameworks */,
 				DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +170,7 @@
 				1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */,
 				BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */,
 				2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */,
+				11456C7045434C5D8AA77A58 /* icomoon.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -172,6 +178,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2604834626834F6E00ACCA66 /* libReactNativeART.a */,
 				26C3B500263DB85D0031FEB5 /* libRNSpringScrollView.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				CF2C998B38596D239FCA3457 /* libPods-toastgo.a */,
@@ -332,6 +339,7 @@
 				264EB1EB263316C200950BBD /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AB69484D4E4D40B09F310123 /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,9 +577,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
@@ -580,7 +588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -593,7 +601,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go";
 				PRODUCT_NAME = toastgo;
-				PROVISIONING_PROFILE_SPECIFIER = toastgosqaure;
+				PROVISIONING_PROFILE_SPECIFIER = toastgodis;
 				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -608,9 +616,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
 				INFOPLIST_FILE = toastgo/Info.plist;
@@ -618,7 +626,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -627,7 +635,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go";
 				PRODUCT_NAME = toastgo;
-				PROVISIONING_PROFILE_SPECIFIER = toastgosqaure;
+				PROVISIONING_PROFILE_SPECIFIER = toastgodis;
 				SWIFT_OBJC_BRIDGING_HEADER = "toastgo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -683,7 +691,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -740,7 +748,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

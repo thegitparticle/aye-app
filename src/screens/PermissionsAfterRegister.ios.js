@@ -1,13 +1,23 @@
-import React, {useEffect} from 'react';
-import {Text, StyleSheet, Dimensions, SafeAreaView, Image} from 'react-native';
-import {Button} from 'react-native-elements';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useContext} from 'react';
+import {
+  Text,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  Image,
+  Pressable,
+} from 'react-native';
+import LottieView from 'lottie-react-native';
 import {connect} from 'react-redux';
 import {LOGIN} from '../redux/types';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import {GetMyProfile} from '../redux/MyProfileActions';
 import messaging from '@react-native-firebase/messaging';
-import {upperCase} from 'lodash';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -15,6 +25,7 @@ const windowHeight = Dimensions.get('window').height;
 var state_here = {};
 
 function PermissionsAfterRegister({dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const {phone, iso_code} = route.params;
 
   useEffect(() => {
@@ -67,22 +78,53 @@ function PermissionsAfterRegister({dispatch, route}) {
 
   return (
     <SafeAreaView style={styles.view}>
-      <Button
-        title="ALLOW CONTACTS"
-        buttonStyle={styles.button}
-        titleStyle={styles.button_text}
+      <Pressable
+        style={{
+          marginVertical: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
         onPress={() => {
+          ReactNativeHapticFeedback.trigger('impactHeavy', {
+            enableVibrateFallback: true,
+            ignoreAndroidSystemSettings: false,
+          });
           requestUserPermission();
           GrabContacts();
           dispatch({type: LOGIN});
-        }}
-      />
-      <Text style={styles.text}>
-        allowing your contacts helps you find your friends faster
+        }}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.8,
+            height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 15,
+            fillColor: theme.colors.success_green,
+          }}>
+          <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+            ALLOW CONTACTS
+          </Text>
+        </SquircleView>
+      </Pressable>
+      <Text
+        style={{
+          ...theme.text.header,
+          textAlign: 'center',
+          color: theme.colors.full_light,
+          marginHorizontal: windowWidth * 0.1,
+        }}>
+        allowing access to your contacts helps you find your friends faster
       </Text>
-      <Image
-        source={require('/Users/san/Desktop/toastgo/assets/clip-141.png')}
-        style={styles.graphic_here}
+
+      <LottieView
+        source={require('/Users/san/Desktop/toastgo/assets/friends_hifi.json')}
+        autoPlay
+        loop
+        style={{width: windowWidth * 0.8, height: windowHeight * 0.5}}
       />
     </SafeAreaView>
   );
@@ -96,17 +138,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(PermissionsAfterRegister);
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#50E3C2',
-    width: 300,
-    height: 50,
-    borderRadius: 25,
-  },
-  button_text: {
-    fontSize: 17,
-    fontFamily: 'GothamRounded-Medium',
-    color: '#050505',
-  },
   view: {
     flex: 1,
     backgroundColor: '#050505',

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -15,6 +15,8 @@ import _ from 'lodash';
 import axios from 'axios';
 import IconlyBackChevronDown from '../uibits/IconlyBackChevronDown';
 import {showMessage, hideMessage} from 'react-native-flash-message';
+import ThemeContext from '../themes/Theme';
+import Iconly from '../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -22,6 +24,7 @@ const windowWidth = Dimensions.get('window').width;
 var mystatehere = {};
 
 function InvitePeopleToClub({dispatch, navigation, route}) {
+  const theme = useContext(ThemeContext);
   const {club_id} = route.params;
   const [grabedContacts, setGrabedContacts] = useState();
 
@@ -39,7 +42,11 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
       <Pressable
         style={styles.right_header_view}
         onPress={() => navigation.goBack()}>
-        <IconlyBackChevronDown />
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
+        />
       </Pressable>
     );
   }
@@ -185,9 +192,9 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
 
   useEffect(() => {
     let newListHere = contacts_list_from_server.filter(
-      item => !item.name.search(contactsSearch),
+      item => !item.name.toLowerCase().search(contactsSearch.toLowerCase()),
     );
-    console.log(newListHere);
+    // console.log(newListHere);
     setSearchedList(newListHere);
   }, [contactsSearch]);
 

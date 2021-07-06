@@ -60,6 +60,18 @@ function MyProfileModalScreens() {
         component={MyProfileScreen}
       />
       <MyProfileStack.Screen name="EditProfile" component={EditProfile} />
+      {/* <MyProfileStack.Screen
+        name="Network"
+        component={Network}
+        options={{
+          gestureEnabled: true,
+          transitionSpec: {
+            open: TransitionSpecs.TransitionIOSSpec,
+            close: TransitionSpecs.TransitionIOSSpec,
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      /> */}
       <MyProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </MyProfileStack.Navigator>
   );

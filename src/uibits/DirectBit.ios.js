@@ -1,12 +1,20 @@
-import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {Icon} from 'react-native-elements';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext, useState} from 'react';
+import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
+import {Icon, Badge} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
+import {MMKV} from 'react-native-mmkv';
+import {usePubNub} from 'pubnub-react';
+import ThemeContext from '../themes/Theme';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 function DirectBit(props) {
-  const navigation = useNavigation();
-  //console.log(props.Direct);
+  // const navigation = useNavigation();
+  const theme = useContext(ThemeContext);
+  const pubnub = usePubNub();
 
   function UnreadStatus(props) {
     if (props.Status) {
@@ -38,35 +46,62 @@ function DirectBit(props) {
     return <View />;
   } else {
   }
-  return (
-    <Pressable
-      style={styles.overall_view}
-      onPress={() =>
-        navigation.navigate('DirectInteractionScreens', {
-          screen: 'DirectChatScreen',
-          params: {
-            otherNameHere: props.Direct.display_guys.full_name,
-            //channelIdHere: props.club_id.toString() + '_c',
-            directIdHere: props.Direct.direct_channel_id,
-            channelOnGoing: props.Direct.ongoing_frame,
-            channelStartTime: props.Direct.start_time,
-            channelEndTime: props.Direct.end_time,
-          },
-        })
-      }>
-      <FastImage
-        source={{uri: props.Direct.display_guys.profile_picture}}
-        style={styles.avatar_of_club}
-        size={68}
-      />
-      <View style={styles.text_block_view}>
-        <Text style={styles.name_of_other_person}>
-          {props.Direct.display_guys.full_name}
-        </Text>
 
-        <UnreadStatus Status={props.Direct.ongoing_frame} />
+  function NewMessageOrNot() {
+    const last_seen = MMKV.getNumber(props.Direct.direct_channel_id);
+
+    const [newMessages, setNewMessages] = useState(0);
+    // console.log(last_seen);
+
+    if (last_seen !== 0) {
+      pubnub.messageCounts(
+        {
+          channels: [props.Direct.direct_channel_id],
+          channelTimetokens: [String(last_seen * 10000000)],
+        },
+        (status, results) => {
+          if (results) {
+            var more_messages =
+              results.channels[props.Direct.direct_channel_id];
+            setNewMessages(more_messages);
+          }
+        },
+      );
+    }
+
+    return (
+      <Badge
+        badgeStyle={{
+          backgroundColor: newMessages > 0 ? '#7D4DF9' : '',
+        }}
+      />
+    );
+  }
+
+  return (
+    <View style={styles.overall_view}>
+      <View style={{flexDirection: 'row'}}>
+        <FastImage
+          source={{uri: props.Direct.display_guys.profile_picture}}
+          style={styles.avatar_of_club}
+          size={68}
+        />
+        <View style={styles.text_block_view}>
+          <Text style={styles.name_of_other_person}>
+            {props.Direct.display_guys.full_name}
+          </Text>
+          <UnreadStatus Status={props.Direct.ongoing_frame} />
+        </View>
       </View>
-    </Pressable>
+      <View
+        style={{
+          width: windowWidth * 0.1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <NewMessageOrNot />
+      </View>
+    </View>
   );
 }
 
@@ -100,6 +135,9 @@ const styles = StyleSheet.create({
   overall_view: {
     flexDirection: 'row',
     marginHorizontal: 10,
+    width: windowWidth - 40,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   text_block_view: {
     flexDirection: 'column',

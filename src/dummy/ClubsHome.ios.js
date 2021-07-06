@@ -1,5 +1,5 @@
-import React, {useState, useCallback} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useCallback, useContext, useEffect} from 'react';
+import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -11,12 +11,18 @@ import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from './PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
+import {useNavigation} from '@react-navigation/native';
+import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
   const pubnub = usePubNub();
+  const navigation = useNavigation();
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -26,6 +32,14 @@ function ClubsHomeD({dispatch}) {
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
     }, [dispatch, refreshing]),
   );
+
+  const mixpanel = useContext(MixpanelContext);
+  useEffect(() => {
+    if (mixpanel) {
+      mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
+    } else {
+    }
+  }, [mixpanel]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -43,6 +57,7 @@ function ClubsHomeD({dispatch}) {
 
   function CheckOnGoing() {
     setDorClubs([]);
+    setLiveClubs([]);
     for (var i = 0; i < my_clubs.length; i++) {
       const club_here = my_clubs[i];
 
@@ -77,7 +92,21 @@ function ClubsHomeD({dispatch}) {
             <View>
               <ListItem
                 bottomDivider
-                containerStyle={styles.list_item_container}>
+                underlayColor="#EEEEEE"
+                containerStyle={styles.list_item_container}
+                onPress={() => {
+                  navigation.navigate('ClubInteractionScreens', {
+                    screen: 'ClubChatScreen',
+                    params: {
+                      clubNameHere: item.club_name,
+                      channelIdHere: item.pn_channel_id,
+                      channelOnGoing: item.on_going_frame,
+                      channelStartTime: item.start_time,
+                      channelEndTime: item.end_time,
+                      clubID: item.club_id,
+                    },
+                  });
+                }}>
                 <DormantClubBit Club={item} />
               </ListItem>
             </View>
@@ -127,13 +156,14 @@ function ClubsHomeD({dispatch}) {
       isRefreshing={refreshing}
       animationBackgroundColor={'#FFFFFF'}
       onRefresh={memoizedHandleRefresh}
-      pullHeight={180}
+      pullHeight={100}
       contentView={
         <ScrollView
           style={styles.overall_view}
           showsVerticalScrollIndicator={false}>
           <RenderClubsHere />
           <PushSetup />
+
           <BannerToPushToStartClub />
         </ScrollView>
       }
@@ -157,6 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     borderColor: '#05050510',
+    width: windowWidth,
   },
   overall_view: {flex: 1, overflow: 'visible', backgroundColor: '#FFF'},
 });

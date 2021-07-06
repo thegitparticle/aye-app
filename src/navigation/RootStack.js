@@ -27,7 +27,9 @@ function RootStack() {
       publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
       subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
       uuid: state_here.MyProfileReducer.myprofile.user.id,
-      //logVerbosity: true,
+      heartbeatInterval: 10,
+      keepAlive: true,
+      // logVerbosity: true,
     });
 
     pubnub.objects.setUUIDMetadata({
@@ -44,20 +46,6 @@ function RootStack() {
         '729c55a7e5799a281daa17e4a1d3f8f3',
       );
       setMixpanel(initializedMixpanel);
-      console.log(
-        String(state_here.MyProfileReducer.myprofile.user.id) +
-          'mixpanel which id goes',
-      );
-      mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
-      // mixpanel.identify('lol');
-      //const distinctId = await mixpanel.getDistinctId();
-      /*
-      mixpanel.alias(
-        String(state_here.MyProfileReducer.myprofile.user.id),
-        //'xxx',
-        distinctId,
-      );
-      */
     };
 
     useEffect(() => {

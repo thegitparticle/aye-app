@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactApplication;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.bolan9999.SpringScrollViewPackage;
 import com.bolan9999.SpringScrollViewPackage;
 import com.bolan9999.SpringScrollViewPackage;

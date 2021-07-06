@@ -4,6 +4,7 @@ import NudgeToBit from '../uibits/NudgeToBit';
 import {ListItem} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
+import {useNavigation} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 //const windowWidth = Dimensions.get('window').width;
@@ -12,6 +13,7 @@ var state_here = {};
 
 function NudgeToList({dispatch}) {
   var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
+  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
@@ -19,7 +21,15 @@ function NudgeToList({dispatch}) {
 
   function RenderItem(props) {
     return (
-      <ListItem bottomDivider containerStyle={styles.list_item_container}>
+      <ListItem
+        bottomDivider
+        containerStyle={styles.list_item_container}
+        underlayColor="#EEEEEE"
+        onPress={() =>
+          navigation.navigate('OtherProfile', {
+            other_user_id: props.NudgeTo.id,
+          })
+        }>
         <NudgeToBit NudgeTo={props.NudgeTo} />
       </ListItem>
     );

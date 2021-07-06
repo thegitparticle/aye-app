@@ -2,7 +2,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '12.1'
 
 target 'toastgo' do
   config = use_native_modules!
@@ -27,6 +27,10 @@ pod 'Firebase/Analytics'
 
 
 
+  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
+  # pod 'RNSelectableText', :path => '../node_modules/@astrocoders/react-native-selectable-text/ios/RNSelectableText.podspec'
+
   target 'toastgoTests' do
     inherit! :complete
     # Pods for testing
@@ -38,7 +42,8 @@ pod 'Firebase/Analytics'
   # you should disable the next line.
   #use_flipper!()
 
-  post_install do |installer|
-    react_native_post_install(installer)
-  end
+	post_install do |installer|
+			react_native_post_install(installer)
+			
+	end
 end

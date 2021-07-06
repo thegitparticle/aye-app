@@ -1,7 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Pressable} from 'react-native';
-import BetterImage from 'react-native-better-image';
+import {Pressable, View} from 'react-native';
+import {Image} from 'react-native-elements';
+import {BlurView} from '@react-native-community/blur';
+import LinearGradient from 'react-native-linear-gradient';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 
 function EachRecoItem(props) {
   function HandleSettingChosenMedia(link) {
@@ -20,8 +23,8 @@ function EachRecoItem(props) {
       onPress={() => {
         HandleSettingChosenMedia(props.Item);
       }}>
-      <BetterImage
-        viewStyle={{
+      <Image
+        style={{
           width: 125,
           height: 72.5,
           borderRadius: 10,
@@ -29,12 +32,18 @@ function EachRecoItem(props) {
         source={{
           uri: props.Item,
         }}
-        thumbnailSource={{
-          uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-        }}
-        fallbackSource={{
-          uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-        }}
+        PlaceholderContent={
+          <ContentLoader
+            speed={2}
+            width={125}
+            height={72.5}
+            viewBox="0 0 125 72.5"
+            backgroundColor="#FFFFFF"
+            foregroundColor="#CCCCCC"
+            {...props}>
+            <Rect x="0" y="0" rx="0" ry="0" width="125" height="72.5" />
+          </ContentLoader>
+        }
       />
     </Pressable>
   );

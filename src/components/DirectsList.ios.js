@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import DirectBit from '../uibits/DirectBit';
 import {ListItem} from 'react-native-elements';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {usePubNub} from 'pubnub-react';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
@@ -13,8 +13,9 @@ const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
-function DirectsList({dispatch, navigation}) {
+function DirectsList({dispatch}) {
   const pubnub = usePubNub();
+  const navigation = useNavigation();
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
 
@@ -30,7 +31,23 @@ function DirectsList({dispatch, navigation}) {
 
   function RenderItem(props) {
     return (
-      <ListItem bottomDivider containerStyle={styles.list_item_container}>
+      <ListItem
+        bottomDivider
+        containerStyle={styles.list_item_container}
+        underlayColor="#EEEEEE"
+        onPress={() =>
+          navigation.navigate('DirectInteractionScreens', {
+            screen: 'DirectChatScreen',
+            params: {
+              otherNameHere: props.Direct.display_guys.full_name,
+              //channelIdHere: props.club_id.toString() + '_c',
+              directIdHere: props.Direct.direct_channel_id,
+              channelOnGoing: props.Direct.ongoing_frame,
+              channelStartTime: props.Direct.start_time,
+              channelEndTime: props.Direct.end_time,
+            },
+          })
+        }>
         <DirectBit Direct={props.Direct} />
       </ListItem>
     );
@@ -82,5 +99,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     borderColor: '#05050510',
+    width: windowWidth,
   },
 });

@@ -9,24 +9,47 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function RecosOverlay(props) {
-  const [rec, setRec] = useState(['loading', 'loading', 'loading', 'loading']);
+  const [rec, setRec] = useState(['', '', '', '']);
 
   var res = [];
 
   useEffect(() => {
-    axios
-      .get(
-        'https://apisayepirates.life/api/users/recommend_images/' +
-          String(props.UserID) +
-          '/' +
-          props.TypeValue,
-      )
-      .then(response => (res = response.data))
-      .then(() => setRec(_.concat(res[0], res[1])))
-      .catch(err => {
-        console.log(err);
-      });
-  }, [props.TypeValue]);
+    console.log(props.TypeValue + ' ' + 'TYPE VALUE');
+
+    var s_word = props.SelectedValue;
+
+    if (s_word.length > 2) {
+      axios
+        .get(
+          'https://apisayepirates.life/api/users/recommend_images/' +
+            String(props.UserID) +
+            '/' +
+            s_word +
+            '/' +
+            'False',
+        )
+        .then(response => (res = response.data))
+        .then(() => setRec(_.concat(res[0], res[1])))
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .get(
+          'https://apisayepirates.life/api/users/recommend_images/' +
+            String(props.UserID) +
+            '/' +
+            props.TypeValue +
+            '/' +
+            'True',
+        )
+        .then(response => (res = response.data))
+        .then(() => setRec(_.concat(res[0], res[1])))
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [props.TypeValue, props.SelectedValue]);
 
   function HandleSettingChosenMedia(link) {
     props.SetChosenMedia(link);

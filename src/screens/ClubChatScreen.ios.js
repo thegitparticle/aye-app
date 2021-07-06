@@ -11,20 +11,10 @@ import {
   Image,
   Keyboard,
   KeyboardAvoidingView,
-  SafeAreaView,
-  Platform,
   Pressable,
 } from 'react-native';
-import {
-  Overlay,
-  Icon,
-  Header,
-  Avatar,
-  SearchBar,
-  Button,
-} from 'react-native-elements';
+import {Overlay, Icon, Header, Avatar, SearchBar} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import Clipboard from '@react-native-clipboard/clipboard';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
@@ -38,7 +28,6 @@ import ShowMessageOld from '../uibits/ShowMessageOld';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
-import BetterImage from 'react-native-better-image';
 import {showMessage} from 'react-native-flash-message';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
@@ -48,11 +37,16 @@ import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
 import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
 import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessage';
 import CraftAndSendCameraMessage from '../chatitems/camera/CraftAndSendCameraMessage';
-import CraftAndSendGalleryMessage from '../chatitems/gallery/CraftAndSendGalleryMessage';
 import CraftAndSendLinkMessage from '../chatitems/links/CraftAndSendLinkMessage';
-import EachRecoItem from '../chatitems/typed/EachRecoItem';
 import RecosOverlay from '../chatitems/typed/RecosOverlay';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
+import Draggable from 'react-native-draggable';
+import ViewShot, {captureRef} from 'react-native-view-shot';
+import ThemeContext from '../themes/Theme';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
+import Iconly from '../pnstuff/Iconly';
+import {MMKV} from 'react-native-mmkv';
+// import {SelectableText} from '@astrocoders/react-native-selectable-text';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -71,6 +65,7 @@ const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function ClubChatScreen({navigation, dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const {
     clubID,
@@ -113,13 +108,89 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
 
+  var trending_gifs_data_block_empty = [
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+  ];
+
   var trending_photos_data_block =
     state_here.TrendingPhotosReducer.trending_photos;
+
+  var trending_photos_data_block_empty = [
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+  ];
 
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() =>
           navigation.navigate('ClubFramesList', {
             club_id: clubID,
@@ -127,7 +198,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             club_name: clubNameHere,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="layers" />
+        <Icon type="feather" color={theme.colors.off_dark} name="layers" />
       </Pressable>
     );
   }
@@ -135,9 +206,22 @@ function ClubChatScreen({navigation, dispatch, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
-        onPress={() => navigation.goBack()}>
-        <Icon type="feather" color={font_color_header} name="chevron-down" />
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
+        onPress={() => {
+          navigation.goBack();
+          MMKV.set(channelIdHere, dayjs().unix());
+        }}>
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
+        />
       </Pressable>
     );
   }
@@ -148,16 +232,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         <Text style={styles.center_header_club_name}>
           {clubNameHere.substring(0, 14)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
   }
@@ -169,163 +243,104 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const imagePickerCraftOverlay = () => {
     setImagePickerCraftVisible(!imagePickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function ImagePickerOverlayInput() {
-    return (
-      <Overlay
-        isVisible={imagePickerCraftVisible}
-        onBackdropPress={imagePickerCraftOverlay}
-        overlayStyle={styles.image_picker_craft_overlay}>
-        <SafeAreaView>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imagePickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <CraftAndSendGalleryMessage
-            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-            SelectedGalleryShot={imagePicked}
-            SelectedGalleryShotName={imagePickedName}
-            SelectedGalleryShotMime={imagePickedMime}
-            ChannelOnGoing={channelOnGoing}
-            Messages={messages}
-            ChannelID={channelsHere[0]}
-            ClubID={clubID}
-            ToggleOverlay={imagePickerCraftOverlay}
-          />
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+  const ImagePickerOverlayInputX = useMemo(
+    () =>
+      function ImagePickerOverlayInput() {
+        const [textMessage, setTextMessage] = useState('');
+        const sendMessageNewFrame = (shot, message) => {
+          if (messages.length === 0) {
+            console.log('new frame, no live messsages here');
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'jpg',
+                },
+                meta: {
+                  type: 'b',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                StartFrame();
+                console.log(status + response);
+              },
+            );
+          } else {
+            console.log('new frame, yes live messsages here');
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'jpg',
+                },
+                meta: {
+                  type: 'b',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                console.log(status + response);
+              },
+            );
+          }
+        };
+        const sendMessageOldFrame = (shot, message) => {
+          console.log('old frame, yes messages');
+          pubnub.sendFile(
+            {
+              channel: channelsHere[0],
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'jpg',
+              },
+              meta: {
+                type: 'b',
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+                view_shot: shot,
+              },
+            },
+            function (status, response) {
+              console.log(status + response);
+            },
+          );
+        };
 
-  function ImagePickerOverlayInputX() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      console.log('sending picked image - new frames');
-      if (messages.length === 0) {
-        console.log('no live messsages here');
-        //if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
-            },
-            meta: {
-              type: 'b',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            StartFrame();
-            console.log(status);
-          },
-        );
-
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
-      } else {
-        console.log('yes live messsages here');
-        //if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
-            },
-            meta: {
-              type: 'b',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        //} else {
-        //}
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending picked image - old frame');
-      //if (message) {
-      pubnub.sendFile(
-        {
-          channel: channelsHere[0],
-          message: {
-            test: message,
-            //value: 42
-          },
-          file: {
-            uri: imagePicked,
-            name: imagePickedName,
-            mimeType: imagePickedMime,
-          },
-          meta: {
-            type: 'b',
-            user_dp: state_here.MyProfileReducer.myprofile.image,
-          },
-        },
-        function (status, response) {
-          console.log(status);
-        },
-      );
-      //.catch(err => console.log(err));
-      // } else {
-      //}
-    };
-
-    return (
-      <Overlay
-        isVisible={imagePickerCraftVisible}
-        onBackdropPress={imagePickerCraftOverlay}
-        overlayStyle={styles.image_picker_craft_overlay}>
-        <SafeAreaView style={styles.image_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imagePickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imagePicked}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
-              />
-              <View style={styles.g_text_view}>
+        function Children() {
+          return (
+            <View>
+              <View
+                style={{
+                  backgroundColor: '#ffffff',
+                  alignSelf: 'flex-start',
+                  left: windowWidth * 0.05 + 30,
+                  right: windowWidth * 0.05,
+                  padding: 10,
+                  borderBottomRightRadius: 15,
+                  borderTopRightRadius: 15,
+                  borderTopLeftRadius: 15,
+                  maxWidth: windowWidth * 0.8,
+                  opacity: textOpacity,
+                }}>
                 <TextInput
                   placeholder="type..."
                   placeholderTextColor="#fafafa50"
@@ -333,38 +348,137 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   multiline
                   autoline
                   maxLength={140}
+                  autoCorrect={false}
+                  value={textMessage}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.g_avatar}
+              />
             </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
+          );
+        }
 
-                Keyboard.dismiss;
-                setTextMessage('');
-                imagePickerCraftOverlay();
-                setImagePicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+        const viewShotGalleryRef = useRef(null);
+
+        const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+        return (
+          <Overlay
+            isVisible={imagePickerCraftVisible}
+            onBackdropPress={imagePickerCraftOverlay}
+            overlayStyle={styles.image_picker_craft_overlay}>
+            <View style={styles.image_picker_craft_items_view}>
+              <Header
+                backgroundColor="#131313"
+                containerStyle={{borderBottomWidth: 0}}
+                barStyle="light-content"
+                leftComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-start',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => imagePickerCraftOverlay()}>
+                    <IconlyCloseSquareIcon />
+                  </Pressable>
+                }
+                rightComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-end',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => {
+                      if (textMessage.length === 0) {
+                        setTextOpacity(0, textOpacity => {
+                          if (textOpacity === 0) {
+                            Keyboard.dismiss();
+                            // console.log('first' + textOpacity);
+
+                            captureRef(viewShotGalleryRef, {
+                              format: 'jpg',
+                              quality: 0.9,
+                            })
+                              .then(uri => {
+                                if (!channelOnGoing) {
+                                  sendMessageNewFrame(uri);
+                                } else {
+                                  sendMessageOldFrame(uri);
+                                }
+                                Keyboard.dismiss;
+                                imagePickerCraftOverlay();
+                                setImagePicked('');
+                              })
+                              .then(uri => {
+                                console.log('Image saved to', uri);
+                              });
+                          } else {
+                            Keyboard.dismiss();
+                            // console.log('second' + textOpacity);
+                          }
+                        });
+                      } else {
+                        Keyboard.dismiss();
+                        captureRef(viewShotGalleryRef, {
+                          format: 'jpg',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (!channelOnGoing) {
+                              sendMessageNewFrame(uri);
+                            } else {
+                              sendMessageOldFrame(uri);
+                            }
+                            Keyboard.dismiss;
+                            imagePickerCraftOverlay();
+                            setImagePicked('');
+                          })
+                          .then(uri => {
+                            console.log('Image saved to', uri);
+                          });
+                      }
+                    }}>
+                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                  </Pressable>
+                }
+              />
+              <ViewShot
+                ref={viewShotGalleryRef}
+                options={{format: 'jpg', quality: 0.9}}>
+                <FastImage
+                  style={{
+                    width: windowWidth,
+                    height: undefined,
+                    aspectRatio: 1,
+                    marginVertical: windowHeight * 0.01,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                  }}
+                  source={{uri: imagePicked}}>
+                  <Draggable
+                    children={Children()}
+                    x={0}
+                    y={windowWidth * 0.7}
+                    minX={windowWidth * 0.0}
+                    minY={windowHeight * 0.01}
+                    maxX={windowWidth * 0.8}
+                    maxY={windowWidth}
+                  />
+                </FastImage>
+              </ViewShot>
+            </View>
+          </Overlay>
+        );
+      },
+    [imagePickerCraftVisible, imagePicked],
+  );
 
   const [cameraPicked, setCameraPicked] = useState('');
   const [cameraPickedMime, setCameraPickedMime] = useState('');
@@ -375,39 +489,34 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const cameraPickerCraftOverlay = () => {
     setCameraPickerCraftVisible(!cameraPickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function CameraPickerOverlayInput() {
-    return (
-      <Overlay
-        isVisible={cameraPickerCraftVisible}
-        onBackdropPress={cameraPickerCraftOverlay}
-        overlayStyle={styles.camera_picker_craft_overlay}>
-        <SafeAreaView>
-          <Pressable
-            style={{
-              alignSelf: 'flex-end',
-              marginHorizontal: 10,
-              height: windowHeight * 0.05,
-            }}
-            onPress={() => cameraPickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <CraftAndSendCameraMessage
-            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-            SelectedCameraShot={cameraPicked}
-            SelectedCameraShotName={cameraPickedName}
-            SelectedCameraShotMime={cameraPickedMime}
-            ChannelOnGoing={channelOnGoing}
-            Messages={messages}
-            ChannelID={channelsHere[0]}
-            ClubID={clubID}
-            ToggleOverlay={cameraPickerCraftOverlay}
-          />
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+  const CameraPickerOverlayInput = useMemo(
+    () =>
+      function CameraPickerOverlayInputX() {
+        return (
+          <Overlay
+            isVisible={cameraPickerCraftVisible}
+            onBackdropPress={cameraPickerCraftOverlay}
+            overlayStyle={styles.camera_picker_craft_overlay}>
+            <CraftAndSendCameraMessage
+              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+              SelectedCameraShot={cameraPicked}
+              SelectedCameraShotName={cameraPickedName}
+              SelectedCameraShotMime={cameraPickedMime}
+              ChannelOnGoing={channelOnGoing}
+              Messages={messages}
+              ChannelID={channelsHere[0]}
+              ClubName={clubNameHere}
+              ClubID={clubID}
+              ToggleOverlay={cameraPickerCraftOverlay}
+            />
+          </Overlay>
+        );
+      },
+    [cameraPickerCraftVisible, cameraPicked],
+  );
 
   const [pasteLinkVisible, setPasteLinkVisible] = useState(false);
 
@@ -424,6 +533,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           Messages={messages}
           ChannelID={channelsHere[0]}
           ClubID={clubID}
+          ClubName={clubNameHere}
           ToggleOverlay={togglePasteLinkOverlay}
         />
       </View>
@@ -444,6 +554,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
               onPress={() => {
                 ImagePicker.openCamera({
                   cropping: true,
+                  compressImageQuality: 1,
+                  width: 1200, // Add this
+                  height: 1500, // Add this
                 }).then(image => {
                   console.log(image);
                   setCameraPicked(image.path);
@@ -513,38 +626,25 @@ function ClubChatScreen({navigation, dispatch, route}) {
     [],
   );
 
-  const handleMessage = event => {
-    if (messages.includes(event) === false) {
-      addMessage(messages => [...messages, event]);
-    } else {
-      addMessage(messages);
-    }
-  };
+  const [didFrameStart, setDidFrameStart] = useState(false);
 
-  const handleHereNowResponse = event => {
-    function InternalHandle(res) {
-      if (res) {
-        var people_here = res.channels[channelIdHere].occupants;
-        setLiveWho(people_here);
+  const handleMessage = event => {
+    if (messages.length === 0) {
+      setDidFrameStart(true);
+
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
+    } else {
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
       }
     }
-    pubnub.hereNow(
-      {
-        channels: [channelIdHere],
-        includeUUIDs: true,
-        includeState: true,
-      },
-      (status, response) => {
-        InternalHandle(response);
-      },
-    );
   };
-
-  useEffect(() => {
-    handleHereNowResponse();
-  }, []);
-
-  // console.log('Is the entire thing re-loading when dispatching?');
 
   useEffect(() => {
     pubnub.subscribe({channels: channelsHere});
@@ -553,10 +653,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         {
           channels: [channelsHere],
           includeMeta: true,
-          //end: nowTimeStamp,
           end: dayjs().valueOf(),
-          //end: '1620948809' + '0000000',
-          //start: '1620905609' + '0000000',
           count: 25, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
@@ -586,13 +683,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
       );
     }
     pubnub.addListener({message: handleMessage});
-    //pubnub.addListener({presence: handleHereNowResponse});
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
   const LiveMessagesView = useMemo(
     () =>
       function LiveMessagesViewX() {
+        // console.log(old_messages);
         const scrollView = useRef();
 
         if (!old_messages_resolve) {
@@ -617,7 +714,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   scrollView.current.scrollToEnd({animated: true})
                 }>
                 {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                  <ShowMessage Message={message} />
+                  <Pressable onPress={() => Keyboard.dismiss()}>
+                    <ShowMessage Message={message} />
+                  </Pressable>
                 ))}
               </ScrollView>
             );
@@ -635,7 +734,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     scrollView.current.scrollToEnd({animated: true})
                   }>
                   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                    <ShowMessage Message={message} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={message} />
+                    </Pressable>
                   ))}
                 </ScrollView>
               );
@@ -654,10 +755,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     scrollView.current.scrollToEnd({animated: true})
                   }>
                   {old_messages.channels[channelIdHere].map((item, index) => (
-                    <ShowMessageOld Message={item} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessageOld Message={item} />
+                    </Pressable>
                   ))}
                   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                    <ShowMessage Message={message} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={message} />
+                    </Pressable>
                   ))}
                 </ScrollView>
               );
@@ -694,6 +799,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
+        .then(() => setDidFrameStart(true))
         .then(
           pubnub.publish(
             {
@@ -710,234 +816,268 @@ function ClubChatScreen({navigation, dispatch, route}) {
     }
   }
 
-  function InputXXX() {
-    useEffect(() => {
-      Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
-      Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-
-      // cleanup function
-      return () => {
-        Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-        Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
-      };
-    }, []);
-
-    const [typevalue, changeTypevalue] = useState('');
-
-    const [pick, setPick] = useState('');
-
-    const [keyboardStatus, setKeyboardStatus] = useState(false);
-
-    const _keyboardDidShow = () => {
-      setKeyboardStatus(true);
-    };
-    const _keyboardDidHide = () => {
-      setKeyboardStatus(false);
-    };
-
-    function SetChosenMedia(image_link) {
-      setPick(image_link);
-    }
-
-    function SetChosenMediaEmpty() {}
-
-    function RecoOverLayHereShow() {
-      if (keyboardStatus) {
-        return (
-          <View
-            keyboardShouldPersistTaps={'always'}
-            style={{
-              flexDirection: 'row',
-              width: windowWidth,
-              alignItems: 'center',
-            }}>
-            <ChosenRecoItem Link={pick} />
-            <RecosOverlay
-              UserID={state_here.MyProfileReducer.myprofile.user.id}
-              TypeValue={typevalue}
-              SetChosenMediaEmpty={SetChosenMediaEmpty}
-              SetChosenMedia={SetChosenMedia}
-            />
-          </View>
-        );
+  function CheckFrameLapsedOrNot() {
+    if (typeof channelEndTime === 'number') {
+      if (channelEndTime > dayjs().unix()) {
       } else {
-        return <View />;
+        showMessage({
+          message: 'Oops! frame expired.',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+        navigation.goBack();
       }
+    } else {
     }
+  }
 
-    var new_message_notif_payload = {
-      pn_gcm: {
-        notification: {
-          title: clubNameHere,
-          body: 'new messages for you...',
-        },
-      },
-    };
+  const InputXXX = useMemo(
+    () =>
+      function InputXXXx() {
+        const [didFrameStartInside, setDidFrameStartInside] = useState(false);
+        useEffect(() => {
+          Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+          Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+          if (didFrameStart) {
+            setDidFrameStartInside(true);
+          }
+          // cleanup function
+          return () => {
+            Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+            Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+          };
+        }, []);
 
-    const sendMessageNewFrame = message => {
-      console.log('sending message in new frame');
-      if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'h',
+        const [typevalue, changeTypevalue] = useState('');
+        const [selectedValue, changeSelectedValue] = useState('');
 
-                image_url: pick,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
-              StartFrame(response.timetoken);
-            },
-          );
-        } else {
+        const [pick, setPick] = useState('');
+
+        const [keyboardStatus, setKeyboardStatus] = useState(false);
+
+        const _keyboardDidShow = () => {
+          setKeyboardStatus(true);
+          CheckFrameLapsedOrNot();
+        };
+        const _keyboardDidHide = () => {
+          setKeyboardStatus(false);
+        };
+
+        function SetChosenMedia(image_link) {
+          setPick(image_link);
         }
-      } else {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'h',
-                image_url: pick,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
+
+        function SetChosenMediaEmpty() {}
+
+        function RecoOverLayHereShow() {
+          if (keyboardStatus) {
+            return (
+              <View
+                keyboardShouldPersistTaps={'always'}
+                style={{
+                  flexDirection: 'row',
+                  width: windowWidth,
+                  alignItems: 'center',
+                }}>
+                <ChosenRecoItem Link={pick} />
+                <RecosOverlay
+                  UserID={state_here.MyProfileReducer.myprofile.user.id}
+                  TypeValue={typevalue}
+                  SelectedValue={selectedValue}
+                  SetChosenMediaEmpty={SetChosenMediaEmpty}
+                  SetChosenMedia={SetChosenMedia}
+                />
+              </View>
+            );
+          } else {
+            return <View />;
+          }
+        }
+
+        var new_message_notif_payload = {
+          pn_gcm: {
+            notification: {
+              title: clubNameHere,
+              body: 'new messages for you...',
             },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
+          },
+        };
+
+        const sendMessageNewFrame = message => {
+          console.log('sending message in new frame');
+          if (!didFrameStartInside) {
+            if (message) {
               pubnub.publish(
                 {
-                  channel: channelIdHere + '_push',
-                  message: new_message_notif_payload,
+                  channel: channelsHere[0],
+                  message,
+                  meta: {
+                    type: 'h',
+
+                    image_url: pick,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
                 },
                 function (status, response) {
                   console.log(status);
+                  console.log(response);
+                  StartFrame(response.timetoken);
                 },
               );
-            },
-          );
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending message in old frame');
-      if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'h',
-              image_url: pick,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-            console.log(response);
+            } else {
+            }
+          } else {
+            if (message) {
+              pubnub.publish(
+                {
+                  channel: channelsHere[0],
+                  message,
+                  meta: {
+                    type: 'h',
+                    image_url: pick,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
+                },
+                function (status, response) {
+                  console.log(status);
+                  console.log(response);
+                  pubnub.publish(
+                    {
+                      channel: channelIdHere + '_push',
+                      message: new_message_notif_payload,
+                    },
+                    function (status, response) {
+                      console.log(status);
+                    },
+                  );
+                },
+              );
+            } else {
+            }
+          }
+        };
+        const sendMessageOldFrame = message => {
+          console.log('sending message in old frame');
+          if (message) {
             pubnub.publish(
               {
-                channel: channelIdHere + '_push',
-                message: new_message_notif_payload,
+                channel: channelsHere[0],
+                message,
+                meta: {
+                  type: 'h',
+                  image_url: pick,
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                },
               },
               function (status, response) {
                 console.log(status);
+                console.log(response);
+                pubnub.publish(
+                  {
+                    channel: channelIdHere + '_push',
+                    message: new_message_notif_payload,
+                  },
+                  function (status, response) {
+                    console.log(status);
+                  },
+                );
               },
             );
-          },
-        );
-      } else {
-      }
-    };
+          } else {
+          }
+        };
 
-    return (
-      <View
-        keyboardShouldPersistTaps="always"
-        style={{
-          backgroundColor: 'transparent',
-          borderColor: input_border_color,
-          minHeight: 55,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <RecoOverLayHereShow />
-
-        <View style={styles.textinputview}>
+        return (
           <View
+            keyboardShouldPersistTaps="always"
             style={{
-              backgroundColor: input_background_color,
-              borderWidth: 1,
+              backgroundColor: 'transparent',
               borderColor: input_border_color,
-
-              height: 55,
-              width: windowWidth * 0.95,
-
-              flexDirection: 'row',
+              minHeight: 55,
               alignItems: 'center',
-              borderRadius: 15,
-              minHeight: 45,
+              justifyContent: 'center',
             }}>
-            <AutoGrowingTextInput
-              style={{
-                fontSize: 16,
-                fontFamily: 'GothamRounded-Medium',
-                color: font_color_input,
-                paddingHorizontal: 10,
-                marginLeft: 10,
-                width: windowWidth * 0.8,
-                backgroundColor: 'transparent',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}
-              onChangeText={changeTypevalue}
-              value={typevalue}
-              placeholder="type fun stuff..."
-              placeholderTextColor="#666"
-              multiline={true}
-              maxLength={140}
-            />
+            <RecoOverLayHereShow />
 
-            <Pressable
-              style={{
-                height: 30,
-                width: windowWidth * 0.1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              //disabled={ ? false : true}
-              onPress={() => {
-                Keyboard.dismiss;
-                if (pick.length > 0) {
-                  if (!channelOnGoing) {
-                    sendMessageNewFrame(typevalue);
-                  } else {
-                    sendMessageOldFrame(typevalue);
-                  }
-                  changeTypevalue('');
-                } else {
-                  showMessage({
-                    message: 'Please choose an image or gif to send message!',
-                    type: 'info',
-                    backgroundColor: 'indianred',
-                  });
-                }
-              }}>
-              <IconlyDirectIcon Color={'#36B37E'} />
-            </Pressable>
+            <View style={styles.textinputview}>
+              <View
+                style={{
+                  backgroundColor: input_background_color,
+                  borderWidth: 1,
+                  borderColor: input_border_color,
+
+                  height: 55,
+                  width: windowWidth * 0.95,
+
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  borderRadius: 15,
+                  minHeight: 45,
+                }}>
+                <AutoGrowingTextInput
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'GothamRounded-Medium',
+                    color: font_color_input,
+                    paddingHorizontal: 10,
+                    marginLeft: 10,
+                    width: windowWidth * 0.8,
+                    backgroundColor: 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                  }}
+                  onChangeText={changeTypevalue}
+                  value={typevalue}
+                  autoCorrect={false}
+                  placeholder="type fun stuff..."
+                  placeholderTextColor="#666"
+                  onSelectionChange={({nativeEvent: {selection, text}}) => {
+                    changeSelectedValue(
+                      typevalue.slice(selection.start, selection.end),
+                    );
+                  }}
+                  multiline={true}
+                  maxLength={140}
+                />
+
+                <Pressable
+                  style={{
+                    height: 30,
+                    width: windowWidth * 0.1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  //disabled={ ? false : true}
+                  onPress={() => {
+                    Keyboard.dismiss;
+                    if (pick.length > 0) {
+                      if (!channelOnGoing) {
+                        sendMessageNewFrame(typevalue);
+                      } else {
+                        sendMessageOldFrame(typevalue);
+                      }
+                      changeTypevalue('');
+                      changeSelectedValue('');
+                      setPick('');
+                    } else {
+                      showMessage({
+                        message:
+                          'Please choose an image or gif to send message!',
+                        type: 'info',
+                        backgroundColor: 'indianred',
+                      });
+                    }
+                  }}>
+                  <IconlyDirectIcon Color={'#36B37E'} />
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    );
-  }
+        );
+      },
+    [didFrameStart],
+  );
 
   const [imageSelected, setImageSelected] = useState('');
   const [imageSelectorCraftVisible, setImageSelectorCraftVisible] = useState(
@@ -946,37 +1086,32 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const imageSelectorCraftOverlay = () => {
     setImageSelectorCraftVisible(!imageSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function ImageSelectorOverlayInputHere() {
-    return (
-      <Overlay
-        isVisible={imageSelectorCraftVisible}
-        onBackdropPress={imageSelectorCraftOverlay}
-        overlayStyle={styles.image_selector_craft_overlay}>
-        <SafeAreaView>
-          <Pressable
-            style={{
-              alignSelf: 'flex-end',
-              marginHorizontal: 10,
-              height: windowHeight * 0.05,
-            }}
-            onPress={() => imageSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <CraftAndSendImageMessage
-            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-            SelectedImage={imageSelected}
-            ChannelOnGoing={channelOnGoing}
-            Messages={messages}
-            ChannelID={channelsHere[0]}
-            ClubID={clubID}
-            ToggleOverlay={imageSelectorCraftOverlay}
-          />
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+  const ImageSelectorOverlayInputHere = useMemo(
+    () =>
+      function ImageSelectorOverlayInputHereX() {
+        return (
+          <Overlay
+            isVisible={imageSelectorCraftVisible}
+            onBackdropPress={imageSelectorCraftOverlay}
+            overlayStyle={styles.image_selector_craft_overlay}>
+            <CraftAndSendImageMessage
+              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+              SelectedImage={imageSelected}
+              ChannelOnGoing={channelOnGoing}
+              Messages={messages}
+              ChannelID={channelsHere[0]}
+              ClubID={clubID}
+              ClubName={clubNameHere}
+              ToggleOverlay={imageSelectorCraftOverlay}
+            />
+          </Overlay>
+        );
+      },
+    [imageSelected, imageSelectorCraftVisible],
+  );
 
   const [imageSearch, changeImageSearch] = useState('beach');
 
@@ -1002,37 +1137,32 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const gifSelectorCraftOverlay = () => {
     setGifSelectorCraftVisible(!gifSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function GIFSelectorOverlayInputHere() {
-    return (
-      <Overlay
-        isVisible={gifSelectorCraftVisible}
-        onBackdropPress={gifSelectorCraftOverlay}
-        overlayStyle={styles.gif_selector_craft_overlay}>
-        <SafeAreaView>
-          <Pressable
-            style={{
-              alignSelf: 'flex-end',
-              marginHorizontal: 10,
-              height: windowHeight * 0.05,
-            }}
-            onPress={() => gifSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <CraftAndSendGifMessage
-            ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-            SelectedGIF={gifSelected}
-            ChannelOnGoing={channelOnGoing}
-            Messages={messages}
-            ChannelID={channelsHere[0]}
-            ClubID={clubID}
-            ToggleOverlay={gifSelectorCraftOverlay}
-          />
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+  const GIFSelectorOverlayInputHere = useMemo(
+    () =>
+      function GIFSelectorOverlayInputHereX() {
+        return (
+          <Overlay
+            isVisible={gifSelectorCraftVisible}
+            onBackdropPress={gifSelectorCraftOverlay}
+            overlayStyle={styles.gif_selector_craft_overlay}>
+            <CraftAndSendGifMessage
+              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
+              SelectedGIF={gifSelected}
+              ChannelOnGoing={channelOnGoing}
+              Messages={messages}
+              ChannelID={channelsHere[0]}
+              ClubID={clubID}
+              ClubName={clubNameHere}
+              ToggleOverlay={gifSelectorCraftOverlay}
+            />
+          </Overlay>
+        );
+      },
+    [gifSelected, gifSelectorCraftVisible],
+  );
 
   const [gifsSearch, changeGifSearch] = useState('love');
 
@@ -1292,7 +1422,6 @@ const styles = StyleSheet.create({
   },
   center_header_view: {flexDirection: 'column'},
   center_header_club_name: {
-    //color: '#050505',
     color: font_color_header,
     fontFamily: 'GothamRounded-Bold',
     fontSize: 21,
@@ -1455,7 +1584,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   f_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   f_type_view: {
@@ -1480,7 +1609,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   g_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   g_type_view: {
@@ -1505,7 +1634,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   b_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   b_type_view: {
@@ -1531,7 +1660,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   c_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   c_type_view: {

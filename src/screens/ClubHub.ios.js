@@ -34,6 +34,8 @@ import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {BlurView} from '@react-native-community/blur';
 import {usePubNub} from 'pubnub-react';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import Iconly from '../pnstuff/Iconly';
+import ThemeContext from '../themes/Theme';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -46,6 +48,7 @@ const windowWidth = Dimensions.get('window').width;
 var statehere = {};
 
 function ClubHub({dispatch, navigation, route}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const {club_id, club_name} = route.params;
   const [clubDetails, setClubDetails] = useState({});
@@ -90,9 +93,15 @@ function ClubHub({dispatch, navigation, route}) {
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() => navigation.navigate('ClubFramesList')}>
-        <Icon type="feather" color={font_color_header} name="layers" />
+        <Icon type="feather" color={theme.colors.off_dark} name="layers" />
       </Pressable>
     );
   }
@@ -100,9 +109,19 @@ function ClubHub({dispatch, navigation, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() => navigation.navigate('Here')}>
-        <Icon type="feather" color={font_color_header} name="chevron-down" />
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
+        />
       </Pressable>
     );
   }
@@ -113,16 +132,6 @@ function ClubHub({dispatch, navigation, route}) {
         <Text style={styles.center_header_club_name}>
           {club_name.substring(0, 13)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
   }

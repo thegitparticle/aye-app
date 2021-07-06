@@ -61,9 +61,14 @@ function ViewOldFrameClub({route, navigation}) {
     if (!old_messages_resolve) {
       return <View />;
     } else {
-      return old_messages.channels[
-        String(channel_id) + '_c'
-      ].map((item, index) => <ShowMessageOld Message={item} />);
+      var x_here = old_messages.channels[String(channel_id) + '_c'];
+      if (x_here.length > 0) {
+        return old_messages.channels[
+          String(channel_id) + '_c'
+        ].map((item, index) => <ShowMessageOld Message={item} />);
+      } else {
+        return <View />;
+      }
     }
   }
 

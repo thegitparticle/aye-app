@@ -8,6 +8,9 @@ import {GetDirectsList} from '../redux/DirectsListActions';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
+import {Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -19,6 +22,8 @@ function NudgeToBit(props) {
 
   //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
 
+  const navigation = useNavigation();
+
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
 
@@ -29,7 +34,6 @@ function NudgeToBit(props) {
       message: 'Starting a conversation 3..2..1.. hooray!',
       type: 'info',
       backgroundColor: 'mediumseagreen',
-      //backgroundColor: 'indianred',
     });
 
     axios
@@ -43,7 +47,12 @@ function NudgeToBit(props) {
           '/',
       )
       .then(response => (res = response.data))
-
+      .then(() => {
+        ReactNativeHapticFeedback.trigger('impactHeavy', {
+          enableVibrateFallback: true,
+          ignoreAndroidSystemSettings: false,
+        });
+      })
       .then(() => {
         dispatch(GetDirectsList(current_user_id));
         dispatch(dispatch(GetMyNudgeToList(current_user_id)));

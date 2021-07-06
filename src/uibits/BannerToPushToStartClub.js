@@ -1,9 +1,19 @@
-import React from 'react';
-import {StyleSheet, View, ImageBackground, Dimensions} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext} from 'react';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Dimensions,
+  Text,
+  Pressable,
+} from 'react-native';
 import {Button} from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
+import LottieView from 'lottie-react-native';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -11,33 +21,126 @@ const windowWidth = Dimensions.get('window').width;
 var state_here = {};
 
 function BannerToPushToStartClub() {
+  const theme = useContext(ThemeContext);
   const navigation = useNavigation();
 
-  if (state_here.MyClubsReducer.myclubs.length <= 2) {
+  if (state_here.MyClubsReducer.myclubs.length === 0) {
     return (
-      <ImageBackground
-        style={styles.banner_view}
-        imageStyle={{borderRadius: 20}}
-        source={require('/Users/san/Desktop/toastgo/assets/clan_banner_1.png')}>
-        <Button
-          clear
-          buttonStyle={styles.start_club_button_style}
-          containerStyle={styles.start_club_button_container_style}
-          titleStyle={styles.start_club_button_title_style}
-          title="start clan"
-          onPress={() => navigation.navigate('StartClub')}
+      <View style={styles.empty_banner_view}>
+        <LottieView
+          source={require('/Users/san/Desktop/toastgo/assets/dancing_blob.json')}
+          autoPlay
+          loop
+          style={{
+            width: windowWidth * 0.9,
+            height: windowHeight * 0.3,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginVertical: windowHeight * 0.015,
+          }}
         />
-      </ImageBackground>
+        <Text
+          style={{
+            ...theme.text.title_3,
+            color: theme.colors.mid_dark,
+            maxWidth: windowWidth * 0.9,
+            textAlign: 'center',
+            marginVertical: windowHeight * 0.015,
+          }}>
+          Aye is the most fun way to talk with your bestie groups!!!
+        </Text>
+        <Text
+          style={{
+            ...theme.text.header,
+            color: theme.colors.mid_dark,
+            opacity: 0.5,
+            maxWidth: windowWidth * 0.9,
+            textAlign: 'center',
+            marginVertical: windowHeight * 0.015,
+          }}>
+          Start a clan with your besties now!
+        </Text>
+        <Pressable
+          style={{
+            marginVertical: windowHeight * 0.05,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => navigation.navigate('StartClub')}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.8,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 15,
+              fillColor: theme.colors.success_green,
+            }}>
+            <Text
+              style={{...theme.text.title_3, color: theme.colors.full_light}}>
+              start clan
+            </Text>
+          </SquircleView>
+        </Pressable>
+      </View>
+    );
+  } else if (state_here.MyClubsReducer.myclubs.length <= 3) {
+    return (
+      <Pressable
+        style={{
+          marginVertical: windowHeight * 0.05,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={() => navigation.navigate('StartClub')}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.8,
+            height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 15,
+            fillColor: theme.colors.success_green,
+          }}>
+          <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+            start clan
+          </Text>
+        </SquircleView>
+      </Pressable>
     );
   } else {
     return (
-      <Button
-        buttonStyle={styles.start_club_button_style_more}
-        containerStyle={styles.start_club_button_container_style_more}
-        titleStyle={styles.start_club_button_title_style_more}
-        title="start clan"
-        onPress={() => navigation.navigate('StartClub')}
-      />
+      <Pressable
+        style={{
+          marginTop: windowHeight * 0.05,
+          marginBottom: windowHeight * 0.2,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={() => navigation.navigate('StartClub')}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.8,
+            height: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 15,
+            fillColor: theme.colors.success_green,
+          }}>
+          <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
+            start clan
+          </Text>
+        </SquircleView>
+      </Pressable>
     );
   }
 }
@@ -50,6 +153,12 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(BannerToPushToStartClub);
 
 const styles = StyleSheet.create({
+  empty_banner_view: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: windowHeight * 0.7,
+  },
   banner_view: {
     backgroundColor: '#36b37e',
     marginVertical: windowHeight * 0.1,

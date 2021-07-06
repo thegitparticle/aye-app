@@ -8,13 +8,10 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
-  Image,
+  // Image,
   Keyboard,
   KeyboardAvoidingView,
-  SafeAreaView,
-  Platform,
   Pressable,
-  ImageBackground,
 } from 'react-native';
 import {
   Icon,
@@ -23,6 +20,7 @@ import {
   Avatar,
   SearchBar,
   Button,
+  Image,
 } from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {showMessage} from 'react-native-flash-message';
@@ -41,10 +39,18 @@ import _ from 'lodash';
 import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
 import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
-import BetterImage from 'react-native-better-image';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
+import Draggable from 'react-native-draggable';
+import ViewShot, {captureRef} from 'react-native-view-shot';
+import ThemeContext from '../themes/Theme';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
+import Iconly from '../pnstuff/Iconly';
+import LinearGradient from 'react-native-linear-gradient';
+import {MMKV} from 'react-native-mmkv';
+import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
+import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -63,6 +69,7 @@ const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
 
 function DirectChatScreen({navigation, dispatch, route}) {
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const {
     otherNameHere,
@@ -78,18 +85,10 @@ function DirectChatScreen({navigation, dispatch, route}) {
     mixpanel.track('Opened Directs Chat Screen');
   }, []);
 
-  /*
-
-  useEffect(() => {
-    pubnub.objects.removeMemberships({
-      channels: ['4_undefined_d'],
-    });
-  }, []);
-
-  */
+  const name_of_craftsman =
+    state_here.MyProfileReducer.myprofile.user.full_name;
 
   const [messages, addMessage] = useState([]);
-  const [liveMembers, setLiveMembers] = useState([]);
   const [nowTimeStamp, setNowTimeStamp] = useState('');
   const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
@@ -112,21 +111,96 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
 
+  var trending_gifs_data_block_empty = [
+    {
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
+      },
+    },
+    {
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
+      },
+    },
+    {
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
+      },
+    },
+    {
+      images: {
+        fixed_height_small: {
+          url:
+            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
+        },
+      },
+    },
+  ];
+
   var trending_photos_data_block =
     state_here.TrendingPhotosReducer.trending_photos;
+
+  var trending_photos_data_block_empty = [
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+    {
+      width: 1000,
+      height: 500,
+      urls: {
+        thumb:
+          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
+      },
+    },
+  ];
 
   function LeftHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
         onPress={() =>
           navigation.navigate('DirectFramesList', {
             direct_id: directIdHere,
-            //live_who: liveWho,
             other_name: otherNameHere,
           })
         }>
-        <Icon type="feather" color={font_color_header} name="layers" />
+        <Icon type="feather" color={theme.colors.off_dark} name="layers" />
       </Pressable>
     );
   }
@@ -134,13 +208,21 @@ function DirectChatScreen({navigation, dispatch, route}) {
   function RightHeaderComponent() {
     return (
       <Pressable
-        style={{width: 75, height: 35}}
-        onPress={() => navigation.goBack()}>
-        <Icon
-          type="feather"
-          color={font_color_header}
-          name="chevron-down"
-          onPress={() => navigation.goBack()}
+        style={{
+          width: 75,
+          height: 35,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
+        onPress={() => {
+          navigation.goBack();
+          MMKV.set(directIdHere, dayjs().unix());
+        }}>
+        <Iconly
+          name="ChevronDownBroken"
+          color={theme.colors.off_dark}
+          size={30}
         />
       </Pressable>
     );
@@ -152,18 +234,26 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <Text style={styles.center_header_club_name}>
           {otherNameHere.substring(0, 14)}
         </Text>
-        <View style={styles.center_header_people_view}>
-          {[].map(item => (
-            <Image
-              style={styles.center_header_people_image}
-              source={{
-                uri: 'https://robohash.org/aliquidmaximedolor.png',
-              }}
-            />
-          ))}
-        </View>
       </View>
     );
+  }
+
+  function CheckFrameLapsedOrNot() {
+    if (typeof channelEndTime === 'number') {
+      if (channelEndTime > dayjs().unix()) {
+        console.log('time still there');
+        console.log(dayjs().unix());
+      } else {
+        console.log(channelEndTime);
+        showMessage({
+          message: 'Oops! frame expired.',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+        navigation.goBack();
+      }
+    } else {
+    }
   }
 
   const [imagePicked, setImagePicked] = useState('');
@@ -173,175 +263,238 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const imagePickerCraftOverlay = () => {
     setImagePickerCraftVisible(!imagePickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function ImagePickerOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      console.log('sending picked image - new frames');
-      if (messages.length === 0) {
-        console.log('no live messsages here');
-        //if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
+  const ImagePickerOverlayInput = useMemo(
+    () =>
+      function ImagePickerOverlayInputX() {
+        const [textMessage, setTextMessage] = useState('');
+        const sendMessageNewFrame = (shot, message) => {
+          if (messages.length === 0) {
+            console.log('no live messsages here');
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'jpg',
+                },
+                meta: {
+                  type: 'b',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                StartFrame();
+                console.log(status);
+              },
+            );
+          } else {
+            console.log('yes live messsages here');
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'jpg',
+                },
+                meta: {
+                  type: 'b',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                console.log(status);
+              },
+            );
+          }
+        };
+        const sendMessageOldFrame = (shot, message) => {
+          console.log('sending picked image - old frame');
+          pubnub.sendFile(
+            {
+              channel: channelsHere[0],
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'jpg',
+              },
+              meta: {
+                type: 'b',
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
             },
-            file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
+            function (status, response) {
+              console.log(status);
             },
-            meta: {
-              type: 'b',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            StartFrame();
-            console.log(status);
-          },
-        );
+          );
+        };
 
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
-      } else {
-        console.log('yes live messsages here');
-        // if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: imagePicked,
-              name: imagePickedName,
-              mimeType: imagePickedMime,
-            },
-            meta: {
-              type: 'b',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending picked image - old frame');
-      // if (message) {
-      pubnub.sendFile(
-        {
-          channel: channelsHere[0],
-          message: {
-            test: message,
-            //value: 42
-          },
-          file: {
-            uri: imagePicked,
-            name: imagePickedName,
-            mimeType: imagePickedMime,
-          },
-          meta: {
-            type: 'b',
-            user_dp: state_here.MyProfileReducer.myprofile.image,
-          },
-        },
-        function (status, response) {
-          console.log(status);
-        },
-      );
-      //.catch(err => console.log(err));
-      //} else {
-      //}
-    };
-
-    return (
-      <Overlay
-        isVisible={imagePickerCraftVisible}
-        onBackdropPress={imagePickerCraftOverlay}
-        overlayStyle={styles.image_picker_craft_overlay}>
-        <SafeAreaView style={styles.image_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imagePickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imagePicked}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
-              />
-              <View style={styles.g_text_view}>
+        function Children() {
+          return (
+            <View>
+              <View
+                style={{
+                  backgroundColor: '#ffffff',
+                  alignSelf: 'flex-start',
+                  left: windowWidth * 0.05 + 30,
+                  right: windowWidth * 0.05,
+                  padding: 10,
+                  borderBottomRightRadius: 15,
+                  borderTopRightRadius: 15,
+                  borderTopLeftRadius: 15,
+                  maxWidth: windowWidth * 0.8,
+                  opacity: textOpacity,
+                }}>
                 <TextInput
                   placeholder="type..."
                   placeholderTextColor="#fafafa50"
                   style={styles.g_text}
                   multiline
                   autoline
-                  autoFocus={true}
+                  value={textMessage}
+                  autoCorrect={false}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.g_avatar}
+              />
             </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
+          );
+        }
 
-                Keyboard.dismiss;
-                setTextMessage('');
-                imagePickerCraftOverlay();
-                setImagePicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+        const viewShotGalleryRef = useRef(null);
+
+        const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+        return (
+          <Overlay
+            isVisible={imagePickerCraftVisible}
+            onBackdropPress={imagePickerCraftOverlay}
+            overlayStyle={styles.image_picker_craft_overlay}>
+            <View style={styles.image_picker_craft_items_view}>
+              <Header
+                backgroundColor="#131313"
+                containerStyle={{borderBottomWidth: 0}}
+                barStyle="light-content"
+                leftComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-start',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => imagePickerCraftOverlay()}>
+                    <IconlyCloseSquareIcon />
+                  </Pressable>
+                }
+                rightComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-end',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => {
+                      if (textMessage.length === 0) {
+                        setTextOpacity(0, textOpacity => {
+                          if (textOpacity === 0) {
+                            Keyboard.dismiss();
+
+                            captureRef(viewShotGalleryRef, {
+                              format: 'jpg',
+                              quality: 0.9,
+                            })
+                              .then(uri => {
+                                if (!channelOnGoing) {
+                                  sendMessageNewFrame(uri);
+                                } else {
+                                  sendMessageOldFrame(uri);
+                                }
+                                Keyboard.dismiss;
+                                imagePickerCraftOverlay();
+                                setImagePicked('');
+                              })
+                              .then(uri => {
+                                console.log('Image saved to', uri);
+                              });
+                          } else {
+                            Keyboard.dismiss();
+                          }
+                        });
+                      } else {
+                        Keyboard.dismiss();
+                        captureRef(viewShotGalleryRef, {
+                          format: 'jpg',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (!channelOnGoing) {
+                              sendMessageNewFrame(uri);
+                            } else {
+                              sendMessageOldFrame(uri);
+                            }
+                            Keyboard.dismiss;
+                            imagePickerCraftOverlay();
+                            setImagePicked('');
+                          })
+                          .then(uri => {
+                            console.log('Image saved to', uri);
+                          });
+                      }
+                    }}>
+                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                  </Pressable>
+                }
+              />
+              <ViewShot
+                ref={viewShotGalleryRef}
+                options={{format: 'jpg', quality: 0.9}}>
+                <FastImage
+                  style={{
+                    width: '100%',
+                    height: undefined,
+                    aspectRatio: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                  source={{uri: imagePicked}}>
+                  <Draggable
+                    children={Children()}
+                    x={0}
+                    y={windowWidth * 0.7}
+                    minX={windowWidth * 0.0}
+                    minY={windowHeight * 0.01}
+                    maxX={windowWidth * 0.8}
+                    maxY={windowWidth}
+                  />
+                </FastImage>
+              </ViewShot>
+            </View>
+          </Overlay>
+        );
+      },
+    [imagePickerCraftVisible, imagePicked],
+  );
 
   const [cameraPicked, setCameraPicked] = useState('');
   const [cameraPickedMime, setCameraPickedMime] = useState('');
@@ -352,170 +505,231 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const cameraPickerCraftOverlay = () => {
     setCameraPickerCraftVisible(!cameraPickerCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function CameraPickerOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        //if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
+  const CameraPickerOverlayInput = useMemo(
+    () =>
+      function CameraPickerOverlayInputX() {
+        const [textMessage, setTextMessage] = useState('');
+        const sendMessageNewFrame = (shot, message) => {
+          if (messages.length === 0) {
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'png',
+                },
+                meta: {
+                  type: 'c',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                console.log(status.statusCode);
+                StartFrame();
+              },
+            );
+          } else {
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'png',
+                },
+                meta: {
+                  type: 'c',
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                  view_shot: shot,
+                },
+              },
+              function (status, response) {
+                console.log(status.statusCode);
+              },
+            );
+          }
+        };
+        const sendMessageOldFrame = (shot, message) => {
+          pubnub.sendFile(
+            {
+              channel: channelsHere[0],
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'png',
+              },
+              meta: {
+                type: 'c',
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+                view_shot: shot,
+              },
             },
-            file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
+            function (status, response) {
+              console.log(status.statusCode);
             },
-            meta: {
-              type: 'c',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status.statusCode);
-            StartFrame();
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        //} else {
-        //}
-      } else {
-        //if (message) {
-        pubnub.sendFile(
-          {
-            channel: channelsHere[0],
-            message: {
-              test: message,
-              //value: 42
-            },
-            file: {
-              uri: cameraPicked,
-              name: cameraPickedName,
-              mimeType: cameraPickedMime,
-            },
-            meta: {
-              type: 'c',
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status.statusCode);
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-        // } else {
-        //}
-      }
-    };
-    const sendMessageOldFrame = message => {
-      // if (message) {
-      pubnub.sendFile(
-        {
-          channel: channelsHere[0],
-          message: {
-            test: message,
-            //value: 42
-          },
-          file: {
-            uri: cameraPicked,
-            name: cameraPickedName,
-            mimeType: cameraPickedMime,
-          },
-          meta: {
-            type: 'c',
-            user_dp: state_here.MyProfileReducer.myprofile.image,
-          },
-        },
-        function (status, response) {
-          console.log(status.statusCode);
-        },
-      );
-      //.catch(err => console.log(err));
-      // } else {
-      //}
-    };
+          );
+        };
 
-    return (
-      <Overlay
-        isVisible={cameraPickerCraftVisible}
-        onBackdropPress={cameraPickerCraftOverlay}
-        overlayStyle={styles.camera_picker_craft_overlay}>
-        <SafeAreaView style={styles.camera_picker_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => cameraPickerCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: cameraPicked}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.c_avatar}
-              />
-              <View style={styles.c_text_view}>
+        const viewShotCameraPickerRef = useRef(null);
+
+        const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+        function Children() {
+          return (
+            <View>
+              <View
+                style={{
+                  backgroundColor: theme.colors.full_light,
+                  alignSelf: 'flex-start',
+                  left: windowWidth * 0.05 + 30,
+                  right: windowWidth * 0.05,
+                  padding: 10,
+                  borderBottomRightRadius: 15,
+                  borderTopRightRadius: 15,
+                  borderTopLeftRadius: 15,
+                  maxWidth: windowWidth * 0.8,
+                  opacity: textOpacity,
+                }}>
                 <TextInput
                   placeholder="type..."
                   placeholderTextColor="#fafafa50"
-                  style={styles.c_text}
+                  style={styles.f_text}
                   multiline
-                  autoFocus={true}
+                  value={textMessage}
                   autoline
+                  autoCorrect={false}
+                  autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.f_avatar}
+              />
             </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
+          );
+        }
 
-                Keyboard.dismiss;
-                setTextMessage('');
-                cameraPickerCraftOverlay();
-                setCameraPicked('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+        return (
+          <Overlay
+            isVisible={cameraPickerCraftVisible}
+            onBackdropPress={cameraPickerCraftOverlay}
+            overlayStyle={styles.camera_picker_craft_overlay}>
+            <View style={styles.camera_picker_craft_items_view}>
+              <Header
+                backgroundColor="#131313"
+                containerStyle={{borderBottomWidth: 0}}
+                barStyle="light-content"
+                leftComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-start',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => cameraPickerCraftOverlay()}>
+                    <IconlyCloseSquareIcon />
+                  </Pressable>
+                }
+                rightComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-end',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => {
+                      if (textMessage.length === 0) {
+                        setTextOpacity(0, textOpacity => {
+                          if (textOpacity === 0) {
+                            Keyboard.dismiss();
+
+                            captureRef(viewShotCameraPickerRef, {
+                              format: 'png',
+                              quality: 0.9,
+                            })
+                              .then(uri => {
+                                if (channelOnGoing) {
+                                  sendMessageOldFrame(uri, textMessage);
+                                } else {
+                                  sendMessageNewFrame(uri, textMessage);
+                                }
+                                cameraPickerCraftOverlay();
+                              })
+                              .then(uri => {});
+                          } else {
+                            Keyboard.dismiss();
+                          }
+                        });
+                      } else {
+                        Keyboard.dismiss();
+                        captureRef(viewShotCameraPickerRef, {
+                          format: 'png',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (channelOnGoing) {
+                              sendMessageOldFrame(uri, textMessage);
+                            } else {
+                              sendMessageNewFrame(uri, textMessage);
+                            }
+
+                            cameraPickerCraftOverlay();
+                          })
+                          .then(uri => {});
+                      }
+                    }}>
+                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                  </Pressable>
+                }
+              />
+              <ViewShot
+                ref={viewShotCameraPickerRef}
+                options={{format: 'png', quality: 0.9}}
+                style={{backgroundColor: 'transparent'}}>
+                <FastImage
+                  style={{
+                    width: '100%',
+                    height: undefined,
+                    aspectRatio: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                  source={{uri: cameraPicked}}>
+                  <Draggable
+                    children={Children()}
+                    x={0}
+                    y={windowWidth * 0.7}
+                    minX={windowWidth * 0.0}
+                    minY={windowHeight * 0.01}
+                    maxX={windowWidth * 0.8}
+                    maxY={windowWidth}
+                  />
+                </FastImage>
+              </ViewShot>
+            </View>
+          </Overlay>
+        );
+      },
+    [cameraPickerCraftVisible, cameraPicked],
+  );
 
   const [pasteLinkVisible, setPasteLinkVisible] = useState(false);
 
@@ -656,6 +870,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
               onPress={() => {
                 ImagePicker.openCamera({
                   cropping: true,
+                  width: 1200, // Add this
+                  height: 1500, // Add this
                 }).then(image => {
                   console.log(image);
                   setCameraPicked(image.path);
@@ -723,66 +939,23 @@ function DirectChatScreen({navigation, dispatch, route}) {
       },
     [],
   );
-  /*
-  const handleMessage = (event) => {
-    //console.log('message event: ' + event.message);
-    const message = event.message;
-    //console.log(event.userMetadata.type);
-    if (event.userMetadata.type === 'd') {
-      // if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //}
-    } else {
-      //if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      //const text = message.text || message;
-      addMessage((messages) => [...messages, event]);
-      console.log('messages: ' + messages);
-      //console.log(messages);
-      // }
-    }
-  };
-*/
-  /*
-  const handlePresenceChange = (event) => {
-    console.log(event);
-    console.log(event.action + ' ' + event.uuid + ' ' + 'ACTION OF PRESENCE');
-    const user_id = event.uuid;
-    if (event.action === 'join') {
-      setLiveMembers((liveMembers) => [...liveMembers, user_id]);
-    } else {
-      var index = liveMembers.indexOf(user_id);
-      var list_here = liveMembers.splice(index, 1);
-      setLiveMembers(list_here);
-    }
-  };
-  */
+
+  const [didFrameStart, setDidFrameStart] = useState(false);
 
   const handleMessage = event => {
-    if (messages.includes(event) === false) {
-      addMessage(messages => [...messages, event]);
+    if (messages.length === 0) {
+      setDidFrameStart(true);
+
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
+      }
     } else {
-      addMessage(messages);
-    }
-  };
-
-  const handleHereNowResponse = event => {
-    pubnub.hereNow(
-      {
-        channels: [directIdHere],
-        includeUUIDs: true,
-        includeState: true,
-      },
-      (status, response) => {
-        internalHandle(response);
-      },
-    );
-    function internalHandle(res) {
-      if (res) {
-        var people_here = res.channels[directIdHere].occupants;
-
-        //setLiveWho(people_here);
+      if (messages.includes(event) === false) {
+        addMessage(messages => [...messages, event]);
+      } else {
+        addMessage(messages);
       }
     }
   };
@@ -824,7 +997,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
       );
     }
     pubnub.addListener({message: handleMessage});
-    //pubnub.addListener({presence: handleHereNowResponse});
     pubnub.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
@@ -855,7 +1027,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   scrollView.current.scrollToEnd({animated: true})
                 }>
                 {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                  <ShowMessage Message={message} />
+                  <Pressable onPress={() => Keyboard.dismiss()}>
+                    <ShowMessage Message={message} />
+                  </Pressable>
                 ))}
               </ScrollView>
             );
@@ -875,7 +1049,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     scrollView.current.scrollToEnd({animated: true})
                   }>
                   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                    <ShowMessage Message={message} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={message} />
+                    </Pressable>
                   ))}
                 </ScrollView>
               );
@@ -896,11 +1072,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     scrollView.current.scrollToEnd({animated: true})
                   }>
                   {old_messages.channels[directIdHere].map((item, index) => (
-                    <ShowMessageOld Message={item} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessageOld Message={item} />
+                    </Pressable>
                     //<Text>{item.message}</Text>
                   ))}
                   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                    <ShowMessage Message={message} />
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={message} />
+                    </Pressable>
                   ))}
                 </ScrollView>
               );
@@ -912,7 +1092,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
   );
 
   function StartFrame() {
-    //console.log(startTime + 'start time sent here');
     var all_ids = _.split(directIdHere, '_');
     var timeToken = dayjs().unix();
 
@@ -943,6 +1122,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
       };
 
       axios(config)
+        .then(() => setDidFrameStart(true))
         .then(
           pubnub.publish(
             {
@@ -959,311 +1139,363 @@ function DirectChatScreen({navigation, dispatch, route}) {
     }
   }
 
-  function InputXXX() {
-    useEffect(() => {
-      Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
-      Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-
-      // cleanup function
-      return () => {
-        Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-        Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
-      };
-    }, []);
-
-    const [typevalue, changeTypevalue] = useState('');
-
-    const [pick, setPick] = useState('');
-
-    const [keyboardStatus, setKeyboardStatus] = useState(false);
-    const _keyboardDidShow = () => setKeyboardStatus(true);
-    const _keyboardDidHide = () => setKeyboardStatus(false);
-
-    function SetChosenMedia(image_link) {
-      setPick(image_link);
-    }
-
-    const EachRecoItem = useMemo(
-      () =>
-        function EachRecoItemX(props) {
-          return (
-            <Pressable
-              style={{
-                shadowColor: '#000',
-                width: 125,
-                height: 72.5,
-                marginHorizontal: 5,
-              }}
-              keyboardShouldPersistTaps="always"
-              onPress={() => {
-                SetChosenMedia(props.Item);
-              }}>
-              <BetterImage
-                viewStyle={{
-                  width: 125,
-                  height: 72.5,
-                  borderRadius: 10,
-                }}
-                source={{
-                  uri: props.Item,
-                }}
-                thumbnailSource={{
-                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-                }}
-                fallbackSource={{
-                  uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-                }}
-              />
-            </Pressable>
-          );
-        },
-      [typevalue],
-    );
-
-    const RecoItemsList = useMemo(
-      () =>
-        function RecoItemsListX(props) {
-          var list_here = props.Rec;
-
-          return (
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              style={{
-                height: windowHeight * 0.1,
-                width: windowWidth,
-                backgroundColor: reco_background_color,
-                borderRadius: 0,
-              }}
-              contentContainerStyle={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              {list_here.map((item, index) => (
-                <EachRecoItem Item={item} />
-              ))}
-            </ScrollView>
-          );
-        },
-      [typevalue],
-    );
-
-    function RecoOverLay() {
-      const [rec, setRec] = useState([
-        'loading',
-        'loading',
-        'loading',
-        'loading',
-      ]);
-
-      var res = [];
-
-      if (keyboardStatus) {
+  const InputXXX = useMemo(
+    () =>
+      function InputXXXx() {
+        const [didFrameStartInside, setDidFrameStartInside] = useState(false);
         useEffect(() => {
-          axios
-            .get(
-              'https://apisayepirates.life/api/users/recommend_images/' +
-                String(state_here.MyProfileReducer.myprofile.user.id) +
-                '/' +
-                typevalue,
-            )
-            .then(response => (res = response.data))
-            .then(() => setRec(_.concat(res[0], res[1])))
-            .catch(err => {
-              console.log(err);
-            });
-        }, [typevalue]);
+          Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+          Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+          if (didFrameStart) {
+            setDidFrameStartInside(true);
+          }
+          // cleanup function
+          return () => {
+            Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+            Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+          };
+        }, []);
 
-        return (
-          <View
-            keyboardShouldPersistTaps={'always'}
-            style={{
-              flexDirection: 'row',
-              width: windowWidth,
-              alignItems: 'center',
-            }}>
-            <ChosenRecoItem Link={pick} />
-            <RecoItemsList Rec={rec} />
-          </View>
-        );
-      } else {
-        return <View />;
-      }
-    }
+        const [typevalue, changeTypevalue] = useState('');
+        const [selectedValue, changeSelectedValue] = useState('');
 
-    var new_message_notif_payload = {
-      pn_gcm: {
-        notification: {
-          title: otherNameHere,
-          body: 'new messages for you ;)',
-        },
-      },
-    };
+        const [pick, setPick] = useState('');
 
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'h',
-                image_url: pick,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
-              StartFrame(response.timetoken);
-            },
-          );
-        } else {
+        const [keyboardStatus, setKeyboardStatus] = useState(false);
+        const _keyboardDidShow = () => {
+          setKeyboardStatus(true);
+          CheckFrameLapsedOrNot();
+        };
+        const _keyboardDidHide = () => setKeyboardStatus(false);
+
+        function SetChosenMedia(image_link) {
+          setPick(image_link);
         }
-      } else {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'h',
-                image_url: pick,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
+
+        const EachRecoItem = useMemo(
+          () =>
+            function EachRecoItemX(props) {
+              return (
+                <Pressable
+                  style={{
+                    shadowColor: '#000',
+                    width: 125,
+                    height: 72.5,
+                    marginHorizontal: 5,
+                  }}
+                  keyboardShouldPersistTaps="always"
+                  onPress={() => {
+                    SetChosenMedia(props.Item);
+                  }}>
+                  <Image
+                    style={{
+                      width: 125,
+                      height: 72.5,
+                      borderRadius: 10,
+                    }}
+                    source={{
+                      uri: props.Item,
+                    }}
+                    PlaceholderContent={
+                      <ContentLoader
+                        speed={2}
+                        width={125}
+                        height={72.5}
+                        viewBox="0 0 125 72.5"
+                        backgroundColor={theme.colors.off_light}
+                        foregroundColor={theme.colors.mid_light}
+                        {...props}>
+                        <Rect
+                          x="0"
+                          y="0"
+                          rx="0"
+                          ry="0"
+                          width="125"
+                          height="72.5"
+                        />
+                      </ContentLoader>
+                    }
+                  />
+                </Pressable>
+              );
             },
-            function (status, response) {
-              console.log(status);
-              console.log(response);
+          [typevalue],
+        );
+
+        const RecoItemsList = useMemo(
+          () =>
+            function RecoItemsListX(props) {
+              var list_here = props.Rec;
+
+              return (
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  style={{
+                    height: windowHeight * 0.1,
+                    width: windowWidth,
+                    backgroundColor: reco_background_color,
+                    borderRadius: 0,
+                  }}
+                  contentContainerStyle={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  {list_here.map((item, index) => (
+                    <EachRecoItem Item={item} />
+                  ))}
+                </ScrollView>
+              );
+            },
+          [typevalue],
+        );
+
+        function RecoOverLay() {
+          const [rec, setRec] = useState([
+            'loading',
+            'loading',
+            'loading',
+            'loading',
+          ]);
+
+          var res = [];
+
+          if (keyboardStatus) {
+            useEffect(() => {
+              if (selectedValue.length > 2) {
+                axios
+                  .get(
+                    'https://apisayepirates.life/api/users/recommend_images/' +
+                      String(state_here.MyProfileReducer.myprofile.user.id) +
+                      '/' +
+                      selectedValue +
+                      '/' +
+                      'False',
+                  )
+                  .then(response => (res = response.data))
+                  .then(() => setRec(_.concat(res[0], res[1])))
+                  .catch(err => {
+                    console.log(err);
+                  });
+              } else {
+                axios
+                  .get(
+                    'https://apisayepirates.life/api/users/recommend_images/' +
+                      String(state_here.MyProfileReducer.myprofile.user.id) +
+                      '/' +
+                      typevalue +
+                      '/' +
+                      'True',
+                  )
+                  .then(response => (res = response.data))
+                  .then(() => setRec(_.concat(res[0], res[1])))
+                  .catch(err => {
+                    console.log(err);
+                  });
+              }
+            }, [typevalue, selectedValue]);
+
+            return (
+              <View
+                keyboardShouldPersistTaps={'always'}
+                style={{
+                  flexDirection: 'row',
+                  width: windowWidth,
+                  alignItems: 'center',
+                }}>
+                <ChosenRecoItem Link={pick} />
+                <RecoItemsList Rec={rec} />
+              </View>
+            );
+          } else {
+            return <View />;
+          }
+        }
+
+        var new_message_notif_payload = {
+          pn_gcm: {
+            notification: {
+              title: name_of_craftsman,
+              body: `new messages for you from ${name_of_craftsman} :)`,
+            },
+          },
+        };
+
+        const sendMessageNewFrame = message => {
+          if (!didFrameStartInside) {
+            if (message) {
               pubnub.publish(
                 {
-                  channel: directIdHere + '_push',
-                  message: new_message_notif_payload,
+                  channel: channelsHere[0],
+                  message,
+                  meta: {
+                    type: 'h',
+                    image_url: pick,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
                 },
                 function (status, response) {
                   console.log(status);
+                  console.log(response);
+                  StartFrame(response.timetoken);
                 },
               );
-            },
-          );
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('sending message in old frame');
-      if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'h',
-              image_url: pick,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
+            } else {
+            }
+          } else {
+            if (message) {
+              pubnub.publish(
+                {
+                  channel: channelsHere[0],
+                  message,
+                  meta: {
+                    type: 'h',
+                    image_url: pick,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
+                },
+                function (status, response) {
+                  console.log(status);
+                  console.log(response);
+                  pubnub.publish(
+                    {
+                      channel: directIdHere + '_push',
+                      message: new_message_notif_payload,
+                    },
+                    function (status, response) {
+                      console.log(status);
+                    },
+                  );
+                },
+              );
+            } else {
+            }
+          }
+        };
+        const sendMessageOldFrame = message => {
+          console.log('sending message in old frame');
+          if (message) {
             pubnub.publish(
               {
-                channel: directIdHere + '_push',
-                message: new_message_notif_payload,
+                channel: channelsHere[0],
+                message,
+                meta: {
+                  type: 'h',
+                  image_url: pick,
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                },
               },
               function (status, response) {
                 console.log(status);
+                pubnub.publish(
+                  {
+                    channel: directIdHere + '_push',
+                    message: new_message_notif_payload,
+                  },
+                  function (status, response) {
+                    console.log(status);
+                  },
+                );
               },
             );
-          },
-        );
-      } else {
-      }
-    };
+          } else {
+          }
+        };
 
-    return (
-      <View
-        keyboardShouldPersistTaps="always"
-        style={{
-          //flex: 0.05,
-          //backgroundColor: input_background_color,
-          backgroundColor: 'transparent',
-          //borderTopWidth: 1.5,
-          borderColor: input_border_color,
-          minHeight: 55,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <RecoOverLay />
-        <View style={styles.textinputview}>
+        return (
           <View
+            keyboardShouldPersistTaps="always"
             style={{
-              // flex: 1,
-              backgroundColor: input_background_color,
-              borderWidth: 1,
+              //flex: 0.05,
+              //backgroundColor: input_background_color,
+              backgroundColor: 'transparent',
+              //borderTopWidth: 1.5,
               borderColor: input_border_color,
-
-              height: 55,
-              width: windowWidth * 0.95,
-
-              flexDirection: 'row',
+              minHeight: 55,
               alignItems: 'center',
-              borderRadius: 15,
-              minHeight: 45,
+              justifyContent: 'center',
             }}>
-            <AutoGrowingTextInput
-              style={{
-                fontSize: 16,
-                fontFamily: 'GothamRounded-Medium',
-                color: font_color_input,
-                paddingHorizontal: 10,
-                marginLeft: 10,
-                width: windowWidth * 0.8,
-                backgroundColor: 'transparent',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}
-              onChangeText={changeTypevalue}
-              value={typevalue}
-              placeholder="type fun stuff..."
-              placeholderTextColor="#666"
-              multiline={true}
-              maxLength={140}
-            />
+            <RecoOverLay />
+            <View style={styles.textinputview}>
+              <View
+                style={{
+                  // flex: 1,
+                  backgroundColor: input_background_color,
+                  borderWidth: 1,
+                  borderColor: input_border_color,
 
-            <Pressable
-              style={{
-                height: 30,
-                width: windowWidth * 0.1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              //disabled={typevalue.length > 0 ? false : true}
-              onPress={() => {
-                Keyboard.dismiss;
-                if (pick.length > 0) {
-                  if (!channelOnGoing) {
-                    sendMessageNewFrame(typevalue);
-                  } else {
-                    sendMessageOldFrame(typevalue);
-                  }
-                  changeTypevalue('');
-                } else {
-                  showMessage({
-                    message: 'Please choose an image or gif to send message!',
-                    type: 'info',
-                    backgroundColor: 'indianred',
-                  });
-                }
-              }}>
-              <IconlyDirectIcon Color="#36B37E" />
-            </Pressable>
+                  height: 55,
+                  width: windowWidth * 0.95,
+
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  borderRadius: 15,
+                  minHeight: 45,
+                }}>
+                <AutoGrowingTextInput
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'GothamRounded-Medium',
+                    color: font_color_input,
+                    paddingHorizontal: 10,
+                    marginLeft: 10,
+                    width: windowWidth * 0.8,
+                    backgroundColor: 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                  }}
+                  autoCorrect={false}
+                  onChangeText={changeTypevalue}
+                  onSelectionChange={({nativeEvent: {selection, text}}) => {
+                    changeSelectedValue(
+                      typevalue.slice(selection.start, selection.end),
+                    );
+                  }}
+                  value={typevalue}
+                  placeholder="type fun stuff..."
+                  placeholderTextColor="#666"
+                  multiline={true}
+                  maxLength={140}
+                />
+
+                <Pressable
+                  style={{
+                    height: 30,
+                    width: windowWidth * 0.1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  //disabled={typevalue.length > 0 ? false : true}
+                  onPress={() => {
+                    Keyboard.dismiss;
+                    if (pick.length > 0) {
+                      if (!channelOnGoing) {
+                        sendMessageNewFrame(typevalue);
+                      } else {
+                        sendMessageOldFrame(typevalue);
+                      }
+                      changeTypevalue('');
+                      changeSelectedValue('');
+                      setPick('');
+                    } else {
+                      showMessage({
+                        message:
+                          'Please choose an image or gif to send message!',
+                        type: 'info',
+                        backgroundColor: 'indianred',
+                      });
+                    }
+                  }}>
+                  <IconlyDirectIcon Color="#36B37E" />
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    );
-  }
+        );
+      },
+    [didFrameStart],
+  );
 
   const [imageSelected, setImageSelected] = useState('beach');
   const [imageSelectorCraftVisible, setImageSelectorCraftVisible] = useState(
@@ -1272,151 +1504,231 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const imageSelectorCraftOverlay = () => {
     setImageSelectorCraftVisible(!imageSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function ImageSelectorOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'g',
-                image_url: imageSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
+  const ImageSelectorOverlayInputHere = useMemo(
+    () =>
+      function ImageSelectorOverlayInput() {
+        const [textMessage, setTextMessage] = useState('');
+        const sendMessageNewFrame = (shot, message) => {
+          if (messages.length === 0) {
+            if (message) {
+              pubnub.sendFile(
+                {
+                  channel: channelsHere[0],
+                  message: {
+                    test: '',
+                  },
+                  file: {
+                    uri: shot,
+                    name: 'galgalgal',
+                    mimeType: 'jpg',
+                  },
+                  meta: {
+                    type: 'g',
+                    image_url: imageSelected,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
+                },
+                function (status, response) {
+                  console.log(status);
+                  StartFrame();
+                },
+              );
+            } else {
+              showMessage({
+                message: 'write a message to send',
+                type: 'info',
+                backgroundColor: theme.colors.danger_red,
+              });
+            }
+          } else {
+            if (message) {
+              pubnub.sendFile(
+                {
+                  channel: channelsHere[0],
+                  message: {
+                    test: '',
+                  },
+                  file: {
+                    uri: shot,
+                    name: 'galgalgal',
+                    mimeType: 'jpg',
+                  },
+                  meta: {
+                    type: 'g',
+                    image_url: imageSelected,
+                    user_dp: state_here.MyProfileReducer.myprofile.image,
+                  },
+                },
+                function (status, response) {
+                  console.log(status);
+                  StartFrame();
+                },
+              );
+            } else {
+              showMessage({
+                message: 'write a message to send',
+                type: 'info',
+                backgroundColor: theme.colors.danger_red,
+              });
+            }
+          }
+        };
+        const sendMessageOldFrame = (shot, message) => {
+          if (message) {
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'jpg',
+                },
+                meta: {
+                  type: 'g',
+                  image_url: imageSelected,
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                },
               },
-            },
-            function (status, response) {
-              console.log(status);
-              StartFrame();
-            },
-          );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
-      } else {
-        if (message) {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'g',
-                image_url: imageSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
+              function (status, response) {
+                console.log(status);
               },
-            },
-            function (status, response) {
-              console.log(status);
-              StartFrame();
-            },
-          );
-          //.then(() => changeTypevalue(''))
-          //.catch(err => console.log(err));
-        } else {
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      if (message) {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'g',
-              image_url: imageSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-        //.then(() => changeTypevalue(''))
-        //.catch(err => console.log(err));
-      } else {
-      }
-    };
+            );
+          } else {
+            showMessage({
+              message: 'write a message to send',
+              type: 'info',
+              backgroundColor: theme.colors.danger_red,
+            });
+          }
+        };
 
-    return (
-      <Overlay
-        isVisible={imageSelectorCraftVisible}
-        onBackdropPress={imageSelectorCraftOverlay}
-        overlayStyle={styles.image_selector_craft_overlay}>
-        <SafeAreaView style={styles.image_selector_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => imageSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: imageSelected}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
+        const viewShotImagePickerRef = useRef(null);
+
+        function Children() {
+          return (
+            <View>
+              <View
+                style={{
+                  backgroundColor: theme.colors.full_light,
+                  alignSelf: 'flex-start',
+                  left: windowWidth * 0.05 + 30,
+                  right: windowWidth * 0.05,
+                  padding: 10,
+                  borderBottomRightRadius: 15,
+                  borderTopRightRadius: 15,
+                  borderTopLeftRadius: 15,
+                  maxWidth: windowWidth * 0.8,
+                }}>
+                <TextInput
+                  placeholder="type..."
+                  placeholderTextColor={theme.colors.mid_light}
+                  style={styles.g_text}
+                  multiline
+                  autoline
+                  value={textMessage}
+                  autoCorrect={false}
+                  autoFocus={true}
+                  maxLength={140}
+                  onChangeText={text => setTextMessage(text)}
+                />
+              </View>
               <Avatar
                 rounded
                 source={{uri: state_here.MyProfileReducer.myprofile.image}}
                 size={60}
                 containerStyle={styles.g_avatar}
               />
-              <View style={styles.g_text_view}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.g_text}
-                  multiline
-                  autoFocus={true}
-                  autoline
-                  maxLength={140}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
             </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
+          );
+        }
 
-                Keyboard.dismiss;
-                setTextMessage('');
-                imageSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+        return (
+          <Overlay
+            isVisible={imageSelectorCraftVisible}
+            onBackdropPress={imageSelectorCraftOverlay}
+            overlayStyle={styles.image_selector_craft_overlay}>
+            <View style={styles.image_selector_craft_items_view}>
+              <Header
+                backgroundColor="#131313"
+                containerStyle={{borderBottomWidth: 0}}
+                barStyle="light-content"
+                leftComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-start',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => imageSelectorCraftOverlay()}>
+                    <IconlyCloseSquareIcon />
+                  </Pressable>
+                }
+                rightComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-end',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                      captureRef(viewShotImagePickerRef, {
+                        format: 'jpg',
+                        quality: 0.9,
+                      })
+                        .then(uri => {
+                          if (channelOnGoing) {
+                            sendMessageOldFrame(uri, textMessage);
+                          } else {
+                            sendMessageNewFrame(uri, textMessage);
+                          }
+
+                          imageSelectorCraftOverlay();
+                        })
+                        .then(uri => {
+                          console.log('Image saved to', uri);
+                        });
+                    }}>
+                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                  </Pressable>
+                }
+              />
+              <ViewShot
+                ref={viewShotImagePickerRef}
+                options={{format: 'jpg', quality: 0.9}}>
+                <FastImage
+                  style={{
+                    width: windowWidth,
+                    height: undefined,
+                    aspectRatio: 1,
+                    marginVertical: windowHeight * 0.01,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                  }}
+                  source={{uri: imageSelected}}>
+                  <Draggable
+                    children={Children()}
+                    x={0}
+                    y={windowWidth * 0.7}
+                    minX={windowWidth * 0.0}
+                    minY={windowHeight * 0.01}
+                    maxX={windowWidth * 0.8}
+                    maxY={windowWidth}
+                  />
+                </FastImage>
+              </ViewShot>
+            </View>
+          </Overlay>
+        );
+      },
+    [imageSelected, imageSelectorCraftVisible],
+  );
 
   const [imageSearch, changeImageSearch] = useState('mountains');
 
@@ -1432,7 +1744,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
           setImageSelected(item.item.urls.regular);
           imageSelectorCraftOverlay();
         }}>
-        <ImageBackground
+        <Image
           source={{uri: item.item.urls.thumb}}
           style={{
             width: (windowWidth - 10) / 2,
@@ -1441,6 +1753,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
+          PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
+          placeholderStyle={{backgroundColor: '#050505'}}
         />
       </Pressable>
     );
@@ -1451,54 +1765,75 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   const gifSelectorCraftOverlay = () => {
     setGifSelectorCraftVisible(!gifSelectorCraftVisible);
+    CheckFrameLapsedOrNot();
   };
 
-  function GIFSelectorOverlayInput() {
-    const [textMessage, setTextMessage] = useState('');
-    const sendMessageNewFrame = message => {
-      if (messages.length === 0) {
-        console.log('new frame, no messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish(
-            {
+  const GIFSelectorOverlayInputHere = useMemo(
+    () =>
+      function GIFSelectorOverlayInput() {
+        const [textMessage, setTextMessage] = useState('');
+        const sendMessageNewFrame = (shot, message) => {
+          if (messages.length === 0) {
+            console.log('new frame, no messages gif');
+
+            pubnub.sendFile(
+              {
+                channel: channelsHere[0],
+                message: {
+                  test: '',
+                },
+                file: {
+                  uri: shot,
+                  name: 'galgalgal',
+                  mimeType: 'png',
+                },
+                meta: {
+                  type: 'f',
+                  image_url: gifSelected,
+                  user_dp: state_here.MyProfileReducer.myprofile.image,
+                },
+              },
+              function (status, response) {
+                console.log(response);
+                StartFrame();
+              },
+            );
+          } else {
+            console.log('new frame, yes messages gif');
+            pubnub.sendFile({
               channel: channelsHere[0],
-              message,
+              message: {
+                test: '',
+              },
+              file: {
+                uri: shot,
+                name: 'galgalgal',
+                mimeType: 'png',
+              },
               meta: {
                 type: 'f',
                 image_url: gifSelected,
                 user_dp: state_here.MyProfileReducer.myprofile.image,
               },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
+              function(status, response) {
+                console.log(status);
               },
-            },
-            function (status, response) {
-              console.log(response);
-              StartFrame();
-            },
-          );
-        }
-      } else {
-        console.log('new frame, yes messages gif');
-        if (message.length === 0) {
-          const message = 'jibber$$$';
-          pubnub.publish({
+            });
+          }
+        };
+        const sendMessageOldFrame = (shot, message) => {
+          console.log('old frame, yes messages');
+
+          pubnub.sendFile({
             channel: channelsHere[0],
-            message,
+            message: {
+              test: '',
+            },
+            file: {
+              uri: shot,
+              name: 'galgalgal',
+              mimeType: 'png',
+            },
             meta: {
               type: 'f',
               image_url: gifSelected,
@@ -1508,132 +1843,165 @@ function DirectChatScreen({navigation, dispatch, route}) {
               console.log(status);
             },
           });
-        } else {
-          pubnub.publish(
-            {
-              channel: channelsHere[0],
-              message,
-              meta: {
-                type: 'f',
-                image_url: gifSelected,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-              },
-            },
-            function (status, response) {
-              console.log(status);
-            },
-          );
-        }
-      }
-    };
-    const sendMessageOldFrame = message => {
-      console.log('old frame, yes messages');
-      if (message.length === 0) {
-        const message = 'jibber$$$';
-        pubnub.publish({
-          channel: channelsHere[0],
-          message,
-          meta: {
-            type: 'f',
-            image_url: gifSelected,
-            user_dp: state_here.MyProfileReducer.myprofile.image,
-          },
-          function(status, response) {
-            console.log(status);
-          },
-        });
-      } else {
-        pubnub.publish(
-          {
-            channel: channelsHere[0],
-            message,
-            meta: {
-              type: 'f',
-              image_url: gifSelected,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
-            },
-          },
-          function (status, response) {
-            console.log(status);
-          },
-        );
-      }
-    };
+        };
 
-    return (
-      <Overlay
-        isVisible={gifSelectorCraftVisible}
-        onBackdropPress={gifSelectorCraftOverlay}
-        overlayStyle={styles.gif_selector_craft_overlay}>
-        <SafeAreaView style={styles.gif_selector_craft_items_view}>
-          <Pressable
-            style={{alignSelf: 'flex-end', marginHorizontal: 10}}
-            onPress={() => gifSelectorCraftOverlay()}>
-            <IconlyCloseSquareIcon />
-          </Pressable>
-          <FastImage
-            style={{
-              width: '100%',
-              height: undefined,
-              aspectRatio: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            source={{uri: gifSelected}}>
-            <View
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                flexDirection: 'column-reverse',
-              }}>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.f_avatar}
-              />
-              <View style={styles.f_text_view}>
+        const viewShotGIFPickerRef = useRef(null);
+
+        const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
+
+        function Children() {
+          return (
+            <View>
+              <View
+                style={{
+                  backgroundColor: theme.colors.full_light,
+                  alignSelf: 'flex-start',
+                  left: windowWidth * 0.05 + 30,
+                  right: windowWidth * 0.05,
+                  padding: 10,
+                  borderBottomRightRadius: 15,
+                  borderTopRightRadius: 15,
+                  borderTopLeftRadius: 15,
+                  maxWidth: windowWidth * 0.8,
+                  opacity: textOpacity,
+                }}>
                 <TextInput
                   placeholder="type..."
                   placeholderTextColor="#fafafa50"
                   style={styles.f_text}
                   multiline
                   autoline
+                  value={textMessage}
+                  autoCorrect={false}
                   autoFocus={true}
                   maxLength={140}
                   onChangeText={text => setTextMessage(text)}
                 />
               </View>
+              <Avatar
+                rounded
+                source={{uri: state_here.MyProfileReducer.myprofile.image}}
+                size={60}
+                containerStyle={styles.f_avatar}
+              />
             </View>
-          </FastImage>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (!channelOnGoing) {
-                  sendMessageNewFrame(textMessage);
-                } else {
-                  sendMessageOldFrame(textMessage);
-                }
+          );
+        }
 
-                Keyboard.dismiss;
-                setTextMessage('');
-                gifSelectorCraftOverlay();
-                setImageSelected('');
-              }}>
-              <IconlyDirectIcon Color="lightgreen" />
-            </Pressable>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Overlay>
-    );
-  }
+        return (
+          <Overlay
+            isVisible={gifSelectorCraftVisible}
+            onBackdropPress={gifSelectorCraftOverlay}
+            overlayStyle={styles.gif_selector_craft_overlay}>
+            <View style={styles.gif_selector_craft_items_view}>
+              <Header
+                backgroundColor="#131313"
+                containerStyle={{borderBottomWidth: 0}}
+                barStyle="light-content"
+                leftComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-start',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => gifSelectorCraftOverlay()}>
+                    <IconlyCloseSquareIcon />
+                  </Pressable>
+                }
+                rightComponent={
+                  <Pressable
+                    style={{
+                      alignSelf: 'flex-end',
+                      height: windowHeight * 0.05,
+                      justifyContent: 'flex-end',
+                    }}
+                    onPress={() => {
+                      if (textMessage.length === 0) {
+                        setTextOpacity(0, textOpacity => {
+                          if (textOpacity === 0) {
+                            Keyboard.dismiss();
+
+                            captureRef(viewShotGIFPickerRef, {
+                              format: 'png',
+                              quality: 0.9,
+                            })
+                              .then(uri => {
+                                if (channelOnGoing) {
+                                  sendMessageOldFrame(uri, textMessage);
+                                } else {
+                                  sendMessageNewFrame(uri, textMessage);
+                                }
+                                gifSelectorCraftOverlay();
+                              })
+                              .then(uri => {});
+                          } else {
+                            Keyboard.dismiss();
+                          }
+                        });
+                      } else {
+                        Keyboard.dismiss();
+                        captureRef(viewShotGIFPickerRef, {
+                          format: 'png',
+                          quality: 0.9,
+                        })
+                          .then(uri => {
+                            if (channelOnGoing) {
+                              sendMessageOldFrame(uri, textMessage);
+                            } else {
+                              sendMessageNewFrame(uri, textMessage);
+                            }
+
+                            gifSelectorCraftOverlay();
+                          })
+                          .then(uri => {});
+                      }
+                    }}>
+                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                  </Pressable>
+                }
+              />
+              <FastImage
+                style={{
+                  width: windowWidth,
+                  height: undefined,
+                  aspectRatio: 1,
+                  marginVertical: windowHeight * 0.01,
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                }}
+                source={{uri: gifSelected}}>
+                <ViewShot
+                  ref={viewShotGIFPickerRef}
+                  options={{format: 'png', quality: 0.9}}
+                  style={{backgroundColor: 'transparent'}}>
+                  <View
+                    style={{
+                      width: windowWidth,
+                      height: undefined,
+                      aspectRatio: 1,
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      backgroundColor: 'transparent',
+                    }}>
+                    <Draggable
+                      children={Children()}
+                      x={0}
+                      y={windowWidth * 0.7}
+                      minX={windowWidth * 0.0}
+                      minY={windowHeight * 0.01}
+                      maxX={windowWidth * 0.8}
+                      maxY={windowWidth}
+                    />
+                  </View>
+                </ViewShot>
+              </FastImage>
+            </View>
+          </Overlay>
+        );
+      },
+    [gifSelected, gifSelectorCraftVisible],
+  );
 
   const [gifsSearch, changeGifSearch] = useState('love');
 
@@ -1652,6 +2020,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <Image
           source={{uri: item.item.images.fixed_height_small.url}}
           style={{width: (windowWidth - 10) / 2, height: windowWidth / 2}}
+          PlaceholderContent={<DoubleBounce size={10} color="#1CAFF6" />}
+          placeholderStyle={{backgroundColor: '#050505'}}
         />
       </Pressable>
     );
@@ -1662,6 +2032,15 @@ function DirectChatScreen({navigation, dispatch, route}) {
       <View>
         <Image
           style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: windowWidth,
+            height: 200,
+          }}
+          containerStyle={{
             position: 'absolute',
             top: 0,
             left: 0,
@@ -1702,7 +2081,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
           backgroundColor: background_color,
           borderRadius: 20,
           margin: 0,
-          //paddingBottom: 10,
         }}
         behavior="padding"
         keyboardVerticalOffset={30}>
@@ -1718,9 +2096,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
         <OtherInputBar />
       </View>
       <ImagePickerOverlayInput />
-      <ImageSelectorOverlayInput />
+      <ImageSelectorOverlayInputHere />
       <CameraPickerOverlayInput />
-      <GIFSelectorOverlayInput />
+      <GIFSelectorOverlayInputHere />
       <Modalize
         ref={modalizeRefBitmojiSheet}
         snapPoint={1000}
@@ -1742,7 +2120,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
           </View>
         }
         flatListProps={{
-          data: trending_photos_data_block,
+          data:
+            // trending_photos_data_block.length <= 0
+            // ? // trending_photos_data_block[0].width === 500
+            // trending_photos_data_block_empty
+            trending_photos_data_block,
           renderItem: RenderTrendingPhotos,
           keyExtractor: item => item.id,
           numColumns: 2,
@@ -1772,23 +2154,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
           keyExtractor: item => item.id,
           numColumns: 2,
         }}
-        FooterComponent={
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              //zIndex: 9999,
-              position: 'absolute',
-              bottom: 0.2,
-              marginBottom: 10,
-            }}>
-            <Image
-              source={require('../../assets/giphy_branding.png')}
-              style={{backgroundColor: 'black'}}
-            />
-          </View>
-        }
       />
       <Overlay
         isVisible={pasteLinkVisible}
@@ -1872,7 +2237,7 @@ const styles = StyleSheet.create({
   },
 
   header_container: {
-    borderBottomWidth: 0,
+    borderBottomWidth: 2,
   },
   modal_search_view_wrap: {
     width: windowWidth,
@@ -2074,7 +2439,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   f_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   f_type_view: {
@@ -2099,7 +2464,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   g_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   g_type_view: {
@@ -2124,7 +2489,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   b_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   b_type_view: {
@@ -2150,7 +2515,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth * 0.8,
   },
   c_text: {
-    fontFamily: 'GothamRounded-Book',
+    fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
   },
   c_type_view: {

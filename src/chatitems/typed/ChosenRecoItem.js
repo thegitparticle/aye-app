@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Pressable, View} from 'react-native';
-import BetterImage from 'react-native-better-image';
+import {Image} from 'react-native-elements';
 
 function ChosenRecoItem(props) {
   var x_here = props.Link;
@@ -16,8 +16,8 @@ function ChosenRecoItem(props) {
         }}
         keyboardShouldPersistTaps="always"
         onPress={() => {}}>
-        <BetterImage
-          viewStyle={{
+        <Image
+          style={{
             width: 125,
             height: 72.5,
 
@@ -27,12 +27,6 @@ function ChosenRecoItem(props) {
           }}
           source={{
             uri: props.Link,
-          }}
-          thumbnailSource={{
-            uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
-          }}
-          fallbackSource={{
-            uri: 'https://i.postimg.cc/qRyS6444/thumb.jpg',
           }}
         />
       </Pressable>
