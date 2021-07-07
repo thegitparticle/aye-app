@@ -29,6 +29,7 @@ import {showMessage, hideMessage} from 'react-native-flash-message';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Iconly from '../pnstuff/Iconly';
 import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -381,15 +382,40 @@ function StartClub({dispatch, navigation}) {
           containerStyle={styles.header_container}
         />
         <Divider style={{backgroundColor: '#05050510'}} />
-        <View style={styles.searchbar_wrap_view}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.95,
+            height: 50,
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            marginVertical: 10,
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 10,
+            fillColor: theme.colors.mid_light,
+          }}>
           <SearchBar
             placeholder="Search Contacts..."
             onChangeText={changeContactsSearch}
             value={contactsSearch}
-            containerStyle={styles.media_modal_search_bar_container}
-            inputContainerStyle={styles.media_modal_search_bar_input_container}
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderBottomWidth: 0,
+              borderTopWidth: 0,
+              width: windowWidth * 0.95,
+              height: 50,
+              justifyContent: 'center',
+            }}
+            inputContainerStyle={{
+              backgroundColor: 'transparent',
+            }}
+            inputStyle={{...theme.text.header, color: theme.colors.off_dark}}
+            placeholderTextColor={theme.colors.mid_dark}
+            searchIcon={{color: theme.colors.mid_dark}}
           />
-        </View>
+        </SquircleView>
         <ContactsNew
           List={
             contactsSearch.length === 0
@@ -595,12 +621,14 @@ const styles = StyleSheet.create({
   },
 
   media_modal_search_bar_container: {
-    backgroundColor: '#fafafa',
+    backgroundColor: 'transparent',
     borderBottomWidth: 0,
     borderTopWidth: 0,
+    width: windowWidth * 0.95,
+    height: 50,
+    justifyContent: 'center',
   },
   media_modal_search_bar_input_container: {
-    backgroundColor: '#CCCCCC',
     borderRadius: 15,
   },
 

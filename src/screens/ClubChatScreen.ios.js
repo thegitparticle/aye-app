@@ -1252,19 +1252,42 @@ function ClubChatScreen({navigation, dispatch, route}) {
         modalHeight={windowHeight * 0.6}
         modalStyle={styles.other_input_modals_style}
         HeaderComponent={
-          <View style={styles.modal_search_view_wrap}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.95,
+              height: 50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              marginVertical: 10,
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 10,
+              fillColor: theme.colors.mid_dark,
+            }}>
             <SearchBar
               placeholder="Type Here..."
               onChangeText={search => {
                 changeImageSearch(search);
               }}
               value={imageSearch}
-              containerStyle={styles.media_modal_search_bar_container}
-              inputContainerStyle={
-                styles.media_modal_search_bar_input_container
-              }
+              containerStyle={{
+                backgroundColor: 'transparent',
+                borderBottomWidth: 0,
+                borderTopWidth: 0,
+                width: windowWidth * 0.95,
+                height: 50,
+                justifyContent: 'center',
+              }}
+              inputContainerStyle={{
+                backgroundColor: 'transparent',
+              }}
+              inputStyle={{...theme.text.header, color: theme.colors.off_light}}
+              placeholderTextColor={theme.colors.mid_light}
+              searchIcon={{color: theme.colors.mid_light}}
             />
-          </View>
+          </SquircleView>
         }
         flatListProps={{
           data: trending_photos_data_block,
@@ -1279,17 +1302,40 @@ function ClubChatScreen({navigation, dispatch, route}) {
         modalHeight={windowHeight * 0.6}
         modalStyle={styles.other_input_modals_style}
         HeaderComponent={
-          <View style={styles.modal_search_view_wrap}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.95,
+              height: 50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              marginVertical: 10,
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 10,
+              fillColor: theme.colors.mid_dark,
+            }}>
             <SearchBar
               placeholder="Type Here..."
               onChangeText={changeGifSearch}
               value={gifsSearch}
-              containerStyle={styles.media_modal_search_bar_container}
-              inputContainerStyle={
-                styles.media_modal_search_bar_input_container
-              }
+              containerStyle={{
+                backgroundColor: 'transparent',
+                borderBottomWidth: 0,
+                borderTopWidth: 0,
+                width: windowWidth * 0.95,
+                height: 50,
+                justifyContent: 'center',
+              }}
+              inputContainerStyle={{
+                backgroundColor: 'transparent',
+              }}
+              inputStyle={{...theme.text.header, color: theme.colors.off_light}}
+              placeholderTextColor={theme.colors.mid_light}
+              searchIcon={{color: theme.colors.mid_light}}
             />
-          </View>
+          </SquircleView>
         }
         flatListProps={{
           data: trending_gifs_data_block,
