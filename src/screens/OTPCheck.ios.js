@@ -8,7 +8,6 @@ import {
   Pressable,
 } from 'react-native';
 import {Overlay} from 'react-native-elements';
-import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import OTPInput from 'react-native-otp';
 import {connect} from 'react-redux';
 import {LOGIN} from '../redux/types';

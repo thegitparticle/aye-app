@@ -9,7 +9,6 @@ import {
   TextInput,
   Dimensions,
 } from 'react-native';
-import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import PhoneInput from 'react-native-phone-input';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';

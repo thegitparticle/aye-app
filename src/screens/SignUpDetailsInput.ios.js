@@ -11,7 +11,6 @@ import {
   Linking,
 } from 'react-native';
 import {Overlay} from 'react-native-elements';
-import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
 import Iconly from '../pnstuff/Iconly';
