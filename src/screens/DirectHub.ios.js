@@ -225,17 +225,35 @@ function DirectHub({dispatch, navigation, route}) {
 
   function BlockOrReportOverlay() {
     return (
-      <View style={styles.block_overlay_view}>
-        <Text style={styles.block_confirm_question}>Why So?</Text>
+      <SquircleView
+        style={{
+          width: windowWidth * 0.8,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: windowHeight * 0.5,
+        }}
+        squircleParams={{
+          cornerSmoothing: 1,
+          cornerRadius: 20,
+          fillColor: theme.colors.full_light,
+        }}>
+        <Text
+          style={{
+            ...theme.text.title_3,
+            color: theme.colors.full_dark,
+            marginVertical: 15,
+          }}>
+          why so?
+        </Text>
         <CheckBox
-          title="Abuse"
+          title="abuse"
           textStyle={styles.checkbox_text}
           containerStyle={styles.checkbox_container}
           checked={abuse}
           onPress={() => setAbuse(!abuse)}
         />
         <CheckBox
-          title="Spam"
+          title="spam"
           textStyle={styles.checkbox_text}
           containerStyle={styles.checkbox_container}
           checked={spam}
@@ -243,14 +261,14 @@ function DirectHub({dispatch, navigation, route}) {
         />
 
         <CheckBox
-          title="Angry BAE blocking"
+          title="angry on BAE"
           textStyle={styles.checkbox_text}
           containerStyle={styles.checkbox_container}
           checked={bae}
           onPress={() => setBae(!bae)}
         />
         <CheckBox
-          title="Ex"
+          title="ex"
           textStyle={styles.checkbox_text}
           containerStyle={styles.checkbox_container}
           checked={ex}
@@ -260,7 +278,7 @@ function DirectHub({dispatch, navigation, route}) {
           <Button
             type="outline"
             title="BLOCK"
-            titleStyle={styles.re_confirm_yes_text}
+            titleStyle={{...theme.text.header, color: theme.colors.danger_red}}
             buttonStyle={styles.block_yes_button}
             onPress={() => {
               axios
@@ -280,12 +298,15 @@ function DirectHub({dispatch, navigation, route}) {
           <Button
             type="outline"
             title="NO"
-            titleStyle={styles.re_confirm_no_text}
+            titleStyle={{
+              ...theme.text.header,
+              color: theme.colors.success_green,
+            }}
             buttonStyle={styles.block_no_button}
             onPress={() => toggleBlockOverlay()}
           />
         </View>
-      </View>
+      </SquircleView>
     );
   }
 
@@ -598,6 +619,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.8,
     borderRadius: 12,
     alignItems: 'center',
+    backgroundColor: 'transparent',
     justifyContent: 'center',
   },
 
@@ -648,5 +670,7 @@ const styles = StyleSheet.create({
   checkbox_container: {
     width: windowWidth * 0.6,
     justifyContent: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
 });
