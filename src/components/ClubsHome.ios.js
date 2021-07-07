@@ -9,7 +9,7 @@ import LiveClubs from '../components/LiveClubs';
 import DormantClubBit from '../uibits/DormantClubBit';
 import BannerToPushToStartClub from '../uibits/BannerToPushToStartClub';
 import _ from 'lodash';
-import PushSetup from './PushSetup';
+import PushSetup from '../pnstuff/PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';

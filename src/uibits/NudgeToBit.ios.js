@@ -1,5 +1,13 @@
-import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Platform} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
@@ -8,9 +16,10 @@ import {GetDirectsList} from '../redux/DirectsListActions';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
-import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +27,7 @@ const windowWidth = Dimensions.get('window').width;
 var state_here = {};
 
 function NudgeToBit(props) {
+  const theme = useContext(ThemeContext);
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
   //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
@@ -67,15 +77,28 @@ function NudgeToBit(props) {
       return <View />;
     } else {
       return (
-        <Button
-          raised
-          title="START"
-          type="solid"
-          containerStyle={styles.AddButtonContainer}
-          titleStyle={styles.AddButtonTitle}
-          buttonStyle={styles.AddButton}
-          onPress={() => StartDirectConvo()}
-        />
+        <TouchableOpacity
+          style={{height: 40, alignItems: 'center', justifyContent: 'center'}}
+          onPress={() => StartDirectConvo()}>
+          <SquircleView
+            style={{
+              height: 30,
+              width: windowWidth * 0.2,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 10,
+              fillColor: theme.colors.friends_prime,
+            }}>
+            <Text
+              style={{...theme.text.smallest, color: theme.colors.full_light}}>
+              START
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
       );
     }
   }

@@ -13,6 +13,7 @@ var state_here = {};
 
 function NudgeToList({dispatch}) {
   var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
+
   const navigation = useNavigation();
 
   useEffect(() => {

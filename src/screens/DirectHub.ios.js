@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Avatar,
@@ -24,6 +25,7 @@ import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import Iconly from '../pnstuff/Iconly';
 import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -289,26 +291,33 @@ function DirectHub({dispatch, navigation, route}) {
 
   function BlockOrReport() {
     return (
-      <Pressable
-        onPress={() => setBlockOverlayVisible(true)}
+      <TouchableOpacity
         style={{
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 25,
           height: windowHeight * 0.05,
           width: windowWidth * 0.8,
-          backgroundColor: '#EC193E25',
           marginVertical: windowHeight * 0.02,
-        }}>
-        <Text
+        }}
+        onPress={() => setBlockOverlayVisible(true)}>
+        <SquircleView
           style={{
-            fontFamily: 'GothamRounded-Bold',
-            fontSize: 15,
-            color: '#EC193E',
+            height: windowHeight * 0.05,
+            width: windowWidth * 0.8,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 10,
+            fillColor: theme.colors.danger_red,
           }}>
-          Block
-        </Text>
-      </Pressable>
+          <Text style={{...theme.text.body, color: theme.colors.full_light}}>
+            Block
+          </Text>
+        </SquircleView>
+      </TouchableOpacity>
     );
   }
 

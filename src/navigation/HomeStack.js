@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/stack';
 import RootStackScreen from '../screens/RootStackScreen';
 
-import HomeMainD from '../dummy/HomeMainD';
+import HomeMainD from '../components/HomeMainD';
 import MyProfileScreen from '../screens/MyProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import SettingsScreen from '../screens/SettingsScreen';

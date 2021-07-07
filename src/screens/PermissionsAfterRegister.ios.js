@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   SafeAreaView,
-  Image,
-  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import {connect} from 'react-redux';
@@ -78,7 +77,7 @@ function PermissionsAfterRegister({dispatch, route}) {
 
   return (
     <SafeAreaView style={styles.view}>
-      <Pressable
+      <TouchableOpacity
         style={{
           marginVertical: 20,
           alignItems: 'center',
@@ -109,7 +108,7 @@ function PermissionsAfterRegister({dispatch, route}) {
             ALLOW CONTACTS
           </Text>
         </SquircleView>
-      </Pressable>
+      </TouchableOpacity>
       <Text
         style={{
           ...theme.text.header,

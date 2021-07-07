@@ -1,11 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useContext,
-  useCallback,
-} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   ScrollView,
   Text,
@@ -36,6 +30,7 @@ import {usePubNub} from 'pubnub-react';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import Iconly from '../pnstuff/Iconly';
 import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const header_color = 'transparent';
 const header_bar_style = 'dark-content';
@@ -67,7 +62,6 @@ function ClubHub({dispatch, navigation, route}) {
     React.useCallback(() => {
       axios
         .get('https://apisayepirates.life/api/clubs/' + String(club_id) + '/')
-
         .then(response => (res = response.data))
         .then(() => setClubDetails(res))
         .then(() => setResolved(true))
@@ -187,7 +181,6 @@ function ClubHub({dispatch, navigation, route}) {
   const [viewProfileId, setViewProfileId] = useState();
 
   function MembersOfClub(props) {
-    console.log(props.Details[0]);
     return (
       <View style={styles.members_of_club_view}>
         {props.Details.map(member => (
@@ -344,24 +337,62 @@ function ClubHub({dispatch, navigation, route}) {
   function AddPeopleToClub() {
     return (
       <View style={styles.add_people_to_club_view}>
-        <Button
-          //raised
-          buttonStyle={styles.add_friends_button_style}
-          titleStyle={styles.add_friends_title_style}
-          title="add friends"
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onPress={() =>
             navigation.navigate('AddPeopleToClub', {club_id: club_id})
-          }
-        />
-        <Button
-          // raised
-          buttonStyle={styles.invite_friends_button_style}
-          titleStyle={styles.invite_friends_title_style}
-          title="invite friends"
+          }>
+          <SquircleView
+            style={{
+              height: 40,
+              width: windowWidth * 0.4,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 10,
+              fillColor: theme.colors.friends_prime,
+            }}>
+            <Text
+              style={{...theme.text.header, color: theme.colors.full_light}}>
+              add friends
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onPress={() =>
             navigation.navigate('InvitePeopleToClub', {club_id: club_id})
-          }
-        />
+          }>
+          <SquircleView
+            style={{
+              height: 40,
+              width: windowWidth * 0.4,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: theme.colors.friends_prime,
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 10,
+              fillColor: 'transparent',
+            }}>
+            <Text
+              style={{...theme.text.header, color: theme.colors.friends_prime}}>
+              invite friends
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -373,7 +404,6 @@ function ClubHub({dispatch, navigation, route}) {
   };
 
   function MemberOptionsModalize() {
-    console.log(viewProfileId + 'view profile id');
     return (
       <View style={styles.member_options_view}>
         <TouchableOpacity
@@ -391,8 +421,6 @@ function ClubHub({dispatch, navigation, route}) {
       </View>
     );
   }
-
-  var details = statehere.ClubHubDetailsReducer.clubhubdetails;
 
   function RenderMainBody() {
     if (!resolved) {

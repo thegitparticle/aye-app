@@ -3,12 +3,11 @@ import React, {useContext} from 'react';
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Dimensions,
   Text,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
-import {Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import LottieView from 'lottie-react-native';
