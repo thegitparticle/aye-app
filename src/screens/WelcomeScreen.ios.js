@@ -9,8 +9,8 @@ import {
   Pressable,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import IconlyNextIcon from '../uibits/IconlyNextIcon';
 import {SharedElement} from 'react-navigation-shared-element';
+import Iconly from '../pnstuff/Iconly';
 //import IconNextButton from '../uibits/IconlyNextButton';
 
 const windowWidth = Dimensions.get('window').width;
@@ -41,7 +41,7 @@ function WelcomeScreen({navigation}) {
           console.log('got pressed');
         }}>
         <SharedElement id="next_button_1">
-          <IconlyNextIcon Color="#eee" />
+          <Iconly name="ArrowRightBold" color="#EEEEEE" size={50} />
         </SharedElement>
       </Pressable>
     </View>

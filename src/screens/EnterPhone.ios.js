@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useRef, useContext} from 'react';
 import {
   View,
@@ -12,7 +13,7 @@ import BackButtonIcon from '/Users/san/Desktop/toastgo/src/uibits/BackButtonIcon
 import PhoneInput from 'react-native-phone-input';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
-import IconlyNextIcon from '../uibits/IconlyNextIcon';
+import Iconly from '../pnstuff/Iconly';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ThemeContext from '../themes/Theme';
@@ -50,7 +51,16 @@ function EnterPhone({navigation}) {
           navigation.goBack();
         }}
         style={styles.back_button_view}>
-        <BackButtonIcon />
+        <View
+          style={{
+            position: 'absolute',
+            width: 55,
+            height: 55,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Iconly name="ChevronLeftBroken" color="#EEEEEE" size={25} />
+        </View>
       </Pressable>
       <LottieView
         source={require('/Users/san/Desktop/toastgo/assets/background_bubbles.json')}
@@ -91,7 +101,7 @@ function EnterPhone({navigation}) {
             }
           }}>
           <SharedElement id="next_button_1">
-            <IconlyNextIcon Color={theme.colors.off_light} />
+            <Iconly name="ArrowRightBold" color="#EEEEEE" size={50} />
           </SharedElement>
         </Pressable>
       </View>
@@ -150,6 +160,7 @@ const styles = StyleSheet.create({
   },
   back_button_view: {
     flex: 0.05,
+    // position: 'absolute',
   },
   lottie_bg_view: {
     height: windowHeight * 0.7,
