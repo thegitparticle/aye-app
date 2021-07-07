@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Avatar, Header, Icon} from 'react-native-elements';
-import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Iconly from '../pnstuff/Iconly';

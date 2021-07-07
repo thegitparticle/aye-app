@@ -25,9 +25,7 @@ import {usePubNub} from 'pubnub-react';
 import dayjs from 'dayjs';
 import ShowMessage from '../uibits/ShowMessage';
 import ShowMessageOld from '../uibits/ShowMessageOld';
-import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
-import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {showMessage} from 'react-native-flash-message';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
@@ -46,6 +44,7 @@ import ThemeContext from '../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../pnstuff/Iconly';
 import {MMKV} from 'react-native-mmkv';
+import {SquircleView} from 'react-native-figma-squircle';
 // import {SelectableText} from '@astrocoders/react-native-selectable-text';
 
 const windowWidth = Dimensions.get('window').width;
@@ -385,7 +384,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
                       justifyContent: 'flex-end',
                     }}
                     onPress={() => imagePickerCraftOverlay()}>
-                    <IconlyCloseSquareIcon />
+                    <Iconly
+                      name="CloseSquareBold"
+                      color={theme.colors.off_light}
+                      size={30}
+                    />
                   </Pressable>
                 }
                 rightComponent={
@@ -445,7 +448,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
                           });
                       }
                     }}>
-                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                    <Iconly
+                      name="SendBold"
+                      color={theme.colors.success_green}
+                      size={30}
+                    />
                   </Pressable>
                 }
               />
@@ -1069,7 +1076,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
                       });
                     }
                   }}>
-                  <IconlyDirectIcon Color={'#36B37E'} />
+                  <Iconly
+                    name="SendBold"
+                    color={theme.colors.success_green}
+                    size={30}
+                  />
                 </Pressable>
               </View>
             </View>

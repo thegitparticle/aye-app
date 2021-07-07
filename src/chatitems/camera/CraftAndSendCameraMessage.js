@@ -12,15 +12,14 @@ import {
 } from 'react-native';
 import {Avatar, Header} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import IconlyDirectIcon from '/Users/san/Desktop/toastgo/src/uibits/IconlyDirectIcon';
 import {usePubNub} from 'pubnub-react';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import Draggable from 'react-native-draggable';
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../../themes/Theme';
-import IconlyCloseSquareIcon from '../../uibits/IconlyCloseSquareIcon';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
+import Iconly from '../../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -207,7 +206,11 @@ function CraftAndSendCameraMessage(props) {
               justifyContent: 'flex-end',
             }}
             onPress={() => HandleGoingBack()}>
-            <IconlyCloseSquareIcon />
+            <Iconly
+              name="CloseSquareBold"
+              color={theme.colors.off_light}
+              size={30}
+            />
           </Pressable>
         }
         rightComponent={
@@ -264,7 +267,11 @@ function CraftAndSendCameraMessage(props) {
                   });
               }
             }}>
-            <IconlyDirectIcon Color={theme.colors.success_green} />
+            <Iconly
+              name="SendBold"
+              color={theme.colors.success_green}
+              size={30}
+            />
           </Pressable>
         }
       />

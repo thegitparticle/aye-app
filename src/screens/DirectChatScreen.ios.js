@@ -36,9 +36,7 @@ import dayjs from 'dayjs';
 import ShowMessage from '../uibits/ShowMessage';
 import ShowMessageOld from '../uibits/ShowMessageOld';
 import _ from 'lodash';
-import IconlyCloseSquareIcon from '../uibits/IconlyCloseSquareIcon';
 import FastImage from 'react-native-fast-image';
-import IconlyDirectIcon from '../uibits/IconlyDirectIcon';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
@@ -405,7 +403,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       justifyContent: 'flex-end',
                     }}
                     onPress={() => imagePickerCraftOverlay()}>
-                    <IconlyCloseSquareIcon />
+                    <Iconly
+                      name="CloseSquareBold"
+                      color={theme.colors.off_light}
+                      size={30}
+                    />
                   </Pressable>
                 }
                 rightComponent={
@@ -463,7 +465,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                           });
                       }
                     }}>
-                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                    <Iconly
+                      name="SendBold"
+                      color={theme.colors.success_green}
+                      size={30}
+                    />
                   </Pressable>
                 }
               />
@@ -646,7 +652,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       justifyContent: 'flex-end',
                     }}
                     onPress={() => cameraPickerCraftOverlay()}>
-                    <IconlyCloseSquareIcon />
+                    <Iconly
+                      name="CloseSquareBold"
+                      color={theme.colors.off_light}
+                      size={30}
+                    />
                   </Pressable>
                 }
                 rightComponent={
@@ -697,7 +707,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                           .then(uri => {});
                       }
                     }}>
-                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                    <Iconly
+                      name="SendBold"
+                      color={theme.colors.success_green}
+                      size={30}
+                    />
                   </Pressable>
                 }
               />
@@ -1488,7 +1502,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       });
                     }
                   }}>
-                  <IconlyDirectIcon Color="#36B37E" />
+                  <Iconly
+                    name="SendBold"
+                    color={theme.colors.success_green}
+                    size={30}
+                  />
                 </Pressable>
               </View>
             </View>
@@ -1667,7 +1685,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       justifyContent: 'flex-end',
                     }}
                     onPress={() => imageSelectorCraftOverlay()}>
-                    <IconlyCloseSquareIcon />
+                    <Iconly
+                      name="CloseSquareBold"
+                      color={theme.colors.off_light}
+                      size={30}
+                    />
                   </Pressable>
                 }
                 rightComponent={
@@ -1696,7 +1718,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                           console.log('Image saved to', uri);
                         });
                     }}>
-                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                    <Iconly
+                      name="SendBold"
+                      color={theme.colors.success_green}
+                      size={30}
+                    />
                   </Pressable>
                 }
               />
@@ -1907,7 +1933,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                       justifyContent: 'flex-end',
                     }}
                     onPress={() => gifSelectorCraftOverlay()}>
-                    <IconlyCloseSquareIcon />
+                    <Iconly
+                      name="CloseSquareBold"
+                      color={theme.colors.off_light}
+                      size={30}
+                    />
                   </Pressable>
                 }
                 rightComponent={
@@ -1958,7 +1988,11 @@ function DirectChatScreen({navigation, dispatch, route}) {
                           .then(uri => {});
                       }
                     }}>
-                    <IconlyDirectIcon Color={theme.colors.success_green} />
+                    <Iconly
+                      name="SendBold"
+                      color={theme.colors.success_green}
+                      size={30}
+                    />
                   </Pressable>
                 }
               />

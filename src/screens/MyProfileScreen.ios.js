@@ -14,7 +14,6 @@ import {GetMyProfile} from '../redux/MyProfileActions';
 import MyProfileComponent from '../components/MyProfileComponent';
 import AccountToolKitButtons from '../uibits/AccountToolKitButtons';
 import ThemeContext from '../themes/Theme';
-import Iconly from '../pnstuff/Iconly';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;

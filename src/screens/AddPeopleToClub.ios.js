@@ -11,7 +11,7 @@ import {ListItem, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyCircle} from '../redux/MyCircleActions';
 import _ from 'lodash';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 import axios from 'axios';
 import ThemeContext from '../themes/Theme';
 import Iconly from '../pnstuff/Iconly';
