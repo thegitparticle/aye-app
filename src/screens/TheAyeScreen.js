@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -7,14 +8,16 @@ import {
   Image,
   ImageBackground,
   Linking,
-  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {Header} from 'react-native-elements';
-import BackChevronDownIcon from '../uibits/BackChevronDownIcon';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {GetDirectsList} from '../redux/DirectsListActions';
 import {showMessage} from 'react-native-flash-message';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
+import Iconly from '../pnstuff/Iconly';
 
 var state_here = {};
 
@@ -23,11 +26,12 @@ const windowWidth = Dimensions.get('window').width;
 
 function TheAyeScreen({navigation, dispatch}) {
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
+  const theme = useContext(ThemeContext);
 
   function StartDirectConvoWithFounder() {
     const randomValue = Math.random();
 
-    var chosenValue = randomValue < 0.5 ? 4 : 53;
+    var chosenValue = randomValue < 0.5 ? 82 : 81;
     var chosenName = randomValue < 0.5 ? 'Sanjit' : 'Aditya';
 
     const id_here_making =
@@ -63,32 +67,30 @@ function TheAyeScreen({navigation, dispatch}) {
   function RenderThingsList() {
     return (
       <View style={styles.things_list_view_wrap}>
-        <Pressable
-          style={styles.things_list_item_view_talk_founder}
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginVertical: 10,
+          }}
           onPress={() => StartDirectConvoWithFounder()}>
-          <Text style={styles.things_item_text_talk_founder}>
-            Talk to the founder
-          </Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.things_list_item_view}
-          onPress={() =>
-            Linking.openURL(
-              'https://www.notion.so/ayespaces/Privacy-Policy-b2f432d16d88458281babd62457df2b4',
-            )
-          }>
-          <Text style={styles.things_item_text}>Privacy Policy</Text>
-        </Pressable>
-        <Pressable
-          style={styles.things_list_item_view}
-          onPress={() =>
-            Linking.openURL(
-              'https://www.notion.so/ayespaces/Terms-of-Service-93d01782de4042708a5c10decaa1484c',
-            )
-          }>
-          <Text style={styles.things_item_text}>T & C</Text>
-        </Pressable>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.8,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 15,
+              fillColor: theme.colors.mid_light,
+            }}>
+            <Text style={{...theme.text.title_3, color: theme.colors.mid_dark}}>
+              talk to founder
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -100,12 +102,27 @@ function TheAyeScreen({navigation, dispatch}) {
         style={styles.bg_image}>
         <View style={styles.header_logo_view}>
           <Header
-            rightComponent={<BackChevronDownIcon />}
+            rightComponent={
+              <TouchableOpacity
+                style={{
+                  width: 50,
+                  height: 50,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() => navigation.goBack()}>
+                <Iconly
+                  name="ChevronDownBroken"
+                  color={theme.colors.full_light}
+                  size={30}
+                />
+              </TouchableOpacity>
+            }
             backgroundColor="#fafafa00"
             containerStyle={styles.header_container_style}
           />
           <Image
-            source={require('/Users/san/Desktop/toastgo/assets/bubblaye3.png')}
+            source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
             style={styles.logo_style}
           />
         </View>
