@@ -661,7 +661,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           channels: [channelsHere],
           includeMeta: true,
           end: dayjs().valueOf(),
-          count: 25, // default/max is 25 messages for multiple channels (up to 500)
+          count: 100, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
           if (response) {
@@ -679,7 +679,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           includeMeta: true,
           end: now_here + '0000',
           start: channelStartTime + '0000000',
-          count: 25, // default/max is 25 messages for multiple channels (up to 500)
+          count: 100, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
           if (response) {
