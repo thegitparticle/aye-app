@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
-import LottieView from 'lottie-react-native';
+import {useNavigation} from '@react-navigation/native';
 import ThemeContext from '../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
 
@@ -23,6 +23,7 @@ var state_here = {};
 function BannerIfDmsEmpty() {
   const theme = useContext(ThemeContext);
   var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
+  const navigation = useNavigation();
 
   if (NudgeToData.length > 0) {
     if (NudgeToData[0].userid === 0) {
@@ -99,6 +100,7 @@ function BannerIfDmsEmpty() {
           Invite friends onto Aye to start talking!!!
         </Text>
         <Pressable
+          onPress={() => navigation.navigate('InvitePeopleToApp')}
           style={{
             marginVertical: windowHeight * 0.05,
             alignItems: 'center',

@@ -6,7 +6,7 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import RootStackScreen from '../screens/RootStackScreen';
-
+import InvitePeopleToApp from '../screens/InvitePeopleToApp';
 import HomeMainD from '../components/HomeMainD';
 import MyProfileScreen from '../screens/MyProfileScreen';
 import EditProfile from '../screens/EditProfile';
@@ -214,6 +214,19 @@ function HomeStack() {
       <StackMain.Screen
         name="InvitePeopleToClub"
         component={InvitePeopleToClub}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="InvitePeopleToApp"
+        component={InvitePeopleToApp}
         options={{
           headerShown: false,
           gestureEnabled: true,
