@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -8,68 +9,119 @@ import {
   SafeAreaView,
   Pressable,
   Linking,
+  TouchableOpacity,
 } from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import {LOGOUT} from '../redux/types';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function SettingsScreen({navigation, dispatch}) {
-  function SettingItem(props) {
-    return (
-      <View style={styles.SettingItemViewWrap}>
-        <Text style={styles.SettingItemText}>{props.SettingName}</Text>
-        <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={true ? '#074ee8' : '#fff'}
-          ios_backgroundColor="#3e3e3e"
-          //onValueChange={toggleSwitch}
-          value={props.value}
-        />
-      </View>
-    );
-  }
-
+  const theme = useContext(ThemeContext);
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header_text}>settings</Text>
       <Divider style={styles.log_out_divider} />
 
       <View style={styles.things_list_view_wrap}>
-        <Pressable
-          style={styles.things_list_item_view}
-          onPress={() =>
-            Linking.openURL(
-              'https://www.notion.so/ayespaces/Privacy-Policy-b2f432d16d88458281babd62457df2b4',
-            )
-          }>
-          <Text style={styles.things_item_text}>Privacy Policy</Text>
-        </Pressable>
-        <Pressable
-          style={styles.things_list_item_view}
-          onPress={() =>
-            Linking.openURL(
-              'https://www.notion.so/ayespaces/Terms-of-Service-93d01782de4042708a5c10decaa1484c',
-            )
-          }>
-          <Text style={styles.things_item_text}>T & C</Text>
-        </Pressable>
-        <View style={styles.log_out_button_view_wrap}>
-          <Button
-            raised
-            type="clear"
-            //        containerStyle={styles.log_out_button_container_style}
-            titleStyle={styles.log_out_button_title_style}
-            title="log out"
-            onPress={() => {
-              dispatch({type: LOGOUT});
-              AsyncStorage.clear();
+        <View
+          style={{
+            flex: 0.5,
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+          }}>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginVertical: 10,
             }}
-          />
+            onPress={() =>
+              Linking.openURL(
+                'https://www.notion.so/ayespaces/Privacy-Policy-b2f432d16d88458281babd62457df2b4',
+              )
+            }>
+            <SquircleView
+              style={{
+                width: windowWidth * 0.8,
+                height: 60,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              squircleParams={{
+                cornerSmoothing: 1,
+                cornerRadius: 15,
+                fillColor: theme.colors.mid_light,
+              }}>
+              <Text
+                style={{...theme.text.title_3, color: theme.colors.mid_dark}}>
+                privacy policy
+              </Text>
+            </SquircleView>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginVertical: 10,
+            }}
+            onPress={() =>
+              Linking.openURL(
+                'https://www.notion.so/ayespaces/Terms-of-Service-93d01782de4042708a5c10decaa1484c',
+              )
+            }>
+            <SquircleView
+              style={{
+                width: windowWidth * 0.8,
+                height: 60,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              squircleParams={{
+                cornerSmoothing: 1,
+                cornerRadius: 15,
+                fillColor: theme.colors.mid_light,
+              }}>
+              <Text
+                style={{...theme.text.title_3, color: theme.colors.mid_dark}}>
+                T & C
+              </Text>
+            </SquircleView>
+          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => {
+            dispatch({type: LOGOUT});
+            AsyncStorage.clear();
+          }}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.8,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 15,
+              fillColor: theme.colors.danger_red,
+            }}>
+            <Text
+              style={{...theme.text.title_3, color: theme.colors.full_light}}>
+              log out
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -98,19 +150,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 20,
   },
-  log_out_button_view_wrap: {
-    marginHorizontal: 20,
-    marginVertical: windowHeight * 0.05,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  log_out_button_title_style: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-    color: '#EC193E',
-  },
 
-  log_out_button_container_style: {},
   log_out_divider: {
     height: 1,
     alignSelf: 'center',
@@ -119,22 +159,8 @@ const styles = StyleSheet.create({
   },
 
   things_list_view_wrap: {
-    width: windowWidth * 0.9,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: windowHeight * 0.05,
-  },
-  things_list_item_view: {
-    width: windowWidth * 0.9,
-    height: 50,
-    backgroundColor: '#11111110',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: windowHeight * 0.01,
-  },
-  things_item_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 21,
+    justifyContent: 'space-between',
+    flex: 1,
   },
 });
