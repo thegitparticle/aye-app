@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import {Image} from 'react-native-elements';
-import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
+import {DoubleBounce} from 'react-native-loader';
 
 //const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;

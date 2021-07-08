@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -17,6 +17,8 @@ import messaging from '@react-native-firebase/messaging';
 import ThemeContext from '../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {Bars} from 'react-native-loader';
+import {Overlay} from 'react-native-elements';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -75,6 +77,12 @@ function PermissionsAfterRegister({dispatch, route}) {
     }
   }
 
+  const [settingUpThings, showSettingUpThings] = useState(false);
+
+  const toggleOverlay = () => {
+    showSettingUpThings(!settingUpThings);
+  };
+
   return (
     <SafeAreaView style={styles.view}>
       <TouchableOpacity
@@ -84,13 +92,17 @@ function PermissionsAfterRegister({dispatch, route}) {
           justifyContent: 'center',
         }}
         onPress={() => {
+          toggleOverlay();
+          requestUserPermission();
+          GrabContacts();
           ReactNativeHapticFeedback.trigger('impactHeavy', {
             enableVibrateFallback: true,
             ignoreAndroidSystemSettings: false,
           });
-          requestUserPermission();
-          GrabContacts();
-          dispatch({type: LOGIN});
+          setTimeout(function () {
+            toggleOverlay();
+            dispatch({type: LOGIN});
+          }, 5000);
         }}>
         <SquircleView
           style={{
@@ -125,6 +137,24 @@ function PermissionsAfterRegister({dispatch, route}) {
         loop
         style={{width: windowWidth * 0.8, height: windowHeight * 0.5}}
       />
+      <Overlay
+        isVisible={settingUpThings}
+        onBackdropPress={toggleOverlay}
+        overlayStyle={{
+          backgroundColor: 'transparent',
+          width: windowWidth * 0.8,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Bars size={10} color="#FDAAFF" />
+        <Text
+          style={{
+            ...theme.text.smallest,
+            color: '#F2F4F9',
+          }}>
+          Please wait while we are setting up thing!
+        </Text>
+      </Overlay>
     </SafeAreaView>
   );
 }
