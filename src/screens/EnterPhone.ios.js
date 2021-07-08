@@ -16,6 +16,7 @@ import Iconly from '../pnstuff/Iconly';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ThemeContext from '../themes/Theme';
+import {Picker} from '@react-native-picker/picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -26,6 +27,7 @@ function EnterPhone({navigation}) {
   const [country, setCountry] = useState('in');
   const phoneRef = useRef(undefined);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [location, selectLocation] = useState();
 
   function SendOTP() {
     axios
@@ -88,8 +90,103 @@ function EnterPhone({navigation}) {
             onChangePhoneNumber={number => {
               setValue(number);
             }}
+            countriesList={[
+              {
+                name: 'India (भारत)',
+                iso2: 'in',
+                dialCode: '91',
+                priority: 0,
+                areaCodes: null,
+              },
+              {
+                name: 'United States',
+                iso2: 'us',
+                dialCode: '1',
+                priority: 0,
+                areaCodes: null,
+              },
+              {
+                name: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)',
+                iso2: 'ae',
+                dialCode: '971',
+                priority: 0,
+                areaCodes: null,
+              },
+              {
+                name: 'United Kingdom',
+                iso2: 'gb',
+                dialCode: '44',
+                priority: 0,
+                areaCodes: null,
+              },
+              {
+                name: 'Canada',
+                iso2: 'ca',
+                dialCode: '1',
+                priority: 1,
+                areaCodes: [
+                  '204',
+                  '226',
+                  '236',
+                  '249',
+                  '250',
+                  '289',
+                  '306',
+                  '343',
+                  '365',
+                  '387',
+                  '403',
+                  '416',
+                  '418',
+                  '431',
+                  '437',
+                  '438',
+                  '450',
+                  '506',
+                  '514',
+                  '519',
+                  '548',
+                  '579',
+                  '581',
+                  '587',
+                  '604',
+                  '613',
+                  '639',
+                  '647',
+                  '672',
+                  '705',
+                  '709',
+                  '742',
+                  '778',
+                  '780',
+                  '782',
+                  '807',
+                  '819',
+                  '825',
+                  '867',
+                  '873',
+                  '902',
+                  '905',
+                ],
+              },
+              {
+                name: 'Australia',
+                iso2: 'au',
+                dialCode: '61',
+                priority: 0,
+                areaCodes: null,
+              },
+              {
+                name: 'New Zealand',
+                iso2: 'nz',
+                dialCode: '64',
+                priority: 0,
+                areaCodes: null,
+              },
+            ]}
           />
         </View>
+
         <Pressable
           style={styles.button_view}
           onPress={() => {
