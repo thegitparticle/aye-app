@@ -16,7 +16,6 @@ import Iconly from '../pnstuff/Iconly';
 import {SharedElement} from 'react-navigation-shared-element';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ThemeContext from '../themes/Theme';
-import {Picker} from '@react-native-picker/picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -27,7 +26,6 @@ function EnterPhone({navigation}) {
   const [country, setCountry] = useState('in');
   const phoneRef = useRef(undefined);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [location, selectLocation] = useState();
 
   function SendOTP() {
     axios
