@@ -140,9 +140,10 @@ function PermissionsAfterRegister({dispatch, route}) {
       <Overlay
         isVisible={settingUpThings}
         onBackdropPress={toggleOverlay}
+        fullScreen={true}
         overlayStyle={{
-          backgroundColor: 'transparent',
-          width: windowWidth * 0.8,
+          backgroundColor: '#05050575',
+          width: windowWidth,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -152,7 +153,7 @@ function PermissionsAfterRegister({dispatch, route}) {
             ...theme.text.smallest,
             color: '#F2F4F9',
           }}>
-          Please wait while we are setting up thing!
+          Settings up things for you!
         </Text>
       </Overlay>
     </SafeAreaView>
