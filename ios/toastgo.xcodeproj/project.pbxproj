@@ -579,7 +579,7 @@
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
@@ -618,7 +618,7 @@
 				CODE_SIGN_ENTITLEMENTS = toastgo/toastgo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 armv7";
 				INFOPLIST_FILE = toastgo/Info.plist;

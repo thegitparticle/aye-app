@@ -42,9 +42,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>share moments with your friends</string>
 	<key>NSContactsUsageDescription</key>
-	<string>To help you find your friends</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>To help you find your friends. By giving access, you agree for your contacts to be uploaded onto our highly encrypted secure server.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To send photos to your friends.</string>
 	<key>UIAppFonts</key>
