@@ -70,7 +70,11 @@ function OTPCheck({route, navigation, dispatch}) {
 
       //.then(() => changeOTP())
 
-      .then(() => setShowSpinner(false))
+      .then(() => {
+        setTimeout(function () {
+          setShowSpinner(false);
+        }, 3000);
+      })
       .then(() => dispatch({type: LOGIN}))
       .then(() => console.log('login pass success'))
       .catch(() => toggleOverlay());
