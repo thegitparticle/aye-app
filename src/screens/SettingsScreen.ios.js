@@ -99,6 +99,7 @@ function SettingsScreen({navigation, dispatch}) {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
+            marginVertical: windowHeight * 0.015,
           }}
           onPress={() => {
             dispatch({type: LOGOUT});

@@ -1,4 +1,5 @@
-import React, {useMemo, useContext} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useMemo, useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -7,13 +8,15 @@ import {
   Pressable,
   Image,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Avatar, Header, Icon} from 'react-native-elements';
+import {Avatar, Header, Icon, Overlay} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Iconly from '../pnstuff/Iconly';
 import ThemeContext from '../themes/Theme';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -53,25 +56,40 @@ function MyProfileComponent(props) {
     return (
       <View style={styles.second_block_view}>
         <View style={styles.show_case_clubs_view}>
-          <View style={styles.clubs_icon_view_wrap}>
+          <TouchableOpacity
+            style={styles.clubs_icon_view_wrap}
+            onPress={() => toggleClansOverlay()}>
             <FastImage
               source={require('/Users/san/Desktop/toastgo/assets/house_closed_color1.png')}
               style={styles.clubs_icon}
             />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.clubs_count_text}>{props.ClubsCount}</Text>
         </View>
 
         <View style={styles.show_case_circle_view}>
-          <View style={styles.circle_icon_view_wrap}>
+          <TouchableOpacity
+            style={styles.circle_icon_view_wrap}
+            onPress={() => toggleFramesOverlay()}>
             <Icon type="feather" name="layers" color="#7D4DF9" size={32} />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.circle_count_text}>{props.FrameCount}</Text>
         </View>
       </View>
     );
   }
   const navigation = useNavigation();
+
+  const [clansOverlay, showClansOverlay] = useState(false);
+  const [framesOverlay, showFramesOverlay] = useState(false);
+
+  const toggleClansOverlay = () => {
+    showClansOverlay(!clansOverlay);
+  };
+
+  const toggleFramesOverlay = () => {
+    showFramesOverlay(!framesOverlay);
+  };
 
   return (
     <View style={styles.containerview}>
@@ -104,6 +122,58 @@ function MyProfileComponent(props) {
           />
         </View>
       </View>
+      <Overlay
+        isVisible={clansOverlay}
+        onBackdropPress={toggleClansOverlay}
+        overlayStyle={styles.ClansFramesOverlay}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.8,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: windowHeight * 0.2,
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 20,
+            fillColor: theme.colors.full_light,
+          }}>
+          <Text style={{...theme.text.smallest}}>
+            you are part of{' '}
+            <Text
+              style={{...theme.text.callout, color: theme.colors.danger_red}}>
+              {props.Profile.user.number_of_clubs_joined}
+            </Text>{' '}
+            clans!
+          </Text>
+        </SquircleView>
+      </Overlay>
+      <Overlay
+        isVisible={framesOverlay}
+        onBackdropPress={toggleFramesOverlay}
+        overlayStyle={styles.ClansFramesOverlay}>
+        <SquircleView
+          style={{
+            width: windowWidth * 0.8,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: windowHeight * 0.2,
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 20,
+            fillColor: theme.colors.full_light,
+          }}>
+          <Text style={{...theme.text.smallest}}>
+            you participated in{' '}
+            <Text
+              style={{...theme.text.callout, color: theme.colors.danger_red}}>
+              {props.Profile.user.total_frames_participation}
+            </Text>{' '}
+            frames!
+          </Text>
+        </SquircleView>
+      </Overlay>
     </View>
   );
 }
@@ -111,6 +181,14 @@ function MyProfileComponent(props) {
 export default MyProfileComponent;
 
 const styles = StyleSheet.create({
+  ClansFramesOverlay: {
+    height: windowHeight * 0.2,
+    width: windowWidth * 0.8,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
   top_blocks: {
     justifyContent: 'space-between',
   },
