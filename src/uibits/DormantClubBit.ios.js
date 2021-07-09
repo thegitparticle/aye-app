@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
@@ -9,26 +10,6 @@ const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
   const theme = useContext(ThemeContext);
-
-  function OnGoingFrameText(props) {
-    if (props.Status) {
-      return (
-        <View style={styles.subtitle_view}>
-          <Icon type="feather" color="#7D4DF9" name="layers" size={14} />
-          <Text style={styles.subtitle_text}>new frame</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.subtitle_view}>
-          <Icon type="feather" color="#06090e25" name="layers" size={14} />
-          <Text style={styles.subtitle_text_not_new}>
-            tap to start new frame
-          </Text>
-        </View>
-      );
-    }
-  }
 
   if (props.Club.club_id === 0) {
     return <View />;
@@ -65,9 +46,30 @@ function DormantClubBit(props) {
             size={68}
           />
           <View style={styles.text_block_view}>
-            <Text style={styles.name_of_club}>{props.Club.club_name}</Text>
+            <Text
+              style={{
+                ...theme.text.subhead_medium,
+                marginBottom: 10,
+              }}>
+              {props.Club.club_name}
+            </Text>
 
-            <OnGoingFrameText Status={props.Club.on_going_frame} />
+            <View style={styles.subtitle_view}>
+              <Icon
+                type="feather"
+                color={theme.colors.full_dark_25}
+                name="layers"
+                size={12}
+              />
+              <Text
+                style={{
+                  ...theme.text.smallest,
+                  color: theme.colors.full_dark_25,
+                  marginLeft: 5,
+                }}>
+                tap to start new frame
+              </Text>
+            </View>
           </View>
         </View>
       </View>

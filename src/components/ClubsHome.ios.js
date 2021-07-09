@@ -171,14 +171,17 @@ function ClubsHomeD({dispatch}) {
     //   onRefresh={memoizedHandleRefresh}
     //   pullHeight={100}
     //   contentView={
-    <ScrollView
-      style={styles.overall_view}
-      showsVerticalScrollIndicator={false}>
-      <RenderClubsHere />
-      <PushSetup />
-
-      <BannerToPushToStartClub />
-    </ScrollView>
+    <View style={{flex: 1, overflow: 'visible'}}>
+      <ScrollView
+        style={{
+          backgroundColor: theme.colors.full_light,
+        }}
+        showsVerticalScrollIndicator={false}>
+        <RenderClubsHere />
+        <PushSetup />
+        <BannerToPushToStartClub />
+      </ScrollView>
+    </View>
     // }
     //   onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
     //   onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}

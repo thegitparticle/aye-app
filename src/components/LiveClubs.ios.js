@@ -1,23 +1,18 @@
-import React from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import React, {useContext} from 'react';
+import {View, StyleSheet, Text, Dimensions, Platform} from 'react-native';
 import LiveClubComponent from './LiveClubComponent';
 import {ListItem, Icon} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import _ from 'lodash';
+import ThemeContext from '../themes/Theme';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function LiveClubs(props) {
   var live_clubs_data_here = props.ClubsData;
-
+  const theme = useContext(ThemeContext);
   const navigation = useNavigation();
 
   return (
@@ -56,15 +51,31 @@ function LiveClubs(props) {
             />
           </ListItem.Content>
           <ListItem.Content style={styles.list_item_content}>
-            <ListItem.Title style={styles.LiveClubName}>
+            <ListItem.Title
+              style={{
+                color: theme.colors.full_dark,
+                ...theme.text.subhead_medium,
+              }}>
               {comp.club_name.length < 15
                 ? comp.club_name
                 : comp.club_name.substring(0, 14)}
             </ListItem.Title>
             <ListItem.Subtitle>
               <View style={styles.subtitle_view}>
-                <Icon type="feather" color="#7D4DF9" name="layers" size={16} />
-                <Text style={styles.subtitle_text}>frame going on</Text>
+                <Icon
+                  type="feather"
+                  color={theme.colors.chat_prime}
+                  name="layers"
+                  size={12}
+                />
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    ...theme.text.smallest,
+                    color: theme.colors.chat_prime,
+                  }}>
+                  frame going on
+                </Text>
               </View>
             </ListItem.Subtitle>
           </ListItem.Content>
@@ -77,7 +88,11 @@ function LiveClubs(props) {
 export default LiveClubs;
 
 const styles = StyleSheet.create({
+  ImagesContainer: {
+    marginVertical: 5,
+  },
   list_item_content: {
+    marginVertical: 5,
     height: windowHeight * 0.0719 * 0.75,
     justifyContent: 'space-around',
     alignItems: 'center',

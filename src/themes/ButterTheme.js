@@ -83,6 +83,10 @@ export const ButterTheme = {
       fontFamily: 'GothamRounded-Book',
       fontSize: 16,
     },
+    subhead_medium: {
+      fontFamily: 'GothamRounded-Medium',
+      fontSize: 15,
+    },
     subhead: {
       fontFamily: 'GothamRounded-Book',
       fontSize: 15,
