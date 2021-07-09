@@ -24,6 +24,7 @@ export const ButterTheme = {
     full_light_75: '#FFFFFF75',
     full_light_50: '#FFFFFF50',
     full_light_25: '#FFFFFF25',
+    full_light_10: '#FFFFFF10',
     off_light: '#F2F4F9',
     off_light_75: '#F2F4F975',
     off_light_50: '#F2F4F950',
@@ -44,6 +45,7 @@ export const ButterTheme = {
     full_dark_75: '#05050575',
     full_dark_50: '#05050550',
     full_dark_25: '#05050525',
+    full_dark_10: '#05050510',
   },
   spacing: {
     s: 8,

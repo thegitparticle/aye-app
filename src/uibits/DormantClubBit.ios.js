@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {useNavigation} from '@react-navigation/native';
+import ThemeContext from '../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
-  const navigation = useNavigation();
+  const theme = useContext(ThemeContext);
 
   function OnGoingFrameText(props) {
     if (props.Status) {
@@ -54,7 +54,11 @@ function DormantClubBit(props) {
       //     },
       //   })
       >
-        <View style={styles.overall_view_under}>
+        <View
+          style={{
+            ...styles.overall_view_under,
+            backgroundColor: theme.colors.full_light,
+          }}>
           <FastImage
             source={{uri: props.Club.club_profile_pic}}
             style={styles.avatar_of_club}

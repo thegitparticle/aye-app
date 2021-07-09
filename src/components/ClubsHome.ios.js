@@ -13,6 +13,8 @@ import PushSetup from '../pnstuff/PushSetup';
 import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../pnstuff/MixPanelStuff';
+import ThemeContext from '../themes/Theme';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,6 +23,7 @@ var state_here = {};
 
 function ClubsHomeD({dispatch}) {
   var my_clubs = state_here.MyClubsReducer.myclubs;
+  const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
   const navigation = useNavigation();
 
@@ -75,7 +78,12 @@ function ClubsHomeD({dispatch}) {
       <View>
         {_.uniqBy(my_clubs, 'club_id').map((item, index) => (
           <View>
-            <ListItem bottomDivider containerStyle={styles.list_item_container}>
+            <ListItem
+              bottomDivider
+              containerStyle={{
+                ...styles.list_item_container,
+                borderColor: theme.colors.full_dark_25,
+              }}>
               <DormantClubBit Club={item} />
             </ListItem>
           </View>
@@ -89,27 +97,34 @@ function ClubsHomeD({dispatch}) {
       return (
         <View>
           {_.uniqBy(dor_clubs, 'club_id').map((item, index) => (
-            <View>
+            <TouchableOpacity
+              style={{
+                ...styles.list_item_container,
+              }}
+              underlayColor={theme.colors.mid_light}
+              onPress={() => {
+                navigation.navigate('ClubInteractionScreens', {
+                  screen: 'ClubChatScreen',
+                  params: {
+                    clubNameHere: item.club_name,
+                    channelIdHere: item.pn_channel_id,
+                    channelOnGoing: item.on_going_frame,
+                    channelStartTime: item.start_time,
+                    channelEndTime: item.end_time,
+                    clubID: item.club_id,
+                  },
+                });
+              }}>
               <ListItem
                 bottomDivider
-                underlayColor="#EEEEEE"
-                containerStyle={styles.list_item_container}
-                onPress={() => {
-                  navigation.navigate('ClubInteractionScreens', {
-                    screen: 'ClubChatScreen',
-                    params: {
-                      clubNameHere: item.club_name,
-                      channelIdHere: item.pn_channel_id,
-                      channelOnGoing: item.on_going_frame,
-                      channelStartTime: item.start_time,
-                      channelEndTime: item.end_time,
-                      clubID: item.club_id,
-                    },
-                  });
+                underlayColor={theme.colors.mid_light}
+                containerStyle={{
+                  ...styles.list_item_container,
+                  borderColor: theme.colors.full_dark_10,
                 }}>
                 <DormantClubBit Club={item} />
               </ListItem>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       );
@@ -117,12 +132,10 @@ function ClubsHomeD({dispatch}) {
 
     function RenderLive() {
       return (
-        <View>
-          <LiveClubs
-            ClubsData={live_clubs}
-            UserID={state_here.MyProfileReducer.myprofile.user.id}
-          />
-        </View>
+        <LiveClubs
+          ClubsData={live_clubs}
+          UserID={state_here.MyProfileReducer.myprofile.user.id}
+        />
       );
     }
 
@@ -152,26 +165,26 @@ function ClubsHomeD({dispatch}) {
   }, []);
 
   return (
-    <AnimatedPullToRefresh
-      isRefreshing={refreshing}
-      animationBackgroundColor={'#FFFFFF'}
-      onRefresh={memoizedHandleRefresh}
-      pullHeight={100}
-      contentView={
-        <ScrollView
-          style={styles.overall_view}
-          showsVerticalScrollIndicator={false}>
-          <RenderClubsHere />
-          <PushSetup />
+    // <AnimatedPullToRefresh
+    //   isRefreshing={refreshing}
+    //   animationBackgroundColor={'#FFFFFF'}
+    //   onRefresh={memoizedHandleRefresh}
+    //   pullHeight={100}
+    //   contentView={
+    <ScrollView
+      style={styles.overall_view}
+      showsVerticalScrollIndicator={false}>
+      <RenderClubsHere />
+      <PushSetup />
 
-          <BannerToPushToStartClub />
-        </ScrollView>
-      }
-      onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-      onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-      onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-      onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-    />
+      <BannerToPushToStartClub />
+    </ScrollView>
+    // }
+    //   onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+    //   onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+    //   onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+    //   onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
+    // />
   );
 }
 
@@ -189,5 +202,5 @@ const styles = StyleSheet.create({
     borderColor: '#05050510',
     width: windowWidth,
   },
-  overall_view: {flex: 1, overflow: 'visible', backgroundColor: '#FFF'},
+  overall_view: {flex: 1, overflow: 'visible'},
 });
