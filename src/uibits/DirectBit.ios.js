@@ -3,7 +3,6 @@ import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
 import {Icon, Badge} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-// import {useNavigation} from '@react-navigation/native';
 import {MMKV} from 'react-native-mmkv';
 import {usePubNub} from 'pubnub-react';
 import ThemeContext from '../themes/Theme';
@@ -12,7 +11,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function DirectBit(props) {
-  // const navigation = useNavigation();
   const theme = useContext(ThemeContext);
   const pubnub = usePubNub();
 
@@ -22,19 +20,35 @@ function DirectBit(props) {
         <View style={styles.subtitle_view}>
           <Icon
             type="feather"
-            color="#7D4DF9"
-            //{Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)'}
+            color={theme.colors.chat_prime}
             name="layers"
-            size={14}
+            size={12}
           />
-          <Text style={styles.subtitle_text}>frame going on</Text>
+          <Text
+            style={{
+              ...theme.text.smallest,
+              color: theme.colors.chat_prime,
+              marginLeft: 5,
+            }}>
+            frame going on
+          </Text>
         </View>
       );
     } else {
       return (
         <View style={styles.subtitle_view}>
-          <Icon type="feather" color="#06090e25" name="layers" size={14} />
-          <Text style={styles.subtitle_text_not_new}>
+          <Icon
+            type="feather"
+            color={theme.colors.full_dark_25}
+            name="layers"
+            size={12}
+          />
+          <Text
+            style={{
+              ...theme.text.smallest,
+              color: theme.colors.full_dark_25,
+              marginLeft: 5,
+            }}>
             tap to start new frame
           </Text>
         </View>
@@ -87,7 +101,11 @@ function DirectBit(props) {
           size={68}
         />
         <View style={styles.text_block_view}>
-          <Text style={styles.name_of_other_person}>
+          <Text
+            style={{
+              ...theme.text.subhead_medium,
+              marginBottom: 10,
+            }}>
             {props.Direct.display_guys.full_name}
           </Text>
           <UnreadStatus Status={props.Direct.ongoing_frame} />

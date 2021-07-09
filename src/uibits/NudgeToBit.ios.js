@@ -8,7 +8,6 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {Button} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import axios from 'axios';
@@ -16,7 +15,6 @@ import {GetDirectsList} from '../redux/DirectsListActions';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import {useDispatch} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
-import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import ThemeContext from '../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
@@ -31,8 +29,6 @@ function NudgeToBit(props) {
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
   //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
-
-  const navigation = useNavigation();
 
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
@@ -112,7 +108,12 @@ function NudgeToBit(props) {
           size={68}
         />
         <View style={styles.text_block_view}>
-          <Text style={styles.user_name}>{props.NudgeTo.name}</Text>
+          <Text
+            style={{
+              ...theme.text.subhead_medium,
+            }}>
+            {props.NudgeTo.name}
+          </Text>
         </View>
       </View>
 

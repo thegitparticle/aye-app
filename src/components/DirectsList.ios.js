@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import DirectBit from '../uibits/DirectBit';
 import {ListItem} from 'react-native-elements';
@@ -7,6 +7,8 @@ import {usePubNub} from 'pubnub-react';
 import {connect} from 'react-redux';
 import {GetDirectsList} from '../redux/DirectsListActions';
 import BannerIfDmsEmpty from '../uibits/BannerIfDmsEmpty';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import ThemeContext from '../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -16,6 +18,7 @@ var state_here = {};
 function DirectsList({dispatch}) {
   const pubnub = usePubNub();
   const navigation = useNavigation();
+  const theme = useContext(ThemeContext);
 
   const DirectsListHere = state_here.DirectsListReducer.directslist;
 
@@ -31,11 +34,8 @@ function DirectsList({dispatch}) {
 
   function RenderItem(props) {
     return (
-      <ListItem
-        bottomDivider
-        containerStyle={styles.list_item_container}
-        underlayColor="#EEEEEE"
-        onPress={() =>
+      <TouchableOpacity
+        onPress={() => {
           navigation.navigate('DirectInteractionScreens', {
             screen: 'DirectChatScreen',
             params: {
@@ -46,10 +46,15 @@ function DirectsList({dispatch}) {
               channelStartTime: props.Direct.start_time,
               channelEndTime: props.Direct.end_time,
             },
-          })
-        }>
-        <DirectBit Direct={props.Direct} />
-      </ListItem>
+          });
+        }}>
+        <ListItem
+          bottomDivider
+          containerStyle={styles.list_item_container}
+          underlayColor={theme.colors.off_light}>
+          <DirectBit Direct={props.Direct} />
+        </ListItem>
+      </TouchableOpacity>
     );
   }
 

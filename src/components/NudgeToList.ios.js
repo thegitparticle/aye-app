@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import NudgeToBit from '../uibits/NudgeToBit';
 import {ListItem} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GetMyNudgeToList} from '../redux/MyNudgeToListActions';
 import {useNavigation} from '@react-navigation/native';
+import ThemeContext from '../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
 //const windowWidth = Dimensions.get('window').width;
@@ -15,6 +16,8 @@ function NudgeToList({dispatch}) {
   var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
 
   const navigation = useNavigation();
+
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
@@ -42,7 +45,15 @@ function NudgeToList({dispatch}) {
     } else {
       return (
         <View style={styles.overall_view}>
-          <Text style={styles.nudgeto_heading}>MORE FRIENDS</Text>
+          <Text
+            style={{
+              ...theme.text.subhead_medium,
+              marginHorizontal: 20,
+              marginBottom: 15,
+              color: theme.colors.full_dark_50,
+            }}>
+            MORE FRIENDS
+          </Text>
           {NudgeToData.map((item, index) => (
             <RenderItem NudgeTo={item} />
           ))}
