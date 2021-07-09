@@ -201,13 +201,15 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   d_text_view: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F2F4F9',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
     padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    maxWidth: windowWidth * 0.8,
   },
   d_text: {
     fontFamily: 'GothamRounded-Medium',

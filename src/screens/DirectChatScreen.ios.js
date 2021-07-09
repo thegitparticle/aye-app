@@ -779,7 +779,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'd',
                 pasted_url: copiedText,
-                user_dp: state_here.MyProfileReducer.myprofile.image,
+                pasted_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {
@@ -818,7 +818,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
             meta: {
               type: 'd',
               pasted_url: copiedText,
-              user_dp: state_here.MyProfileReducer.myprofile.image,
+              pasted_dp: state_here.MyProfileReducer.myprofile.image,
             },
           },
           function (status, response) {

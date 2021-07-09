@@ -81,7 +81,7 @@ function CraftAndSendLinkMessage(props) {
             meta: {
               type: 'd',
               pasted_url: copiedText,
-              user_dp: props.ProfileAvatar,
+              pasted_dp: props.ProfileAvatar,
             },
           },
           function (status, response) {
