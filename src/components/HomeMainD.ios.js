@@ -6,7 +6,7 @@ import {
   Dimensions,
   Text,
   Linking,
-  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {Overlay, Button} from 'react-native-elements';
 import HeaderAtHome from '../components/HeaderAtHome';
@@ -85,13 +85,13 @@ function HomeMainD({dispatch, navigation}) {
       if (focused) {
         return (
           <View style={styles.tab_icon_view}>
-            <IconlyHomeClubsIcon Color="black" />
+            <IconlyHomeClubsIcon Color={theme.colors.full_dark} />
           </View>
         );
       } else {
         return (
           <View style={styles.tab_icon_view}>
-            <IconlyHomeClubsIcon Color="grey" />
+            <IconlyHomeClubsIcon Color={theme.colors.full_dark_50} />
           </View>
         );
       }
@@ -99,13 +99,13 @@ function HomeMainD({dispatch, navigation}) {
       if (focused) {
         return (
           <View style={styles.tab_icon_view}>
-            <IconlyDirectIcon Color="black" />
+            <IconlyDirectIcon Color={theme.colors.full_dark} />
           </View>
         );
       } else {
         return (
           <View style={styles.tab_icon_view}>
-            <IconlyDirectIcon Color="grey" />
+            <IconlyDirectIcon Color={theme.colors.full_dark_50} />
           </View>
         );
       }
@@ -118,13 +118,16 @@ function HomeMainD({dispatch, navigation}) {
       indicatorStyle={styles.tab_bar_indicator}
       style={styles.tab_bar}
       renderIcon={renderIconHere}
-      // eslint-disable-next-line react-native/no-inline-styles
       tabStyle={{backgroundColor: 'transparent'}}
     />
   );
 
   return (
-    <View style={styles.overall_view}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.full_light,
+      }}>
       <HeaderAtHome />
       <TabView
         navigationState={{index, routes}}
@@ -132,12 +135,12 @@ function HomeMainD({dispatch, navigation}) {
         renderTabBar={renderTabBar}
         onIndexChange={setIndex}
         tabBarPosition="bottom"
-        // eslint-disable-next-line react-native/no-inline-styles
         sceneContainerStyle={{
           overflow: 'visible',
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.full_light,
         }}
         style={styles.tab_view}
+        initialLayout={{width: windowWidth}}
       />
       <Overlay isVisible={giveContactsVisible} fullScreen>
         <View style={styles.contacts_banner_view}>
@@ -155,7 +158,7 @@ function HomeMainD({dispatch, navigation}) {
             </Text>
             <Text
               style={{
-                ...theme.text.subhead,
+                ...theme.text.caption,
                 color: theme.colors.mid_dark,
                 marginVertical: 20,
                 maxWidth: windowWidth * 0.9,
@@ -165,7 +168,7 @@ function HomeMainD({dispatch, navigation}) {
               with your best friends on Aye.
             </Text>
           </View>
-          <Pressable
+          <TouchableOpacity
             style={{
               marginVertical: 20,
               alignItems: 'center',
@@ -191,24 +194,57 @@ function HomeMainD({dispatch, navigation}) {
                 Go to settings
               </Text>
             </SquircleView>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </Overlay>
       <Overlay isVisible={updateBannerVisible} fullScreen>
         <View style={styles.update_banner_view}>
-          <Text style={styles.update_banner_text_main}>
+          <Text
+            style={{
+              ...theme.text.title_2,
+              color: theme.colors.full_dark,
+              marginVertical: 20,
+              maxWidth: windowWidth * 0.9,
+              textAlign: 'center',
+            }}>
             We are improving Aye!
           </Text>
-          <Text style={styles.update_banner_text_update_line}>
+          <Text
+            style={{
+              ...theme.text.caption,
+              color: theme.colors.mid_dark,
+              marginVertical: 20,
+              maxWidth: windowWidth * 0.9,
+              textAlign: 'center',
+            }}>
             Please update the app for a better experience
           </Text>
-          <Button
-            buttonStyle={styles.update_button}
-            containerStyle={styles.update_button_container}
-            titleStyle={styles.update_button_title}
-            title="Update"
-            onPress={() => Linking.openURL('https://bit.ly/aye_app_store')}
-          />
+
+          <TouchableOpacity
+            style={{
+              marginVertical: 20,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => Linking.openURL('https://bit.ly/aye_app_store')}>
+            <SquircleView
+              style={{
+                width: windowWidth * 0.8,
+                height: 60,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              squircleParams={{
+                cornerSmoothing: 1,
+                cornerRadius: 15,
+                fillColor: theme.colors.success_green,
+              }}>
+              <Text
+                style={{...theme.text.title_3, color: theme.colors.full_light}}>
+                update
+              </Text>
+            </SquircleView>
+          </TouchableOpacity>
         </View>
       </Overlay>
     </View>
