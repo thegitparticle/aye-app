@@ -5,25 +5,24 @@ import {
   CardStyleInterpolators,
   TransitionPresets,
 } from '@react-navigation/stack';
-import RootStackScreen from '../screens/RootStackScreen';
-import InvitePeopleToApp from '../screens/InvitePeopleToApp';
-import HomeMainD from '../components/HomeMainD';
-import MyProfileScreen from '../screens/MyProfileScreen';
-import EditProfile from '../screens/EditProfile';
-import SettingsScreen from '../screens/SettingsScreen';
-import ClubChatScreen from '../screens/ClubChatScreen';
-import ClubFramesList from '../screens/ClubFramesList';
-import ClubHub from '../screens/ClubHub';
-import DirectFramesList from '../screens/DirectFramesList';
-import DirectChatScreen from '../screens/DirectChatScreen';
-import DirectHub from '../screens/DirectHub';
-import AddPeopleToClub from '../screens/AddPeopleToClub';
-import StartClub from '../screens/StartClub';
-import InvitePeopleToClub from '../screens/InvitePeopleToClub';
-import OtherProfile from '../screens/OtherProfile';
-import ViewOldFrameClub from '../screens/ViewOldFrameClub';
-import ViewOldFrameDirect from '../screens/ViewOldFrameDirect';
-import TheAyeScreen from '../screens/TheAyeScreen';
+import InvitePeopleToApp from '../buckets/InvitePeople/screens/InvitePeopleToApp';
+import HomeMainD from '../buckets/HomeMain/screens/HomeMainD';
+import MyProfileScreen from '../buckets/MyProfile/screens/MyProfileScreen';
+import EditProfile from '../buckets/MyProfile/screens/EditProfile';
+import SettingsScreen from '../buckets/MyProfile/screens/SettingsScreen';
+import ClubChatScreen from '../buckets/ClanChat/screens/ClubChatScreen';
+import ClubFramesList from '../buckets/ClanFrames/screens/ClubFramesList';
+import ClubHub from '../buckets/ClanHub/screens/ClubHub';
+import DirectFramesList from '../buckets/DirectFrames/screens/DirectFramesList';
+import DirectChatScreen from '../buckets/DirectChat/screens/DirectChatScreen';
+import DirectHub from '../buckets/DirectHub/screens/DirectHub';
+import AddPeopleToClub from '../buckets/AddPeople/screens/AddPeopleToClub';
+import StartClub from '../buckets/StartClan/screens/StartClub';
+import InvitePeopleToClub from '../buckets/InvitePeople/screens/InvitePeopleToClub';
+import OtherProfile from '../buckets/OtherProfile/screens/OtherProfile';
+import ViewOldFrameClub from '../buckets/ClanFrames/screens/ViewOldFrameClub';
+import ViewOldFrameDirect from '../buckets/DirectFrames/screens/ViewOldFrameDirect';
+import TheAyeScreen from '../buckets/Aye/screens/TheAyeScreen';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -160,18 +159,7 @@ function HomeStack() {
   return (
     <StackMain.Navigator headerMode="none">
       <StackMain.Screen name="Here" component={Here} />
-      <StackMain.Screen
-        name="RootStackScreen"
-        component={RootStackScreen}
-        options={{
-          gestureEnabled: true,
-          transitionSpec: {
-            open: TransitionSpecs.TransitionIOSSpec,
-            close: TransitionSpecs.TransitionIOSSpec,
-          },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
+
       <StackMain.Screen
         name="MyProfileModalScreens"
         component={MyProfileModalScreens}

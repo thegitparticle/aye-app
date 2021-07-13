@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
 import messaging from '@react-native-firebase/messaging';
-import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
+import {MixpanelProvider} from '../external/MixPanelStuff';
 import {Mixpanel} from 'mixpanel-react-native';
 
 var state_here = {};
