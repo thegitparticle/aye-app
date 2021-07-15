@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Icon, Badge} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import {MMKV} from 'react-native-mmkv';
@@ -65,7 +65,6 @@ function DirectBit(props) {
     const last_seen = MMKV.getNumber(props.Direct.direct_channel_id);
 
     const [newMessages, setNewMessages] = useState(0);
-    // console.log(last_seen);
 
     if (last_seen !== 0) {
       pubnub.messageCounts(

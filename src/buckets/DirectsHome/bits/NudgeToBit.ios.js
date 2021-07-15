@@ -28,8 +28,6 @@ function NudgeToBit(props) {
   const theme = useContext(ThemeContext);
   var current_user_id = state_here.MyProfileReducer.myprofile.user.id;
 
-  //https://apisayepirates.life/api/users/start_chat/<int:user_id_1>/<int:user_id_2>/<str:channel_id_string>/
-
   const id_here_making =
     String(current_user_id) + '_' + String(props.NudgeTo.id) + '_d';
 

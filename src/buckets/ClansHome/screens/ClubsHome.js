@@ -1,5 +1,6 @@
-import React, {useState, useCallback, useContext, useEffect} from 'react';
-import {View, StyleSheet, ScrollView, Dimensions, FlatList} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useContext, useEffect, useMemo} from 'react';
+import {View, StyleSheet, Dimensions, FlatList} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -9,7 +10,6 @@ import LiveClubs from '../bits/LiveClubs';
 import DormantClubBit from '../bits/DormantClubBit';
 import BannerToPushToStartClub from './BannerToPushToStartClub';
 import _ from 'lodash';
-import PushSetup from '../../../external/PushSetup';
 import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../../../external/MixPanelStuff';
 import ThemeContext from '../../../themes/Theme';
@@ -26,7 +26,7 @@ function ClubsHomeD({dispatch}) {
   const pubnub = usePubNub();
   const navigation = useNavigation();
 
-  // const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -74,74 +74,42 @@ function ClubsHomeD({dispatch}) {
   }
 
   function PreLoadDorClubs() {
-    const renderItem = ({item}) => (
-      <ListItem
-        bottomDivider
-        containerStyle={{
-          ...styles.list_item_container,
-          borderColor: theme.colors.full_dark_25,
-        }}>
-        <DormantClubBit Club={item} />
-      </ListItem>
-    );
+    function RenderItem(props) {
+      const x_here = props.item.item;
+      return (
+        <ListItem
+          bottomDivider
+          containerStyle={{
+            ...styles.list_item_container,
+            borderColor: theme.colors.full_dark_25,
+          }}>
+          <DormantClubBit Club={x_here} />
+        </ListItem>
+      );
+    }
+
+    var uniqueClubs = _.uniqBy(my_clubs, 'club_id');
 
     return (
       <FlatList
-        data={_.uniqBy(my_clubs, 'club_id')}
-        renderItem={renderItem}
+        data={uniqueClubs}
         keyExtractor={item => item.club_id}
+        renderItem={item => <RenderItem item={item} />}
         ListFooterComponent={
           <View>
             <BannerToPushToStartClub />
-            <PushSetup />
           </View>
         }
         style={{
           backgroundColor: theme.colors.full_light,
         }}
         showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
       />
     );
   }
 
   function RenderClubsHere() {
-    function RenderDor() {
-      return (
-        <View>
-          {_.uniqBy(dor_clubs, 'club_id').map((item, index) => (
-            <TouchableOpacity
-              style={{
-                ...styles.list_item_container,
-              }}
-              underlayColor={theme.colors.mid_light}
-              onPress={() => {
-                navigation.navigate('ClubInteractionScreens', {
-                  screen: 'ClubChatScreen',
-                  params: {
-                    clubNameHere: item.club_name,
-                    channelIdHere: item.pn_channel_id,
-                    channelOnGoing: item.on_going_frame,
-                    channelStartTime: item.start_time,
-                    channelEndTime: item.end_time,
-                    clubID: item.club_id,
-                  },
-                });
-              }}>
-              <ListItem
-                bottomDivider
-                underlayColor={theme.colors.mid_light}
-                containerStyle={{
-                  ...styles.list_item_container,
-                  borderColor: theme.colors.full_dark_10,
-                }}>
-                <DormantClubBit Club={item} />
-              </ListItem>
-            </TouchableOpacity>
-          ))}
-        </View>
-      );
-    }
-
     function RenderLive() {
       return (
         <LiveClubs
@@ -151,15 +119,55 @@ function ClubsHomeD({dispatch}) {
       );
     }
 
+    const renderDorItem = ({item}) => (
+      <TouchableOpacity
+        style={{
+          ...styles.list_item_container,
+        }}
+        underlayColor={theme.colors.mid_light}
+        onPress={() => {
+          navigation.navigate('ClubInteractionScreens', {
+            screen: 'ClubChatScreen',
+            params: {
+              clubNameHere: item.club_name,
+              channelIdHere: item.pn_channel_id,
+              channelOnGoing: item.on_going_frame,
+              channelStartTime: item.start_time,
+              channelEndTime: item.end_time,
+              clubID: item.club_id,
+            },
+          });
+        }}>
+        <ListItem
+          bottomDivider
+          underlayColor={theme.colors.mid_light}
+          containerStyle={{
+            ...styles.list_item_container,
+            borderColor: theme.colors.full_dark_10,
+          }}>
+          <DormantClubBit Club={item} />
+        </ListItem>
+      </TouchableOpacity>
+    );
+
     if (resolved) {
       if (dor_clubs.length === 0 && live_clubs.length === 0) {
         return <View />;
       } else {
         return (
-          <View>
-            <RenderLive />
-            <RenderDor />
-          </View>
+          <FlatList
+            data={_.uniqBy(dor_clubs, 'club_id')}
+            renderItem={renderDorItem}
+            keyExtractor={item => item.club_id}
+            ListHeaderComponent={<RenderLive />}
+            ListFooterComponent={<BannerToPushToStartClub />}
+            style={{
+              backgroundColor: theme.colors.full_light,
+              flex: 1,
+            }}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}
+          />
         );
       }
     } else {

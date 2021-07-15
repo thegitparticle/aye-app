@@ -2,6 +2,7 @@
  * @format
  */
 
+import './wdyr';
 import 'rn-overlay';
 
 import {AppRegistry} from 'react-native';

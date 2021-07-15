@@ -4,6 +4,7 @@ import {Header, Divider, Avatar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import PushSetup from '../../../external/PushSetup';
 
 const windowHeight = Dimensions.get('window').height;
 //const windowWidth = Dimensions.get('window').width;
@@ -69,6 +70,7 @@ function HeaderAtHome({dispatch}) {
         <HeaderRight />
       </Header>
       <Divider style={{backgroundColor: '#05050510'}} />
+      <PushSetup />
     </View>
   );
 }

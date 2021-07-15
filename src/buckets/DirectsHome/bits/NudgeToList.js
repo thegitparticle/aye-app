@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, useMemo} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import NudgeToBit from './NudgeToBit';
 import {ListItem} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -18,6 +18,8 @@ function NudgeToList({dispatch}) {
   const navigation = useNavigation();
 
   const theme = useContext(ThemeContext);
+
+  console.log('nudge list');
 
   useEffect(() => {
     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
@@ -49,17 +51,8 @@ function NudgeToList({dispatch}) {
     } else {
       return (
         <View style={styles.overall_view}>
-          {/* <Text
-            style={{
-              ...theme.text.subhead_medium,
-              marginHorizontal: 20,
-              marginBottom: 15,
-              color: theme.colors.full_dark_50,
-            }}>
-            MORE FRIENDS
-          </Text> */}
           {NudgeToData.map((item, index) => (
-            <RenderItem NudgeTo={item} />
+            <RenderItem NudgeTo={item} key={index} />
           ))}
         </View>
       );

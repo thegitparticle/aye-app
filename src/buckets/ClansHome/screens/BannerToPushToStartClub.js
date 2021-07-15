@@ -21,6 +21,7 @@ var state_here = {};
 function BannerToPushToStartClub() {
   const theme = useContext(ThemeContext);
   const navigation = useNavigation();
+  console.log('foot valled');
 
   if (state_here.MyClubsReducer.myclubs.length === 0) {
     return (
