@@ -19,8 +19,6 @@ function NudgeToList({dispatch}) {
 
   const theme = useContext(ThemeContext);
 
-  console.log('nudge list');
-
   useEffect(() => {
     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
   }, [dispatch]);

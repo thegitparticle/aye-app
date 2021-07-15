@@ -7,11 +7,8 @@ import ThreePeopleLiveClub from './ThreePeopleLiveClubs';
 import _ from 'lodash';
 
 function LiveClubComponent(props) {
-  var club_details = props.Club;
   var live_members = props.LiveMembers;
   var numberofpeople = live_members.length - 1;
-
-  var all_members = club_details.display_photos;
 
   if (numberofpeople === 3) {
     var imageslist = [];
@@ -51,18 +48,8 @@ function LiveClubComponent(props) {
         imageslist.push(value.display_pic);
       } else {
       }
-      /*
-      var id_here = Number(value.uuid);
-      for (var i = 0; i < 2; i++) {
-        if (id_here === all_members[i].user_id) {
-          imageslist.push(all_members[i].display_pic);
-        }
-      }
-      */
     });
     var ifmore = numberofpeople - 3;
-    console.log(numberofpeople);
-    console.log(ifmore + 'fi more');
     return (
       <View>
         <ThreePeopleLiveClub URLList={imageslist} />

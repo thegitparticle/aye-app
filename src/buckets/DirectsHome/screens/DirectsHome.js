@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, View, Text, FlatList, Dimensions} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import NudgeToList from '../bits/NudgeToList';
@@ -23,12 +23,22 @@ function DirectsHomeD({dispatch}) {
 
   const user_id_here = state_here.MyProfileReducer.myprofile.user.id;
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  function onRefresh() {
+    setRefreshing(true);
+    console.log('refreshing started');
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2500);
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       if (user_id_here > 0) {
         dispatch(GetDirectsList(user_id_here));
       }
-    }, [dispatch, user_id_here]),
+    }, [dispatch, user_id_here, refreshing]),
   );
 
   function RenderDirectComponent(props) {
@@ -94,6 +104,8 @@ function DirectsHomeD({dispatch}) {
         backgroundColor: theme.colors.full_light,
       }}
       showsVerticalScrollIndicator={false}
+      refreshing={refreshing}
+      onRefresh={onRefresh}
     />
   );
 }

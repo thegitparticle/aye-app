@@ -20,15 +20,11 @@ function LiveClubs(props) {
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
         marginBottom: live_clubs_data_here.length > 0 ? windowHeight * 0.05 : 0,
+        width: windowWidth,
+        backgroundColor: theme.colors.full_light,
       }}>
       {_.uniqBy(live_clubs_data_here, 'club_id').map((comp, index) => (
-        <ListItem
-          underlayColor="transparent"
-          containerStyle={
-            index % 2 === 0
-              ? styles.ListItemContainerEven
-              : styles.ListItemContainerOdd
-          }
+        <TouchableOpacity
           onPress={() =>
             navigation.navigate('ClubInteractionScreens', {
               screen: 'ClubChatScreen',
@@ -43,43 +39,52 @@ function LiveClubs(props) {
               },
             })
           }>
-          <ListItem.Content style={styles.ImagesContainer}>
-            <LiveClubComponent
-              Club={comp}
-              LiveMembers={comp.display_photos}
-              UserID={props.UserID}
-            />
-          </ListItem.Content>
-          <ListItem.Content style={styles.list_item_content}>
-            <ListItem.Title
-              style={{
-                color: theme.colors.full_dark,
-                ...theme.text.subhead_medium,
-              }}>
-              {comp.club_name.length < 15
-                ? comp.club_name
-                : comp.club_name.substring(0, 14)}
-            </ListItem.Title>
-            <ListItem.Subtitle>
-              <View style={styles.subtitle_view}>
-                <Icon
-                  type="feather"
-                  color={theme.colors.chat_prime}
-                  name="layers"
-                  size={12}
-                />
-                <Text
-                  style={{
-                    marginLeft: 5,
-                    ...theme.text.smallest,
-                    color: theme.colors.chat_prime,
-                  }}>
-                  frame going on
-                </Text>
-              </View>
-            </ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
+          <ListItem
+            underlayColor="transparent"
+            containerStyle={
+              index % 2 === 0
+                ? styles.ListItemContainerEven
+                : styles.ListItemContainerOdd
+            }>
+            <ListItem.Content style={styles.ImagesContainer}>
+              <LiveClubComponent
+                Club={comp}
+                LiveMembers={comp.display_photos}
+                UserID={props.UserID}
+              />
+            </ListItem.Content>
+            <ListItem.Content style={styles.list_item_content}>
+              <ListItem.Title
+                style={{
+                  color: theme.colors.full_dark,
+                  ...theme.text.subhead_medium,
+                }}>
+                {comp.club_name.length < 15
+                  ? comp.club_name
+                  : comp.club_name.substring(0, 14)}
+              </ListItem.Title>
+              <ListItem.Subtitle>
+                <View style={styles.subtitle_view}>
+                  <Icon
+                    type="feather"
+                    color={theme.colors.chat_prime}
+                    name="layers"
+                    size={12}
+                  />
+                  <Text
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{
+                      marginLeft: 5,
+                      ...theme.text.smallest,
+                      color: theme.colors.chat_prime,
+                    }}>
+                    frame going on
+                  </Text>
+                </View>
+              </ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        </TouchableOpacity>
       ))}
     </View>
   );
@@ -120,7 +125,6 @@ const styles = StyleSheet.create({
     marginLeft: windowWidth * 0.5,
     backgroundColor: 'transparent',
   },
-  ImagesContainer: {},
   ScrollViewStyle: {
     marginBottom: windowHeight * 0.05,
   },

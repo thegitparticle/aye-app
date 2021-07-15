@@ -1,12 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  View,
-  Image,
-  Animated,
-  StyleSheet,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import {View, Animated, StyleSheet, Dimensions, Platform} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 const windowHeight = Dimensions.get('window').height;
@@ -59,12 +52,7 @@ export default OnePersonLiveClub;
 const styles = StyleSheet.create({
   AvatarStyleLiveClub: {
     marginHorizontal: -2,
-    /*
-        shadowOffset: {height: 10},
-        shadowColor: '#fff',
-        shadowOpacity: 1,
-        shadowRadius: 20,
-    */
+
     width: windowHeight * 0.08,
     height: windowHeight * 0.08,
     borderRadius: windowHeight * 0.4,

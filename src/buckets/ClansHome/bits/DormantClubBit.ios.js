@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import ThemeContext from '../../../themes/Theme';
@@ -15,26 +15,7 @@ function DormantClubBit(props) {
     return <View />;
   } else {
     return (
-      <View
-      // style={({pressed}) => [
-      //   {
-      //     backgroundColor: pressed ? '#eee' : 'white',
-      //   },
-      //   styles.pressable_view,
-      // ]}
-      // onPress={() =>
-      //   navigation.navigate('ClubInteractionScreens', {
-      //     screen: 'ClubChatScreen',
-      //     params: {
-      //       clubNameHere: props.Club.club_name,
-      //       channelIdHere: props.Club.pn_channel_id,
-      //       channelOnGoing: props.Club.on_going_frame,
-      //       channelStartTime: props.Club.start_time,
-      //       channelEndTime: props.Club.end_time,
-      //       clubID: props.Club.club_id,
-      //     },
-      //   })
-      >
+      <View>
         <View
           style={{
             ...styles.overall_view_under,

@@ -28,11 +28,19 @@ function ClubsHomeD({dispatch}) {
 
   const [refreshing, setRefreshing] = useState(false);
 
+  function onRefresh() {
+    setRefreshing(true);
+    console.log('refreshing started');
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2500);
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       pubnub.unsubscribeAll();
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-    }, [dispatch]),
+    }, [dispatch, refreshing]),
   );
 
   const mixpanel = useContext(MixpanelContext);
@@ -49,7 +57,7 @@ function ClubsHomeD({dispatch}) {
       if (my_clubs.length > 0) {
         CheckOnGoing();
       }
-    }, [my_clubs, my_clubs.length]),
+    }, [my_clubs, my_clubs.length, refreshing]),
   );
 
   const [resolved, setResolved] = useState(false);
@@ -70,7 +78,7 @@ function ClubsHomeD({dispatch}) {
         setDorClubs(state => [...state, club_here]);
       }
     }
-    // setResolved(true);
+    setResolved(true);
   }
 
   function PreLoadDorClubs() {
@@ -82,6 +90,7 @@ function ClubsHomeD({dispatch}) {
           containerStyle={{
             ...styles.list_item_container,
             borderColor: theme.colors.full_dark_25,
+            backgroundColor: theme.colors.full_light,
           }}>
           <DormantClubBit Club={x_here} />
         </ListItem>
@@ -105,6 +114,7 @@ function ClubsHomeD({dispatch}) {
         }}
         showsVerticalScrollIndicator={false}
         refreshing={refreshing}
+        onRefresh={onRefresh}
       />
     );
   }
@@ -144,6 +154,7 @@ function ClubsHomeD({dispatch}) {
           containerStyle={{
             ...styles.list_item_container,
             borderColor: theme.colors.full_dark_10,
+            backgroundColor: theme.colors.full_light,
           }}>
           <DormantClubBit Club={item} />
         </ListItem>
@@ -166,7 +177,11 @@ function ClubsHomeD({dispatch}) {
               flex: 1,
             }}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flexGrow: 1}}
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
           />
         );
       }

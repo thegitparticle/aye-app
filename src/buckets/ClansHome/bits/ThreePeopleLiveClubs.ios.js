@@ -1,12 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  View,
-  Image,
-  Animated,
-  StyleSheet,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import {View, Animated, StyleSheet, Dimensions, Platform} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 const windowHeight = Dimensions.get('window').height;
