@@ -1,9 +1,9 @@
 export const ButterTheme = {
   colors: {
-    success_green: '#57F287',
-    success_green_75: '#57F28775',
-    success_green_50: '#57F28750',
-    success_green_25: '#57F28725',
+    success_green: '#00C781',
+    success_green_75: '#00C78175',
+    success_green_50: '#00C78150',
+    success_green_25: '#00C78125',
     danger_red: '#ED4245',
     danger_red_75: '#ED424575',
     danger_red_50: '#ED424550',

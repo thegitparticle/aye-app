@@ -5,7 +5,6 @@ import {
   View,
   Dimensions,
   Text,
-  Pressable,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -59,7 +58,7 @@ function BannerToPushToStartClub() {
           }}>
           Start a clan with your besties now!
         </Text>
-        <Pressable
+        <TouchableOpacity
           style={{
             marginVertical: windowHeight * 0.05,
             alignItems: 'center',
@@ -83,12 +82,12 @@ function BannerToPushToStartClub() {
               start clan
             </Text>
           </SquircleView>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     );
   } else if (state_here.MyClubsReducer.myclubs.length <= 3) {
     return (
-      <Pressable
+      <TouchableOpacity
         style={{
           marginVertical: windowHeight * 0.05,
           alignItems: 'center',
@@ -111,11 +110,11 @@ function BannerToPushToStartClub() {
             start clan
           </Text>
         </SquircleView>
-      </Pressable>
+      </TouchableOpacity>
     );
   } else {
     return (
-      <Pressable
+      <TouchableOpacity
         style={{
           marginTop: windowHeight * 0.05,
           marginBottom: windowHeight * 0.2,
@@ -139,7 +138,7 @@ function BannerToPushToStartClub() {
             start clan
           </Text>
         </SquircleView>
-      </Pressable>
+      </TouchableOpacity>
     );
   }
 }

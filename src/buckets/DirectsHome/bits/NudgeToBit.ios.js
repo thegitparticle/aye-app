@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {
   View,
   Text,
@@ -68,37 +68,6 @@ function NudgeToBit(props) {
       });
   }
 
-  function ShowStartButton(props) {
-    if (props.OnlyUserId === 0) {
-      return <View />;
-    } else {
-      return (
-        <TouchableOpacity
-          style={{height: 40, alignItems: 'center', justifyContent: 'center'}}
-          onPress={() => StartDirectConvo()}>
-          <SquircleView
-            style={{
-              height: 30,
-              width: windowWidth * 0.2,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            squircleParams={{
-              cornerSmoothing: 1,
-              cornerRadius: 10,
-              fillColor: theme.colors.friends_prime,
-            }}>
-            <Text
-              style={{...theme.text.smallest, color: theme.colors.full_light}}>
-              START
-            </Text>
-          </SquircleView>
-        </TouchableOpacity>
-      );
-    }
-  }
-
   return (
     <View style={styles.overall_view}>
       <View style={styles.left_side_things}>
@@ -117,7 +86,35 @@ function NudgeToBit(props) {
         </View>
       </View>
 
-      <ShowStartButton OnlyUserId={props.NudgeTo.id} />
+      <TouchableOpacity
+        style={{
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={() => StartDirectConvo()}>
+        <SquircleView
+          style={{
+            height: 30,
+            width: windowWidth * 0.2,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 10,
+            fillColor: theme.colors.friends_prime,
+          }}>
+          <Text
+            style={{
+              ...theme.text.smallest,
+              color: theme.colors.full_light,
+            }}>
+            START
+          </Text>
+        </SquircleView>
+      </TouchableOpacity>
     </View>
   );
 }

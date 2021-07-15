@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useMemo} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import NudgeToBit from './NudgeToBit';
 import {ListItem} from 'react-native-elements';
@@ -23,21 +23,25 @@ function NudgeToList({dispatch}) {
     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
   }, [dispatch]);
 
-  function RenderItem(props) {
-    return (
-      <ListItem
-        bottomDivider
-        containerStyle={styles.list_item_container}
-        underlayColor="#EEEEEE"
-        onPress={() =>
-          navigation.navigate('OtherProfile', {
-            other_user_id: props.NudgeTo.id,
-          })
-        }>
-        <NudgeToBit NudgeTo={props.NudgeTo} />
-      </ListItem>
-    );
-  }
+  const RenderItem = useMemo(
+    () =>
+      function RenderItem(props) {
+        return (
+          <ListItem
+            bottomDivider
+            containerStyle={styles.list_item_container}
+            underlayColor="#EEEEEE"
+            onPress={() =>
+              navigation.navigate('OtherProfile', {
+                other_user_id: props.NudgeTo.id,
+              })
+            }>
+            <NudgeToBit NudgeTo={props.NudgeTo} />
+          </ListItem>
+        );
+      },
+    [NudgeToData],
+  );
 
   if (NudgeToData.length > 0) {
     if (NudgeToData[0].userid === 0) {
@@ -45,7 +49,7 @@ function NudgeToList({dispatch}) {
     } else {
       return (
         <View style={styles.overall_view}>
-          <Text
+          {/* <Text
             style={{
               ...theme.text.subhead_medium,
               marginHorizontal: 20,
@@ -53,7 +57,7 @@ function NudgeToList({dispatch}) {
               color: theme.colors.full_dark_50,
             }}>
             MORE FRIENDS
-          </Text>
+          </Text> */}
           {NudgeToData.map((item, index) => (
             <RenderItem NudgeTo={item} />
           ))}

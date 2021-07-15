@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useContext, useEffect} from 'react';
-import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {View, StyleSheet, ScrollView, Dimensions, FlatList} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -10,7 +10,6 @@ import DormantClubBit from '../bits/DormantClubBit';
 import BannerToPushToStartClub from './BannerToPushToStartClub';
 import _ from 'lodash';
 import PushSetup from '../../../external/PushSetup';
-// import AnimatedPullToRefresh from './AnimatedPullRefreshCopy';
 import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../../../external/MixPanelStuff';
 import ThemeContext from '../../../themes/Theme';
@@ -27,16 +26,17 @@ function ClubsHomeD({dispatch}) {
   const pubnub = usePubNub();
   const navigation = useNavigation();
 
-  const [refreshing, setRefreshing] = useState(false);
+  // const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       pubnub.unsubscribeAll();
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-    }, [dispatch, refreshing]),
+    }, [dispatch]),
   );
 
   const mixpanel = useContext(MixpanelContext);
+
   useEffect(() => {
     if (mixpanel) {
       mixpanel.identify(String(state_here.MyProfileReducer.myprofile.user.id));
@@ -49,7 +49,7 @@ function ClubsHomeD({dispatch}) {
       if (my_clubs.length > 0) {
         CheckOnGoing();
       }
-    }, [my_clubs, my_clubs.length, refreshing]),
+    }, [my_clubs, my_clubs.length]),
   );
 
   const [resolved, setResolved] = useState(false);
@@ -70,25 +70,37 @@ function ClubsHomeD({dispatch}) {
         setDorClubs(state => [...state, club_here]);
       }
     }
-    setResolved(true);
+    // setResolved(true);
   }
 
   function PreLoadDorClubs() {
+    const renderItem = ({item}) => (
+      <ListItem
+        bottomDivider
+        containerStyle={{
+          ...styles.list_item_container,
+          borderColor: theme.colors.full_dark_25,
+        }}>
+        <DormantClubBit Club={item} />
+      </ListItem>
+    );
+
     return (
-      <View>
-        {_.uniqBy(my_clubs, 'club_id').map((item, index) => (
+      <FlatList
+        data={_.uniqBy(my_clubs, 'club_id')}
+        renderItem={renderItem}
+        keyExtractor={item => item.club_id}
+        ListFooterComponent={
           <View>
-            <ListItem
-              bottomDivider
-              containerStyle={{
-                ...styles.list_item_container,
-                borderColor: theme.colors.full_dark_25,
-              }}>
-              <DormantClubBit Club={item} />
-            </ListItem>
+            <BannerToPushToStartClub />
+            <PushSetup />
           </View>
-        ))}
-      </View>
+        }
+        style={{
+          backgroundColor: theme.colors.full_light,
+        }}
+        showsVerticalScrollIndicator={false}
+      />
     );
   }
 
@@ -151,44 +163,11 @@ function ClubsHomeD({dispatch}) {
         );
       }
     } else {
-      return (
-        <View>
-          <PreLoadDorClubs />
-        </View>
-      );
+      return <PreLoadDorClubs />;
     }
   }
 
-  // const memoizedHandleRefresh = useCallback(() => {
-  //   console.log('refresh happened');
-  //   dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
-  // }, []);
-
-  return (
-    // <AnimatedPullToRefresh
-    //   isRefreshing={refreshing}
-    //   animationBackgroundColor={'#FFFFFF'}
-    //   onRefresh={memoizedHandleRefresh}
-    //   pullHeight={100}
-    //   contentView={
-    <View style={{flex: 1, overflow: 'visible'}}>
-      <ScrollView
-        style={{
-          backgroundColor: theme.colors.full_light,
-        }}
-        showsVerticalScrollIndicator={false}>
-        <RenderClubsHere />
-        <PushSetup />
-        <BannerToPushToStartClub />
-      </ScrollView>
-    </View>
-    // }
-    //   onPullAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-    //   onStartRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-    //   onRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-    //   onEndRefreshAnimationSrc={require('/Users/san/Desktop/toastgo/assets/puppy_wave.json')}
-    // />
-  );
+  return <RenderClubsHere />;
 }
 
 const mapStateToProps = state => {

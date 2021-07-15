@@ -52,6 +52,7 @@ function HomeMainD({dispatch, navigation}) {
   useEffect(() => {
     var res_here = [];
     requestUserPermission();
+    console.log('effect 1');
     axios
       .get('https://apisayepirates.life/api/clubs/app_version_apple/')
       .then(response => (res_here = response.data))
@@ -62,6 +63,7 @@ function HomeMainD({dispatch, navigation}) {
   }, []);
 
   useEffect(() => {
+    console.log('effect 2 - contacts');
     Contacts.checkPermission().then(permission => {
       if (permission === 'undefined') {
         console.log('undefined permissions');
