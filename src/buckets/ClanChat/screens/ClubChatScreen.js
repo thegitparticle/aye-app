@@ -696,7 +696,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const LiveMessagesView = useMemo(
     () =>
       function LiveMessagesViewX() {
-        // console.log(old_messages);
         const scrollView = useRef();
 
         if (!old_messages_resolve) {
