@@ -15,7 +15,6 @@ function BannerIfDmsEmpty() {
   const theme = useContext(ThemeContext);
   var NudgeToData = state_here.MyNudgeToListReducer.mynudgetolist;
   const navigation = useNavigation();
-
   if (NudgeToData.length > 0) {
     if (NudgeToData[0].userid === 0) {
       return (
@@ -39,6 +38,7 @@ function BannerIfDmsEmpty() {
         </View>
       );
     } else {
+      console.log(NudgeToData.length);
       return (
         <View
           style={{

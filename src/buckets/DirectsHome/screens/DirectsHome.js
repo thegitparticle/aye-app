@@ -9,6 +9,7 @@ import ThemeContext from '../../../themes/Theme';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import DirectBit from '../bits/DirectBit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import BannerIfDmsEmpty from './BannerIfDmsEmpty';
 
 var state_here = {};
 
@@ -66,48 +67,82 @@ function DirectsHomeD({dispatch}) {
     );
   }
 
-  return (
-    <FlatList
-      data={DirectsListHere}
-      keyExtractor={item => item.direct_channel_id}
-      renderItem={item => <RenderDirectComponent Direct={item} />}
-      ListHeaderComponent={
-        <View>
-          <Text
+  if (DirectsListHere.length > 0) {
+    return (
+      <FlatList
+        data={DirectsListHere}
+        keyExtractor={item => item.direct_channel_id}
+        renderItem={item => <RenderDirectComponent Direct={item} />}
+        ListHeaderComponent={
+          <View>
+            <Text
+              style={{
+                ...theme.text.header,
+                color: theme.colors.full_dark_50,
+                margin: 20,
+              }}>
+              DMs
+            </Text>
+          </View>
+        }
+        ListFooterComponent={
+          <View
             style={{
-              ...theme.text.header,
-              color: theme.colors.full_dark_50,
-              margin: 20,
+              marginTop: windowHeight * 0.05,
+              marginBottom: windowHeight * 0.1,
             }}>
-            DMs
-          </Text>
-        </View>
-      }
-      ListFooterComponent={
-        <View
-          style={{
-            marginTop: windowHeight * 0.05,
-            marginBottom: windowHeight * 0.1,
-          }}>
-          <Text
+            <Text
+              style={{
+                ...theme.text.header,
+                color: theme.colors.full_dark_50,
+                margin: 20,
+              }}>
+              MORE FRIENDS
+            </Text>
+            <NudgeToList />
+          </View>
+        }
+        style={{
+          backgroundColor: theme.colors.full_light,
+        }}
+        showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  } else {
+    return (
+      <FlatList
+        data={DirectsListHere}
+        keyExtractor={item => item.direct_channel_id}
+        renderItem={item => <RenderDirectComponent Direct={item} />}
+        ListHeaderComponent={<BannerIfDmsEmpty />}
+        ListFooterComponent={
+          <View
             style={{
-              ...theme.text.header,
-              color: theme.colors.full_dark_50,
-              margin: 20,
+              marginTop: windowHeight * 0.05,
+              marginBottom: windowHeight * 0.1,
             }}>
-            MORE FRIENDS
-          </Text>
-          <NudgeToList />
-        </View>
-      }
-      style={{
-        backgroundColor: theme.colors.full_light,
-      }}
-      showsVerticalScrollIndicator={false}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-    />
-  );
+            <Text
+              style={{
+                ...theme.text.header,
+                color: theme.colors.full_dark_50,
+                margin: 20,
+              }}>
+              MORE FRIENDS
+            </Text>
+            <NudgeToList />
+          </View>
+        }
+        style={{
+          backgroundColor: theme.colors.full_light,
+        }}
+        showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  }
 }
 
 const mapStateToProps = state => {

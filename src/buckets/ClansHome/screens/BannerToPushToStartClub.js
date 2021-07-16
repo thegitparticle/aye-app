@@ -34,7 +34,7 @@ function BannerToPushToStartClub() {
             height: windowHeight * 0.3,
             alignItems: 'center',
             justifyContent: 'center',
-            marginVertical: windowHeight * 0.015,
+            marginVertical: windowHeight * 0.025,
           }}
         />
         <Text
@@ -43,24 +43,14 @@ function BannerToPushToStartClub() {
             color: theme.colors.mid_dark,
             maxWidth: windowWidth * 0.9,
             textAlign: 'center',
-            marginVertical: windowHeight * 0.015,
+            marginVertical: windowHeight * 0.025,
           }}>
           Aye is the most fun way to talk with your bestie groups!!!
         </Text>
-        <Text
-          style={{
-            ...theme.text.header,
-            color: theme.colors.mid_dark,
-            opacity: 0.5,
-            maxWidth: windowWidth * 0.9,
-            textAlign: 'center',
-            marginVertical: windowHeight * 0.015,
-          }}>
-          Start a clan with your besties now!
-        </Text>
+
         <TouchableOpacity
           style={{
-            marginVertical: windowHeight * 0.05,
+            marginVertical: windowHeight * 0.025,
             alignItems: 'center',
             justifyContent: 'center',
           }}
