@@ -42,7 +42,7 @@ function HomeMainD({dispatch, navigation}) {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      console.log('Authorization status:', authStatus);
+      // console.log('Authorization status:', authStatus);
     }
   }
 
@@ -52,7 +52,6 @@ function HomeMainD({dispatch, navigation}) {
   useEffect(() => {
     var res_here = [];
     requestUserPermission();
-    console.log('effect 1');
     axios
       .get('https://apisayepirates.life/api/clubs/app_version_apple/')
       .then(response => (res_here = response.data))
@@ -63,7 +62,6 @@ function HomeMainD({dispatch, navigation}) {
   }, []);
 
   useEffect(() => {
-    console.log('effect 2 - contacts');
     Contacts.checkPermission().then(permission => {
       if (permission === 'undefined') {
         console.log('undefined permissions');
@@ -267,49 +265,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  update_banner_text_main: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 21,
-    color: '#050505',
-    marginVertical: 20,
-  },
-  update_banner_text_update_line: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-    color: '#05050575',
-    marginVertical: 20,
-  },
-
-  update_button_title: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 17,
-    color: '#FFFFFF',
-  },
-  update_button_container: {
-    alignSelf: 'center',
-    marginVertical: 20,
-    backgroundColor: 'transparent',
-    shadowColor: '#36b37e',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 40,
-    elevation: 2,
-  },
-  update_button: {
-    height: 60,
-    width: 160,
-    borderRadius: 30,
-    backgroundColor: '#36b37e',
-  },
-
   tab_view: {
-    //flex: 1,
     backgroundColor: 'transparent',
-    //overflow: 'visible',
   },
+
   tab_bar: {
     backgroundColor: '#fff',
     position: 'absolute',
@@ -340,7 +299,6 @@ const styles = StyleSheet.create({
     height: 60,
     paddingTop: 2.5,
   },
-  tab_icon: {},
 
   contacts_banner_view: {
     flex: 1,

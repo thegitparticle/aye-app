@@ -8,15 +8,29 @@ import {PubNubProvider} from 'pubnub-react';
 import messaging from '@react-native-firebase/messaging';
 import {MixpanelProvider} from '../external/MixPanelStuff';
 import {Mixpanel} from 'mixpanel-react-native';
+import NetInfo from '@react-native-community/netinfo';
+import {showMessage} from 'react-native-flash-message';
 
 var state_here = {};
 
 function RootStack() {
+  const netinfo = NetInfo.addEventListener(state => {
+    console.log('Is connected?', state.isConnected);
+    if (state.isConnected === false) {
+      showMessage({
+        message: 'Check your internet connection!',
+        type: 'info',
+        backgroundColor: 'indianred',
+      });
+    }
+  });
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!');
+      console.log('A new notification has arrived!');
     });
 
+    netinfo();
     return unsubscribe;
   }, []);
 
@@ -80,7 +94,6 @@ function RootStack() {
     };
 
     useEffect(() => {
-      console.log('bad effect needed');
       initMixpanel();
     }, []);
 
