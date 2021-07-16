@@ -1,17 +1,21 @@
-import React, {useMemo} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useMemo, useContext} from 'react';
 import {View, Dimensions, StyleSheet, Pressable} from 'react-native';
-import {Header, Divider, Avatar} from 'react-native-elements';
+import {Header, Avatar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import ThemeContext from '../../../themes/Theme';
 import PushSetup from '../../../external/PushSetup';
+import {SquircleView} from 'react-native-figma-squircle';
 
 const windowHeight = Dimensions.get('window').height;
-//const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
 
 function HeaderAtHome({dispatch}) {
+  const theme = useContext(ThemeContext);
   const navigation = useNavigation();
 
   const HeaderLeft = useMemo(
@@ -58,18 +62,41 @@ function HeaderAtHome({dispatch}) {
     return <View />;
   }
 
+  // function SquircleHeader() {
+  //   return (
+  //     <SquircleView
+  //       style={{
+  //         width: windowWidth,
+  //         height: windowHeight * 0.125,
+  //         alignItems: 'flex-end',
+  //         justifyContent: 'space-between',
+  //         flexDirection: 'row',
+  //         borderWidth: 1,
+  //         borderColor: '#06090e10',
+  //       }}
+  //       squircleParams={{
+  //         cornerSmoothing: 1,
+  //         cornerRadius: 15,
+  //         fillColor: theme.colors.full_light,
+  //       }}>
+  //       <HeaderLeft />
+  //       <HeaderMiddle />
+  //       <HeaderRight />
+  //     </SquircleView>
+  //   );
+  // }
+
   return (
-    <View>
+    <View style={styles.header_container}>
       <Header
-        backgroundColor="#FFF"
+        // elevated={true}
+        backgroundColor={theme.colors.full_light}
         containerStyle={styles.header_container}
-        elevated={true}
         barStyle="dark-content">
         <HeaderLeft />
         <HeaderMiddle />
         <HeaderRight />
       </Header>
-      <Divider style={{backgroundColor: '#05050510'}} />
       <PushSetup />
     </View>
   );
@@ -83,9 +110,17 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(HeaderAtHome);
 
 const styles = StyleSheet.create({
+  header_container: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#06090e10',
+    backgroundColor: 'transparent',
+    height: windowHeight * 0.125,
+  },
   header_left_view_wrap: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   header_right_view_wrap: {
     alignItems: 'center',
@@ -96,6 +131,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginHorizontal: 10,
+    marginBottom: 10,
   },
   header_left_image: {
     width: 40 * 1.37,
@@ -106,11 +142,6 @@ const styles = StyleSheet.create({
   header_right_image: {
     marginHorizontal: 10,
   },
-  header_container: {
-    borderBottomWidth: 0,
-    borderBottomColor: '#06090e10',
-    height: windowHeight * 0.125,
-  },
   header_title_this_page: {
     fontSize: 25,
     fontFamily: 'GothamRounded-Medium',
@@ -120,28 +151,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flexDirection: 'column-reverse',
     height: windowHeight * 0.06,
-  },
-
-  header_left_image_wrap: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-  header_right_view_wrap: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
   },
 });

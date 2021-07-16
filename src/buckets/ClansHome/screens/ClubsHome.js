@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useContext, useEffect, useMemo} from 'react';
-import {View, StyleSheet, Dimensions, FlatList} from 'react-native';
+import {View, StyleSheet, Dimensions, FlatList, Text} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -14,6 +14,8 @@ import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../../../external/MixPanelStuff';
 import ThemeContext from '../../../themes/Theme';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {SquircleView} from 'react-native-figma-squircle';
+import HeaderAtHome from '../../HomeMain/bits/HeaderAtHome';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
