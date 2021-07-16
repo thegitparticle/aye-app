@@ -1,12 +1,14 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Animated, StyleSheet, Dimensions, Platform} from 'react-native';
+import React, {useEffect, useRef, useContext} from 'react';
+import {View, Animated, StyleSheet, Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import ThemeContext from '../../../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+// const windowWidth = Dimensions.get('window').width;
 
 function ThreePeopleLiveClub(props) {
   const anim = useRef(new Animated.Value(1));
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     // makes the sequence loop
@@ -40,7 +42,11 @@ function ThreePeopleLiveClub(props) {
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
             source={{uri: firsturl}}
-            style={styles.AvatarStyleLiveClub}
+            style={{
+              ...styles.AvatarStyleLiveClub,
+              borderColor: theme.colors.off_white,
+              backgroundColor: theme.colors.off_white,
+            }}
             size={68}
           />
         </Animated.View>
@@ -49,14 +55,22 @@ function ThreePeopleLiveClub(props) {
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
             source={{uri: secondurl}}
-            style={styles.AvatarStyleLiveClub}
+            style={{
+              ...styles.AvatarStyleLiveClub,
+              borderColor: theme.colors.off_white,
+              backgroundColor: theme.colors.off_white,
+            }}
             size={68}
           />
         </Animated.View>
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
             source={{uri: thirdurl}}
-            style={styles.AvatarStyleLiveClub3}
+            style={{
+              ...styles.AvatarStyleLiveClub3,
+              borderColor: theme.colors.off_white,
+              backgroundColor: theme.colors.off_white,
+            }}
             size={68}
           />
         </Animated.View>
@@ -70,18 +84,10 @@ export default ThreePeopleLiveClub;
 const styles = StyleSheet.create({
   AvatarStyleLiveClub: {
     marginHorizontal: -2,
-    /*
-        shadowOffset: {height: 10},
-        shadowColor: '#fff',
-        shadowOpacity: 1,
-        shadowRadius: 20,
-    */
     width: windowHeight * 0.08,
     height: windowHeight * 0.08,
     borderRadius: windowHeight * 0.4,
-    borderColor: '#f1f4f9',
-    borderWidth: Platform.OS === 'ios' ? 3 : 0,
-    backgroundColor: '#f1f4f9',
+    borderWidth: 3,
   },
   ThreeLivePerson2: {
     flexDirection: 'row',
@@ -96,17 +102,9 @@ const styles = StyleSheet.create({
   AvatarStyleLiveClub3: {
     marginHorizontal: -4,
     marginTop: -7.5,
-    /*
-    shadowOffset: {height: 10},
-    shadowColor: '#fff',
-    shadowOpacity: 1,
-    shadowRadius: 20,
-*/
     width: windowHeight * 0.08,
     height: windowHeight * 0.08,
     borderRadius: windowHeight * 0.04,
-    borderColor: '#f1f4f9',
-    borderWidth: Platform.OS === 'ios' ? 3 : 0,
-    backgroundColor: '#f1f4f9',
+    borderWidth: 3,
   },
 });

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Badge} from 'react-native-elements';
 import OnePersonLiveClub from './OnePersonLiveClub';
 import TwoPeopleLiveClub from './TwoPeopleLiveClubs';
 import ThreePeopleLiveClub from './ThreePeopleLiveClubs';
 import _ from 'lodash';
+import ThemeContext from '../../../themes/Theme';
 
 function LiveClubComponent(props) {
+  const theme = useContext(ThemeContext);
   var live_members = props.LiveMembers;
   var numberofpeople = live_members.length - 1;
 
@@ -56,7 +58,7 @@ function LiveClubComponent(props) {
         <Badge
           value={`+${ifmore}`}
           badgeStyle={styles.extracountbadge}
-          textStyle={styles.extracountbadgetext}
+          textStyle={{...theme.text.header}}
           containerStyle={styles.extracountbadgecontainer}
         />
       </View>
@@ -88,5 +90,4 @@ const styles = StyleSheet.create({
     marginTop: -30,
     marginLeft: 10,
   },
-  extracountbadgetext: {fontFamily: 'GothamRounded-Bold', fontSize: 18},
 });

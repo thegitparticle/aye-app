@@ -68,13 +68,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(NudgeToList);
 
 const styles = StyleSheet.create({
-  nudgeto_heading: {
-    fontSize: 17,
-    fontFamily: 'GothamRounded-Bold',
-    marginHorizontal: 20,
-    marginBottom: 15,
-    color: '#05050550',
-  },
   overall_view: {
     flexDirection: 'column',
     marginBottom: windowHeight * 0.1,

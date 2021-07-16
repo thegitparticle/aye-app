@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet, Text, Dimensions, Platform} from 'react-native';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import LiveClubComponent from './LiveClubComponent';
 import {ListItem, Icon} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
@@ -31,7 +31,6 @@ function LiveClubs(props) {
               params: {
                 clubNameHere: comp.club_name,
                 channelIdHere: comp.pn_channel_id,
-                //channelOnGoing: comp.on_going_frame,
                 channelOnGoing: true,
                 channelStartTime: comp.start_time,
                 channelEndTime: comp.end_time,
@@ -74,9 +73,9 @@ function LiveClubs(props) {
                   <Text
                     // eslint-disable-next-line react-native/no-inline-styles
                     style={{
-                      marginLeft: 5,
                       ...theme.text.smallest,
                       color: theme.colors.chat_prime,
+                      marginLeft: 5,
                     }}>
                     frame going on
                   </Text>
@@ -107,14 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  subtitle_icon: {},
-  subtitle_text: {
-    marginLeft: 5,
-    //color: Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)',
-    color: '#7D4DF9',
-    fontFamily: 'GothamRounded-Book',
-    fontSize: Platform.OS === 'ios' ? 13 : 12,
-  },
+
   ListItemContainerEven: {
     flexDirection: 'column',
     marginRight: windowWidth * 0.5,
@@ -127,10 +119,5 @@ const styles = StyleSheet.create({
   },
   ScrollViewStyle: {
     marginBottom: windowHeight * 0.05,
-  },
-  LiveClubName: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: Platform.OS === 'ios' ? 17 : 16,
-    color: '#06090e',
   },
 });

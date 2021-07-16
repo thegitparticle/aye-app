@@ -1,11 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  Platform,
   TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -19,7 +18,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import ThemeContext from '../../../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
 
-const windowHeight = Dimensions.get('window').height;
+// const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 var state_here = {};
@@ -125,25 +124,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(NudgeToBit);
 
 const styles = StyleSheet.create({
-  AddButton: {
-    //backgroundColor: '#3f9ffe',
-    backgroundColor: '#7D4DF9',
-    borderRadius: windowHeight * 0.018,
-    height: windowHeight * 0.036,
-    width: windowWidth * 0.17,
-  },
-  AddButtonContainer: {
-    borderRadius: windowHeight * 0.018,
-    width: windowWidth * 0.17,
-    height: windowHeight * 0.036,
-    backgroundColor: 'transparent',
-  },
-  AddButtonTitle: {
-    fontFamily: 'GothamRounded-Bold',
-    fontSize: Platform.OS === 'ios' ? 13 : 12,
-    marginTop: Platform.OS === 'android' ? -3 : 0,
-    paddingVertical: 0,
-  },
   left_side_things: {
     flexDirection: 'row',
   },
@@ -151,19 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  subtitle_icon: {},
-  subtitle_text: {
-    marginLeft: 5,
-    color: '#7D4DF9',
-    fontFamily: 'GothamRounded-Book',
-    fontSize: 13,
-  },
-  subtitle_text_not_new: {
-    marginLeft: 5,
-    color: '#06090e25',
-    fontFamily: 'GothamRounded-Book',
-    fontSize: 13,
-  },
+
   avatar_of_user: {
     borderRadius: 30,
     width: 60,
@@ -180,15 +148,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginHorizontal: 20,
-  },
-  user_name: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 17,
-  },
-  ongoing_frame_text: {
-    fontFamily: 'GothamRounded-Book',
-
-    fontSize: 13,
-    color: '#06090e',
   },
 });

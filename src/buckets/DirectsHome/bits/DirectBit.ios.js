@@ -8,7 +8,7 @@ import {usePubNub} from 'pubnub-react';
 import ThemeContext from '../../../themes/Theme';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+// const windowHeight = Dimensions.get('window').height;
 
 function DirectBit(props) {
   const theme = useContext(ThemeContext);
@@ -130,20 +130,7 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
     alignItems: 'center',
   },
-  subtitle_icon: {},
-  subtitle_text: {
-    marginLeft: 5,
-    //color: Platform.OS === 'ios' ? '#2dbbff' : 'rgb(109, 187, 253)',
-    color: '#7D4DF9',
-    fontFamily: 'GothamRounded-Book',
-    fontSize: 13,
-  },
-  subtitle_text_not_new: {
-    marginLeft: 5,
-    color: '#06090e25',
-    fontFamily: 'GothamRounded-Book',
-    fontSize: 13,
-  },
+
   avatar_of_club: {
     borderRadius: 30,
     width: 60,
@@ -160,17 +147,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginHorizontal: 20,
-  },
-  name_of_other_person: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 17,
-    marginBottom: 10,
-  },
-  ongoing_frame_text: {
-    fontFamily: 'GothamRounded-Book',
-
-    fontSize: 13,
-    //marginHorizontal: 20,
-    color: '#06090e',
   },
 });

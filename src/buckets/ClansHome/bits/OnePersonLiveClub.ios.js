@@ -1,12 +1,14 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Animated, StyleSheet, Dimensions, Platform} from 'react-native';
+import React, {useEffect, useRef, useContext} from 'react';
+import {View, Animated, StyleSheet, Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import ThemeContext from '../../../themes/Theme';
 
 const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+// const windowWidth = Dimensions.get('window').width;
 
 function OnePersonLiveClub(props) {
   const anim = useRef(new Animated.Value(1));
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     // makes the sequence loop
@@ -30,7 +32,6 @@ function OnePersonLiveClub(props) {
   }, []);
 
   var imagesList = props.URLList;
-  //console.log(imagesList);
 
   return (
     <View>
@@ -38,7 +39,11 @@ function OnePersonLiveClub(props) {
         <Animated.View style={{transform: [{scale: anim.current}]}}>
           <FastImage
             source={{uri: item}}
-            style={styles.AvatarStyleLiveClub}
+            style={{
+              ...styles.AvatarStyleLiveClub,
+              borderColor: theme.colors.off_white,
+              backgroundColor: theme.colors.off_white,
+            }}
             size={68}
           />
         </Animated.View>
@@ -52,12 +57,9 @@ export default OnePersonLiveClub;
 const styles = StyleSheet.create({
   AvatarStyleLiveClub: {
     marginHorizontal: -2,
-
     width: windowHeight * 0.08,
     height: windowHeight * 0.08,
     borderRadius: windowHeight * 0.4,
-    borderColor: '#f1f4f9',
-    borderWidth: Platform.OS === 'ios' ? 3 : 0,
-    backgroundColor: '#f1f4f9',
+    borderWidth: 3,
   },
 });
