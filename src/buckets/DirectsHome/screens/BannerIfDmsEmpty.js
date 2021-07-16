@@ -1,15 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  Dimensions,
-  Image,
-  Text,
-  Pressable,
-} from 'react-native';
-import {Button} from 'react-native-elements';
+import {View, Dimensions, Text, Pressable} from 'react-native';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ThemeContext from '../../../themes/Theme';
