@@ -752,23 +752,39 @@ function ClubChatScreen({navigation, dispatch, route}) {
               var x_here = old_messages.channels[channelIdHere]
                 .reverse()
                 .concat(_.uniqBy(messages, 'timetoken').reverse());
-              // var x_here = [
-              //   {
-              //     data: _.uniqBy(messages, 'timetoken').reverse(),
-              //   },
-              //   {
-              //     data: old_messages.channels[channelIdHere].reverse(),
-              //   },
-              // ];
+
+              var x_here_1 = _.uniqBy(messages, 'timetoken')
+                .reverse()
+                .concat(old_messages.channels[channelIdHere].reverse());
+
+              var s_here = [
+                {
+                  data: _.uniqBy(messages, 'timetoken').reverse(),
+                },
+                {
+                  data: old_messages.channels[channelIdHere].reverse(),
+                },
+              ];
+
+              console.log(s_here[0]);
+              console.log(s_here[1]);
 
               function RenderOldOrNew(props) {
                 var y_here = props.Message.item;
                 // console.log(y_here);
 
                 if (y_here.meta) {
-                  return <ShowMessageOld Message={y_here} />;
+                  return (
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessageOld Message={y_here} />
+                    </Pressable>
+                  );
                 } else {
-                  return <ShowMessage Message={y_here} />;
+                  return (
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={y_here} />
+                    </Pressable>
+                  );
                 }
               }
 
@@ -794,11 +810,18 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 //     </Pressable>
                 //   ))}
                 // </ScrollView>
-                <FlatList
-                  data={x_here}
+                // <FlatList
+                //   data={x_here_1}
+                //   keyExtractor={(item, index) => item + index}
+                //   renderItem={item => <RenderOldOrNew Message={item} />}
+                //   inverted={true}
+                // />
+                <SectionList
+                  sections={s_here}
                   keyExtractor={(item, index) => item + index}
                   renderItem={item => <RenderOldOrNew Message={item} />}
                   inverted={true}
+                  showsVerticalScrollIndicator={false}
                 />
               );
             }

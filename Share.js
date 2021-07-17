@@ -8,7 +8,7 @@ const Button = ({onPress, title, style}) => (
   </Pressable>
 );
 
-const Share = () => {
+function Share() {
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [sending, setSending] = useState(false);
@@ -17,7 +17,6 @@ const Share = () => {
     ShareMenuReactView.data().then(({mimeType, data}) => {
       setSharedData(data);
       setSharedMimeType(mimeType);
-      console.log('got data');
     });
   }, []);
 
@@ -75,7 +74,9 @@ const Share = () => {
       </View>
     </View>
   );
-};
+}
+
+export default Share;
 
 const styles = StyleSheet.create({
   container: {
@@ -103,5 +104,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default Share;

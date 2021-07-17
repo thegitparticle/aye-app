@@ -1089,7 +1089,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     <Pressable onPress={() => Keyboard.dismiss()}>
                       <ShowMessageOld Message={item} />
                     </Pressable>
-                    //<Text>{item.message}</Text>
                   ))}
                   {_.uniqBy(messages, 'timetoken').map((message, index) => (
                     <Pressable onPress={() => Keyboard.dismiss()}>
