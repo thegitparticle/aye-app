@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
   ImageBackground,
-  Linking,
   TouchableOpacity,
 } from 'react-native';
 import {Header} from 'react-native-elements';
@@ -18,6 +17,7 @@ import {showMessage} from 'react-native-flash-message';
 import ThemeContext from '../../../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
 import Iconly from '../../../external/Iconly';
+import Share from 'react-native-share';
 
 var state_here = {};
 
@@ -55,7 +55,6 @@ function TheAyeScreen({navigation, dispatch}) {
         showMessage({
           message: `Go to Direct chats list, message ${chosenName}`,
           type: 'info',
-          //backgroundColor: 'mediumseagreen',
           backgroundColor: '#7d4df9',
         }),
       )
@@ -64,41 +63,87 @@ function TheAyeScreen({navigation, dispatch}) {
       });
   }
 
-  function RenderThingsList() {
-    return (
-      <View style={styles.things_list_view_wrap}>
-        <TouchableOpacity
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginVertical: 10,
-          }}
-          onPress={() => StartDirectConvoWithFounder()}>
-          <SquircleView
-            style={{
-              width: windowWidth * 0.8,
-              height: 60,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            squircleParams={{
-              cornerSmoothing: 1,
-              cornerRadius: 15,
-              fillColor: theme.colors.mid_light,
-            }}>
-            <Text style={{...theme.text.title_3, color: theme.colors.mid_dark}}>
-              talk to founder
-            </Text>
-          </SquircleView>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  const RenderThingsList = useMemo(
+    () =>
+      function RenderThingsList() {
+        const shareAppOptions = {
+          title: 'Share app via',
+          message: 'Download Aye today -',
+          url: 'https://downloadaye.page.link/download',
+        };
+
+        return (
+          <View style={styles.things_list_view_wrap}>
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginVertical: 10,
+              }}
+              onPress={() => StartDirectConvoWithFounder()}>
+              <SquircleView
+                style={{
+                  width: windowWidth * 0.8,
+                  height: 60,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 15,
+                  fillColor: theme.colors.mid_light_25,
+                }}>
+                <Text
+                  style={{
+                    ...theme.text.title_3,
+                    color: theme.colors.full_light,
+                  }}>
+                  talk to founder ✋🏻
+                </Text>
+              </SquircleView>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginVertical: 10,
+              }}
+              onPress={() =>
+                Share.open(shareAppOptions)
+                  .then(res => console.log(res))
+                  .catch(err => console.log(err))
+              }>
+              <SquircleView
+                style={{
+                  width: windowWidth * 0.8,
+                  height: 60,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 15,
+                  fillColor: theme.colors.mid_light_25,
+                }}>
+                <Text
+                  style={{
+                    ...theme.text.title_3,
+                    color: theme.colors.full_light,
+                  }}>
+                  share app 🚀
+                </Text>
+              </SquircleView>
+            </TouchableOpacity>
+          </View>
+        );
+      },
+    [],
+  );
 
   return (
     <View style={styles.containerview}>
       <ImageBackground
-        source={require('/Users/san/Desktop/toastgo/assets/space_background.jpeg')}
+        source={require('../assets/orange_sky.jpeg')}
         style={styles.bg_image}>
         <View style={styles.header_logo_view}>
           <Header
