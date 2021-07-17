@@ -7142,6 +7142,11 @@ react-native-securerandom@^0.1.1:
   dependencies:
     base64-js "*"
 
+react-native-share-menu@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-share-menu/-/react-native-share-menu-5.0.4.tgz#886828bc9d99fabc826e259a1ab8ee372f7d8686"
+  integrity sha512-0tDcqKuA96VZtMcXrE8weu40iN79bbvnVRv++P04xCQutjYHWcCqJ3KPHdw8Beil4zreh02bQhUfLQnsjjkq1g==
+
 react-native-share@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.3.0.tgz#5422f871055033adbf2084cddb729368f890bd8a"

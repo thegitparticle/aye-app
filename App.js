@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import type {Node} from 'react';
 import RootStack from './src/navigation/RootStack';
 import {Provider} from 'react-redux';
@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/react-native';
 import FlashMessage from 'react-native-flash-message';
 import {ThemeProvider} from './src/themes/Theme';
 import {ButterTheme} from './src/themes/ButterTheme';
+import ShareMenu from 'react-native-share-menu';
 
 Sentry.init({
   dsn:
@@ -20,6 +21,34 @@ const App: () => Node = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
     });
+  }, []);
+
+  const [sharedData, setSharedData] = useState('');
+  const [sharedMimeType, setSharedMimeType] = useState('');
+  const [sharedExtraData, setSharedExtraData] = useState(null);
+
+  const handleShare = useCallback(item => {
+    if (!item) {
+      return;
+    }
+
+    const {mimeType, data, extraData} = item;
+
+    setSharedData(data);
+    setSharedExtraData(extraData);
+    setSharedMimeType(mimeType);
+  }, []);
+
+  useEffect(() => {
+    ShareMenu.getInitialShare(handleShare);
+  }, []);
+
+  useEffect(() => {
+    const listener = ShareMenu.addNewShareListener(handleShare);
+
+    return () => {
+      listener.remove();
+    };
   }, []);
 
   return (
