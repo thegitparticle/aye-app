@@ -12,6 +12,8 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Pressable,
+  SectionList,
+  FlatList,
 } from 'react-native';
 import {Overlay, Icon, Header, Avatar, SearchBar} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
@@ -747,30 +749,57 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 </ScrollView>
               );
             } else {
-              var x_here = old_messages.channels[channelIdHere];
+              var x_here = old_messages.channels[channelIdHere]
+                .reverse()
+                .concat(_.uniqBy(messages, 'timetoken').reverse());
+              // var x_here = [
+              //   {
+              //     data: _.uniqBy(messages, 'timetoken').reverse(),
+              //   },
+              //   {
+              //     data: old_messages.channels[channelIdHere].reverse(),
+              //   },
+              // ];
+
+              function RenderOldOrNew(props) {
+                var y_here = props.Message.item;
+                // console.log(y_here);
+
+                if (y_here.meta) {
+                  return <ShowMessageOld Message={y_here} />;
+                } else {
+                  return <ShowMessage Message={y_here} />;
+                }
+              }
 
               return (
-                <ScrollView
-                  style={styles.body_scroll_view}
-                  contentContainerStyle={
-                    styles.body_scroll_view_content_container
-                  }
-                  showsVerticalScrollIndicator={false}
-                  ref={scrollView}
-                  onContentSizeChange={() =>
-                    scrollView.current.scrollToEnd({animated: true})
-                  }>
-                  {old_messages.channels[channelIdHere].map((item, index) => (
-                    <Pressable onPress={() => Keyboard.dismiss()}>
-                      <ShowMessageOld Message={item} />
-                    </Pressable>
-                  ))}
-                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                    <Pressable onPress={() => Keyboard.dismiss()}>
-                      <ShowMessage Message={message} />
-                    </Pressable>
-                  ))}
-                </ScrollView>
+                // <ScrollView
+                //   style={styles.body_scroll_view}
+                //   contentContainerStyle={
+                //     styles.body_scroll_view_content_container
+                //   }
+                //   showsVerticalScrollIndicator={false}
+                //   ref={scrollView}
+                //   onContentSizeChange={() =>
+                //     scrollView.current.scrollToEnd({animated: true})
+                //   }>
+                //   {old_messages.channels[channelIdHere].map((item, index) => (
+                //     <Pressable onPress={() => Keyboard.dismiss()}>
+                //       <ShowMessageOld Message={item} />
+                //     </Pressable>
+                //   ))}
+                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                //     <Pressable onPress={() => Keyboard.dismiss()}>
+                //       <ShowMessage Message={message} />
+                //     </Pressable>
+                //   ))}
+                // </ScrollView>
+                <FlatList
+                  data={x_here}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={item => <RenderOldOrNew Message={item} />}
+                  inverted={true}
+                />
               );
             }
           }
