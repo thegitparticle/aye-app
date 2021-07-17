@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
+import {View, Text, Dimensions, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
-import Draggable from 'react-native-draggable';
+import {BlurView} from '@react-native-community/blur';
+import {SquircleView} from 'react-native-figma-squircle';
 
 /*
 
@@ -26,7 +27,6 @@ const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
   const pubnub = usePubNub();
-  // console.log(props.Message);
   if (props.Message) {
     if (props.Message.meta.type === 'a') {
       return (
@@ -47,9 +47,22 @@ function ShowMessageOld(props) {
             size={60}
             containerStyle={styles.d_avatar}
           />
-          <View style={styles.d_text_view}>
+          <BlurView
+            style={{
+              alignSelf: 'flex-start',
+              left: '15%',
+              right: '15%',
+              maxWidth: windowWidth * 0.85,
+              backgroundColor: '#F2F4F9',
+              borderRadius: 10,
+              overflow: 'hidden',
+              padding: 10,
+            }}
+            blurType="light"
+            blurAmount={25}
+            reducedTransparencyFallbackColor="#F2F4F9">
             <Autolink style={styles.d_text} text={props.Message.message} />
-          </View>
+          </BlurView>
         </View>
       );
     } else if (props.Message.meta.type === 'b') {
@@ -121,19 +134,6 @@ function ShowMessageOld(props) {
         </View>
       );
     } else if (props.Message.meta.type === 'g') {
-      function TextPartHere(props) {
-        var x_here = props.Text;
-        if (x_here.length > 0) {
-          return (
-            <View style={styles.b_text_view}>
-              <Text style={styles.b_text}>{props.Text}</Text>
-            </View>
-          );
-        } else {
-          return <View />;
-        }
-      }
-
       return (
         <View style={styles.g_type_view}>
           <FastImage
@@ -144,15 +144,8 @@ function ShowMessageOld(props) {
                 name: props.Message.message.file.name,
               }),
             }}
-            style={styles.g_type_image}>
-            {/* <Avatar
-            rounded
-            source={{uri: props.Message.meta.user_dp}}
-            size={60}
-            containerStyle={styles.g_avatar}
+            style={styles.g_type_image}
           />
-          <TextPartHere Text={props.Message.message} /> */}
-          </FastImage>
         </View>
       );
     } else if (props.Message.meta.type === 'h') {
@@ -160,9 +153,28 @@ function ShowMessageOld(props) {
         var x_here = props.Text;
         if (x_here.length > 0) {
           return (
-            <View style={styles.h_text_view}>
-              <Text style={styles.h_text}>{props.Text}</Text>
-            </View>
+            <BlurView
+              style={{
+                alignSelf: 'flex-start',
+                left: '15%',
+                right: '15%',
+                maxWidth: windowWidth * 0.85,
+                backgroundColor: 'transparent',
+                borderRadius: 10,
+                overflow: 'hidden',
+              }}
+              blurType="light"
+              blurAmount={25}
+              reducedTransparencyFallbackColor="#F2F4F9">
+              <SquircleView
+                squircleParams={{
+                  cornerRadius: 10,
+                  cornerSmoothing: 1,
+                  fillColor: '#FFFFFF50',
+                }}>
+                <Text style={styles.h_text}>{props.Text}</Text>
+              </SquircleView>
+            </BlurView>
           );
         } else {
           return <View />;
@@ -222,7 +234,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.1,
 
     marginVertical: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     flexDirection: 'row',
 
     alignItems: 'center',

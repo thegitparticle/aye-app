@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     height: windowHeight * 0.1,
     marginVertical: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
