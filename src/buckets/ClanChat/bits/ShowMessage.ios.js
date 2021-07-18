@@ -3,8 +3,7 @@ import {View, Text, Dimensions, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import Autolink from 'react-native-autolink';
-import {BlurView} from '@react-native-community/blur';
-import {SquircleView} from 'react-native-figma-squircle';
+import {BlurView} from 'expo-blur';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -119,27 +118,34 @@ function ShowMessage(props) {
         if (props.Text.length > 0) {
           return (
             <BlurView
-              // eslint-disable-next-line react-native/no-inline-styles
               style={{
+                overflow: 'hidden',
                 alignSelf: 'flex-start',
                 left: '15%',
                 right: '15%',
-                maxWidth: windowWidth * 0.85,
-                backgroundColor: 'transparent',
-                borderRadius: 10,
-                overflow: 'hidden',
+                borderBottomRightRadius: 10,
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
               }}
-              blurType="light"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="#F2F4F9">
-              <SquircleView
-                squircleParams={{
-                  cornerRadius: 10,
-                  cornerSmoothing: 1,
-                  fillColor: '#FFFFFF50',
+              intensity={75}
+              tint="light">
+              <View
+                style={{
+                  backgroundColor: 'transparent',
+                  alignSelf: 'flex-start',
+                  maxWidth: windowWidth * 0.8,
+                  flexDirection: 'row',
                 }}>
-                <Text style={styles.h_text}>{props.Text}</Text>
-              </SquircleView>
+                <Text
+                  style={{
+                    fontFamily: 'GothamRounded-Medium',
+                    fontSize: 15,
+                    padding: 10,
+                    color: '#050505',
+                  }}>
+                  {props.Text}
+                </Text>
+              </View>
             </BlurView>
           );
         } else {

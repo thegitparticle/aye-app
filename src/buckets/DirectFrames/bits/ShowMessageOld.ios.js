@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
-import Draggable from 'react-native-draggable';
+import {BlurView} from 'expo-blur';
 
 /*
 
@@ -160,9 +160,36 @@ function ShowMessageOld(props) {
         var x_here = props.Text;
         if (x_here.length > 0) {
           return (
-            <View style={styles.h_text_view}>
-              <Text style={styles.h_text}>{props.Text}</Text>
-            </View>
+            <BlurView
+              style={{
+                overflow: 'hidden',
+                alignSelf: 'flex-start',
+                left: '15%',
+                right: '15%',
+                borderBottomRightRadius: 10,
+                borderTopRightRadius: 10,
+                borderTopLeftRadius: 10,
+              }}
+              intensity={75}
+              tint="light">
+              <View
+                style={{
+                  backgroundColor: 'transparent',
+                  alignSelf: 'flex-start',
+                  maxWidth: windowWidth * 0.8,
+                  flexDirection: 'row',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'GothamRounded-Medium',
+                    fontSize: 15,
+                    padding: 10,
+                    color: '#050505',
+                  }}>
+                  {props.Text}
+                </Text>
+              </View>
+            </BlurView>
           );
         } else {
           return <View />;
