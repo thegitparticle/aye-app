@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   },
   h_type_image: {
     width: windowWidth,
-    height: windowWidth / 2,
+    height: windowWidth / 1.5,
     flexDirection: 'column-reverse',
   },
   h_avatar: {

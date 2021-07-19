@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useMemo, useContext} from 'react';
-import {View, Dimensions, StyleSheet, Pressable} from 'react-native';
+import {View, Dimensions, StyleSheet, Pressable, Text} from 'react-native';
 import {Header, Avatar} from 'react-native-elements';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -62,33 +62,48 @@ function HeaderAtHome({dispatch}) {
     return <View />;
   }
 
-  // function SquircleHeader() {
-  //   return (
-  //     <SquircleView
-  //       style={{
-  //         width: windowWidth,
-  //         height: windowHeight * 0.125,
-  //         alignItems: 'flex-end',
-  //         justifyContent: 'space-between',
-  //         flexDirection: 'row',
-  //         borderWidth: 1,
-  //         borderColor: '#06090e10',
-  //       }}
-  //       squircleParams={{
-  //         cornerSmoothing: 1,
-  //         cornerRadius: 15,
-  //         fillColor: theme.colors.full_light,
-  //       }}>
-  //       <HeaderLeft />
-  //       <HeaderMiddle />
-  //       <HeaderRight />
-  //     </SquircleView>
-  //   );
+  function HeaderView() {
+    return (
+      <SquircleView
+        style={{
+          width: windowWidth,
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowColor: '#00000025',
+          shadowOffset: {
+            width: 0,
+            height: 75,
+          },
+          shadowOpacity: 0.36,
+          shadowRadius: 16.68,
+          elevation: 11,
+        }}
+        squircleParams={{
+          cornerSmoothing: 0.7,
+          cornerRadius: 30,
+          fillColor: '#F8F8F8',
+        }}>
+        <View
+          style={{
+            width: windowWidth * 0.9,
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            height: '100%',
+          }}>
+          <HeaderLeft />
+          <HeaderMiddle />
+          <HeaderRight />
+        </View>
+      </SquircleView>
+    );
+  }
   // }
 
   return (
     <View style={styles.header_container}>
-      <Header
+      {/* <Header
         // elevated={true}
         backgroundColor={theme.colors.full_light}
         containerStyle={styles.header_container}
@@ -96,7 +111,8 @@ function HeaderAtHome({dispatch}) {
         <HeaderLeft />
         <HeaderMiddle />
         <HeaderRight />
-      </Header>
+      </Header> */}
+      <Header ViewComponent={HeaderView} barStyle="dark-content" />
       <PushSetup />
     </View>
   );
@@ -111,7 +127,7 @@ export default connect(mapStateToProps)(HeaderAtHome);
 
 const styles = StyleSheet.create({
   header_container: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderBottomColor: '#06090e10',
     backgroundColor: 'transparent',
     height: windowHeight * 0.125,

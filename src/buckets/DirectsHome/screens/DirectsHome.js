@@ -103,7 +103,7 @@ function DirectsHomeD({dispatch}) {
           </View>
         }
         style={{
-          backgroundColor: theme.colors.full_light,
+          backgroundColor: theme.colors.off_light,
         }}
         showsVerticalScrollIndicator={false}
         refreshing={refreshing}

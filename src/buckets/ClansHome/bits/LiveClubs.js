@@ -21,7 +21,7 @@ function LiveClubs(props) {
       style={{
         marginBottom: live_clubs_data_here.length > 0 ? windowHeight * 0.05 : 0,
         width: windowWidth,
-        backgroundColor: theme.colors.full_light,
+        backgroundColor: theme.colors.off_light,
       }}>
       {_.uniqBy(live_clubs_data_here, 'club_id').map((comp, index) => (
         <TouchableOpacity

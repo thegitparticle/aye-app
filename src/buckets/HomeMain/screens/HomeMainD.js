@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
 
   tab_bar: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f1f1f1',
     position: 'absolute',
     bottom: 0,
     color: '#000',

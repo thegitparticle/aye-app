@@ -19,7 +19,7 @@ function DormantClubBit(props) {
         <View
           style={{
             ...styles.overall_view_under,
-            backgroundColor: theme.colors.full_light,
+            backgroundColor: theme.colors.off_light,
           }}>
           <FastImage
             source={{uri: props.Club.club_profile_pic}}
