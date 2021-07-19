@@ -109,78 +109,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
 
-  var trending_gifs_data_block_empty = [
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-  ];
-
   var trending_photos_data_block =
     state_here.TrendingPhotosReducer.trending_photos;
-
-  var trending_photos_data_block_empty = [
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-  ];
 
   function LeftHeaderComponent() {
     return (
@@ -551,6 +481,67 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
   const OtherInputBar = useMemo(
     () =>
+      function OtherInputBarY() {
+        return (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: windowWidth * 0.95,
+              height: '100%',
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CameraModal')}>
+              <SquircleView
+                style={{
+                  width: windowWidth * 0.45,
+                  height: '60%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 10,
+                  fillColor: 'transparent',
+                  strokeColor: theme.colors.off_light,
+                  strokeWidth: 1,
+                }}>
+                <FastImage
+                  style={{width: 40, height: 40}}
+                  source={require('../assets/camera.png')}
+                />
+              </SquircleView>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('MediaModal')}>
+              <SquircleView
+                style={{
+                  width: windowWidth * 0.45,
+                  height: '60%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 10,
+                  fillColor: 'transparent',
+                  strokeColor: theme.colors.off_light,
+                  strokeWidth: 1,
+                }}>
+                <FastImage
+                  style={{width: 40, height: 40}}
+                  source={require('../assets/media.png')}
+                />
+              </SquircleView>
+            </TouchableOpacity>
+          </View>
+        );
+      },
+    [],
+  );
+
+  const OtherInputBarX = useMemo(
+    () =>
       function OtherInputBarX() {
         return (
           <ScrollView
@@ -749,14 +740,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 </ScrollView>
               );
             } else {
-              var x_here = old_messages.channels[channelIdHere]
-                .reverse()
-                .concat(_.uniqBy(messages, 'timetoken').reverse());
-
-              var x_here_1 = _.uniqBy(messages, 'timetoken')
-                .reverse()
-                .concat(old_messages.channels[channelIdHere].reverse());
-
               var s_here = [
                 {
                   data: _.uniqBy(messages, 'timetoken').reverse(),
@@ -766,12 +749,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 },
               ];
 
-              console.log(s_here[0]);
-              console.log(s_here[1]);
-
               function RenderOldOrNew(props) {
                 var y_here = props.Message.item;
-                // console.log(y_here);
 
                 if (y_here.meta) {
                   return (
@@ -789,33 +768,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }
 
               return (
-                // <ScrollView
-                //   style={styles.body_scroll_view}
-                //   contentContainerStyle={
-                //     styles.body_scroll_view_content_container
-                //   }
-                //   showsVerticalScrollIndicator={false}
-                //   ref={scrollView}
-                //   onContentSizeChange={() =>
-                //     scrollView.current.scrollToEnd({animated: true})
-                //   }>
-                //   {old_messages.channels[channelIdHere].map((item, index) => (
-                //     <Pressable onPress={() => Keyboard.dismiss()}>
-                //       <ShowMessageOld Message={item} />
-                //     </Pressable>
-                //   ))}
-                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                //     <Pressable onPress={() => Keyboard.dismiss()}>
-                //       <ShowMessage Message={message} />
-                //     </Pressable>
-                //   ))}
-                // </ScrollView>
-                // <FlatList
-                //   data={x_here_1}
-                //   keyExtractor={(item, index) => item + index}
-                //   renderItem={item => <RenderOldOrNew Message={item} />}
-                //   inverted={true}
-                // />
                 <SectionList
                   sections={s_here}
                   keyExtractor={(item, index) => item + index}
@@ -1056,20 +1008,20 @@ function ClubChatScreen({navigation, dispatch, route}) {
               justifyContent: 'center',
             }}>
             <RecoOverLayHereShow />
-
             <View style={styles.textinputview}>
-              <View
+              <SquircleView
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 15,
+                  fillColor: theme.colors.off_light,
+                }}
                 style={{
-                  backgroundColor: input_background_color,
-                  borderWidth: 1,
+                  borderWidth: 0,
                   borderColor: input_border_color,
-
                   height: 55,
                   width: windowWidth * 0.95,
-
                   flexDirection: 'row',
                   alignItems: 'center',
-                  borderRadius: 15,
                   minHeight: 45,
                 }}>
                 <AutoGrowingTextInput
@@ -1098,15 +1050,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   multiline={true}
                   maxLength={140}
                 />
-
-                <Pressable
+                <TouchableOpacity
                   style={{
                     height: 30,
                     width: windowWidth * 0.1,
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  //disabled={ ? false : true}
                   onPress={() => {
                     Keyboard.dismiss;
                     if (pick.length > 0) {
@@ -1132,118 +1082,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     color={theme.colors.success_green}
                     size={30}
                   />
-                </Pressable>
-              </View>
+                </TouchableOpacity>
+              </SquircleView>
             </View>
           </View>
         );
       },
     [didFrameStart],
   );
-
-  const [imageSelected, setImageSelected] = useState('');
-  const [imageSelectorCraftVisible, setImageSelectorCraftVisible] = useState(
-    false,
-  );
-
-  const imageSelectorCraftOverlay = () => {
-    setImageSelectorCraftVisible(!imageSelectorCraftVisible);
-    CheckFrameLapsedOrNot();
-  };
-
-  const ImageSelectorOverlayInputHere = useMemo(
-    () =>
-      function ImageSelectorOverlayInputHereX() {
-        return (
-          <Overlay
-            isVisible={imageSelectorCraftVisible}
-            onBackdropPress={imageSelectorCraftOverlay}
-            overlayStyle={styles.image_selector_craft_overlay}>
-            <CraftAndSendImageMessage
-              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-              SelectedImage={imageSelected}
-              ChannelOnGoing={channelOnGoing}
-              Messages={messages}
-              ChannelID={channelsHere[0]}
-              ClubID={clubID}
-              ClubName={clubNameHere}
-              ToggleOverlay={imageSelectorCraftOverlay}
-            />
-          </Overlay>
-        );
-      },
-    [imageSelected, imageSelectorCraftVisible],
-  );
-
-  const [imageSearch, changeImageSearch] = useState('beach');
-
-  useEffect(() => {
-    dispatch(TrendingPhotosActions(imageSearch));
-  }, [dispatch, imageSearch]);
-
-  function RenderTrendingPhotos(item) {
-    return (
-      <Pressable
-        style={{margin: 3}}
-        onPress={() => {
-          setImageSelected(item.item.urls.regular);
-          imageSelectorCraftOverlay();
-        }}>
-        <RenderSearchedImageItem Item={item} />
-      </Pressable>
-    );
-  }
-
-  const [gifSelected, setGifSelected] = useState('');
-  const [gifSelectorCraftVisible, setGifSelectorCraftVisible] = useState(false);
-
-  const gifSelectorCraftOverlay = () => {
-    setGifSelectorCraftVisible(!gifSelectorCraftVisible);
-    CheckFrameLapsedOrNot();
-  };
-
-  const GIFSelectorOverlayInputHere = useMemo(
-    () =>
-      function GIFSelectorOverlayInputHereX() {
-        return (
-          <Overlay
-            isVisible={gifSelectorCraftVisible}
-            onBackdropPress={gifSelectorCraftOverlay}
-            overlayStyle={styles.gif_selector_craft_overlay}>
-            <CraftAndSendGifMessage
-              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-              SelectedGIF={gifSelected}
-              ChannelOnGoing={channelOnGoing}
-              Messages={messages}
-              ChannelID={channelsHere[0]}
-              ClubID={clubID}
-              ClubName={clubNameHere}
-              ToggleOverlay={gifSelectorCraftOverlay}
-            />
-          </Overlay>
-        );
-      },
-    [gifSelected, gifSelectorCraftVisible],
-  );
-
-  const [gifsSearch, changeGifSearch] = useState('love');
-
-  useEffect(() => {
-    dispatch(TrendingGifsActions(gifsSearch));
-  }, [dispatch, gifsSearch]);
-
-  function RenderTrendingGifsHere(item) {
-    return (
-      <Pressable
-        style={{margin: 3}}
-        onPress={() => {
-          setGifSelected(item.item.images.fixed_height.url);
-          gifSelectorCraftOverlay();
-        }}>
-        <RenderSearchedGifItem Item={item} />
-      </Pressable>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -1301,111 +1147,12 @@ function ClubChatScreen({navigation, dispatch, route}) {
           flex: 0.09,
           width: windowWidth,
           backgroundColor: other_input_background_color,
+          alignItems: 'center',
         }}>
         <OtherInputBar />
       </View>
       <ImagePickerOverlayInputX />
-      <ImageSelectorOverlayInputHere />
       <CameraPickerOverlayInput />
-      <GIFSelectorOverlayInputHere />
-      <Modalize
-        ref={modalizeRefBitmojiSheet}
-        snapPoint={1000}
-        modalHeight={windowHeight * 0.6}
-        modalStyle={styles.other_input_modals_style}
-        HeaderComponent={
-          <SquircleView
-            style={{
-              width: windowWidth * 0.95,
-              height: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-              alignSelf: 'center',
-              marginVertical: 10,
-            }}
-            squircleParams={{
-              cornerSmoothing: 1,
-              cornerRadius: 10,
-              fillColor: theme.colors.mid_dark,
-            }}>
-            <SearchBar
-              placeholder="Type Here..."
-              onChangeText={search => {
-                changeImageSearch(search);
-              }}
-              value={imageSearch}
-              containerStyle={{
-                backgroundColor: 'transparent',
-                borderBottomWidth: 0,
-                borderTopWidth: 0,
-                width: windowWidth * 0.95,
-                height: 50,
-                justifyContent: 'center',
-              }}
-              inputContainerStyle={{
-                backgroundColor: 'transparent',
-              }}
-              inputStyle={{...theme.text.header, color: theme.colors.off_light}}
-              placeholderTextColor={theme.colors.mid_light}
-              searchIcon={{color: theme.colors.mid_light}}
-            />
-          </SquircleView>
-        }
-        flatListProps={{
-          data: trending_photos_data_block,
-          renderItem: RenderTrendingPhotos,
-          keyExtractor: item => item.id,
-          numColumns: 2,
-        }}
-      />
-      <Modalize
-        ref={modalizeRefGifSheet}
-        snapPoint={1000}
-        modalHeight={windowHeight * 0.6}
-        modalStyle={styles.other_input_modals_style}
-        HeaderComponent={
-          <SquircleView
-            style={{
-              width: windowWidth * 0.95,
-              height: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-              alignSelf: 'center',
-              marginVertical: 10,
-            }}
-            squircleParams={{
-              cornerSmoothing: 1,
-              cornerRadius: 10,
-              fillColor: theme.colors.mid_dark,
-            }}>
-            <SearchBar
-              placeholder="Type Here..."
-              onChangeText={changeGifSearch}
-              value={gifsSearch}
-              containerStyle={{
-                backgroundColor: 'transparent',
-                borderBottomWidth: 0,
-                borderTopWidth: 0,
-                width: windowWidth * 0.95,
-                height: 50,
-                justifyContent: 'center',
-              }}
-              inputContainerStyle={{
-                backgroundColor: 'transparent',
-              }}
-              inputStyle={{...theme.text.header, color: theme.colors.off_light}}
-              placeholderTextColor={theme.colors.mid_light}
-              searchIcon={{color: theme.colors.mid_light}}
-            />
-          </SquircleView>
-        }
-        flatListProps={{
-          data: trending_gifs_data_block,
-          renderItem: RenderTrendingGifsHere,
-          keyExtractor: item => item.id,
-          numColumns: 2,
-        }}
-      />
       <Overlay
         isVisible={pasteLinkVisible}
         onBackdropPress={togglePasteLinkOverlay}
@@ -1545,10 +1292,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
   },
-  input_overall_view: {},
   textinputview: {
-    //flex: 0.65,
-    //height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -1566,7 +1310,6 @@ const styles = StyleSheet.create({
   },
   otherinputicon: {
     marginHorizontal: 40,
-    //marginTop: 10, //has to be fixed to be made as per the flex
   },
   other_input_modals_style: {
     backgroundColor: '#131313',

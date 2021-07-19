@@ -8318,6 +8318,11 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
+react-native-style-utilities@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-style-utilities/-/react-native-style-utilities-1.0.1.tgz#9b71d2744de7b39bac5fe310d4b2778a34735b41"
+  integrity sha512-hEukFkGyZpII/915VOZiyUrr0drlL27pjtw1oVyqFKiNQYIpZofyoBJnY5Gd6iIOWMeT5SqJ3rg2KHEe/O0O8w==
+
 react-native-svg@^12.1.0:
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.0.tgz#acfe48c35cd5fca3d5fd767abae0560c36cfc03d"
@@ -8366,6 +8371,11 @@ react-native-view-shot@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
   integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
+
+react-native-vision-camera@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.4.1.tgz#4d3b572c3d5b51ed12af376862783ed920bb152a"
+  integrity sha512-LCs5KPMhqs3FjI7OcPvUDbaI8JybvCeYE4XtTRhpp0a4Y29zACcpb4G2N7IfJ1dr6d7ZcAEf5M0k8K3iUfFoMA==
 
 react-native@0.64.0:
   version "0.64.0"

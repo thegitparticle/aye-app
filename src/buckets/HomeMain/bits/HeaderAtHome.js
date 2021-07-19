@@ -62,43 +62,47 @@ function HeaderAtHome({dispatch}) {
     return <View />;
   }
 
-  function HeaderView() {
-    return (
-      <SquircleView
-        style={{
-          width: windowWidth,
-          height: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          shadowColor: '#00000025',
-          shadowOffset: {
-            width: 0,
-            height: 75,
-          },
-          shadowOpacity: 0.36,
-          shadowRadius: 16.68,
-          elevation: 11,
-        }}
-        squircleParams={{
-          cornerSmoothing: 0.7,
-          cornerRadius: 30,
-          fillColor: '#F8F8F8',
-        }}>
-        <View
-          style={{
-            width: windowWidth * 0.9,
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            height: '100%',
-          }}>
-          <HeaderLeft />
-          <HeaderMiddle />
-          <HeaderRight />
-        </View>
-      </SquircleView>
-    );
-  }
+  const HeaderView = useMemo(
+    () =>
+      function HeaderView() {
+        return (
+          <SquircleView
+            style={{
+              width: windowWidth,
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#00000025',
+              shadowOffset: {
+                width: 0,
+                height: 75,
+              },
+              shadowOpacity: 0.36,
+              shadowRadius: 16.68,
+              elevation: 11,
+            }}
+            squircleParams={{
+              cornerSmoothing: 0.7,
+              cornerRadius: 30,
+              fillColor: '#F8F8F8',
+            }}>
+            <View
+              style={{
+                width: windowWidth * 0.9,
+                alignItems: 'flex-end',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                height: '100%',
+              }}>
+              <HeaderLeft />
+              <HeaderMiddle />
+              <HeaderRight />
+            </View>
+          </SquircleView>
+        );
+      },
+    [],
+  );
   // }
 
   return (

@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, Pressable, Linking, Text, Image} from 'react-native';
-import {ImageBackground} from 'react-native-elements';
+import {Dimensions, Image} from 'react-native';
 import {DoubleBounce} from 'react-native-loader';
 
 const windowWidth = Dimensions.get('window').width;

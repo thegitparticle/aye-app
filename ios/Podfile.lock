@@ -487,6 +487,10 @@ PODS:
     - UMCore
   - UMTaskManagerInterface (6.2.0):
     - UMCore
+  - VisionCamera (2.4.1):
+    - React
+    - React-callinvoker
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -563,6 +567,7 @@ DEPENDENCIES:
   - "UMCore (from `../node_modules/@unimodules/core/ios`)"
   - "UMReactNativeAdapter (from `../node_modules/@unimodules/react-native-adapter/ios`)"
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
+  - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -732,6 +737,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@unimodules/react-native-adapter/ios"
   UMTaskManagerInterface:
     :path: "../node_modules/unimodules-task-manager-interface/ios"
+  VisionCamera:
+    :path: "../node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -834,6 +841,7 @@ SPEC CHECKSUMS:
   UMCore: 2f671796d7439604a1cf8ac7bbe5809cd5c50437
   UMReactNativeAdapter: 684b07b79d5fe52b496d2b50bfe31f68d7daf71a
   UMTaskManagerInterface: 2be431101b73604e64fbfffcf759336f9d8fccbb
+  VisionCamera: 74e523f029eab91f051a1de9bd3f2406847b9785
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
 PODFILE CHECKSUM: 98ea3315e4706bf6328c7dbbf89559f639dc7c6c

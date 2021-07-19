@@ -23,6 +23,8 @@ import OtherProfile from '../buckets/OtherProfile/screens/OtherProfile';
 import ViewOldFrameClub from '../buckets/ClanFrames/screens/ViewOldFrameClub';
 import ViewOldFrameDirect from '../buckets/DirectFrames/screens/ViewOldFrameDirect';
 import TheAyeScreen from '../buckets/Aye/screens/TheAyeScreen';
+import MediaModal from '../buckets/ClanChat/bits/MediaModal';
+import CameraModal from '../buckets/ClanChat/bits/CameraModal';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -59,18 +61,7 @@ function MyProfileModalScreens() {
         component={MyProfileScreen}
       />
       <MyProfileStack.Screen name="EditProfile" component={EditProfile} />
-      {/* <MyProfileStack.Screen
-        name="Network"
-        component={Network}
-        options={{
-          gestureEnabled: true,
-          transitionSpec: {
-            open: TransitionSpecs.TransitionIOSSpec,
-            close: TransitionSpecs.TransitionIOSSpec,
-          },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      /> */}
+
       <MyProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </MyProfileStack.Navigator>
   );
@@ -88,6 +79,30 @@ function ClubInteractionScreens() {
   return (
     <ClubChatStack.Navigator headerMode="none">
       <ClubChatStack.Screen name="ClubChatScreen" component={ClubChatScreen} />
+      <StackMain.Screen
+        name="MediaModal"
+        component={MediaModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="CameraModal"
+        component={CameraModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
       <ClubChatStack.Screen
         name="ClubFramesList"
         component={ClubFramesList}
@@ -168,7 +183,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -181,7 +195,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -194,7 +207,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -207,7 +219,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -220,7 +231,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -233,7 +243,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -246,7 +255,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}

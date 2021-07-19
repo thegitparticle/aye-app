@@ -56,6 +56,10 @@
 	<string>To help you find your friends. By giving access, you agree for your contacts to be uploaded onto our highly encrypted secure server.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To send photos to your friends.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fontisto.ttf</string>
