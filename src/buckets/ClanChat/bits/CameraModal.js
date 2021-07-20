@@ -11,6 +11,8 @@ import {useCameraDevices, Camera} from 'react-native-vision-camera';
 import FastImage from 'react-native-fast-image';
 import {Icon} from 'react-native-elements';
 import CraftCamera from '../chatitems/camera/CraftCamera';
+import ImagePicker from 'react-native-image-crop-picker';
+import CraftGallery from '../chatitems/gallery/CraftGallery';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,6 +23,8 @@ function CameraModal({navigation, route}) {
   const {channelOnGoing, clubName, clubID, channelID, messages} = route.params;
 
   const [photo, setPhoto] = useState('');
+
+  const [galleryPicked, setGalleryPicked] = useState('');
 
   const [showWhat, setShowWhat] = useState('Camera'); //Camera, CraftCamera, Gallery, CraftGallery
 
@@ -73,7 +77,18 @@ function CameraModal({navigation, route}) {
 
   function OpenGallery() {
     return (
-      <TouchableOpacity style={flip_camera_button_wrap} onPress={takePhoto}>
+      <TouchableOpacity
+        style={flip_camera_button_wrap}
+        onPress={() => {
+          ImagePicker.openPicker({
+            multiple: false,
+            cropping: false,
+          }).then(image => {
+            console.log(image);
+            setGalleryPicked(image.path);
+            setShowWhat('CraftGallery');
+          });
+        }}>
         <Icon
           name="image"
           type="feather"
@@ -189,12 +204,23 @@ function CameraModal({navigation, route}) {
         photo={photo}
       />
     );
+  } else if (showWhat === 'CraftGallery') {
+    return (
+      <CraftGallery
+        channelOnGoing={channelOnGoing}
+        messages={messages}
+        channelID={channelID}
+        clubID={clubID}
+        clubName={clubName}
+        galleryPicked={galleryPicked}
+      />
+    );
   } else {
     return (
       <FastImage
         style={show_clicked_overall}
         source={{
-          uri: 'file://' + photo,
+          uri: galleryPicked,
         }}
       />
     );

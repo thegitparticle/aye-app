@@ -69,12 +69,18 @@ function ShowMessage(props) {
       );
     } else if (props.Message.userMetadata.type === 'b') {
       return (
-        <View style={styles.b_type_view}>
+        <TouchableOpacity
+          style={styles.b_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: props.Message.file.url,
+            })
+          }>
           <FastImage
             source={{uri: props.Message.file.url}}
             style={styles.b_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.userMetadata.type === 'c') {
       return (
@@ -253,31 +259,20 @@ const styles = StyleSheet.create({
   },
 
   b_type_image: {
-    width: windowWidth,
-    //width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
   },
-  b_avatar: {
-    left: '5%',
-  },
-  b_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  b_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
+
   b_type_view: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: windowWidth,
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
     marginVertical: 10,
-    alignItems: 'center',
   },
 
   c_type_image: {

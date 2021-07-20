@@ -77,7 +77,17 @@ function ShowMessageOld(props) {
       );
     } else if (props.Message.meta.type === 'b') {
       return (
-        <View style={styles.b_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -88,7 +98,7 @@ function ShowMessageOld(props) {
             }}
             style={styles.b_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'c') {
       return (
@@ -266,28 +276,20 @@ const styles = StyleSheet.create({
   },
 
   b_type_image: {
-    width: windowWidth,
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
   },
 
-  b_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  b_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
   b_type_view: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: windowWidth,
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
     marginVertical: 10,
-    alignItems: 'center',
   },
 
   c_type_image: {
