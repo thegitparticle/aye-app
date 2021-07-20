@@ -47,6 +47,7 @@ import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../../../external/Iconly';
 import {MMKV} from 'react-native-mmkv';
 import {SquircleView} from 'react-native-figma-squircle';
+import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
 // import {SelectableText} from '@astrocoders/react-native-selectable-text';
 
 const windowWidth = Dimensions.get('window').width;
@@ -93,6 +94,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Club Chat');
+    dispatch(SetCurrentChannel(channelIdHere));
   }, []);
 
   const modalizeRefGifSheet = useRef(null);
@@ -492,7 +494,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
               height: '100%',
             }}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('CameraModal')}>
+              onPress={() =>
+                navigation.navigate('CameraModal', {
+                  channelOnGoing: channelOnGoing,
+                  channelID: channelsHere[0],
+                  clubName: clubNameHere,
+                  clubID: clubID,
+                  messages: messages,
+                })
+              }>
               <SquircleView
                 style={{
                   width: windowWidth * 0.45,
@@ -537,7 +547,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           </View>
         );
       },
-    [],
+    [messages],
   );
 
   const OtherInputBarX = useMemo(

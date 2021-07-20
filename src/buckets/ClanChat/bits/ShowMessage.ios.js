@@ -1,14 +1,23 @@
 import React from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import Autolink from 'react-native-autolink';
 import {BlurView} from 'expo-blur';
+import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessage(props) {
+  const navigation = useNavigation();
+
   if (props.Message) {
     if (props.Message.userMetadata.type === 'a') {
       return (
@@ -69,12 +78,19 @@ function ShowMessage(props) {
       );
     } else if (props.Message.userMetadata.type === 'c') {
       return (
-        <View style={styles.c_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: props.Message.file.url,
+            })
+          }>
           <FastImage
             source={{uri: props.Message.file.url}}
             style={styles.c_type_image}
+            resizeMode="cover"
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.userMetadata.type === 'e') {
       return (
@@ -265,31 +281,20 @@ const styles = StyleSheet.create({
   },
 
   c_type_image: {
-    width: windowWidth,
-    //width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
   },
-  c_avatar: {
-    left: '5%',
-  },
-  c_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  c_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
+
   c_type_view: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: windowWidth,
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
     marginVertical: 10,
-    alignItems: 'center',
   },
 
   e_type_image: {

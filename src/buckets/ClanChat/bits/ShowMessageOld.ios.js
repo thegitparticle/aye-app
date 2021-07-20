@@ -1,11 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
 import {BlurView} from 'expo-blur';
+import {useNavigation} from '@react-navigation/native';
 
 /*
 
@@ -26,7 +33,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
+  const navigation = useNavigation();
   const pubnub = usePubNub();
+
   if (props.Message) {
     if (props.Message.meta.type === 'a') {
       return (
@@ -83,7 +92,17 @@ function ShowMessageOld(props) {
       );
     } else if (props.Message.meta.type === 'c') {
       return (
-        <View style={styles.c_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -94,7 +113,7 @@ function ShowMessageOld(props) {
             }}
             style={styles.c_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'e') {
       return (
@@ -152,34 +171,6 @@ function ShowMessageOld(props) {
         var x_here = props.Text;
         if (x_here.length > 0) {
           return (
-            // <View
-            //   style={{
-            //     borderBottomRightRadius: 10,
-            //     borderTopRightRadius: 10,
-            //     borderTopLeftRadius: 10,
-            //     overflow: 'hidden',
-            //   }}>
-            //   <BlurView
-            //     style={{
-            //       alignSelf: 'flex-start',
-            //       left: '15%',
-            //       right: '15%',
-            //       maxWidth: windowWidth * 0.85,
-            //       backgroundColor: 'transparent',
-            //     }}
-            //     blurType="light"
-            //     blurAmount={25}
-            //     reducedTransparencyFallbackColor="#F2F4F9">
-            //     {/* <SquircleView
-            //     squircleParams={{
-            //       cornerRadius: 10,
-            //       cornerSmoothing: 1,
-            //       fillColor: '#FFFFFF50',
-            //     }}> */}
-            //     <Text style={styles.h_text}>{props.Text}</Text>
-            //     {/* </SquircleView> */}
-            //   </BlurView>
-            // </View>
             <BlurView
               style={{
                 overflow: 'hidden',
@@ -298,30 +289,24 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
   },
+
   c_type_image: {
-    width: windowWidth,
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
   },
 
-  c_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  c_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
   c_type_view: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: windowWidth,
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
     marginVertical: 10,
-    alignItems: 'center',
   },
+
   e_type_image: {
     width: windowWidth / 2,
     height: windowWidth / 2,

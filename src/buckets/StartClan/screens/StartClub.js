@@ -338,15 +338,12 @@ function StartClub({dispatch, navigation}) {
       }
 
       function EditAfter(match, p1, p2, p3, offset, string) {
-        // console.log(match);
         var y_here = match.charAt(1);
         return '"' + y_here;
       }
 
       const x_here = contacts_string_from_server.replace(/\W'/g, EditBefore);
-      // console.log(x_here + 'xxx');
       const y_here = x_here.replace(/'\W/g, EditAfter);
-      // console.log(y_here, 'yyyy');
 
       contacts_list_from_server = JSON.parse(y_here);
     }
@@ -487,7 +484,6 @@ function StartClub({dispatch, navigation}) {
 
   function StartClubName() {
     const [clubName, setClubName] = useState('');
-    //console.log(finalAddFriends);
     console.log(finalAddContacts);
 
     function HandleStartClubButtonPress() {

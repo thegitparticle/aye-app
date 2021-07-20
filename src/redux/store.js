@@ -15,6 +15,7 @@ import DirectsListReducer from './DirectsListReducer';
 import RecoOnTypeReducer from './RecoOnTypeReducer';
 import MyNudgeToListReducer from './MyNudgeToListReducer';
 import ChosenRecoItemReducer from './ChosenRecoItemReducer';
+import CurrentChannelReducer from './CurrentChannelReducer';
 
 export const persistConfigAuth = {
   key: 'auth_here',
@@ -114,6 +115,7 @@ const rootReducer = combineReducers({
     persistConfigChosenReco,
     ChosenRecoItemReducer,
   ),
+  CurrentChannelReducer,
 });
 
 export const storehere = createStore(rootReducer, applyMiddleware(thunk));

@@ -25,6 +25,8 @@ import ViewOldFrameDirect from '../buckets/DirectFrames/screens/ViewOldFrameDire
 import TheAyeScreen from '../buckets/Aye/screens/TheAyeScreen';
 import MediaModal from '../buckets/ClanChat/bits/MediaModal';
 import CameraModal from '../buckets/ClanChat/bits/CameraModal';
+import CraftCamera from '../buckets/ClanChat/chatitems/camera/CraftCamera';
+import ViewMessageModal from '../buckets/ClanChat/bits/ViewMessageModal';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -103,6 +105,19 @@ function ClubInteractionScreens() {
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
+      <StackMain.Screen
+        name="ViewMessageModal"
+        component={ViewMessageModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen name="CraftCamera" component={CraftCamera} />
       <ClubChatStack.Screen
         name="ClubFramesList"
         component={ClubFramesList}

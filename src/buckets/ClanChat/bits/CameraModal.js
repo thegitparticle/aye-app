@@ -1,20 +1,30 @@
 import React, {useEffect, useState, useCallback, useRef} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {useStyle} from 'react-native-style-utilities';
 import {useCameraDevices, Camera} from 'react-native-vision-camera';
 import FastImage from 'react-native-fast-image';
+import {Icon} from 'react-native-elements';
+import CraftCamera from '../chatitems/camera/CraftCamera';
 
-function CameraModal() {
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+function CameraModal({navigation, route}) {
   const devices = useCameraDevices();
   const device = devices.back;
+  const {channelOnGoing, clubName, clubID, channelID, messages} = route.params;
 
   const [photo, setPhoto] = useState('');
 
-  const [clicked, setClicked] = useState(false);
+  const [showWhat, setShowWhat] = useState('Camera'); //Camera, CraftCamera, Gallery, CraftGallery
 
   const camera = useRef(null);
-
-  console.log(photo);
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -28,12 +38,61 @@ function CameraModal() {
   const takePhoto = useCallback(async () => {
     try {
       const photo_here = await camera.current.takePhoto();
-      setPhoto(photo_here.path);
-      setClicked(true);
+      setPhoto(photo_here);
+      setShowWhat('CraftCamera');
     } catch (e) {
       console.error('Failed to take photo!', e);
     }
-  }, [Camera]);
+  }, [camera]);
+
+  function ClickButton() {
+    return (
+      <TouchableOpacity style={click_button_wrap} onPress={takePhoto}>
+        <Icon
+          name="circle"
+          type="feather"
+          color="#FE2A55"
+          size={windowHeight * 0.08}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  function FlipCamera() {
+    return (
+      <TouchableOpacity style={flip_camera_button_wrap} onPress={takePhoto}>
+        <Icon
+          name="refresh-cw"
+          type="feather"
+          color="#CCCCCC"
+          size={windowHeight * 0.03}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  function OpenGallery() {
+    return (
+      <TouchableOpacity style={flip_camera_button_wrap} onPress={takePhoto}>
+        <Icon
+          name="image"
+          type="feather"
+          color="#CCCCCC"
+          size={windowHeight * 0.03}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  function BottomButtons() {
+    return (
+      <View style={bottom_buttons_wrap}>
+        <OpenGallery />
+        <ClickButton />
+        <FlipCamera />
+      </View>
+    );
+  }
 
   const style_view_wrap = useStyle(
     () => [
@@ -47,6 +106,59 @@ function CameraModal() {
     [],
   );
 
+  const click_button_wrap = useStyle(
+    () => [
+      {
+        backgroundColor: '#05050550',
+        width: windowHeight * 0.1,
+        height: windowHeight * 0.1,
+        borderRadius: windowHeight * 0.05,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    ],
+    [],
+  );
+
+  const camera_overall = useStyle(
+    () => [
+      {
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+      },
+    ],
+    [],
+  );
+
+  const show_clicked_overall = useStyle(() => [{flex: 1}], []);
+
+  const flip_camera_button_wrap = useStyle(
+    () => [
+      {
+        backgroundColor: '#05050550',
+        width: windowHeight * 0.05,
+        height: windowHeight * 0.05,
+        borderRadius: windowHeight * 0.025,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    ],
+    [],
+  );
+
+  const bottom_buttons_wrap = useStyle(
+    () => [
+      {
+        marginVertical: windowHeight * 0.1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: windowWidth * 0.8,
+      },
+    ],
+    [],
+  );
+
   if (device == null) {
     return (
       <View style={style_view_wrap}>
@@ -55,26 +167,32 @@ function CameraModal() {
     );
   }
 
-  if (!clicked) {
+  if (showWhat === 'Camera') {
     return (
       <Camera
         ref={camera}
-        style={[
-          StyleSheet.absoluteFill,
-          {alignItems: 'center', justifyContent: 'flex-end'},
-        ]}
+        style={[StyleSheet.absoluteFill, camera_overall]}
         device={device}
         isActive={true}
         photo={true}>
-        <TouchableOpacity style={{marginVertical: 40}} onPress={takePhoto}>
-          <Text style={{fontSize: 45}}>📸</Text>
-        </TouchableOpacity>
+        <BottomButtons />
       </Camera>
+    );
+  } else if (showWhat === 'CraftCamera') {
+    return (
+      <CraftCamera
+        channelOnGoing={channelOnGoing}
+        messages={messages}
+        channelID={channelID}
+        clubID={clubID}
+        clubName={clubName}
+        photo={photo}
+      />
     );
   } else {
     return (
       <FastImage
-        style={{flex: 1}}
+        style={show_clicked_overall}
         source={{
           uri: 'file://' + photo,
         }}
