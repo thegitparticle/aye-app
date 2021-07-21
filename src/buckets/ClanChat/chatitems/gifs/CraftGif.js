@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 import {useStyle} from 'react-native-style-utilities';
 import {BlurView} from 'expo-blur';
 import PubNub from 'pubnub';
+import {Pulse} from 'react-native-loader';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -247,6 +248,8 @@ function CraftGif(props) {
           if (response.timetoken > 0) {
             StartFrame();
           }
+          HandleGoingBack();
+          setSendingShow(false);
         },
       );
     } else {
@@ -272,6 +275,8 @@ function CraftGif(props) {
         },
         function (status, response) {
           console.log(status);
+          HandleGoingBack();
+          setSendingShow(false);
         },
       );
     }
@@ -300,9 +305,23 @@ function CraftGif(props) {
       },
       function (status, response) {
         console.log(status);
+        HandleGoingBack();
+        setSendingShow(false);
       },
     );
   };
+
+  const [sendingShow, setSendingShow] = useState(false);
+
+  function SendButton() {
+    if (!sendingShow) {
+      return (
+        <Iconly name="SendBold" color={theme.colors.success_green} size={30} />
+      );
+    } else {
+      return <Pulse size={10} color={theme.colors.success_green} />;
+    }
+  }
 
   return (
     <View style={overall_view_wrap}>
@@ -340,7 +359,6 @@ function CraftGif(props) {
                         } else {
                           sendMessageNewFrame(uri, textMessage);
                         }
-                        HandleGoingBack();
                       })
                       .then(uri => {
                         console.log('Image saved to', uri);
@@ -361,19 +379,13 @@ function CraftGif(props) {
                     } else {
                       sendMessageNewFrame(uri, textMessage);
                     }
-
-                    HandleGoingBack();
                   })
                   .then(uri => {
                     console.log('Image saved to', uri);
                   });
               }
             }}>
-            <Iconly
-              name="SendBold"
-              color={theme.colors.success_green}
-              size={30}
-            />
+            <SendButton />
           </Pressable>
         }
       />
