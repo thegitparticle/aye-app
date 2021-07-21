@@ -325,6 +325,7 @@ function CraftImage(props) {
           <Pressable
             style={send_button_style}
             onPress={() => {
+              setSendingShow(true);
               if (textMessage.length === 0) {
                 setTextOpacity(0, textOpacity => {
                   if (textOpacity === 0) {
