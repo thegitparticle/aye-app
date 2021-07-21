@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef, useEffect, useContext, useMemo} from 'react';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 import {
   View,
-  ScrollView,
   Text,
   StyleSheet,
   Dimensions,
