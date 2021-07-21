@@ -1,10 +1,18 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
 import {BlurView} from 'expo-blur';
+import {useNavigation} from '@react-navigation/native';
 
 /*
 
@@ -25,7 +33,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
+  const navigation = useNavigation();
   const pubnub = usePubNub();
+
   if (props.Message) {
     if (props.Message.meta.type === 'a') {
       return (
@@ -62,11 +72,22 @@ function ShowMessageOld(props) {
             reducedTransparencyFallbackColor="#F2F4F9">
             <Autolink style={styles.d_text} text={props.Message.message} />
           </BlurView>
+          <View style={styles.d_text_view} />
         </View>
       );
     } else if (props.Message.meta.type === 'b') {
       return (
-        <View style={styles.b_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModalD', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -77,11 +98,21 @@ function ShowMessageOld(props) {
             }}
             style={styles.b_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'c') {
       return (
-        <View style={styles.c_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModalD', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -92,7 +123,7 @@ function ShowMessageOld(props) {
             }}
             style={styles.c_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'e') {
       return (
@@ -110,8 +141,6 @@ function ShowMessageOld(props) {
         </View>
       );
     } else if (props.Message.meta.type === 'f') {
-      // console.log(props.Message);
-
       return (
         <View style={styles.f_type_view}>
           <FastImage
@@ -214,23 +243,6 @@ function ShowMessageOld(props) {
 export default ShowMessageOld;
 
 const styles = StyleSheet.create({
-  a_type_image: {
-    width: windowWidth,
-    height: windowWidth / 2,
-    flexDirection: 'column-reverse',
-  },
-  a_avatar: {
-    left: '5%',
-  },
-  a_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
   a_text: {
     fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
@@ -239,18 +251,16 @@ const styles = StyleSheet.create({
   d_type_image: {
     width: windowWidth,
     height: windowHeight * 0.1,
-
     marginVertical: 10,
     marginRight: 10,
     flexDirection: 'row',
-
     alignItems: 'center',
   },
   d_avatar: {
     marginLeft: '5%',
   },
   d_text_view: {
-    backgroundColor: '#F2F4F9',
+    backgroundColor: '#F2F4F950',
     alignSelf: 'flex-start',
     left: '15%',
     right: '15%',
@@ -265,67 +275,40 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  text: {
-    fontFamily: 'GothamRounded-Medium',
-  },
-  text2: {
-    fontFamily: 'GothamRounded-Medium',
-    color: 'purple',
-  },
   b_type_image: {
-    width: windowWidth,
-    //width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
   },
-  b_avatar: {
-    left: '5%',
-  },
-  b_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  b_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
+
   b_type_view: {
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  c_type_image: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     width: windowWidth,
-    //width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-    flexDirection: 'column-reverse',
-  },
-  c_avatar: {
-    left: '5%',
-  },
-  c_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  c_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
-  c_type_view: {
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
     marginVertical: 10,
-    alignItems: 'center',
   },
+
+  c_type_image: {
+    width: windowWidth + 1,
+    marginLeft: -1,
+    // height: undefined,
+    // aspectRatio: 1,
+    height: windowHeight * 0.8,
+  },
+
+  c_type_view: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: windowWidth,
+    height: windowWidth * 1.2,
+    overflow: 'hidden',
+    marginVertical: 10,
+  },
+
   e_type_image: {
     width: windowWidth / 2,
     height: windowWidth / 2,
@@ -351,33 +334,16 @@ const styles = StyleSheet.create({
     width: windowWidth,
     height: undefined,
     aspectRatio: 1,
-    // marginVertical: windowHeight * 0.01,
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
-  f_avatar: {
-    left: '5%',
-  },
-  f_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  f_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
+
   f_type_view: {
     marginVertical: 10,
     alignItems: 'center',
   },
   g_type_image: {
     width: windowWidth,
-    //width: '100%',
     height: undefined,
     aspectRatio: 1,
     flexDirection: 'column-reverse',
@@ -385,19 +351,7 @@ const styles = StyleSheet.create({
   g_avatar: {
     left: '5%',
   },
-  g_text_view: {
-    backgroundColor: '#ffffff',
-    alignSelf: 'flex-start',
-    left: '15%',
-    right: '15%',
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: windowWidth * 0.85,
-  },
-  g_text: {
-    fontFamily: 'GothamRounded-Medium',
-    fontSize: 15,
-  },
+
   g_type_view: {
     marginVertical: 10,
     alignItems: 'center',
@@ -424,14 +378,11 @@ const styles = StyleSheet.create({
   h_text: {
     fontFamily: 'GothamRounded-Medium',
     fontSize: 15,
+    padding: 10,
+    color: '#050505',
   },
   h_type_view: {
     marginVertical: 10,
     alignItems: 'center',
-  },
-  main_image: {
-    width: windowWidth,
-    height: windowWidth / 2,
-    flexDirection: 'column-reverse',
   },
 });

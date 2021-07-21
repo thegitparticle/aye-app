@@ -13,7 +13,6 @@ function ChosenRecoItem(props) {
           width: 125,
           height: 72.5,
           marginHorizontal: 5,
-          borderRadius: 10,
         }}
         keyboardShouldPersistTaps="always"
         onPress={() => {}}>

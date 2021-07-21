@@ -26,7 +26,10 @@ import TheAyeScreen from '../buckets/Aye/screens/TheAyeScreen';
 import MediaModal from '../buckets/ClanChat/bits/MediaModal';
 import CameraModal from '../buckets/ClanChat/bits/CameraModal';
 import CraftCamera from '../buckets/ClanChat/chatitems/camera/CraftCamera';
+import CameraModalD from '../buckets/DirectChat/bits/CameraModal';
+import MediaModalD from '../buckets/DirectChat/bits/MediaModal';
 import ViewMessageModal from '../buckets/ClanChat/bits/ViewMessageModal';
+import ViewMessageModalD from '../buckets/DirectChat/bits/ViewMessageModal';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -169,6 +172,42 @@ function DirectInteractionScreens() {
         options={{
           ...TransitionPresets.SlideFromRightIOS,
           gestureDirection: 'horizontal-inverted',
+        }}
+      />
+      <StackMain.Screen
+        name="MediaModalD"
+        component={MediaModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="CameraModalD"
+        component={CameraModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="ViewMessageModalD"
+        component={ViewMessageModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
         }}
       />
       <DirectChatStack.Screen

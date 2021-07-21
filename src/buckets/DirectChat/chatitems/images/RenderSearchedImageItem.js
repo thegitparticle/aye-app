@@ -1,9 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, View} from 'react-native';
-import {Image} from 'react-native-elements';
-import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
+import {Dimensions, Image} from 'react-native';
+import {DoubleBounce} from 'react-native-loader';
 
-//const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 function RenderSearchedImageItem(props) {
@@ -18,3 +17,5 @@ function RenderSearchedImageItem(props) {
 }
 
 export default RenderSearchedImageItem;
+
+////https://api.unsplash.com/photos/a0TJ3hy-UD8/download/?client_id=kJLvNUiTzhjWDxf2a2plyRFdbHbjD9MT84insrzOu9Q

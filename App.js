@@ -10,6 +10,9 @@ import FlashMessage from 'react-native-flash-message';
 import {ThemeProvider} from './src/themes/Theme';
 import {ButterTheme} from './src/themes/ButterTheme';
 import ShareMenu from 'react-native-share-menu';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['source.uri should not be an empty string']);
 
 Sentry.init({
   dsn:

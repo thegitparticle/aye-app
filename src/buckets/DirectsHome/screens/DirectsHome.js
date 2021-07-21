@@ -49,8 +49,8 @@ function DirectsHomeD({dispatch}) {
           navigation.navigate('DirectInteractionScreens', {
             screen: 'DirectChatScreen',
             params: {
-              otherNameHere: props.Direct.item.display_guys.full_name,
-              directIdHere: props.Direct.item.direct_channel_id,
+              clubNameHere: props.Direct.item.display_guys.full_name,
+              channelIdHere: props.Direct.item.direct_channel_id,
               channelOnGoing: props.Direct.item.ongoing_frame,
               channelStartTime: props.Direct.item.start_time,
               channelEndTime: props.Direct.item.end_time,

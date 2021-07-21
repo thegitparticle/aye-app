@@ -2,6 +2,8 @@
 import React from 'react';
 import {Pressable, View} from 'react-native';
 import {Image} from 'react-native-elements';
+import {BlurView} from '@react-native-community/blur';
+import LinearGradient from 'react-native-linear-gradient';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 
 function EachRecoItem(props) {
@@ -16,8 +18,6 @@ function EachRecoItem(props) {
         width: 125,
         height: 72.5,
         marginHorizontal: 5,
-        borderRadius: 10,
-        backgroundColor: 'transparent',
       }}
       keyboardShouldPersistTaps="always"
       onPress={() => {
