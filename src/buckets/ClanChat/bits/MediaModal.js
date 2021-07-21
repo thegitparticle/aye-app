@@ -17,16 +17,26 @@ import {TrendingPhotosActions} from '../../../redux/TrendingPhotosActions';
 import {connect} from 'react-redux';
 import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
 import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
+import CraftGif from '../chatitems/gifs/CraftGif';
+import CraftImage from '../chatitems/images/CraftImage';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
 
 var state_here = {};
 
-function MediaModal({dispatch}) {
+function MediaModal({dispatch, route}) {
   const theme = useContext(ThemeContext);
 
+  const {channelOnGoing, clubName, clubID, channelID, messages} = route.params;
+
   const [searchItem, setSearchItem] = useState('modi');
+
+  const [gifPicked, setGifPicked] = useState('');
+
+  const [imagePicked, setImagePicked] = useState('');
+
+  const [showWhat, setShowWhat] = useState('SearchMode'); //SearchMode, GifCraft, ImageCraft
 
   const UnsplashRoute = useMemo(
     () =>
@@ -42,7 +52,10 @@ function MediaModal({dispatch}) {
               renderItem={item => (
                 <TouchableOpacity
                   style={{margin: 3}}
-                  onPress={() => console.log('image press')}>
+                  onPress={() => {
+                    setImagePicked(item.item.urls.regular);
+                    setShowWhat('ImageCraft');
+                  }}>
                   <RenderSearchedImageItem Item={item} />
                 </TouchableOpacity>
               )}
@@ -69,7 +82,10 @@ function MediaModal({dispatch}) {
               renderItem={item => (
                 <TouchableOpacity
                   style={{margin: 3}}
-                  onPress={() => console.log('gif press')}>
+                  onPress={() => {
+                    setGifPicked(item.item.images.fixed_height.url);
+                    setShowWhat('GifCraft');
+                  }}>
                   <RenderSearchedGifItem Item={item} />
                 </TouchableOpacity>
               )}
@@ -163,39 +179,65 @@ function MediaModal({dispatch}) {
     },
   ]);
 
-  return (
-    <View style={style_view_wrap}>
-      <SquircleView
-        style={search_bar_squircle}
-        squircleParams={{
-          cornerSmoothing: 1,
-          cornerRadius: 10,
-          fillColor: theme.colors.mid_dark,
-        }}>
-        <SearchBar
-          placeholder="search ..."
-          onChangeText={search => {
-            setSearchItem(search);
-          }}
-          value={searchItem}
-          containerStyle={search_bar_container}
-          inputContainerStyle={{
-            backgroundColor: 'transparent',
-          }}
-          inputStyle={{...theme.text.header, color: theme.colors.off_light}}
-          placeholderTextColor={theme.colors.mid_light_50}
-          searchIcon={{color: theme.colors.mid_light_50}}
+  if (showWhat === 'SearchMode') {
+    return (
+      <View style={style_view_wrap}>
+        <SquircleView
+          style={search_bar_squircle}
+          squircleParams={{
+            cornerSmoothing: 1,
+            cornerRadius: 10,
+            fillColor: theme.colors.mid_dark,
+          }}>
+          <SearchBar
+            placeholder="search ..."
+            onChangeText={search => {
+              setSearchItem(search);
+            }}
+            value={searchItem}
+            containerStyle={search_bar_container}
+            inputContainerStyle={{
+              backgroundColor: 'transparent',
+            }}
+            inputStyle={{...theme.text.header, color: theme.colors.off_light}}
+            placeholderTextColor={theme.colors.mid_light_50}
+            searchIcon={{color: theme.colors.mid_light_50}}
+          />
+        </SquircleView>
+        <TabView
+          navigationState={{index, routes}}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+          onIndexChange={setIndex}
+          initialLayout={{width: layout.width}}
         />
-      </SquircleView>
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-        onIndexChange={setIndex}
-        initialLayout={{width: layout.width}}
+      </View>
+    );
+  } else if (showWhat === 'GifCraft') {
+    return (
+      <CraftGif
+        channelOnGoing={channelOnGoing}
+        messages={messages}
+        channelID={channelID}
+        clubID={clubID}
+        clubName={clubName}
+        gifPicked={gifPicked}
       />
-    </View>
-  );
+    );
+  } else if (showWhat === 'ImageCraft') {
+    return (
+      <CraftImage
+        channelOnGoing={channelOnGoing}
+        messages={messages}
+        channelID={channelID}
+        clubID={clubID}
+        clubName={clubName}
+        imagePicked={imagePicked}
+      />
+    );
+  } else {
+    return <View />;
+  }
 }
 
 const mapStateToProps = state => {

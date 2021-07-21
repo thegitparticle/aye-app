@@ -13,6 +13,8 @@ function ViewOldFrameClub({route, navigation}) {
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
   const pubnub = usePubNub();
 
+  console.log(old_messages);
+
   function LeftHeaderComponent() {
     return (
       <View style={styles.header_club_view}>

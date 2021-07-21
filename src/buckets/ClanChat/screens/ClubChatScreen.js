@@ -523,7 +523,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 />
               </SquircleView>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('MediaModal')}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('MediaModal', {
+                  channelOnGoing: channelOnGoing,
+                  channelID: channelsHere[0],
+                  clubName: clubNameHere,
+                  clubID: clubID,
+                  messages: messages,
+                })
+              }>
               <SquircleView
                 style={{
                   width: windowWidth * 0.45,
