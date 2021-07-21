@@ -1,15 +1,70 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import ThemeContext from '../../../themes/Theme';
+import {MMKV} from 'react-native-mmkv';
+import {usePubNub} from 'pubnub-react';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
   const theme = useContext(ThemeContext);
+  const pubnub = usePubNub();
+
+  function NewMessageOrNot() {
+    const last_seen = MMKV.getNumber(String(props.Club.club_id) + '_c');
+
+    const [newMessages, setNewMessages] = useState(0);
+
+    if (last_seen !== 0) {
+      pubnub.messageCounts(
+        {
+          channels: [String(props.Club.club_id) + '_c'],
+          channelTimetokens: [String(last_seen * 10000000)],
+        },
+        (status, results) => {
+          if (results) {
+            var more_messages =
+              results.channels[String(props.Club.club_id) + '_c'];
+            setNewMessages(more_messages);
+          }
+        },
+      );
+    }
+
+    if (newMessages > 0) {
+      return (
+        <LinearGradient
+          colors={['#f85032', '#e73827']}
+          style={{
+            borderRadius: 35,
+            width: 70,
+            height: 70,
+            backgroundColor: 'tomato',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <FastImage
+            source={{uri: props.Club.club_profile_pic}}
+            style={styles.avatar_of_club}
+            size={68}
+          />
+        </LinearGradient>
+      );
+    } else {
+      return (
+        <FastImage
+          source={{uri: props.Club.club_profile_pic}}
+          style={styles.avatar_of_club}
+          size={68}
+        />
+      );
+    }
+  }
 
   if (props.Club.club_id === 0) {
     return <View />;
@@ -21,11 +76,7 @@ function DormantClubBit(props) {
             ...styles.overall_view_under,
             backgroundColor: theme.colors.off_light,
           }}>
-          <FastImage
-            source={{uri: props.Club.club_profile_pic}}
-            style={styles.avatar_of_club}
-            size={68}
-          />
+          <NewMessageOrNot />
           <View style={styles.text_block_view}>
             <Text
               style={{

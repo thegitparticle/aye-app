@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {MMKV} from 'react-native-mmkv';
 import {usePubNub} from 'pubnub-react';
 import ThemeContext from '../../../themes/Theme';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
@@ -82,23 +83,40 @@ function DirectBit(props) {
       );
     }
 
-    return (
-      <Badge
-        badgeStyle={{
-          backgroundColor: newMessages > 0 ? '#7D4DF9' : '',
-        }}
-      />
-    );
-  }
-
-  return (
-    <View style={styles.overall_view}>
-      <View style={{flexDirection: 'row'}}>
+    if (newMessages > 0) {
+      return (
+        <LinearGradient
+          colors={['#f85032', '#e73827']}
+          style={{
+            borderRadius: 35,
+            width: 70,
+            height: 70,
+            backgroundColor: 'tomato',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <FastImage
+            source={{uri: props.Direct.display_guys.profile_picture}}
+            style={styles.avatar_of_club}
+            size={68}
+          />
+        </LinearGradient>
+      );
+    } else {
+      return (
         <FastImage
           source={{uri: props.Direct.display_guys.profile_picture}}
           style={styles.avatar_of_club}
           size={68}
         />
+      );
+    }
+  }
+
+  return (
+    <View style={styles.overall_view}>
+      <View style={{flexDirection: 'row'}}>
+        <NewMessageOrNot />
         <View style={styles.text_block_view}>
           <Text
             style={{
@@ -109,14 +127,6 @@ function DirectBit(props) {
           </Text>
           <UnreadStatus Status={props.Direct.ongoing_frame} />
         </View>
-      </View>
-      <View
-        style={{
-          width: windowWidth * 0.1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <NewMessageOrNot />
       </View>
     </View>
   );

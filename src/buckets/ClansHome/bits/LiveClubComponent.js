@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Badge} from 'react-native-elements';
 import OnePersonLiveClub from './OnePersonLiveClub';
@@ -6,11 +6,33 @@ import TwoPeopleLiveClub from './TwoPeopleLiveClubs';
 import ThreePeopleLiveClub from './ThreePeopleLiveClubs';
 import _ from 'lodash';
 import ThemeContext from '../../../themes/Theme';
+import {MMKV} from 'react-native-mmkv';
+import {usePubNub} from 'pubnub-react';
 
 function LiveClubComponent(props) {
   const theme = useContext(ThemeContext);
+  const pubnub = usePubNub();
   var live_members = props.LiveMembers;
   var numberofpeople = live_members.length - 1;
+
+  const last_seen = MMKV.getNumber(props.Club.pn_channel_id);
+
+  const [newMessages, setNewMessages] = useState(0);
+
+  if (last_seen !== 0) {
+    pubnub.messageCounts(
+      {
+        channels: [props.Club.pn_channel_id],
+        channelTimetokens: [String(last_seen * 10000000)],
+      },
+      (status, results) => {
+        if (results) {
+          var more_messages = results.channels[props.Club.pn_channel_id];
+          setNewMessages(more_messages);
+        }
+      },
+    );
+  }
 
   if (numberofpeople === 3) {
     var imageslist = [];
@@ -21,7 +43,9 @@ function LiveClubComponent(props) {
       } else {
       }
     });
-    return <ThreePeopleLiveClub URLList={imageslist} />;
+    return (
+      <ThreePeopleLiveClub URLList={imageslist} NewMessages={newMessages} />
+    );
   } else if (numberofpeople === 1) {
     var imageslist = [];
 
@@ -31,7 +55,7 @@ function LiveClubComponent(props) {
       } else {
       }
     });
-    return <OnePersonLiveClub URLList={imageslist} />;
+    return <OnePersonLiveClub URLList={imageslist} NewMessages={newMessages} />;
   } else if (numberofpeople === 2) {
     var imageslist = [];
 
@@ -41,7 +65,7 @@ function LiveClubComponent(props) {
       } else {
       }
     });
-    return <TwoPeopleLiveClub URLList={imageslist} />;
+    return <TwoPeopleLiveClub URLList={imageslist} NewMessages={newMessages} />;
   } else if (numberofpeople > 3) {
     var imageslist = [];
 
@@ -54,7 +78,7 @@ function LiveClubComponent(props) {
     var ifmore = numberofpeople - 3;
     return (
       <View>
-        <ThreePeopleLiveClub URLList={imageslist} />
+        <ThreePeopleLiveClub URLList={imageslist} NewMessages={newMessages} />
         <Badge
           value={`+${ifmore}`}
           badgeStyle={styles.extracountbadge}
@@ -72,7 +96,7 @@ function LiveClubComponent(props) {
       } else {
       }
     });
-    return <OnePersonLiveClub URLList={imageslist} />;
+    return <OnePersonLiveClub URLList={imageslist} NewMessages={newMessages} />;
   }
 }
 
