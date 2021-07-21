@@ -5,7 +5,6 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  TextInput,
   Dimensions,
   TouchableOpacity,
   Image,
@@ -15,14 +14,10 @@ import {
   SectionList,
   FlatList,
 } from 'react-native';
-import {Overlay, Icon, Header, Avatar, SearchBar} from 'react-native-elements';
+import {Icon, Header} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import ImagePicker from 'react-native-image-crop-picker';
-import {Modalize} from 'react-native-modalize';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {TrendingGifsActions} from '../../../redux/TrendingGifsActions';
-import {TrendingPhotosActions} from '../../../redux/TrendingPhotosActions';
 import {usePubNub} from 'pubnub-react';
 import dayjs from 'dayjs';
 import ShowMessage from '../bits/ShowMessage';
@@ -32,23 +27,14 @@ import {showMessage} from 'react-native-flash-message';
 import {BlurView} from '@react-native-community/blur';
 import {MixpanelContext} from '../../../external/MixPanelStuff';
 import _ from 'lodash';
-import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
-import CraftAndSendGifMessage from '../chatitems/gifs/CraftAndSendGifMessage';
-import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
-import CraftAndSendImageMessage from '../chatitems/images/CraftAndSendImageMessage';
-import CraftAndSendCameraMessage from '../chatitems/camera/CraftAndSendCameraMessage';
-import CraftAndSendLinkMessage from '../chatitems/links/CraftAndSendLinkMessage';
 import RecosOverlay from '../chatitems/typed/RecosOverlay';
 import ChosenRecoItem from '../chatitems/typed/ChosenRecoItem';
-import Draggable from 'react-native-draggable';
-import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../../../themes/Theme';
-import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../../../external/Iconly';
-import {MMKV} from 'react-native-mmkv';
 import {SquircleView} from 'react-native-figma-squircle';
+import PubNub from 'pubnub';
 import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
-// import {SelectableText} from '@astrocoders/react-native-selectable-text';
+import {Bubbles, Pulse} from 'react-native-loader';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -59,9 +45,7 @@ const background_color = '#FAFAFA';
 const header_color = 'transparent';
 const input_border_color = '#EEEEEE';
 const header_bar_style = 'dark-content';
-const input_background_color = '#EAEAEA';
 const other_input_background_color = '#FAFAFA';
-const reco_background_color = 'transparent';
 const font_color_input = '#050505';
 const font_color_header = '#050505';
 const header_back_image = '/Users/san/Desktop/toastgo/assets/3.jpeg';
@@ -80,39 +64,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const [channelsHere] = useState([channelIdHere]);
 
   const [messages, addMessage] = useState([]);
-  const [liveWho, setLiveWho] = useState();
-
-  const [nowTimeStamp, setNowTimeStamp] = useState('');
 
   const [old_messages, addOldMessages] = useState();
   const [old_messages_resolve, changeOldMessagesResolve] = useState(false);
-
-  useEffect(() => {
-    setNowTimeStamp(dayjs().valueOf());
-  }, []);
 
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Club Chat');
     dispatch(SetCurrentChannel(channelIdHere));
   }, []);
-
-  const modalizeRefGifSheet = useRef(null);
-
-  const onOpenGifSheet = () => {
-    modalizeRefGifSheet.current?.open();
-  };
-
-  const modalizeRefBitmojiSheet = useRef(null);
-
-  const onOpenBitmojiSheet = () => {
-    modalizeRefBitmojiSheet.current?.open();
-  };
-
-  var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
-
-  var trending_photos_data_block =
-    state_here.TrendingPhotosReducer.trending_photos;
 
   function LeftHeaderComponent() {
     return (
@@ -127,7 +87,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         onPress={() =>
           navigation.navigate('ClubFramesList', {
             club_id: clubID,
-            live_who: liveWho,
             club_name: clubNameHere,
           })
         }>
@@ -148,7 +107,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }}
         onPress={() => {
           navigation.goBack();
-          MMKV.set(channelIdHere, dayjs().unix());
         }}>
         <Iconly
           name="ChevronDownBroken"
@@ -163,320 +121,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
     return (
       <View style={styles.center_header_view}>
         <Text style={styles.center_header_club_name}>
-          {clubNameHere.substring(0, 14)}
+          {clubNameHere.substring(0, 15)}
         </Text>
-      </View>
-    );
-  }
-
-  const [imagePicked, setImagePicked] = useState('');
-  const [imagePickedMime, setImagePickedMime] = useState('');
-  const [imagePickedName, setImagePickedName] = useState('');
-  const [imagePickerCraftVisible, setImagePickerCraftVisible] = useState(false);
-
-  const imagePickerCraftOverlay = () => {
-    setImagePickerCraftVisible(!imagePickerCraftVisible);
-    CheckFrameLapsedOrNot();
-  };
-
-  const ImagePickerOverlayInputX = useMemo(
-    () =>
-      function ImagePickerOverlayInput() {
-        const [textMessage, setTextMessage] = useState('');
-        const sendMessageNewFrame = (shot, message) => {
-          if (messages.length === 0) {
-            console.log('new frame, no live messsages here');
-            pubnub.sendFile(
-              {
-                channel: channelsHere[0],
-                message: {
-                  test: '',
-                },
-                file: {
-                  uri: shot,
-                  name: 'galgalgal',
-                  mimeType: 'jpg',
-                },
-                meta: {
-                  type: 'b',
-                  user_dp: state_here.MyProfileReducer.myprofile.image,
-                  view_shot: shot,
-                },
-              },
-              function (status, response) {
-                StartFrame();
-                console.log(status + response);
-              },
-            );
-          } else {
-            console.log('new frame, yes live messsages here');
-            pubnub.sendFile(
-              {
-                channel: channelsHere[0],
-                message: {
-                  test: '',
-                },
-                file: {
-                  uri: shot,
-                  name: 'galgalgal',
-                  mimeType: 'jpg',
-                },
-                meta: {
-                  type: 'b',
-                  user_dp: state_here.MyProfileReducer.myprofile.image,
-                  view_shot: shot,
-                },
-              },
-              function (status, response) {
-                console.log(status + response);
-              },
-            );
-          }
-        };
-        const sendMessageOldFrame = (shot, message) => {
-          console.log('old frame, yes messages');
-          pubnub.sendFile(
-            {
-              channel: channelsHere[0],
-              message: {
-                test: '',
-              },
-              file: {
-                uri: shot,
-                name: 'galgalgal',
-                mimeType: 'jpg',
-              },
-              meta: {
-                type: 'b',
-                user_dp: state_here.MyProfileReducer.myprofile.image,
-                view_shot: shot,
-              },
-            },
-            function (status, response) {
-              console.log(status + response);
-            },
-          );
-        };
-
-        function Children() {
-          return (
-            <View>
-              <View
-                style={{
-                  backgroundColor: '#ffffff',
-                  alignSelf: 'flex-start',
-                  left: windowWidth * 0.05 + 30,
-                  right: windowWidth * 0.05,
-                  padding: 10,
-                  borderBottomRightRadius: 15,
-                  borderTopRightRadius: 15,
-                  borderTopLeftRadius: 15,
-                  maxWidth: windowWidth * 0.8,
-                  opacity: textOpacity,
-                }}>
-                <TextInput
-                  placeholder="type..."
-                  placeholderTextColor="#fafafa50"
-                  style={styles.g_text}
-                  multiline
-                  autoline
-                  maxLength={140}
-                  autoCorrect={false}
-                  value={textMessage}
-                  onChangeText={text => setTextMessage(text)}
-                />
-              </View>
-              <Avatar
-                rounded
-                source={{uri: state_here.MyProfileReducer.myprofile.image}}
-                size={60}
-                containerStyle={styles.g_avatar}
-              />
-            </View>
-          );
-        }
-
-        const viewShotGalleryRef = useRef(null);
-
-        const [textOpacity, setTextOpacity] = useStateWithCallbackLazy(1);
-
-        return (
-          <Overlay
-            isVisible={imagePickerCraftVisible}
-            onBackdropPress={imagePickerCraftOverlay}
-            overlayStyle={styles.image_picker_craft_overlay}>
-            <View style={styles.image_picker_craft_items_view}>
-              <Header
-                backgroundColor="#131313"
-                containerStyle={{borderBottomWidth: 0}}
-                barStyle="light-content"
-                leftComponent={
-                  <Pressable
-                    style={{
-                      alignSelf: 'flex-start',
-                      height: windowHeight * 0.05,
-                      justifyContent: 'flex-end',
-                    }}
-                    onPress={() => imagePickerCraftOverlay()}>
-                    <Iconly
-                      name="CloseSquareBold"
-                      color={theme.colors.off_light}
-                      size={30}
-                    />
-                  </Pressable>
-                }
-                rightComponent={
-                  <Pressable
-                    style={{
-                      alignSelf: 'flex-end',
-                      height: windowHeight * 0.05,
-                      justifyContent: 'flex-end',
-                    }}
-                    onPress={() => {
-                      if (textMessage.length === 0) {
-                        setTextOpacity(0, textOpacity => {
-                          if (textOpacity === 0) {
-                            Keyboard.dismiss();
-                            // console.log('first' + textOpacity);
-
-                            captureRef(viewShotGalleryRef, {
-                              format: 'jpg',
-                              quality: 0.9,
-                            })
-                              .then(uri => {
-                                if (!channelOnGoing) {
-                                  sendMessageNewFrame(uri);
-                                } else {
-                                  sendMessageOldFrame(uri);
-                                }
-                                Keyboard.dismiss;
-                                imagePickerCraftOverlay();
-                                setImagePicked('');
-                              })
-                              .then(uri => {
-                                console.log('Image saved to', uri);
-                              });
-                          } else {
-                            Keyboard.dismiss();
-                            // console.log('second' + textOpacity);
-                          }
-                        });
-                      } else {
-                        Keyboard.dismiss();
-                        captureRef(viewShotGalleryRef, {
-                          format: 'jpg',
-                          quality: 0.9,
-                        })
-                          .then(uri => {
-                            if (!channelOnGoing) {
-                              sendMessageNewFrame(uri);
-                            } else {
-                              sendMessageOldFrame(uri);
-                            }
-                            Keyboard.dismiss;
-                            imagePickerCraftOverlay();
-                            setImagePicked('');
-                          })
-                          .then(uri => {
-                            console.log('Image saved to', uri);
-                          });
-                      }
-                    }}>
-                    <Iconly
-                      name="SendBold"
-                      color={theme.colors.success_green}
-                      size={30}
-                    />
-                  </Pressable>
-                }
-              />
-              <ViewShot
-                ref={viewShotGalleryRef}
-                options={{format: 'jpg', quality: 0.9}}>
-                <FastImage
-                  style={{
-                    width: windowWidth,
-                    height: undefined,
-                    aspectRatio: 1,
-                    marginVertical: windowHeight * 0.01,
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                  }}
-                  source={{uri: imagePicked}}>
-                  <Draggable
-                    children={Children()}
-                    x={0}
-                    y={windowWidth * 0.7}
-                    minX={windowWidth * 0.0}
-                    minY={windowHeight * 0.01}
-                    maxX={windowWidth * 0.8}
-                    maxY={windowWidth}
-                  />
-                </FastImage>
-              </ViewShot>
-            </View>
-          </Overlay>
-        );
-      },
-    [imagePickerCraftVisible, imagePicked],
-  );
-
-  const [cameraPicked, setCameraPicked] = useState('');
-  const [cameraPickedMime, setCameraPickedMime] = useState('');
-  const [cameraPickedName, setCameraPickedName] = useState('');
-  const [cameraPickerCraftVisible, setCameraPickerCraftVisible] = useState(
-    false,
-  );
-
-  const cameraPickerCraftOverlay = () => {
-    setCameraPickerCraftVisible(!cameraPickerCraftVisible);
-    CheckFrameLapsedOrNot();
-  };
-
-  const CameraPickerOverlayInput = useMemo(
-    () =>
-      function CameraPickerOverlayInputX() {
-        return (
-          <Overlay
-            isVisible={cameraPickerCraftVisible}
-            onBackdropPress={cameraPickerCraftOverlay}
-            overlayStyle={styles.camera_picker_craft_overlay}>
-            <CraftAndSendCameraMessage
-              ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-              SelectedCameraShot={cameraPicked}
-              SelectedCameraShotName={cameraPickedName}
-              SelectedCameraShotMime={cameraPickedMime}
-              ChannelOnGoing={channelOnGoing}
-              Messages={messages}
-              ChannelID={channelsHere[0]}
-              ClubName={clubNameHere}
-              ClubID={clubID}
-              ToggleOverlay={cameraPickerCraftOverlay}
-            />
-          </Overlay>
-        );
-      },
-    [cameraPickerCraftVisible, cameraPicked],
-  );
-
-  const [pasteLinkVisible, setPasteLinkVisible] = useState(false);
-
-  const togglePasteLinkOverlay = () => {
-    setPasteLinkVisible(false);
-  };
-
-  function PasteLinkOverlay() {
-    return (
-      <View style={styles.paste_link_overlay_view}>
-        <CraftAndSendLinkMessage
-          ProfileAvatar={state_here.MyProfileReducer.myprofile.image}
-          ChannelOnGoing={channelOnGoing}
-          Messages={messages}
-          ChannelID={channelsHere[0]}
-          ClubID={clubID}
-          ClubName={clubNameHere}
-          ToggleOverlay={togglePasteLinkOverlay}
-        />
       </View>
     );
   }
@@ -559,92 +205,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
     [messages],
   );
 
-  const OtherInputBarX = useMemo(
-    () =>
-      function OtherInputBarX() {
-        return (
-          <ScrollView
-            horizontal={true}
-            centerContent={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.otherinputscrollview}>
-            <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => {
-                ImagePicker.openCamera({
-                  cropping: true,
-                  compressImageQuality: 1,
-                  width: 1200, // Add this
-                  height: 1500, // Add this
-                }).then(image => {
-                  console.log(image);
-                  setCameraPicked(image.path);
-                  setCameraPickedMime(image.mime);
-                  setCameraPickedName('camera_photo');
-                  cameraPickerCraftOverlay();
-                });
-              }}>
-              <Image
-                source={require('../../../../assets/crazy_camera_e_d.png')}
-                style={styles.OtherInputIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => {
-                ImagePicker.openPicker({
-                  multiple: false,
-                  cropping: false,
-                }).then(images => {
-                  console.log(images);
-                  //setImagePicked(images.sourceURL);
-                  setImagePicked(images.path);
-                  setImagePickedMime(images.mime);
-                  setImagePickedName(images.filename);
-                  imagePickerCraftOverlay();
-                });
-              }}>
-              <Image
-                source={require('../../../../assets/crazy_photos_apple_e_d_big.png')}
-                style={styles.OtherInputIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => {
-                onOpenBitmojiSheet();
-              }}>
-              <Image
-                source={require('../../../../assets/crazy_unsplash_e_d.png')}
-                style={styles.OtherInputIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => {
-                onOpenGifSheet();
-              }}>
-              <Image
-                source={require('../../../../assets/crazy_gif_e_d.png')}
-                style={styles.OtherInputIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{justifyContent: 'center'}}
-              onPress={() => {
-                setPasteLinkVisible(true);
-              }}>
-              <Image
-                source={require('../../../../assets/crazy_link_apple_e_d_big.png')}
-                style={styles.OtherInputIcon}
-              />
-            </TouchableOpacity>
-          </ScrollView>
-        );
-      },
-    [],
-  );
-
   const [didFrameStart, setDidFrameStart] = useState(false);
 
   const handleMessage = event => {
@@ -677,7 +237,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
         function (status, response) {
           if (response) {
-            console.log(response);
             changeOldMessagesResolve(true);
             addOldMessages(response);
           }
@@ -708,55 +267,139 @@ function ClubChatScreen({navigation, dispatch, route}) {
   const LiveMessagesView = useMemo(
     () =>
       function LiveMessagesViewX() {
-        const scrollView = useRef();
-
         if (!old_messages_resolve) {
           return (
-            <ScrollView
-              style={styles.body_scroll_view}
-              contentContainerStyle={styles.body_scroll_view_content_container}
-              showsVerticalScrollIndicator={false}
-            />
+            <View
+              style={{
+                flexGrow: 1,
+                width: windowWidth,
+                alignItems: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                padding: 0,
+                margin: 0,
+                backgroundColor: background_color,
+              }}>
+              <Bubbles size={10} color={theme.colors.you_prime} />
+            </View>
           );
         } else {
           if (!channelOnGoing) {
-            return (
-              <ScrollView
-                style={styles.body_scroll_view}
-                contentContainerStyle={
-                  styles.body_scroll_view_content_container
-                }
-                showsVerticalScrollIndicator={false}
-                ref={scrollView}
-                onContentSizeChange={() =>
-                  scrollView.current.scrollToEnd({animated: true})
-                }>
-                {_.uniqBy(messages, 'timetoken').map((message, index) => (
+            var a_here = _.uniqBy(messages, 'timetoken').reverse();
+
+            function RenderOldOrNew(props) {
+              var y_here = props.Message.item;
+
+              if (y_here.meta) {
+                return (
                   <Pressable onPress={() => Keyboard.dismiss()}>
-                    <ShowMessage Message={message} />
+                    <ShowMessageOld Message={y_here} />
                   </Pressable>
-                ))}
-              </ScrollView>
-            );
+                );
+              } else {
+                return (
+                  <Pressable onPress={() => Keyboard.dismiss()}>
+                    <ShowMessage Message={y_here} />
+                  </Pressable>
+                );
+              }
+            }
+
+            if (a_here.length > 0) {
+              return (
+                // <ScrollView
+                //   style={styles.body_scroll_view}
+                //   contentContainerStyle={
+                //     styles.body_scroll_view_content_container
+                //   }
+                //   showsVerticalScrollIndicator={false}
+                //   ref={scrollView}
+                //   onContentSizeChange={() =>
+                //     scrollView.current.scrollToEnd({animated: true})
+                //   }>
+                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                //     <Pressable onPress={() => Keyboard.dismiss()}>
+                //       <ShowMessage Message={message} />
+                //     </Pressable>
+                //   ))}
+                // </ScrollView>
+                <FlatList
+                  data={a_here}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={item => <RenderOldOrNew Message={item} />}
+                  inverted={true}
+                  showsVerticalScrollIndicator={false}
+                />
+              );
+            } else {
+              return (
+                <View
+                  style={{
+                    flexGrow: 1,
+                    width: windowWidth,
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: background_color,
+                  }}>
+                  <Text
+                    style={{
+                      ...theme.text.callout,
+                      color: theme.colors.mid_dark_25,
+                    }}>
+                    talk to start new frame!
+                  </Text>
+                </View>
+              );
+            }
           } else {
             if (Object.entries(old_messages.channels).length === 0) {
-              return (
-                <ScrollView
-                  style={styles.body_scroll_view}
-                  contentContainerStyle={
-                    styles.body_scroll_view_content_container
-                  }
-                  showsVerticalScrollIndicator={false}
-                  ref={scrollView}
-                  onContentSizeChange={() =>
-                    scrollView.current.scrollToEnd({animated: true})
-                  }>
-                  {_.uniqBy(messages, 'timetoken').map((message, index) => (
+              var b_here = _.uniqBy(messages, 'timetoken').reverse();
+
+              function RenderOldOrNew(props) {
+                var y_here = props.Message.item;
+
+                if (y_here.meta) {
+                  return (
                     <Pressable onPress={() => Keyboard.dismiss()}>
-                      <ShowMessage Message={message} />
+                      <ShowMessageOld Message={y_here} />
                     </Pressable>
-                  ))}
-                </ScrollView>
+                  );
+                } else {
+                  return (
+                    <Pressable onPress={() => Keyboard.dismiss()}>
+                      <ShowMessage Message={y_here} />
+                    </Pressable>
+                  );
+                }
+              }
+
+              return (
+                // <ScrollView
+                //   style={styles.body_scroll_view}
+                //   contentContainerStyle={
+                //     styles.body_scroll_view_content_container
+                //   }
+                //   showsVerticalScrollIndicator={false}
+                //   ref={scrollView}
+                //   onContentSizeChange={() =>
+                //     scrollView.current.scrollToEnd({animated: true})
+                //   }>
+                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
+                //     <Pressable onPress={() => Keyboard.dismiss()}>
+                //       <ShowMessage Message={message} />
+                //     </Pressable>
+                //   ))}
+                // </ScrollView>
+                <FlatList
+                  data={b_here}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={item => <RenderOldOrNew Message={item} />}
+                  inverted={true}
+                  showsVerticalScrollIndicator={false}
+                />
               );
             } else {
               var s_here = [
@@ -884,6 +527,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
         const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+        const [sendingShow, setSendingShow] = useState(false);
+
         const _keyboardDidShow = () => {
           setKeyboardStatus(true);
           CheckFrameLapsedOrNot();
@@ -933,10 +578,16 @@ function ClubChatScreen({navigation, dispatch, route}) {
         };
 
         const sendMessageNewFrame = message => {
+          const pubnubX = new PubNub({
+            publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+            subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
+            uuid: state_here.MyProfileReducer.myprofile.user.id,
+          });
+
           console.log('sending message in new frame');
           if (!didFrameStartInside) {
             if (message) {
-              pubnub.publish(
+              pubnubX.publish(
                 {
                   channel: channelsHere[0],
                   message,
@@ -948,16 +599,17 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   },
                 },
                 function (status, response) {
-                  console.log(status);
-                  console.log(response);
-                  StartFrame(response.timetoken);
+                  setSendingShow(false);
+                  if (response.timetoken > 0) {
+                    StartFrame(response.timetoken);
+                  }
                 },
               );
             } else {
             }
           } else {
             if (message) {
-              pubnub.publish(
+              pubnubX.publish(
                 {
                   channel: channelsHere[0],
                   message,
@@ -970,12 +622,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 function (status, response) {
                   console.log(status);
                   console.log(response);
-                  pubnub.publish(
+                  pubnubX.publish(
                     {
                       channel: channelIdHere + '_push',
                       message: new_message_notif_payload,
                     },
                     function (status, response) {
+                      setSendingShow(false);
                       console.log(status);
                     },
                   );
@@ -986,9 +639,14 @@ function ClubChatScreen({navigation, dispatch, route}) {
           }
         };
         const sendMessageOldFrame = message => {
+          const pubnubY = new PubNub({
+            publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+            subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
+            uuid: state_here.MyProfileReducer.myprofile.user.id,
+          });
           console.log('sending message in old frame');
           if (message) {
-            pubnub.publish(
+            pubnubY.publish(
               {
                 channel: channelsHere[0],
                 message,
@@ -1001,12 +659,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
               function (status, response) {
                 console.log(status);
                 console.log(response);
-                pubnub.publish(
+                pubnubY.publish(
                   {
                     channel: channelIdHere + '_push',
                     message: new_message_notif_payload,
                   },
                   function (status, response) {
+                    setSendingShow(false);
                     console.log(status);
                   },
                 );
@@ -1015,6 +674,20 @@ function ClubChatScreen({navigation, dispatch, route}) {
           } else {
           }
         };
+
+        function SendButton() {
+          if (!sendingShow) {
+            return (
+              <Iconly
+                name="SendBold"
+                color={theme.colors.success_green}
+                size={30}
+              />
+            );
+          } else {
+            return <Pulse size={10} color={theme.colors.success_green} />;
+          }
+        }
 
         return (
           <View
@@ -1077,6 +750,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     alignItems: 'center',
                   }}
                   onPress={() => {
+                    setSendingShow(true);
                     Keyboard.dismiss;
                     if (pick.length > 0) {
                       if (!channelOnGoing) {
@@ -1096,11 +770,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                       });
                     }
                   }}>
-                  <Iconly
-                    name="SendBold"
-                    color={theme.colors.success_green}
-                    size={30}
-                  />
+                  <SendButton />
                 </TouchableOpacity>
               </SquircleView>
             </View>
@@ -1170,14 +840,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
         }}>
         <OtherInputBar />
       </View>
-      <ImagePickerOverlayInputX />
-      <CameraPickerOverlayInput />
-      <Overlay
-        isVisible={pasteLinkVisible}
-        onBackdropPress={togglePasteLinkOverlay}
-        overlayStyle={styles.paste_link_overlay_style}>
-        <PasteLinkOverlay />
-      </Overlay>
     </View>
   );
 }
@@ -1289,9 +951,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-
     backgroundColor: background_color,
-
     alignItems: 'center',
   },
   center_header_view: {flexDirection: 'column'},

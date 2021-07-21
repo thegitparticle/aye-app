@@ -14,6 +14,9 @@ import {useNavigation} from '@react-navigation/native';
 import {MixpanelContext} from '../../../external/MixPanelStuff';
 import ThemeContext from '../../../themes/Theme';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {MMKV} from 'react-native-mmkv';
+import dayjs from 'dayjs';
+import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
@@ -39,6 +42,11 @@ function ClubsHomeD({dispatch}) {
     React.useCallback(() => {
       pubnub.unsubscribeAll();
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
+      MMKV.set(
+        state_here.CurrentChannelReducer.current_channel,
+        dayjs().unix(),
+      );
+      dispatch(SetCurrentChannel('0'));
     }, [dispatch, refreshing]),
   );
 

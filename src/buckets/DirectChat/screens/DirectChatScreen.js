@@ -45,10 +45,10 @@ import ViewShot, {captureRef} from 'react-native-view-shot';
 import ThemeContext from '../../../themes/Theme';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import Iconly from '../../../external/Iconly';
-import {MMKV} from 'react-native-mmkv';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {Bubbles, DoubleBounce, Bars, Pulse} from 'react-native-loader';
 import {SquircleView} from 'react-native-figma-squircle';
+import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -81,6 +81,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
   const mixpanel = useContext(MixpanelContext);
   useEffect(() => {
     mixpanel.track('Opened Directs Chat Screen');
+    dispatch(SetCurrentChannel(directIdHere));
   }, []);
 
   const name_of_craftsman =
@@ -109,78 +110,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
   var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
 
-  var trending_gifs_data_block_empty = [
-    {
-      images: {
-        fixed_height_small: {
-          url:
-            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
-        },
-      },
-    },
-    {
-      images: {
-        fixed_height_small: {
-          url:
-            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
-        },
-      },
-    },
-    {
-      images: {
-        fixed_height_small: {
-          url:
-            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
-        },
-      },
-    },
-    {
-      images: {
-        fixed_height_small: {
-          url:
-            'https://media0.giphy.com/media/xUPGcyi4YxcZp8dWZq184b23utx00z40sy5whv4v25bm3irbrlgqpywqejlen4dg&rid=giphy.gif',
-        },
-      },
-    },
-  ];
-
   var trending_photos_data_block =
     state_here.TrendingPhotosReducer.trending_photos;
-
-  var trending_photos_data_block_empty = [
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/fit=max&fm=jpg&ixid=MXwyMTEyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-    {
-      width: 1000,
-      height: 500,
-      urls: {
-        thumb:
-          'https://images.unsplash.com/phyMTR8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=200',
-      },
-    },
-  ];
 
   function LeftHeaderComponent() {
     return (
@@ -215,7 +146,6 @@ function DirectChatScreen({navigation, dispatch, route}) {
         }}
         onPress={() => {
           navigation.goBack();
-          MMKV.set(directIdHere, dayjs().unix());
         }}>
         <Iconly
           name="ChevronDownBroken"
