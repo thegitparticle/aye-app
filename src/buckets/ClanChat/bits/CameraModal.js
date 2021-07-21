@@ -24,6 +24,8 @@ function CameraModal({navigation, route}) {
 
   const [photo, setPhoto] = useState('');
 
+  const [showFrontCam, setFrontCam] = useState(false);
+
   const [galleryPicked, setGalleryPicked] = useState('');
 
   const [showWhat, setShowWhat] = useState('Camera'); //Camera, CraftCamera, Gallery, CraftGallery
@@ -64,7 +66,9 @@ function CameraModal({navigation, route}) {
 
   function FlipCamera() {
     return (
-      <TouchableOpacity style={flip_camera_button_wrap} onPress={takePhoto}>
+      <TouchableOpacity
+        style={flip_camera_button_wrap}
+        onPress={() => setFrontCam(!showFrontCam)}>
         <Icon
           name="refresh-cw"
           type="feather"
@@ -183,16 +187,30 @@ function CameraModal({navigation, route}) {
   }
 
   if (showWhat === 'Camera') {
-    return (
-      <Camera
-        ref={camera}
-        style={[StyleSheet.absoluteFill, camera_overall]}
-        device={device}
-        isActive={true}
-        photo={true}>
-        <BottomButtons />
-      </Camera>
-    );
+    if (!showFrontCam) {
+      return (
+        <Camera
+          ref={camera}
+          style={[StyleSheet.absoluteFill, camera_overall]}
+          device={device}
+          isActive={true}
+          photo={true}>
+          <BottomButtons />
+        </Camera>
+      );
+    } else {
+      const device_here = devices.front;
+      return (
+        <Camera
+          ref={camera}
+          style={[StyleSheet.absoluteFill, camera_overall]}
+          device={device_here}
+          isActive={true}
+          photo={true}>
+          <BottomButtons />
+        </Camera>
+      );
+    }
   } else if (showWhat === 'CraftCamera') {
     return (
       <CraftCamera
