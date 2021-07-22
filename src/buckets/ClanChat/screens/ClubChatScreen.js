@@ -247,8 +247,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
         {
           channels: [channelsHere],
           includeMeta: true,
-          end: now_here + '0000',
-          start: channelStartTime + '0000000',
+          end: channelStartTime + '0000000',
+          start: now_here + '0000',
           count: 100, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
@@ -401,14 +401,53 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 />
               );
             } else {
-              var s_here = [
-                {
-                  data: _.uniqBy(messages, 'timetoken').reverse(),
-                },
-                {
-                  data: old_messages.channels[channelIdHere].reverse(),
-                },
-              ];
+              const [moreOldMessages, setMoreOldMessages] = useState([]);
+
+              if (moreOldMessages) {
+                var s_here = [
+                  {
+                    data: _.uniqBy(messages, 'timetoken').reverse(),
+                  },
+                  {
+                    data: _.concat(
+                      old_messages.channels[channelIdHere].reverse(),
+                      moreOldMessages.reverse(),
+                    ),
+                  },
+                ];
+              } else {
+                var s_here = [
+                  {
+                    data: _.uniqBy(messages, 'timetoken').reverse(),
+                  },
+                  {
+                    data: _.concat(
+                      old_messages.channels[channelIdHere].reverse(),
+                    ),
+                  },
+                ];
+              }
+
+              function GetMoreMessages() {
+                var old_here = old_messages.channels[channelIdHere].reverse();
+
+                var last_time_token = old_here[0].timetoken;
+
+                pubnub.fetchMessages(
+                  {
+                    channels: [channelsHere],
+                    includeMeta: true,
+                    end: channelStartTime + '0000000',
+                    start: last_time_token,
+                    count: 100, // default/max is 25 messages for multiple channels (up to 500)
+                  },
+                  function (status, response) {
+                    if (response) {
+                      setMoreOldMessages(response.channels[channelIdHere]);
+                    }
+                  },
+                );
+              }
 
               function RenderOldOrNew(props) {
                 var y_here = props.Message.item;
@@ -435,6 +474,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   renderItem={item => <RenderOldOrNew Message={item} />}
                   inverted={true}
                   showsVerticalScrollIndicator={false}
+                  onEndReached={GetMoreMessages}
+                  extraData={moreOldMessages}
                 />
               );
             }
