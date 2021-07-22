@@ -43,7 +43,7 @@ function ThreePeopleLiveClub(props) {
         <View style={styles.ThreeLivePerson1}>
           <Animated.View style={{transform: [{scale: anim.current}]}}>
             <LinearGradient
-              colors={['#f85032', '#e73827']}
+              colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 width: windowHeight * 0.09,
@@ -68,7 +68,7 @@ function ThreePeopleLiveClub(props) {
         <View style={styles.ThreeLivePerson2}>
           <Animated.View style={{transform: [{scale: anim.current}]}}>
             <LinearGradient
-              colors={['#f85032', '#e73827']}
+              colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 width: windowHeight * 0.09,
@@ -91,7 +91,7 @@ function ThreePeopleLiveClub(props) {
           </Animated.View>
           <Animated.View style={{transform: [{scale: anim.current}]}}>
             <LinearGradient
-              colors={['#f85032', '#e73827']}
+              colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 width: windowHeight * 0.09,

@@ -40,7 +40,7 @@ function TwoPeopleLiveClub(props) {
         {imagesList.map((urlhere, index) => (
           <Animated.View style={{transform: [{scale: anim.current}]}}>
             <LinearGradient
-              colors={['#f85032', '#e73827']}
+              colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 width: windowHeight * 0.09,

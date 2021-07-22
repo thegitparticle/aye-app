@@ -39,12 +39,11 @@ function DormantClubBit(props) {
     if (newMessages > 0) {
       return (
         <LinearGradient
-          colors={['#f85032', '#e73827']}
+          colors={['#FF512F', '#DD2476']}
           style={{
-            borderRadius: 35,
-            width: 70,
-            height: 70,
-            backgroundColor: 'tomato',
+            borderRadius: 34,
+            width: 68,
+            height: 68,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
