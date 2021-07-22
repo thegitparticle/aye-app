@@ -621,13 +621,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
                 function (status, response) {
                   console.log(status);
                   console.log(response);
+                  setSendingShow(false);
                   pubnubX.publish(
                     {
                       channel: channelIdHere + '_push',
                       message: new_message_notif_payload,
                     },
                     function (status, response) {
-                      setSendingShow(false);
                       console.log(status);
                     },
                   );
@@ -658,13 +658,13 @@ function ClubChatScreen({navigation, dispatch, route}) {
               function (status, response) {
                 console.log(status);
                 console.log(response);
+                setSendingShow(false);
                 pubnubY.publish(
                   {
                     channel: channelIdHere + '_push',
                     message: new_message_notif_payload,
                   },
                   function (status, response) {
-                    setSendingShow(false);
                     console.log(status);
                   },
                 );
