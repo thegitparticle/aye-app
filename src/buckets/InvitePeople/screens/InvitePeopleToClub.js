@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useMemo} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   Text,
   FlatList,
   Pressable,
-  ScrollView,
 } from 'react-native';
 import {SearchBar, Button, Avatar, Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -78,7 +77,6 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
               message: 'your friend is SMS invited to this clan',
               type: 'info',
               backgroundColor: 'mediumseagreen',
-              //backgroundColor: 'indianred',
             }),
           )
 
@@ -89,7 +87,6 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
       showMessage({
         message: 'Choose a contact to add',
         type: 'info',
-        //backgroundColor: 'mediumseagreen',
         backgroundColor: 'indianred',
       });
     }
@@ -105,61 +102,67 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     AddContactsList = AddContactsList.filter(item => item !== id);
   }
 
-  function RenderContactItem(props) {
-    const [added, setAdded] = useState(false);
-    var number_here = String(props.PhoneItem);
-    var name_here = props.Name;
+  const RenderContactItem = useMemo(
+    () =>
+      function RenderContactItem(props) {
+        const [added, setAdded] = useState(false);
+        var number_here = String(props.PhoneItem);
+        var name_here = props.Name;
 
-    if (added) {
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            DeSelectContactItem(number_here);
-            setAdded(false);
-          }}>
-          <Icon
-            name="checkcircle"
-            type="ant-design"
-            color="#36B37E"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            title={name_here.charAt(0)}
-            size={windowHeight * 0.06}
-            containerStyle={{backgroundColor: '#ddd'}}
-          />
-          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
-        </Pressable>
-      );
-    } else {
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            SelectContactItem(number_here);
-            setAdded(true);
-          }}>
-          <Icon
-            name="circle"
-            type="entypo"
-            color="#131313"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            title={name_here.charAt(0)}
-            size={windowHeight * 0.06}
-            containerStyle={{backgroundColor: '#ddd'}}
-          />
-          <Text style={styles.contact_item_not_selected_text}>
-            {props.Name}
-          </Text>
-        </Pressable>
-      );
-    }
-  }
+        if (added) {
+          return (
+            <Pressable
+              style={styles.contact_item_pressable_view}
+              onPress={() => {
+                DeSelectContactItem(number_here);
+                setAdded(false);
+              }}>
+              <Icon
+                name="checkcircle"
+                type="ant-design"
+                color="#36B37E"
+                style={styles.contact_item_icon}
+              />
+              <Avatar
+                rounded
+                title={name_here.charAt(0)}
+                size={windowHeight * 0.06}
+                containerStyle={{backgroundColor: '#ddd'}}
+              />
+              <Text style={styles.contact_item_selected_text}>
+                {props.Name}
+              </Text>
+            </Pressable>
+          );
+        } else {
+          return (
+            <Pressable
+              style={styles.contact_item_pressable_view}
+              onPress={() => {
+                SelectContactItem(number_here);
+                setAdded(true);
+              }}>
+              <Icon
+                name="circle"
+                type="entypo"
+                color="#131313"
+                style={styles.contact_item_icon}
+              />
+              <Avatar
+                rounded
+                title={name_here.charAt(0)}
+                size={windowHeight * 0.06}
+                containerStyle={{backgroundColor: '#ddd'}}
+              />
+              <Text style={styles.contact_item_not_selected_text}>
+                {props.Name}
+              </Text>
+            </Pressable>
+          );
+        }
+      },
+    [],
+  );
 
   const contacts_string_from_server =
     mystatehere.MyProfileReducer.myprofile.user.contact_list;
@@ -173,15 +176,12 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     }
 
     function EditAfter(match, p1, p2, p3, offset, string) {
-      // console.log(match);
       var y_here = match.charAt(1);
       return '"' + y_here;
     }
 
     const x_here = contacts_string_from_server.replace(/\W'/g, EditBefore);
-    // console.log(x_here + 'xxx');
     const y_here = x_here.replace(/'\W/g, EditAfter);
-    // console.log(y_here, 'yyyy');
 
     contacts_list_from_server = JSON.parse(y_here);
   }
@@ -194,7 +194,6 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
     let newListHere = contacts_list_from_server.filter(
       item => !item.name.toLowerCase().search(contactsSearch.toLowerCase()),
     );
-    // console.log(newListHere);
     setSearchedList(newListHere);
   }, [contactsSearch]);
 
@@ -204,13 +203,13 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
         rightComponent={<RightHeaderComponent />}
         backgroundColor="#FaFaFa"
         containerStyle={styles.header_container}
-        //barStyle="dark-content"
       />
       <View style={styles.left_header_view}>
         <Text style={styles.header_title}>invite contacts</Text>
       </View>
 
       <SquircleView
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: windowWidth * 0.95,
           height: 50,
@@ -245,23 +244,20 @@ function InvitePeopleToClub({dispatch, navigation, route}) {
         />
       </SquircleView>
 
-      <ScrollView style={styles.list_wrap_view}>
-        <FlatList
-          data={
-            contactsSearch.length === 0
-              ? contacts_list_from_server
-              : searchedList
-          }
-          renderItem={({item}) => (
-            <RenderContactItem
-              Name={item.name}
-              Item={item}
-              PhoneItem={item.phone}
-            />
-          )}
-          keyExtractor={item => item.phoneNumbers}
-        />
-      </ScrollView>
+      <FlatList
+        data={
+          contactsSearch.length === 0 ? contacts_list_from_server : searchedList
+        }
+        renderItem={({item}) => (
+          <RenderContactItem
+            Name={item.name}
+            Item={item}
+            PhoneItem={item.phone}
+          />
+        )}
+        keyExtractor={item => item.phone}
+        ListFooterComponent={<View style={{height: 100}} />}
+      />
 
       <Button
         title="Done"

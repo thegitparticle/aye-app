@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useMemo} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -25,7 +25,7 @@ import {GetMyProfile} from '../../../redux/MyProfileActions';
 import Contacts from 'react-native-contacts';
 import axios from 'axios';
 import _ from 'lodash';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Iconly from '../../../external/Iconly';
 import ThemeContext from '../../../themes/Theme';
@@ -150,67 +150,70 @@ function StartClub({dispatch, navigation}) {
     AddContactsList = AddContactsList.filter(item => item !== id);
   }
 
-  function RenderContactItem(props) {
-    const [added, setAdded] = useState(false);
-    var number_here = String(props.PhoneItem);
+  const RenderContactItem = useMemo(
+    () =>
+      function RenderContactItem(props) {
+        const [added, setAdded] = useState(false);
+        var number_here = String(props.PhoneItem);
 
-    //if (number_list) {
-    if (added) {
-      var name_here = props.Name;
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            DeSelectContactItem(number_here);
-            setAdded(false);
-          }}>
-          <Icon
-            name="checkcircle"
-            type="ant-design"
-            color="#36B37E"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            title={name_here.charAt(0)}
-            size={windowHeight * 0.06}
-            containerStyle={{backgroundColor: '#ddd'}}
-          />
-          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
-        </Pressable>
-      );
-    } else {
-      var name_here = props.Name;
-      return (
-        <Pressable
-          style={styles.contact_item_pressable_view}
-          onPress={() => {
-            SelectContactItem(number_here);
-            setAdded(true);
-          }}>
-          <Icon
-            name="circle"
-            type="entypo"
-            color="#131313"
-            style={styles.contact_item_icon}
-          />
-          <Avatar
-            rounded
-            title={name_here.charAt(0)}
-            activeOpacity={0.5}
-            size={windowHeight * 0.06}
-            containerStyle={{backgroundColor: '#ddd'}}
-          />
-          <Text style={styles.contact_item_not_selected_text}>
-            {props.Name}
-          </Text>
-        </Pressable>
-      );
-    }
-    // } else {
-    //  return <View />;
-    //}
-  }
+        //if (number_list) {
+        if (added) {
+          var name_here = props.Name;
+          return (
+            <Pressable
+              style={styles.contact_item_pressable_view}
+              onPress={() => {
+                DeSelectContactItem(number_here);
+                setAdded(false);
+              }}>
+              <Icon
+                name="checkcircle"
+                type="ant-design"
+                color="#36B37E"
+                style={styles.contact_item_icon}
+              />
+              <Avatar
+                rounded
+                title={name_here.charAt(0)}
+                size={windowHeight * 0.06}
+                containerStyle={{backgroundColor: '#ddd'}}
+              />
+              <Text style={styles.contact_item_selected_text}>
+                {props.Name}
+              </Text>
+            </Pressable>
+          );
+        } else {
+          var name_here = props.Name;
+          return (
+            <Pressable
+              style={styles.contact_item_pressable_view}
+              onPress={() => {
+                SelectContactItem(number_here);
+                setAdded(true);
+              }}>
+              <Icon
+                name="circle"
+                type="entypo"
+                color="#131313"
+                style={styles.contact_item_icon}
+              />
+              <Avatar
+                rounded
+                title={name_here.charAt(0)}
+                activeOpacity={0.5}
+                size={windowHeight * 0.06}
+                containerStyle={{backgroundColor: '#ddd'}}
+              />
+              <Text style={styles.contact_item_not_selected_text}>
+                {props.Name}
+              </Text>
+            </Pressable>
+          );
+        }
+      },
+    [],
+  );
 
   function CircleNew() {
     var the_list = mystatehere.MyCircleReducer.mycircle;
