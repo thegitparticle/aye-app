@@ -487,6 +487,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
     var new_frame_notif_payload = {
       pn_gcm: {
+        data: {
+          channel: channelsHere[0],
+        },
         notification: {
           title: name_of_craftsman,
           body: 'new frame started',
@@ -592,6 +595,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
 
         var new_message_notif_payload = {
           pn_gcm: {
+            data: {
+              channel: channelsHere[0],
+            },
             notification: {
               title: name_of_craftsman,
               body: `new messages for you from ${name_of_craftsman} :)`,

@@ -490,6 +490,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
     var new_frame_notif_payload = {
       pn_gcm: {
+        data: {
+          channel: channelIdHere,
+        },
         notification: {
           title: clubNameHere,
           body: 'new frame started',
@@ -610,6 +613,9 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
         var new_message_notif_payload = {
           pn_gcm: {
+            data: {
+              channel: channelIdHere,
+            },
             notification: {
               title: clubNameHere,
               body: 'new messages for you...',

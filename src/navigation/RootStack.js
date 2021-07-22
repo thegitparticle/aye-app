@@ -27,7 +27,19 @@ function RootStack() {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new notification has arrived!');
+      console.log(remoteMessage);
+      if (
+        state_here.CurrentChannelReducer.current_channel ===
+        remoteMessage.data.channel
+      ) {
+      } else {
+        showMessage({
+          message: remoteMessage.notification.title,
+          description: remoteMessage.notification.body,
+          type: 'info',
+          backgroundColor: 'skyblue',
+        });
+      }
     });
 
     netinfo();

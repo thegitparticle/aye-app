@@ -41,6 +41,9 @@ function CraftGallery(props) {
 
     var new_frame_notif_payload = {
       pn_gcm: {
+        data: {
+          channel: props.channelID,
+        },
         notification: {
           title: props.clubName,
           body: 'new frame started',
