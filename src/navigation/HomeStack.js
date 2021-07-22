@@ -30,6 +30,7 @@ import CameraModalD from '../buckets/DirectChat/bits/CameraModal';
 import MediaModalD from '../buckets/DirectChat/bits/MediaModal';
 import ViewMessageModal from '../buckets/ClanChat/bits/ViewMessageModal';
 import ViewMessageModalD from '../buckets/DirectChat/bits/ViewMessageModal';
+// import Share from './Share';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -313,6 +314,7 @@ function HomeStack() {
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
+
       <StackMain.Screen
         name="ClubInteractionScreens"
         component={ClubInteractionScreens}

@@ -129,7 +129,6 @@ function HomeMainD({dispatch, navigation}) {
         backgroundColor: theme.colors.full_light,
       }}>
       <HeaderAtHome />
-
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}

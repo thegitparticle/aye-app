@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable, Image, StyleSheet} from 'react-native';
 import {ShareMenuReactView} from 'react-native-share-menu';
+// import {useNavigation} from '@react-navigation/native';
 
 const Button = ({onPress, title, style}) => (
   <Pressable onPress={onPress}>
@@ -9,12 +10,17 @@ const Button = ({onPress, title, style}) => (
 );
 
 function Share() {
+  // const navigation = useNavigation();
   const [sharedData, setSharedData] = useState('');
   const [sharedMimeType, setSharedMimeType] = useState('');
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
     ShareMenuReactView.data().then(({mimeType, data}) => {
+      // ShareMenuReactView.continueInApp(data);
+      // navigation.navigate('Handle', {
+      //   text: data,
+      // });
       setSharedData(data);
       setSharedMimeType(mimeType);
     });
@@ -22,7 +28,7 @@ function Share() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Button
           title="Dismiss"
           onPress={() => {
@@ -42,35 +48,35 @@ function Share() {
           disabled={sending}
           style={sending ? styles.sending : styles.send}
         />
-      </View>
+      </View> */}
       {sharedMimeType === 'text/plain' && <Text>{sharedData}</Text>}
-      {sharedMimeType.startsWith('image/') && (
+      {/* {sharedMimeType.startsWith('image/') && (
         <Image
           style={styles.image}
           resizeMode="contain"
           source={{uri: sharedData}}
         />
-      )}
+      )} */}
       <View style={styles.buttonGroup}>
-        <Button
+        {/* <Button
           title="Dismiss with Error"
           onPress={() => {
             ShareMenuReactView.dismissExtension('Dismissed with error');
           }}
           style={styles.destructive}
-        />
+        /> */}
         <Button
           title="Continue In App"
           onPress={() => {
-            ShareMenuReactView.continueInApp();
+            ShareMenuReactView.continueInApp(sharedData);
           }}
         />
-        <Button
+        {/* <Button
           title="Continue In App With Extra Data"
           onPress={() => {
             ShareMenuReactView.continueInApp({hello: 'from the other side'});
           }}
-        />
+        /> */}
       </View>
     </View>
   );
