@@ -493,6 +493,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
         notification: {
           title: name_of_craftsman,
           body: 'new frame started',
+          sound: 'default',
         },
       },
     };

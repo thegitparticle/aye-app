@@ -49,6 +49,7 @@ function CraftImage(props) {
         notification: {
           title: props.nameCraftsman,
           body: 'new frame started',
+          sound: 'default',
         },
       },
     };

@@ -47,6 +47,7 @@ function CraftImage(props) {
         notification: {
           title: props.clubName,
           body: 'new frame started',
+          sound: 'default',
         },
       },
     };

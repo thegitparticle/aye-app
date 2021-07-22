@@ -496,6 +496,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
         notification: {
           title: clubNameHere,
           body: 'new frame started',
+          sound: 'default',
         },
       },
     };
@@ -619,6 +620,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
             notification: {
               title: clubNameHere,
               body: 'new messages for you...',
+              sound: 'default',
             },
           },
         };

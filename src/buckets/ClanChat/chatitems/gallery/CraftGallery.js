@@ -47,6 +47,7 @@ function CraftGallery(props) {
         notification: {
           title: props.clubName,
           body: 'new frame started',
+          sound: 'default',
         },
       },
     };
