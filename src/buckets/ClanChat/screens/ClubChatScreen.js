@@ -249,7 +249,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           includeMeta: true,
           end: channelStartTime + '0000000',
           start: now_here + '0000',
-          count: 100, // default/max is 25 messages for multiple channels (up to 500)
+          count: 5, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
           if (response) {
@@ -306,22 +306,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
 
             if (a_here.length > 0) {
               return (
-                // <ScrollView
-                //   style={styles.body_scroll_view}
-                //   contentContainerStyle={
-                //     styles.body_scroll_view_content_container
-                //   }
-                //   showsVerticalScrollIndicator={false}
-                //   ref={scrollView}
-                //   onContentSizeChange={() =>
-                //     scrollView.current.scrollToEnd({animated: true})
-                //   }>
-                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                //     <Pressable onPress={() => Keyboard.dismiss()}>
-                //       <ShowMessage Message={message} />
-                //     </Pressable>
-                //   ))}
-                // </ScrollView>
                 <FlatList
                   data={a_here}
                   keyExtractor={(item, index) => item + index}
@@ -376,22 +360,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
               }
 
               return (
-                // <ScrollView
-                //   style={styles.body_scroll_view}
-                //   contentContainerStyle={
-                //     styles.body_scroll_view_content_container
-                //   }
-                //   showsVerticalScrollIndicator={false}
-                //   ref={scrollView}
-                //   onContentSizeChange={() =>
-                //     scrollView.current.scrollToEnd({animated: true})
-                //   }>
-                //   {_.uniqBy(messages, 'timetoken').map((message, index) => (
-                //     <Pressable onPress={() => Keyboard.dismiss()}>
-                //       <ShowMessage Message={message} />
-                //     </Pressable>
-                //   ))}
-                // </ScrollView>
                 <FlatList
                   data={b_here}
                   keyExtractor={(item, index) => item + index}
@@ -403,33 +371,30 @@ function ClubChatScreen({navigation, dispatch, route}) {
             } else {
               const [moreOldMessages, setMoreOldMessages] = useState([]);
 
-              if (moreOldMessages) {
-                var s_here = [
-                  {
-                    data: _.uniqBy(messages, 'timetoken').reverse(),
-                  },
-                  {
-                    data: _.concat(
-                      old_messages.channels[channelIdHere].reverse(),
-                      moreOldMessages.reverse(),
-                    ),
-                  },
-                ];
-              } else {
-                var s_here = [
-                  {
-                    data: _.uniqBy(messages, 'timetoken').reverse(),
-                  },
-                  {
-                    data: _.concat(
-                      old_messages.channels[channelIdHere].reverse(),
-                    ),
-                  },
-                ];
-              }
+              const old = useMemo(
+                () => old_messages.channels[channelIdHere],
+                [],
+              );
+
+              const old_reverse = useMemo(() => old.reverse(), [old]);
+
+              var s_here = [
+                {
+                  data: _.uniqBy(messages, 'timetoken').reverse(),
+                },
+                {
+                  data: old_reverse,
+                },
+              ];
+
+              const [endHit, setEndHit] = useState(false);
 
               function GetMoreMessages() {
-                var old_here = old_messages.channels[channelIdHere].reverse();
+                var old_here_2 = old_messages.channels[channelIdHere];
+
+                var old_here = old_here_2.reverse();
+
+                console.log(old_here[0]);
 
                 var last_time_token = old_here[0].timetoken;
 
@@ -439,7 +404,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     includeMeta: true,
                     end: channelStartTime + '0000000',
                     start: last_time_token,
-                    count: 100, // default/max is 25 messages for multiple channels (up to 500)
+                    count: 5, // default/max is 25 messages for multiple channels (up to 500)
                   },
                   function (status, response) {
                     if (response) {
@@ -474,8 +439,6 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   renderItem={item => <RenderOldOrNew Message={item} />}
                   inverted={true}
                   showsVerticalScrollIndicator={false}
-                  onEndReached={GetMoreMessages}
-                  extraData={moreOldMessages}
                 />
               );
             }

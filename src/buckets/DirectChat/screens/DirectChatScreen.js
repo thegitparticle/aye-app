@@ -399,30 +399,21 @@ function DirectChatScreen({navigation, dispatch, route}) {
             } else {
               const [moreOldMessages, setMoreOldMessages] = useState([]);
 
-              if (moreOldMessages) {
-                var s_here = [
-                  {
-                    data: _.uniqBy(messages, 'timetoken').reverse(),
-                  },
-                  {
-                    data: _.concat(
-                      old_messages.channels[channelIdHere].reverse(),
-                      moreOldMessages.reverse(),
-                    ),
-                  },
-                ];
-              } else {
-                var s_here = [
-                  {
-                    data: _.uniqBy(messages, 'timetoken').reverse(),
-                  },
-                  {
-                    data: _.concat(
-                      old_messages.channels[channelIdHere].reverse(),
-                    ),
-                  },
-                ];
-              }
+              const old = useMemo(
+                () => old_messages.channels[channelIdHere],
+                [],
+              );
+
+              const old_reverse = useMemo(() => old.reverse(), [old]);
+
+              var s_here = [
+                {
+                  data: _.uniqBy(messages, 'timetoken').reverse(),
+                },
+                {
+                  data: old_reverse,
+                },
+              ];
 
               function GetMoreMessages() {
                 var old_here = old_messages.channels[channelIdHere].reverse();
@@ -470,8 +461,8 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   renderItem={item => <RenderOldOrNew Message={item} />}
                   inverted={true}
                   showsVerticalScrollIndicator={false}
-                  onEndReached={GetMoreMessages}
-                  extraData={moreOldMessages}
+                  // onEndReached={GetMoreMessages}
+                  // extraData={moreOldMessages}
                 />
               );
             }

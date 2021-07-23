@@ -33,6 +33,9 @@ function HomeMainD({dispatch, navigation}) {
     {key: 'directs', title: 'directs', icon: 'send'},
   ]);
 
+  console.log(windowHeight);
+  console.log(windowWidth);
+
   const [giveContactsVisible, setGiveContactsVisible] = useState(false);
 
   async function requestUserPermission() {
