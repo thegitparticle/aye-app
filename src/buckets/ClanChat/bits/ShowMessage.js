@@ -149,7 +149,7 @@ function ShowMessage(props) {
                 borderTopRightRadius: 10,
                 borderTopLeftRadius: 10,
               }}
-              intensity={75}
+              intensity={85}
               tint="light">
               <View
                 style={{

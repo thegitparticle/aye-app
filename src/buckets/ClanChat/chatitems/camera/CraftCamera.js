@@ -89,7 +89,7 @@ function CraftCamera(props) {
   function Children() {
     return (
       <View>
-        <BlurView style={text_input_blur_view} intensity={75} tint="light">
+        <BlurView style={text_input_blur_view} intensity={85} tint="light">
           <View style={text_input_view}>
             <TextInput
               placeholder="type..."
