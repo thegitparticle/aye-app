@@ -249,7 +249,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
           includeMeta: true,
           end: channelStartTime + '0000000',
           start: now_here + '0000',
-          count: 5, // default/max is 25 messages for multiple channels (up to 500)
+          count: 100, // default/max is 25 messages for multiple channels (up to 500)
         },
         function (status, response) {
           if (response) {
@@ -404,7 +404,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                     includeMeta: true,
                     end: channelStartTime + '0000000',
                     start: last_time_token,
-                    count: 5, // default/max is 25 messages for multiple channels (up to 500)
+                    count: 100, // default/max is 25 messages for multiple channels (up to 500)
                   },
                   function (status, response) {
                     if (response) {
