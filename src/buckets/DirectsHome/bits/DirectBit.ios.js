@@ -9,7 +9,7 @@ import ThemeContext from '../../../themes/Theme';
 import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get('window').height;
 
 function DirectBit(props) {
   const theme = useContext(ThemeContext);
@@ -88,16 +88,15 @@ function DirectBit(props) {
         <LinearGradient
           colors={['#FF512F', '#DD2476']}
           style={{
-            borderRadius: 34,
-            width: 68,
-            height: 68,
+            borderRadius: windowHeight > 770 ? 33.5 : 31,
+            width: windowHeight > 770 ? 67 : 62,
+            height: windowHeight > 770 ? 67 : 62,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
           <FastImage
             source={{uri: props.Direct.display_guys.profile_picture}}
             style={styles.avatar_of_club}
-            size={68}
           />
         </LinearGradient>
       );
@@ -106,7 +105,6 @@ function DirectBit(props) {
         <FastImage
           source={{uri: props.Direct.display_guys.profile_picture}}
           style={styles.avatar_of_club}
-          size={68}
         />
       );
     }
@@ -141,9 +139,9 @@ const styles = StyleSheet.create({
   },
 
   avatar_of_club: {
-    borderRadius: 30,
-    width: 60,
-    height: 60,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
   },
   overall_view: {
     flexDirection: 'row',

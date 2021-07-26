@@ -76,60 +76,106 @@ function BannerToPushToStartClub() {
       </View>
     );
   } else if (state_here.MyClubsReducer.myclubs.length <= 3) {
-    return (
-      <TouchableOpacity
-        style={{
-          marginVertical: windowHeight * 0.05,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onPress={() => navigation.navigate('StartClub')}>
-        <SquircleView
+    if (windowHeight > 770) {
+      return (
+        <TouchableOpacity
           style={{
-            width: windowWidth * 0.8,
-            height: 60,
+            marginVertical: windowHeight * 0.05,
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          squircleParams={{
-            cornerSmoothing: 1,
-            cornerRadius: 15,
-            fillColor: theme.colors.success_green,
-          }}>
+          onPress={() => navigation.navigate('StartClub')}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.8,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 15,
+              fillColor: theme.colors.success_green,
+            }}>
+            <Text
+              style={{...theme.text.title_3, color: theme.colors.full_light}}>
+              start clan
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={{
+            marginTop: windowHeight * 0.05,
+            marginBottom: windowHeight * 0.15,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.colors.success_green,
+            width: windowWidth * 0.4,
+            height: windowWidth * 0.15,
+            borderRadius: windowHeight * 0.1,
+            alignSelf: 'center',
+          }}
+          onPress={() => navigation.navigate('StartClub')}>
           <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
             start clan
           </Text>
-        </SquircleView>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    }
   } else {
-    return (
-      <TouchableOpacity
-        style={{
-          marginTop: windowHeight * 0.05,
-          marginBottom: windowHeight * 0.2,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onPress={() => navigation.navigate('StartClub')}>
-        <SquircleView
+    if (windowHeight > 770) {
+      return (
+        <TouchableOpacity
           style={{
-            width: windowWidth * 0.8,
-            height: 60,
+            marginTop: windowHeight * 0.05,
+            marginBottom: windowHeight * 0.2,
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          squircleParams={{
-            cornerSmoothing: 1,
-            cornerRadius: 15,
-            fillColor: theme.colors.success_green,
-          }}>
+          onPress={() => navigation.navigate('StartClub')}>
+          <SquircleView
+            style={{
+              width: windowWidth * 0.8,
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            squircleParams={{
+              cornerSmoothing: 1,
+              cornerRadius: 15,
+              fillColor: theme.colors.success_green,
+            }}>
+            <Text
+              style={{...theme.text.title_3, color: theme.colors.full_light}}>
+              start clan
+            </Text>
+          </SquircleView>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={{
+            marginTop: windowHeight * 0.05,
+            marginBottom: windowHeight * 0.15,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.colors.success_green,
+            width: windowWidth * 0.4,
+            height: windowWidth * 0.15,
+            borderRadius: windowHeight * 0.1,
+            alignSelf: 'center',
+          }}
+          onPress={() => navigation.navigate('StartClub')}>
           <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
             start clan
           </Text>
-        </SquircleView>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    }
   }
 }
 

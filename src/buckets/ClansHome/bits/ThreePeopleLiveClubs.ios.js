@@ -46,9 +46,9 @@ function ThreePeopleLiveClub(props) {
               colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
-                width: windowHeight * 0.09,
-                height: windowHeight * 0.09,
-                borderRadius: windowHeight * 0.045,
+                borderRadius: windowHeight > 770 ? 33.5 : 31,
+                width: windowHeight > 770 ? 67 : 62,
+                height: windowHeight > 770 ? 67 : 62,
                 backgroundColor: 'tomato',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -71,9 +71,9 @@ function ThreePeopleLiveClub(props) {
               colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
-                width: windowHeight * 0.09,
-                height: windowHeight * 0.09,
-                borderRadius: windowHeight * 0.045,
+                borderRadius: windowHeight > 770 ? 33.5 : 31,
+                width: windowHeight > 770 ? 67 : 62,
+                height: windowHeight > 770 ? 67 : 62,
                 backgroundColor: 'tomato',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -94,9 +94,9 @@ function ThreePeopleLiveClub(props) {
               colors={['#FF512F', '#DD2476']}
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
-                width: windowHeight * 0.09,
-                height: windowHeight * 0.09,
-                borderRadius: windowHeight * 0.045,
+                borderRadius: windowHeight > 770 ? 33.5 : 31,
+                width: windowHeight > 770 ? 67 : 62,
+                height: windowHeight > 770 ? 67 : 62,
                 backgroundColor: 'tomato',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -165,16 +165,16 @@ export default ThreePeopleLiveClub;
 const styles = StyleSheet.create({
   AvatarStyleLiveClub: {
     marginHorizontal: -2,
-    width: windowHeight * 0.08,
-    height: windowHeight * 0.08,
-    borderRadius: windowHeight * 0.4,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
     borderWidth: 3,
   },
   AvatarStyleLiveClubNew: {
     marginHorizontal: -2,
-    width: windowHeight * 0.08,
-    height: windowHeight * 0.08,
-    borderRadius: windowHeight * 0.4,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
     borderWidth: 0,
   },
   ThreeLivePerson2: {
@@ -190,17 +190,17 @@ const styles = StyleSheet.create({
   AvatarStyleLiveClub3: {
     marginHorizontal: -4,
     marginTop: -7.5,
-    width: windowHeight * 0.08,
-    height: windowHeight * 0.08,
-    borderRadius: windowHeight * 0.04,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
     borderWidth: 3,
   },
   AvatarStyleLiveClub3New: {
     marginHorizontal: -4,
     marginTop: -7.5,
-    width: windowHeight * 0.08,
-    height: windowHeight * 0.08,
-    borderRadius: windowHeight * 0.04,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
     borderWidth: 0,
   },
 });

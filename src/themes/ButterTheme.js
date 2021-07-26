@@ -1,3 +1,8 @@
+import {Dimensions} from 'react-native';
+
+const windowHeight = Dimensions.get('window').height;
+// const windowWidth = Dimensions.get('window').width;
+
 export const ButterTheme = {
   colors: {
     success_green: '#00C781',
@@ -57,48 +62,47 @@ export const ButterTheme = {
   text: {
     title_large: {
       fontFamily: 'GothamRounded-Bold',
-      fontSize: 34,
+      fontSize: windowHeight > 770 ? 34 : 32,
     },
     title_1: {
       fontFamily: 'GothamRounded-Bold',
-      fontSize: 28,
+      fontSize: windowHeight > 770 ? 28 : 26,
     },
     title_2: {
       fontFamily: 'GothamRounded-Bold',
-      fontSize: 22,
-      color: 'red',
+      fontSize: windowHeight > 770 ? 22 : 21,
     },
     title_3: {
       fontFamily: 'GothamRounded-Bold',
-      fontSize: 20,
+      fontSize: windowHeight > 770 ? 20 : 19,
     },
     header: {
       fontFamily: 'GothamRounded-Medium',
-      fontSize: 17,
+      fontSize: windowHeight > 770 ? 17 : 16,
     },
     body: {
       fontFamily: 'GothamRounded-Book',
-      fontSize: 17,
+      fontSize: windowHeight > 770 ? 17 : 16,
     },
     callout: {
       fontFamily: 'GothamRounded-Book',
-      fontSize: 16,
+      fontSize: windowHeight > 770 ? 16 : 15,
     },
     subhead_medium: {
       fontFamily: 'GothamRounded-Medium',
-      fontSize: 15,
+      fontSize: windowHeight > 770 ? 15 : 14,
     },
     subhead: {
       fontFamily: 'GothamRounded-Book',
-      fontSize: 15,
+      fontSize: windowHeight > 770 ? 15 : 14,
     },
     caption: {
       fontFamily: 'GothamRounded-Book',
-      fontSize: 13,
+      fontSize: windowHeight > 770 ? 13 : 12,
     },
     smallest: {
       fontFamily: 'GothamRounded-Book',
-      fontSize: 12,
+      fontSize: windowHeight > 770 ? 12 : 11,
     },
   },
 };

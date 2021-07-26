@@ -9,7 +9,7 @@ import {usePubNub} from 'pubnub-react';
 import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get('window').height;
 
 function DormantClubBit(props) {
   const theme = useContext(ThemeContext);
@@ -41,16 +41,15 @@ function DormantClubBit(props) {
         <LinearGradient
           colors={['#FF512F', '#DD2476']}
           style={{
-            borderRadius: 34,
-            width: 68,
-            height: 68,
+            borderRadius: windowHeight > 770 ? 33.5 : 31,
+            width: windowHeight > 770 ? 67 : 62,
+            height: windowHeight > 770 ? 67 : 62,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
           <FastImage
             source={{uri: props.Club.club_profile_pic}}
             style={styles.avatar_of_club}
-            size={68}
           />
         </LinearGradient>
       );
@@ -59,7 +58,6 @@ function DormantClubBit(props) {
         <FastImage
           source={{uri: props.Club.club_profile_pic}}
           style={styles.avatar_of_club}
-          size={68}
         />
       );
     }
@@ -117,9 +115,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar_of_club: {
-    borderRadius: 30,
-    width: 60,
-    height: 60,
+    borderRadius: windowHeight > 770 ? 30 : 27.5,
+    width: windowHeight > 770 ? 60 : 55,
+    height: windowHeight > 770 ? 60 : 55,
   },
   overall_view_under: {
     flexDirection: 'row',
