@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {GetMyNudgeToList} from '../../../redux/MyNudgeToListActions';
 import {useNavigation} from '@react-navigation/native';
 import ThemeContext from '../../../themes/Theme';
+import {useFocusEffect} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height;
 //const windowWidth = Dimensions.get('window').width;
@@ -19,9 +20,11 @@ function NudgeToList({dispatch}) {
 
   const theme = useContext(ThemeContext);
 
-  useEffect(() => {
-    dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
-  }, [dispatch]);
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
+  //   }, [dispatch]),
+  // );
 
   const RenderItem = useMemo(
     () =>

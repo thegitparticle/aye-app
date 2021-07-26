@@ -10,6 +10,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import DirectBit from '../bits/DirectBit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import BannerIfDmsEmpty from './BannerIfDmsEmpty';
+import {GetMyNudgeToList} from '../../../redux/MyNudgeToListActions';
 
 var state_here = {};
 
@@ -38,6 +39,9 @@ function DirectsHomeD({dispatch}) {
     React.useCallback(() => {
       if (user_id_here > 0) {
         dispatch(GetDirectsList(user_id_here));
+        dispatch(
+          GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id),
+        );
       }
     }, [dispatch, user_id_here, refreshing]),
   );

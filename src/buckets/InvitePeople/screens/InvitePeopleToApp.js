@@ -91,67 +91,65 @@ function InvitePeopleToApp({dispatch, navigation}) {
     InviteContactsList = InviteContactsList.filter(item => item !== id);
   }
 
-  const RenderContactItem = useMemo(
-    () =>
-      function RenderContactItem(props) {
-        const [added, setAdded] = useState(false);
-        var number_here = String(props.PhoneItem);
-        var name_here = props.Name;
+  // const RenderContactItem = useMemo(
+  //   () =>
+  function RenderContactItem(props) {
+    const [added, setAdded] = useState(false);
+    var number_here = String(props.PhoneItem);
+    var name_here = props.Name;
 
-        if (added) {
-          return (
-            <Pressable
-              style={styles.contact_item_pressable_view}
-              onPress={() => {
-                DeSelectContactItem(number_here);
-                setAdded(false);
-              }}>
-              <Icon
-                name="checkcircle"
-                type="ant-design"
-                color="#36B37E"
-                style={styles.contact_item_icon}
-              />
-              <Avatar
-                rounded
-                title={name_here.charAt(0)}
-                size={windowHeight * 0.06}
-                containerStyle={{backgroundColor: '#ddd'}}
-              />
-              <Text style={styles.contact_item_selected_text}>
-                {props.Name}
-              </Text>
-            </Pressable>
-          );
-        } else {
-          return (
-            <Pressable
-              style={styles.contact_item_pressable_view}
-              onPress={() => {
-                SelectContactItem(number_here);
-                setAdded(true);
-              }}>
-              <Icon
-                name="circle"
-                type="entypo"
-                color="#131313"
-                style={styles.contact_item_icon}
-              />
-              <Avatar
-                rounded
-                title={name_here.charAt(0)}
-                size={windowHeight * 0.06}
-                containerStyle={{backgroundColor: '#ddd'}}
-              />
-              <Text style={styles.contact_item_not_selected_text}>
-                {props.Name}
-              </Text>
-            </Pressable>
-          );
-        }
-      },
-    [],
-  );
+    if (added) {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            DeSelectContactItem(number_here);
+            setAdded(false);
+          }}>
+          <Icon
+            name="checkcircle"
+            type="ant-design"
+            color="#36B37E"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            title={name_here.charAt(0)}
+            size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
+          />
+          <Text style={styles.contact_item_selected_text}>{props.Name}</Text>
+        </Pressable>
+      );
+    } else {
+      return (
+        <Pressable
+          style={styles.contact_item_pressable_view}
+          onPress={() => {
+            SelectContactItem(number_here);
+            setAdded(true);
+          }}>
+          <Icon
+            name="circle"
+            type="entypo"
+            color="#131313"
+            style={styles.contact_item_icon}
+          />
+          <Avatar
+            rounded
+            title={name_here.charAt(0)}
+            size={windowHeight * 0.06}
+            containerStyle={{backgroundColor: '#ddd'}}
+          />
+          <Text style={styles.contact_item_not_selected_text}>
+            {props.Name}
+          </Text>
+        </Pressable>
+      );
+    }
+  }
+  //   [],
+  // );
 
   const contacts_string_from_server =
     mystatehere.MyProfileReducer.myprofile.user.contact_list;
