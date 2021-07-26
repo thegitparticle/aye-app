@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -170,7 +171,7 @@ function ShowMessageOld(props) {
                 borderTopRightRadius: 10,
                 borderTopLeftRadius: 10,
               }}
-              intensity={75}
+              intensity={85}
               tint="light">
               <View
                 style={{

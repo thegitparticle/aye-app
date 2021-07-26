@@ -16,6 +16,7 @@ import {showMessage} from 'react-native-flash-message';
 import ThemeContext from '../../../themes/Theme';
 import Iconly from '../../../external/Iconly';
 import {SquircleView} from 'react-native-figma-squircle';
+import Share from 'react-native-share';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -40,6 +41,12 @@ function InvitePeopleToApp({dispatch, navigation}) {
   }
 
   function InviteContactsToAye(contacts_list, club_id) {
+    const shareAppOptions = {
+      title: 'Share app via',
+      message: 'Download Aye today -',
+      url: 'https://downloadaye.page.link/download',
+    };
+
     if (contacts_list.length > 0) {
       _.forEach(contacts_list, function (value) {
         axios
@@ -57,7 +64,11 @@ function InvitePeopleToApp({dispatch, navigation}) {
               backgroundColor: 'mediumseagreen',
             }),
           )
-
+          .then(() =>
+            Share.open(shareAppOptions)
+              .then(res => console.log(res))
+              .catch(err => console.log(err)),
+          )
           .then(() => navigation.goBack())
           .catch(err => console.log(err));
       });

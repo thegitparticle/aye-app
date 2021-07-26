@@ -117,7 +117,7 @@ function PermissionsAfterRegister({dispatch, route}) {
             fillColor: theme.colors.success_green,
           }}>
           <Text style={{...theme.text.title_3, color: theme.colors.full_light}}>
-            ALLOW CONTACTS
+            dive into aye!
           </Text>
         </SquircleView>
       </TouchableOpacity>
@@ -125,10 +125,10 @@ function PermissionsAfterRegister({dispatch, route}) {
         style={{
           ...theme.text.header,
           textAlign: 'center',
-          color: theme.colors.full_light,
+          color: '#DDDDDD',
           marginHorizontal: windowWidth * 0.1,
         }}>
-        allowing access to your contacts helps you find your friends faster
+        Aye! is where you talk to your baes and besties
       </Text>
 
       <LottieView
