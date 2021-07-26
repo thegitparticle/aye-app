@@ -7,6 +7,8 @@ import {GetMyNudgeToList} from '../../../redux/MyNudgeToListActions';
 import {useNavigation} from '@react-navigation/native';
 import ThemeContext from '../../../themes/Theme';
 import {useFocusEffect} from '@react-navigation/native';
+import Contacts from 'react-native-contacts';
+import axios from 'axios';
 
 const windowHeight = Dimensions.get('window').height;
 //const windowWidth = Dimensions.get('window').width;
@@ -20,11 +22,46 @@ function NudgeToList({dispatch}) {
 
   const theme = useContext(ThemeContext);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     dispatch(GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id));
-  //   }, [dispatch]),
-  // );
+  async function GrabContacts() {
+    const contacts_here = await Contacts.getAll();
+
+    var data2 = {};
+
+    data2.contact_list = contacts_here;
+    data2.contact_list.unshift({
+      country_code:
+        state_here.MyProfileReducer.myprofile.user.country_code_of_user,
+    });
+
+    var x1 = data2.contact_list;
+    //console.log(x1);
+
+    var dataf = {};
+    dataf.contact_list = JSON.stringify(x1);
+
+    var config = {
+      method: 'put',
+      url:
+        'https://apisayepirates.life/api/users/post_contacts_to_server/' +
+        String(state_here.MyProfileReducer.myprofile.user.id) +
+        '/',
+      data: dataf,
+    };
+    axios(config)
+      //.then(response => console.log(response.data))
+      .catch(err => console.log(err));
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (
+        state_here.MyProfileReducer.myprofile.user.contact_list_sync_status ===
+        true
+      ) {
+        GrabContacts();
+      }
+    }, []),
+  );
 
   const RenderItem = useMemo(
     () =>

@@ -11,6 +11,7 @@ import DirectBit from '../bits/DirectBit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import BannerIfDmsEmpty from './BannerIfDmsEmpty';
 import {GetMyNudgeToList} from '../../../redux/MyNudgeToListActions';
+import {GetMyProfile} from '../../../redux/MyProfileActions';
 
 var state_here = {};
 
@@ -41,6 +42,9 @@ function DirectsHomeD({dispatch}) {
         dispatch(GetDirectsList(user_id_here));
         dispatch(
           GetMyNudgeToList(state_here.MyProfileReducer.myprofile.user.id),
+        );
+        dispatch(
+          GetMyProfile(state_here.MyProfileReducer.myprofile.user.phone),
         );
       }
     }, [dispatch, user_id_here, refreshing]),
