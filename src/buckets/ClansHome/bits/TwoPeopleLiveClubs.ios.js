@@ -53,7 +53,7 @@ function TwoPeopleLiveClub(props) {
               <FastImage
                 source={{uri: urlhere}}
                 style={{
-                  ...styles.AvatarStyleLiveClub,
+                  ...styles.AvatarStyleLiveClubNew,
                   borderColor: theme.colors.off_light,
                   backgroundColor: theme.colors.off_light,
                 }}
