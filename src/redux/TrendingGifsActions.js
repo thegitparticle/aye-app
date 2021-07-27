@@ -2,8 +2,6 @@ import {ADD_TRENDINGGIFS} from './types';
 import axios from 'axios';
 
 export const TrendingGifsActions = search_query => {
-  console.log(search_query + 'giphy');
-
   return dispatch => {
     var res = [];
 

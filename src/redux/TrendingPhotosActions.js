@@ -2,8 +2,6 @@ import {ADD_TRENDINGPHOTOS} from './types';
 import axios from 'axios';
 
 export const TrendingPhotosActions = search_query => {
-  console.log(search_query + 'unsplash');
-
   return dispatch => {
     var res = [];
 

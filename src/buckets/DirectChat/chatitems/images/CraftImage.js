@@ -319,7 +319,7 @@ function CraftImage(props) {
         leftComponent={
           <Pressable
             style={close_button_style}
-            onPress={() => HandleGoingBack()}>
+            onPress={() => props.changeBackToSearch()}>
             <Iconly
               name="CloseSquareBold"
               color={theme.colors.off_light}

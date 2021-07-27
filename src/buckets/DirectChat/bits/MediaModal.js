@@ -1,5 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState, useEffect, useMemo} from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import {
   View,
   FlatList,
@@ -19,6 +25,7 @@ import RenderSearchedGifItem from '../chatitems/gifs/RenderSearchedGifItem';
 import RenderSearchedImageItem from '../chatitems/images/RenderSearchedImageItem';
 import CraftGif from '../chatitems/gifs/CraftGif';
 import CraftImage from '../chatitems/images/CraftImage';
+import _ from 'lodash';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
@@ -30,13 +37,33 @@ function MediaModalD({dispatch, route}) {
 
   const {channelOnGoing, clubName, clubID, channelID, messages} = route.params;
 
-  const [searchItem, setSearchItem] = useState('modi');
+  const [searchItem, setSearchItem] = useState('fun');
 
   const [gifPicked, setGifPicked] = useState('');
 
   const [imagePicked, setImagePicked] = useState('');
 
   const [showWhat, setShowWhat] = useState('SearchMode'); //SearchMode, GifCraft, ImageCraft
+
+  const debouncedSave = useCallback(
+    _.debounce(newValue => console.log(newValue), 1000),
+    [],
+  );
+
+  const updateValue = newValue => {
+    setSearchItem(newValue);
+    debouncedSave(newValue);
+  };
+
+  useEffect(() => {
+    dispatch(TrendingPhotosActions(searchItem));
+    dispatch(TrendingGifsActions(searchItem));
+  }, [dispatch, searchItem]);
+
+  var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
+
+  var trending_photos_data_block =
+    state_here.TrendingPhotosReducer.trending_photos;
 
   const UnsplashRoute = useMemo(
     () =>
@@ -65,7 +92,7 @@ function MediaModalD({dispatch, route}) {
           </View>
         );
       },
-    [searchItem],
+    [searchItem, trending_photos_data_block],
   );
 
   const GiphyRoute = useMemo(
@@ -95,18 +122,8 @@ function MediaModalD({dispatch, route}) {
           </View>
         );
       },
-    [searchItem],
+    [searchItem, trending_gifs_data_block],
   );
-
-  useEffect(() => {
-    dispatch(TrendingPhotosActions(searchItem));
-    dispatch(TrendingGifsActions(searchItem));
-  }, [dispatch, searchItem]);
-
-  var trending_gifs_data_block = state_here.TrendingGifsReducer.trending_gifs;
-
-  var trending_photos_data_block =
-    state_here.TrendingPhotosReducer.trending_photos;
 
   const renderScene = SceneMap({
     unsplash: UnsplashRoute,
@@ -129,6 +146,8 @@ function MediaModalD({dispatch, route}) {
     {key: 'unsplash', title: 'UNSPLASH'},
     {key: 'giphy', title: 'GIPHY'},
   ]);
+
+  const ChangeBackToSearch = () => setShowWhat('SearchMode');
 
   const style_view_wrap = useStyle(
     () => [
@@ -192,7 +211,7 @@ function MediaModalD({dispatch, route}) {
           <SearchBar
             placeholder="search ..."
             onChangeText={search => {
-              setSearchItem(search);
+              updateValue(search);
             }}
             value={searchItem}
             containerStyle={search_bar_container}
@@ -222,6 +241,7 @@ function MediaModalD({dispatch, route}) {
         clubID={clubID}
         clubName={clubName}
         gifPicked={gifPicked}
+        changeBackToSearch={ChangeBackToSearch}
       />
     );
   } else if (showWhat === 'ImageCraft') {
@@ -233,6 +253,7 @@ function MediaModalD({dispatch, route}) {
         clubID={clubID}
         clubName={clubName}
         imagePicked={imagePicked}
+        changeBackToSearch={ChangeBackToSearch}
       />
     );
   } else {
