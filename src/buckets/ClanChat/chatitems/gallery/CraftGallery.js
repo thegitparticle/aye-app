@@ -284,8 +284,8 @@ function CraftGallery(props) {
         },
       },
       function (status, response) {
-        HandleGoingBack();
         setSendingShow(false);
+        HandleGoingBack();
       },
     );
   };

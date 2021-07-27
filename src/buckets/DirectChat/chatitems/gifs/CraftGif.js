@@ -57,7 +57,7 @@ function CraftGif(props) {
     if (props.messages.length === 0) {
       var config = {
         method: 'post',
-        url: 'https://apisayepirates.life/api/clubs/create_frames_clubs/',
+        url: 'https://apisayepirates.life/api/clubs/create_frames_one_on_one/',
         headers: {'content-type': 'application/json'},
         data: {
           start_time: timeToken,
