@@ -225,9 +225,15 @@ function ClubChatScreen({navigation, dispatch, route}) {
   };
 
   useEffect(() => {
-    pubnub.subscribe({channels: channelsHere});
+    const pubnubX = new PubNub({
+      publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+      subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
+      uuid: state_here.MyProfileReducer.myprofile.user.id,
+    });
+
+    pubnubX.subscribe({channels: channelsHere});
     if (!channelOnGoing) {
-      pubnub.fetchMessages(
+      pubnubX.fetchMessages(
         {
           channels: [channelsHere],
           includeMeta: true,
@@ -243,7 +249,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
       );
     } else {
       var now_here = dayjs().valueOf();
-      pubnub.fetchMessages(
+      pubnubX.fetchMessages(
         {
           channels: [channelsHere],
           includeMeta: true,
@@ -259,8 +265,8 @@ function ClubChatScreen({navigation, dispatch, route}) {
         },
       );
     }
-    pubnub.addListener({message: handleMessage});
-    pubnub.addListener({file: handleMessage});
+    pubnubX.addListener({message: handleMessage});
+    pubnubX.addListener({file: handleMessage});
   }, [pubnub, channelsHere]);
 
   const LiveMessagesView = useMemo(
