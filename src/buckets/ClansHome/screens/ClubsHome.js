@@ -96,8 +96,8 @@ function ClubsHomeD({dispatch}) {
           bottomDivider
           containerStyle={{
             ...styles.list_item_container,
-            borderColor: theme.colors.full_dark_25,
-            backgroundColor: theme.colors.full_light,
+            borderColor: theme.colors.full_dark_10,
+            backgroundColor: theme.colors.off_light,
           }}>
           <DormantClubBit Club={x_here} />
         </ListItem>
@@ -117,7 +117,8 @@ function ClubsHomeD({dispatch}) {
           </View>
         }
         style={{
-          backgroundColor: theme.colors.full_light,
+          backgroundColor: theme.colors.off_light,
+          flex: 1,
         }}
         showsVerticalScrollIndicator={false}
         refreshing={refreshing}
