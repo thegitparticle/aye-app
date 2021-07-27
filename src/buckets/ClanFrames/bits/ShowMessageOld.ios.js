@@ -1,11 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Image, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Avatar} from 'react-native-elements';
 import {usePubNub} from 'pubnub-react';
 import Autolink from 'react-native-autolink';
 import {BlurView} from 'expo-blur';
+import {useNavigation} from '@react-navigation/native';
 
 /*
 
@@ -26,6 +33,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ShowMessageOld(props) {
+  const navigation = useNavigation();
   const pubnub = usePubNub();
   // console.log(props.Message);
   if (props.Message) {
@@ -55,7 +63,17 @@ function ShowMessageOld(props) {
       );
     } else if (props.Message.meta.type === 'b') {
       return (
-        <View style={styles.b_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -66,11 +84,21 @@ function ShowMessageOld(props) {
             }}
             style={styles.b_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'c') {
       return (
-        <View style={styles.c_type_view}>
+        <TouchableOpacity
+          style={styles.c_type_view}
+          onPress={() =>
+            navigation.navigate('ViewMessageModal', {
+              imageUrl: pubnub.getFileUrl({
+                channel: props.Message.channel,
+                id: props.Message.message.file.id,
+                name: props.Message.message.file.name,
+              }),
+            })
+          }>
           <FastImage
             source={{
               uri: pubnub.getFileUrl({
@@ -81,7 +109,7 @@ function ShowMessageOld(props) {
             }}
             style={styles.c_type_image}
           />
-        </View>
+        </TouchableOpacity>
       );
     } else if (props.Message.meta.type === 'e') {
       return (
