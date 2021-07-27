@@ -16,9 +16,11 @@ function RecosOverlay(props) {
   useEffect(() => {
     // console.log(props.TypeValue + ' ' + 'TYPE VALUE');
 
+    var full_sentence = props.TypeValue;
+
     var s_word = props.SelectedValue;
 
-    if (s_word.length > 0) {
+    if (full_sentence.length > 0) {
       if (s_word.length > 2) {
         axios
           .get(
