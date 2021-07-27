@@ -14,40 +14,42 @@ function RecosOverlay(props) {
   var res = [];
 
   useEffect(() => {
-    console.log(props.TypeValue + ' ' + 'TYPE VALUE');
+    // console.log(props.TypeValue + ' ' + 'TYPE VALUE reco in typed clan');
 
     var s_word = props.SelectedValue;
 
-    if (s_word.length > 2) {
-      axios
-        .get(
-          'https://apisayepirates.life/api/users/recommend_images/' +
-            String(props.UserID) +
-            '/' +
-            s_word +
-            '/' +
-            'False',
-        )
-        .then(response => (res = response.data))
-        .then(() => setRec(_.concat(res[0], res[1])))
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      axios
-        .get(
-          'https://apisayepirates.life/api/users/recommend_images/' +
-            String(props.UserID) +
-            '/' +
-            props.TypeValue +
-            '/' +
-            'True',
-        )
-        .then(response => (res = response.data))
-        .then(() => setRec(_.concat(res[0], res[1])))
-        .catch(err => {
-          console.log(err);
-        });
+    if (s_word.length > 0) {
+      if (s_word.length > 2) {
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/recommend_images/' +
+              String(props.UserID) +
+              '/' +
+              s_word +
+              '/' +
+              'False',
+          )
+          .then(response => (res = response.data))
+          .then(() => setRec(_.concat(res[0], res[1])))
+          .catch(err => {
+            console.log(err + 'reco error');
+          });
+      } else {
+        axios
+          .get(
+            'https://apisayepirates.life/api/users/recommend_images/' +
+              String(props.UserID) +
+              '/' +
+              props.TypeValue +
+              '/' +
+              'True',
+          )
+          .then(response => (res = response.data))
+          .then(() => setRec(_.concat(res[0], res[1])))
+          .catch(err => {
+            console.log(err + 'reco error');
+          });
+      }
     }
   }, [props.TypeValue, props.SelectedValue]);
 
