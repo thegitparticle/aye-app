@@ -922,9 +922,9 @@ function DirectChatScreen({navigation, dispatch, route}) {
                     alignItems: 'center',
                   }}
                   onPress={() => {
-                    setSendingShow(true);
-                    Keyboard.dismiss;
                     if (pick.length > 0) {
+                      setSendingShow(true);
+                      Keyboard.dismiss;
                       if (!channelOnGoing) {
                         sendMessageNewFrame(typevalue);
                       } else {
