@@ -278,7 +278,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
               meta: {
                 type: 'd',
                 pasted_url: copiedText,
-                pasted_dp: state_here.MyProfileReducer.myprofile.image,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
               },
             },
             function (status, response) {

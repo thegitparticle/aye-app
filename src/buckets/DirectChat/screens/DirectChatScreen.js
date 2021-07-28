@@ -13,7 +13,7 @@ import {
   SectionList,
   FlatList,
 } from 'react-native';
-import {Icon, Header} from 'react-native-elements';
+import {Icon, Header, Button, Overlay} from 'react-native-elements';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -34,6 +34,7 @@ import {SquircleView} from 'react-native-figma-squircle';
 import PubNub from 'pubnub';
 import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
 import {Bubbles, Pulse} from 'react-native-loader';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -174,7 +175,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               }>
               <SquircleView
                 style={{
-                  width: windowWidth * 0.45,
+                  width: windowWidth * 0.3,
                   height: '60%',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -187,7 +188,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   strokeWidth: 0,
                 }}>
                 <FastImage
-                  style={{width: 40, height: 40}}
+                  style={{width: 35, height: 35}}
                   source={require('../assets/cam.png')}
                 />
               </SquircleView>
@@ -204,7 +205,7 @@ function DirectChatScreen({navigation, dispatch, route}) {
               }>
               <SquircleView
                 style={{
-                  width: windowWidth * 0.45,
+                  width: windowWidth * 0.3,
                   height: '60%',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -217,8 +218,29 @@ function DirectChatScreen({navigation, dispatch, route}) {
                   strokeWidth: 0,
                 }}>
                 <FastImage
-                  style={{width: 40, height: 40}}
+                  style={{width: 35, height: 35}}
                   source={require('../assets/media.png')}
+                />
+              </SquircleView>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setPasteLinkVisible(true)}>
+              <SquircleView
+                style={{
+                  width: windowWidth * 0.3,
+                  height: '60%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                squircleParams={{
+                  cornerSmoothing: 1,
+                  cornerRadius: 10,
+                  fillColor: 'transparent',
+                  strokeColor: theme.colors.off_light,
+                  strokeWidth: 0,
+                }}>
+                <FastImage
+                  style={{width: 35, height: 35}}
+                  source={require('../assets/link.png')}
                 />
               </SquircleView>
             </TouchableOpacity>
@@ -227,6 +249,131 @@ function DirectChatScreen({navigation, dispatch, route}) {
       },
     [messages],
   );
+
+  const [pasteLinkVisible, setPasteLinkVisible] = useState(false);
+
+  const togglePasteLinkOverlay = () => {
+    setPasteLinkVisible(false);
+  };
+
+  function PasteLinkOverlay() {
+    const [copiedText, setCopiedText] = useState('');
+
+    const fetchCopiedText = async () => {
+      const text = await Clipboard.getString();
+      if (await Clipboard.hasURL()) {
+        console.log(await Clipboard.hasURL());
+        setCopiedText(text);
+      } else {
+        showMessage({
+          message: 'Please paste only links here',
+          type: 'info',
+          backgroundColor: 'indianred',
+        });
+      }
+    };
+
+    const sendMessageNewFrame = message => {
+      if (messages.length === 0) {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'd',
+                pasted_url: copiedText,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+              StartFrame();
+            },
+          );
+        } else {
+        }
+      } else {
+        if (message) {
+          pubnub.publish(
+            {
+              channel: channelsHere[0],
+              message,
+              meta: {
+                type: 'd',
+                pasted_url: copiedText,
+                user_dp: state_here.MyProfileReducer.myprofile.image,
+              },
+            },
+            function (status, response) {
+              console.log(status);
+            },
+          );
+        } else {
+        }
+      }
+    };
+    const sendMessageOldFrame = message => {
+      if (message) {
+        pubnub.publish(
+          {
+            channel: channelsHere[0],
+            message,
+            meta: {
+              type: 'd',
+              pasted_url: copiedText,
+              user_dp: state_here.MyProfileReducer.myprofile.image,
+            },
+          },
+          function (status, response) {
+            console.log(status);
+          },
+        );
+      } else {
+      }
+    };
+
+    function ButtonHere() {
+      if (copiedText.length > 0) {
+        return (
+          <Button
+            title="Send"
+            type="solid"
+            onPress={() => {
+              if (!channelOnGoing) {
+                sendMessageNewFrame(copiedText);
+              } else {
+                sendMessageOldFrame(copiedText);
+              }
+              togglePasteLinkOverlay();
+            }}
+            titleStyle={styles.send_pasted_link_button_title_style}
+            buttonStyle={styles.send_pasted_link_button_style}
+            containerStyle={styles.send_pasted_link_button_container}
+          />
+        );
+      } else {
+        return (
+          <Button
+            title="Paste"
+            type="solid"
+            onPress={() => fetchCopiedText()}
+            titleStyle={styles.paste_button_title_style}
+            buttonStyle={styles.paste_button_style}
+            containerStyle={styles.paste_button_container}
+          />
+        );
+      }
+    }
+
+    return (
+      <View style={styles.paste_link_overlay_view}>
+        <Text style={styles.paste_link_heading}>only links can be sent</Text>
+        <Text style={styles.paste_link_copied_string}>{copiedText}</Text>
+        <ButtonHere />
+      </View>
+    );
+  }
 
   const [didFrameStart, setDidFrameStart] = useState(false);
 
@@ -865,6 +1012,12 @@ function DirectChatScreen({navigation, dispatch, route}) {
         }}>
         <OtherInputBar />
       </View>
+      <Overlay
+        isVisible={pasteLinkVisible}
+        onBackdropPress={togglePasteLinkOverlay}
+        overlayStyle={styles.paste_link_overlay_style}>
+        <PasteLinkOverlay />
+      </Overlay>
     </View>
   );
 }

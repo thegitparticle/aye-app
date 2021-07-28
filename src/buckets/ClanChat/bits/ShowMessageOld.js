@@ -67,9 +67,8 @@ function ShowMessageOld(props) {
               overflow: 'hidden',
               padding: 10,
             }}
-            blurType="light"
-            blurAmount={25}
-            reducedTransparencyFallbackColor="#F2F4F9">
+            tint="light"
+            intensity={85}>
             <Autolink style={styles.d_text} text={props.Message.message} />
           </BlurView>
           <View style={styles.d_text_view} />
