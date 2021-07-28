@@ -160,11 +160,11 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   cornerRadius: 10,
                   fillColor: 'transparent',
                   strokeColor: theme.colors.off_light,
-                  strokeWidth: 1,
+                  strokeWidth: 0,
                 }}>
                 <FastImage
                   style={{width: 40, height: 40}}
-                  source={require('../assets/camera.png')}
+                  source={require('../assets/cam.png')}
                 />
               </SquircleView>
             </TouchableOpacity>
@@ -190,7 +190,7 @@ function ClubChatScreen({navigation, dispatch, route}) {
                   cornerRadius: 10,
                   fillColor: 'transparent',
                   strokeColor: theme.colors.off_light,
-                  strokeWidth: 1,
+                  strokeWidth: 0,
                 }}>
                 <FastImage
                   style={{width: 40, height: 40}}

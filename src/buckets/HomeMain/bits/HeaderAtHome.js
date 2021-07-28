@@ -28,7 +28,7 @@ function HeaderAtHome({dispatch}) {
             <View style={styles.header_left_image_wrap}>
               <FastImage
                 style={styles.header_left_image}
-                source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
+                source={require('../assets/group.png')}
               />
             </View>
           </Pressable>
@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   header_left_image: {
-    width: 40 * 1.37,
-    height: 40,
+    width: 35 * 1.8,
+    height: 35,
     marginHorizontal: 10,
     borderRadius: 0,
   },
