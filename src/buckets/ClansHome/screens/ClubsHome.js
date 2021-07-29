@@ -23,6 +23,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {MMKV} from 'react-native-mmkv';
 import dayjs from 'dayjs';
 import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
+import PubNub from 'pubnub';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
@@ -46,7 +47,14 @@ function ClubsHomeD({dispatch}) {
 
   useFocusEffect(
     React.useCallback(() => {
-      pubnub.unsubscribeAll();
+      const pubnubX = new PubNub({
+        publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+        subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
+        uuid: state_here.MyProfileReducer.myprofile.user.id,
+      });
+
+      pubnubX.unsubscribeAll();
+
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
       MMKV.set(
         state_here.CurrentChannelReducer.current_channel,

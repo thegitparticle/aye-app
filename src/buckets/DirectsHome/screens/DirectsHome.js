@@ -19,6 +19,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import BannerIfDmsEmpty from './BannerIfDmsEmpty';
 import {GetMyNudgeToList} from '../../../redux/MyNudgeToListActions';
 import {GetMyProfile} from '../../../redux/MyProfileActions';
+import PubNub from 'pubnub';
 
 var state_here = {};
 
@@ -45,6 +46,14 @@ function DirectsHomeD({dispatch}) {
 
   useFocusEffect(
     React.useCallback(() => {
+      const pubnubX = new PubNub({
+        publishKey: 'pub-c-a65bb691-5b8a-4c4b-aef5-e2a26677122d',
+        subscribeKey: 'sub-c-d099e214-9bcf-11eb-9adf-f2e9c1644994',
+        uuid: state_here.MyProfileReducer.myprofile.user.id,
+      });
+
+      pubnubX.unsubscribeAll();
+
       if (user_id_here > 0) {
         dispatch(GetDirectsList(user_id_here));
         dispatch(
