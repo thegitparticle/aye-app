@@ -124,7 +124,7 @@ function ThreePeopleLiveClub(props) {
               source={{uri: firsturl}}
               style={{
                 ...styles.AvatarStyleLiveClub,
-                borderColor: theme.colors.off_light,
+                borderColor: theme.colors.off_light_25,
                 backgroundColor: theme.colors.off_light,
               }}
               size={68}
@@ -137,7 +137,7 @@ function ThreePeopleLiveClub(props) {
               source={{uri: secondurl}}
               style={{
                 ...styles.AvatarStyleLiveClub,
-                borderColor: theme.colors.off_light,
+                borderColor: theme.colors.off_light_25,
                 backgroundColor: theme.colors.off_light,
               }}
               size={68}
@@ -148,7 +148,7 @@ function ThreePeopleLiveClub(props) {
               source={{uri: thirdurl}}
               style={{
                 ...styles.AvatarStyleLiveClub3,
-                borderColor: theme.colors.off_light,
+                borderColor: theme.colors.off_light_25,
                 backgroundColor: theme.colors.off_light,
               }}
               size={68}

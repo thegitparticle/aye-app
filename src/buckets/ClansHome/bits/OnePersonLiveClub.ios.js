@@ -71,7 +71,7 @@ function OnePersonLiveClub(props) {
               source={{uri: item}}
               style={{
                 ...styles.AvatarStyleLiveClub,
-                borderColor: theme.colors.off_light,
+                borderColor: theme.colors.off_light_25,
                 backgroundColor: theme.colors.off_light,
               }}
             />
