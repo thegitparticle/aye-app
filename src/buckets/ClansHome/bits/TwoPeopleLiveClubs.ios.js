@@ -73,7 +73,7 @@ function TwoPeopleLiveClub(props) {
               source={{uri: urlhere}}
               style={{
                 ...styles.AvatarStyleLiveClub,
-                borderColor: theme.colors.off_light_25,
+                borderColor: theme.colors.off_light,
                 backgroundColor: theme.colors.off_light,
               }}
               size={68}
