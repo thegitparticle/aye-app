@@ -167,7 +167,7 @@ function TheAyeScreen({navigation, dispatch}) {
             containerStyle={styles.header_container_style}
           />
           <Image
-            source={require('/Users/san/Desktop/toastgo/assets/logo_ypop_2.png')}
+            source={require('../assets/group.png')}
             style={styles.logo_style}
           />
         </View>
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   logo_style: {
-    width: windowWidth * 0.4 * 1.37,
-    height: windowWidth * 0.4,
+    width: windowWidth * 0.3 * 1.8,
+    height: windowWidth * 0.3,
     marginVertical: windowHeight * 0.05,
   },
   things_list_view_wrap: {
