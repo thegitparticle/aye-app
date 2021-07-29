@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useContext, useEffect} from 'react';
-import {View, StyleSheet, Dimensions, FlatList} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -188,8 +194,15 @@ function ClubsHomeD({dispatch}) {
             contentContainerStyle={{
               flexGrow: 1,
             }}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
+            // refreshing={refreshing}
+            // onRefresh={onRefresh}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor="#333333"
+              />
+            }
           />
         );
       }

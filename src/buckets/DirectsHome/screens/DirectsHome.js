@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState} from 'react';
-import {StyleSheet, View, Text, FlatList, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  RefreshControl,
+} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import NudgeToList from '../bits/NudgeToList';
 import {connect} from 'react-redux';
@@ -146,8 +153,13 @@ function DirectsHomeD({dispatch}) {
           backgroundColor: theme.colors.off_light,
         }}
         showsVerticalScrollIndicator={false}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#333333"
+          />
+        }
       />
     );
   }
