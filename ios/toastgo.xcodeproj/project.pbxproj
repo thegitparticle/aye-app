@@ -23,11 +23,6 @@
 		26B52F8A2617B79D00A5A3CF /* GothamRounded-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */; };
 		26B52F8B2617B79D00A5A3CF /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */; };
 		26B52F8C2617B79D00A5A3CF /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */; };
-		26FA59D626A2BEAF00D52D7D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26FA59D426A2BEAF00D52D7D /* MainInterface.storyboard */; };
-		26FA59DA26A2BEAF00D52D7D /* Aye!.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 26FA59D026A2BEAF00D52D7D /* Aye!.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		26FA59EB26A3134B00D52D7D /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FA59EA26A3134B00D52D7D /* ReactShareViewController.swift */; };
-		26FA59ED26A31C5F00D52D7D /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FA59EC26A31C5F00D52D7D /* ShareViewController.swift */; };
-		3D0021AF5F18604DA9FDB78C /* libPods-toastgo-Aye!.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A86634CDFB7B17A2B2B92698 /* libPods-toastgo-Aye!.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		91EDD0203BD5DD3611462675 /* libPods-toastgo-toastgoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */; };
 		AB69484D4E4D40B09F310123 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11456C7045434C5D8AA77A58 /* icomoon.ttf */; };
@@ -42,13 +37,6 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = toastgo;
 		};
-		26FA59D826A2BEAF00D52D7D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 26FA59CF26A2BEAF00D52D7D;
-			remoteInfo = "Aye!";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,7 +46,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				26FA59DA26A2BEAF00D52D7D /* Aye!.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +65,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = toastgo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = toastgo/main.m; sourceTree = "<group>"; };
 		17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-toastgoTests.release.xcconfig"; path = "Target Support Files/Pods-toastgo-toastgoTests/Pods-toastgo-toastgoTests.release.xcconfig"; sourceTree = "<group>"; };
-		1B5DB5C18A17E99B51B3B6B9 /* Pods-toastgo-Aye!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-Aye!.debug.xcconfig"; path = "Target Support Files/Pods-toastgo-Aye!/Pods-toastgo-Aye!.debug.xcconfig"; sourceTree = "<group>"; };
 		1E2F124BF7344CBFBF1977E0 /* GothamRounded-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-LightItalic.otf"; path = "../assets/fonts/GothamRounded-LightItalic.otf"; sourceTree = "<group>"; };
 		2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-toastgo-toastgoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2604834626834F6E00ACCA66 /* libReactNativeART.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReactNativeART.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,13 +74,6 @@
 		265CF2FF2632FBE400888150 /* toastgo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = toastgo.entitlements; path = toastgo/toastgo.entitlements; sourceTree = "<group>"; };
 		26A1D07B264D37A8005961A1 /* Filem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filem.swift; sourceTree = "<group>"; };
 		26C3B500263DB85D0031FEB5 /* libRNSpringScrollView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSpringScrollView.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		26FA59D026A2BEAF00D52D7D /* Aye!.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Aye!.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		26FA59D526A2BEAF00D52D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		26FA59D726A2BEAF00D52D7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		26FA59DF26A2C13500D52D7D /* Aye!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Aye!.entitlements"; sourceTree = "<group>"; };
-		26FA59E026A3095A00D52D7D /* Aye!-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aye!-Bridging-Header.h"; sourceTree = "<group>"; };
-		26FA59EA26A3134B00D52D7D /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
-		26FA59EC26A31C5F00D52D7D /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		27E6540A19D7363C597610A4 /* Pods-toastgo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo.debug.xcconfig"; path = "Target Support Files/Pods-toastgo/Pods-toastgo.debug.xcconfig"; sourceTree = "<group>"; };
 		2829CD7E15F8457A8C744AF9 /* GothamRounded-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-MediumItalic.otf"; path = "../assets/fonts/GothamRounded-MediumItalic.otf"; sourceTree = "<group>"; };
 		2881184490FD4087A44130F7 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -105,7 +84,6 @@
 		46441C145B2643BC85AFCF6C /* GothamRounded-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Bold.otf"; path = "../assets/fonts/GothamRounded-Bold.otf"; sourceTree = "<group>"; };
 		4B84710E063F4284A1458E0B /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		4CD75CB755FB7EF23533AAFA /* Pods-toastgo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo.release.xcconfig"; path = "Target Support Files/Pods-toastgo/Pods-toastgo.release.xcconfig"; sourceTree = "<group>"; };
-		51432466F405281B330ABAC6 /* Pods-toastgo-Aye!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toastgo-Aye!.release.xcconfig"; path = "Target Support Files/Pods-toastgo-Aye!/Pods-toastgo-Aye!.release.xcconfig"; sourceTree = "<group>"; };
 		7107C0C6F9904D4698F7DA7B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		75B9482E2E5442318A5DABA6 /* GothamRounded-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-BoldItalic.otf"; path = "../assets/fonts/GothamRounded-BoldItalic.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = toastgo/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,7 +91,6 @@
 		89AD9FAC50864EDB9594F4BF /* GothamRounded-BookItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-BookItalic.otf"; path = "../assets/fonts/GothamRounded-BookItalic.otf"; sourceTree = "<group>"; };
 		A1B42C68E24947B7AC2B9120 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		A1F99B08B22D468D9305580C /* GothamRounded-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Book.otf"; path = "../assets/fonts/GothamRounded-Book.otf"; sourceTree = "<group>"; };
-		A86634CDFB7B17A2B2B92698 /* libPods-toastgo-Aye!.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-toastgo-Aye!.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC250DA926B4E9C97743F82 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		BC9F28F59E1E487992345B8E /* GothamRounded-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GothamRounded-Medium.otf"; path = "../assets/fonts/GothamRounded-Medium.otf"; sourceTree = "<group>"; };
 		BDFE37929D074DBDAE6BC8E4 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -142,14 +119,6 @@
 			files = (
 				2604834726834F6E00ACCA66 /* libReactNativeART.a in Frameworks */,
 				DFE7B93604538A4DE78FAF18 /* libPods-toastgo.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		26FA59CD26A2BEAF00D52D7D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D0021AF5F18604DA9FDB78C /* libPods-toastgo-Aye!.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,19 +188,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		26FA59D126A2BEAF00D52D7D /* Aye! */ = {
-			isa = PBXGroup;
-			children = (
-				26FA59EC26A31C5F00D52D7D /* ShareViewController.swift */,
-				26FA59EA26A3134B00D52D7D /* ReactShareViewController.swift */,
-				26FA59DF26A2C13500D52D7D /* Aye!.entitlements */,
-				26FA59D426A2BEAF00D52D7D /* MainInterface.storyboard */,
-				26FA59D726A2BEAF00D52D7D /* Info.plist */,
-				26FA59E026A3095A00D52D7D /* Aye!-Bridging-Header.h */,
-			);
-			path = "Aye!";
-			sourceTree = "<group>";
-		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +196,6 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				CF2C998B38596D239FCA3457 /* libPods-toastgo.a */,
 				2053042B2F33C2BB874B649D /* libPods-toastgo-toastgoTests.a */,
-				A86634CDFB7B17A2B2B92698 /* libPods-toastgo-Aye!.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,7 +216,6 @@
 				13B07FAE1A68108700A75B9A /* toastgo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* toastgoTests */,
-				26FA59D126A2BEAF00D52D7D /* Aye! */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				843DF1E143F965526733E081 /* Pods */,
@@ -278,7 +232,6 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* toastgo.app */,
 				00E356EE1AD99517003FC87E /* toastgoTests.xctest */,
-				26FA59D026A2BEAF00D52D7D /* Aye!.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -290,8 +243,6 @@
 				4CD75CB755FB7EF23533AAFA /* Pods-toastgo.release.xcconfig */,
 				D8CBD3807C1932360DB6932A /* Pods-toastgo-toastgoTests.debug.xcconfig */,
 				17996618AC5B6A06F3C7485F /* Pods-toastgo-toastgoTests.release.xcconfig */,
-				1B5DB5C18A17E99B51B3B6B9 /* Pods-toastgo-Aye!.debug.xcconfig */,
-				51432466F405281B330ABAC6 /* Pods-toastgo-Aye!.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -337,32 +288,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				26FA59D926A2BEAF00D52D7D /* PBXTargetDependency */,
 			);
 			name = toastgo;
 			productName = toastgo;
 			productReference = 13B07F961A680F5B00A75B9A /* toastgo.app */;
 			productType = "com.apple.product-type.application";
-		};
-		26FA59CF26A2BEAF00D52D7D /* Aye! */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 26FA59DE26A2BEAF00D52D7D /* Build configuration list for PBXNativeTarget "Aye!" */;
-			buildPhases = (
-				C6B2B73C1F730BB216A3D357 /* [CP] Check Pods Manifest.lock */,
-				26FA59CC26A2BEAF00D52D7D /* Sources */,
-				26FA59CD26A2BEAF00D52D7D /* Frameworks */,
-				26FA59CE26A2BEAF00D52D7D /* Resources */,
-				26FA59E726A30BA200D52D7D /* Bundle React Native code and images */,
-				84A694F996822A6500FC9656 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Aye!";
-			productName = "Aye!";
-			productReference = 26FA59D026A2BEAF00D52D7D /* Aye!.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -379,10 +309,6 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1230;
-					};
-					26FA59CF26A2BEAF00D52D7D = {
-						CreatedOnToolsVersion = 12.5;
-						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -401,7 +327,6 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* toastgo */,
 				00E356ED1AD99517003FC87E /* toastgoTests */,
-				26FA59CF26A2BEAF00D52D7D /* Aye! */,
 			);
 		};
 /* End PBXProject section */
@@ -433,14 +358,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		26FA59CE26A2BEAF00D52D7D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				26FA59D626A2BEAF00D52D7D /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -457,24 +374,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nset -e\n\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		26FA59E726A30BA200D52D7D /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport NODE_BINARY=node\nexport ENTRY_FILE=index.share.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		3390C5898E6050FEA44E94C0 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -540,45 +439,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toastgo/Pods-toastgo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		84A694F996822A6500FC9656 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo-Aye!/Pods-toastgo-Aye!-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-toastgo-Aye!/Pods-toastgo-Aye!-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toastgo-Aye!/Pods-toastgo-Aye!-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C6B2B73C1F730BB216A3D357 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-toastgo-Aye!-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F115363DC5C360AB92DD6B8B /* [CP] Copy Pods Resources */ = {
@@ -661,15 +521,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		26FA59CC26A2BEAF00D52D7D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				26FA59ED26A31C5F00D52D7D /* ShareViewController.swift in Sources */,
-				26FA59EB26A3134B00D52D7D /* ReactShareViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -678,23 +529,7 @@
 			target = 13B07F861A680F5B00A75B9A /* toastgo */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
-		26FA59D926A2BEAF00D52D7D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 26FA59CF26A2BEAF00D52D7D /* Aye! */;
-			targetProxy = 26FA59D826A2BEAF00D52D7D /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		26FA59D426A2BEAF00D52D7D /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				26FA59D526A2BEAF00D52D7D /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -823,86 +658,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		26FA59DC26A2BEAF00D52D7D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B5DB5C18A17E99B51B3B6B9 /* Pods-toastgo-Aye!.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Aye!/Aye!.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Aye!/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.3;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go.share";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = toastgosqaureextshare;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Aye!/Aye!-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		26FA59DD26A2BEAF00D52D7D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51432466F405281B330ABAC6 /* Pods-toastgo-Aye!.release.xcconfig */;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Aye!/Aye!.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = QC3CQ6SH8Y;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Aye!/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.3;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.toastgo-go.share";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = toastgosqaureextshare;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "Aye!/Aye!-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1044,15 +799,6 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		26FA59DE26A2BEAF00D52D7D /* Build configuration list for PBXNativeTarget "Aye!" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				26FA59DC26A2BEAF00D52D7D /* Debug */,
-				26FA59DD26A2BEAF00D52D7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

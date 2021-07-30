@@ -9,11 +9,12 @@ import * as Sentry from '@sentry/react-native';
 import FlashMessage from 'react-native-flash-message';
 import {ThemeProvider} from './src/themes/Theme';
 import {ButterTheme} from './src/themes/ButterTheme';
-import ShareMenu from 'react-native-share-menu';
 import {LogBox} from 'react-native';
-import {ShareMenuReactView} from 'react-native-share-menu';
 
-LogBox.ignoreLogs(['source.uri should not be an empty string']);
+LogBox.ignoreLogs([
+  'source.uri should not be an empty string',
+  'Warning: Each child in a list should have a unique "key" prop.',
+]);
 
 Sentry.init({
   dsn:
@@ -25,41 +26,6 @@ const App: () => Node = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
     });
-  }, []);
-
-  const [sharedData, setSharedData] = useState('');
-  const [sharedMimeType, setSharedMimeType] = useState('');
-  const [sharedExtraData, setSharedExtraData] = useState(null);
-
-  const handleShare = useCallback(item => {
-    if (!item) {
-      console.log('nothing');
-      return;
-    }
-
-    const {mimeType, data, extraData} = item;
-
-    console.log(extraData + 'extr');
-
-    setSharedData(data);
-    setSharedExtraData(extraData);
-    setSharedMimeType(mimeType);
-  }, []);
-
-  useEffect(() => {
-    ShareMenu.getInitialShare(handleShare);
-    ShareMenu.getSharedText(text => console.log(text + 'tex'));
-    // ShareMenuReactView.data().then(({mimeType, data, extraData}) => {
-    //   console.log(extraData);
-    // });
-  }, []);
-
-  useEffect(() => {
-    const listener = ShareMenu.addNewShareListener(handleShare);
-
-    return () => {
-      listener.remove();
-    };
   }, []);
 
   return (

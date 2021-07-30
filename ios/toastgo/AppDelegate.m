@@ -4,7 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
-#import <RNShareMenu/ShareMenuManager.h>
+#import <React/RCTLinkingManager.h> 
 
 #import <UMCore/UMModuleRegistry.h>
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
@@ -90,11 +90,11 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
- - (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-    {
-      return [ShareMenuManager application:app openURL:url options:options];
-    }
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
 
 @end

@@ -33,7 +33,7 @@ pod 'Firebase/Analytics'
 
   # pod 'RNSelectableText', :path => '../node_modules/@astrocoders/react-native-selectable-text/ios/RNSelectableText.podspec'
 
-  pod 'RNShare', :path => '../node_modules/react-native-share'
+
 
   target 'toastgoTests' do
     inherit! :complete
@@ -48,17 +48,9 @@ pod 'Firebase/Analytics'
 
 	post_install do |installer|
 			react_native_post_install(installer)
-			installer.pods_project.targets.each do |target|
-			  target.build_configurations.each do |config|
-			  config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
-			     end
-			end
+
 	end
 
-  target 'Aye!' do
-    use_react_native!
-  
-    pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
-  end
+
 
 end

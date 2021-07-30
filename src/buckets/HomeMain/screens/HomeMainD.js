@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -20,7 +20,6 @@ import messaging from '@react-native-firebase/messaging';
 import Contacts from 'react-native-contacts';
 import ThemeContext from '../../../themes/Theme';
 import {SquircleView} from 'react-native-figma-squircle';
-// import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
