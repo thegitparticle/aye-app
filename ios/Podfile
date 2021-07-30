@@ -35,6 +35,8 @@ pod 'Firebase/Analytics'
 
 
 
+  pod 'react-native-receive-sharing-intent', :path => '../node_modules/react-native-receive-sharing-intent'
+
   target 'toastgoTests' do
     inherit! :complete
     # Pods for testing

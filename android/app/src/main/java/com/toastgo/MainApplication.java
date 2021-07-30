@@ -6,6 +6,7 @@ import com.facebook.react.PackageList;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactApplication;
 import com.reactnativereceivesharingintent.ReceiveSharingIntentPackage;
+import com.reactnativereceivesharingintent.ReceiveSharingIntentPackage;
 import com.meedan.ShareMenuPackage;
 import cl.json.RNSharePackage;
 import cl.json.RNSharePackage;
