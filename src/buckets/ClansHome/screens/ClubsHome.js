@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, useCallback} from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   FlatList,
   RefreshControl,
+  Text,
 } from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
@@ -24,6 +25,7 @@ import {MMKV} from 'react-native-mmkv';
 import dayjs from 'dayjs';
 import {SetCurrentChannel} from '../../../redux/CurrentChannelActions';
 import PubNub from 'pubnub';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
@@ -55,6 +57,8 @@ function ClubsHomeD({dispatch}) {
 
       pubnubX.unsubscribeAll();
 
+      console.log('clubs home use effect');
+
       dispatch(GetMyClubs(state_here.MyProfileReducer.myprofile.user.id));
       MMKV.set(
         state_here.CurrentChannelReducer.current_channel,
@@ -62,6 +66,28 @@ function ClubsHomeD({dispatch}) {
       );
       dispatch(SetCurrentChannel('0'));
     }, [dispatch, refreshing]),
+  );
+
+  const [sharedData, setSharedData] = useState('');
+  const [isData, setIsData] = useState('false');
+
+  useFocusEffect(
+    useCallback(() => {
+      ReceiveSharingIntent.getReceivedFiles(
+        data => {
+          console.log(data);
+          setSharedData(typeof data);
+          setIsData('true');
+        },
+        err => {
+          console.log(err);
+          setIsData('error');
+        },
+      );
+
+      console.log('fired in app');
+      // ReceiveSharingIntent.clearReceivedFiles();
+    }, [refreshing]),
   );
 
   const mixpanel = useContext(MixpanelContext);

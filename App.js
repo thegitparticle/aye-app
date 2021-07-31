@@ -10,7 +10,6 @@ import FlashMessage from 'react-native-flash-message';
 import {ThemeProvider} from './src/themes/Theme';
 import {ButterTheme} from './src/themes/ButterTheme';
 import {LogBox} from 'react-native';
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 LogBox.ignoreLogs([
   'source.uri should not be an empty string',
@@ -30,19 +29,7 @@ const App: () => Node = () => {
   }, []);
 
   useEffect(() => {
-    ReceiveSharingIntent.getReceivedFiles(
-      data => {
-        console.log(data);
-      },
-      err => {
-        console.log(err);
-      },
-    );
-
-    console.log('fired');
-    return () => {
-      ReceiveSharingIntent.clearReceivedFiles();
-    };
+    console.log('use effect in app is working');
   }, []);
 
   return (

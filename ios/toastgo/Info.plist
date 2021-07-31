@@ -29,7 +29,7 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>ShareMedia</string> <!-- share url protocol (must be unique to your app, suggest using your apple bundle id) -->
+                <string>org.reactjs.native.example.toastgo-go</string> <!-- share url protocol (must be unique to your app, suggest using your apple bundle id) -->
             </array>
         </dict>
         <dict/>
