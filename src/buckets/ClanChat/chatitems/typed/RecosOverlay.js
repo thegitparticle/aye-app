@@ -19,6 +19,17 @@ function RecosOverlay(props) {
 
     var s_word = props.SelectedValue;
 
+    const empty_recos = [
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_yes.jpeg',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_say_no.jpeg',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_ok.gif',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_fuck_off.gif',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_how_ya_doin.gif',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_nope.gif',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_yes.gif',
+      'https://aye-media-bucket.s3.us-west-2.amazonaws.com/default_chat_images/default_lol.gif',
+    ];
+
     if (full_sentence.length > 0) {
       if (s_word.length > 2) {
         axios
@@ -51,6 +62,8 @@ function RecosOverlay(props) {
             console.log(err + 'reco error');
           });
       }
+    } else {
+      setRec(empty_recos);
     }
   }, [props.TypeValue, props.SelectedValue]);
 
