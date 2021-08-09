@@ -20,25 +20,20 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>org.reactjs.native.example.toastgo-go</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>org.reactjs.native.example.toastgo-go</string> <!-- share url protocol (must be unique to your app, suggest using your apple bundle id) -->
-            </array>
-        </dict>
-        <dict/>
-    </array>
-
-<key>NSPhotoLibraryUsageDescription</key>
-  <string>
-      To upload photos, please allow permission to access your photo library.
-  </string>
 	<key>LSMinimumSystemVersion</key>
 	<string>11.4</string>
 	<key>LSRequiresIPhoneOS</key>
