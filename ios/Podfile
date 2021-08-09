@@ -1,10 +1,12 @@
 
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 platform :ios, '12.1'
 
 target 'toastgo' do
+  use_unimodules!
   config = use_native_modules!
 
   use_react_native!(
@@ -31,6 +33,10 @@ pod 'Firebase/Analytics'
 
   # pod 'RNSelectableText', :path => '../node_modules/@astrocoders/react-native-selectable-text/ios/RNSelectableText.podspec'
 
+
+
+  pod 'react-native-receive-sharing-intent', :path => '../node_modules/react-native-receive-sharing-intent'
+
   target 'toastgoTests' do
     inherit! :complete
     # Pods for testing
@@ -40,10 +46,13 @@ pod 'Firebase/Analytics'
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  #use_flipper!()
+  # use_flipper!()
 
 	post_install do |installer|
 			react_native_post_install(installer)
-			
+
 	end
+
+
+
 end

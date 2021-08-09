@@ -1,8 +1,8 @@
 import {ADD_TRENDINGPHOTOS} from './types';
 import axios from 'axios';
 
-export const TrendingPhotosActions = (search_query) => {
-  return (dispatch) => {
+export const TrendingPhotosActions = search_query => {
+  return dispatch => {
     var res = [];
 
     axios
@@ -11,15 +11,15 @@ export const TrendingPhotosActions = (search_query) => {
           search_query,
       )
 
-      .then((response) => (res = response.data))
+      .then(response => (res = response.data))
       .then(() =>
         dispatch({
           type: ADD_TRENDINGPHOTOS,
           payload: res.results,
         }),
       )
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err + 'unsplash');
       });
   };
 };

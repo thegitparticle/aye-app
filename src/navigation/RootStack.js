@@ -6,17 +6,43 @@ import {connect} from 'react-redux';
 import PubNub from 'pubnub';
 import {PubNubProvider} from 'pubnub-react';
 import messaging from '@react-native-firebase/messaging';
-import {MixpanelProvider} from '../pnstuff/MixPanelStuff';
+import {MixpanelProvider} from '../external/MixPanelStuff';
 import {Mixpanel} from 'mixpanel-react-native';
+import NetInfo from '@react-native-community/netinfo';
+import {showMessage} from 'react-native-flash-message';
 
 var state_here = {};
 
 function RootStack() {
+  const netinfo = NetInfo.addEventListener(state => {
+    console.log('Is connected?', state.isConnected);
+    if (state.isConnected === false) {
+      showMessage({
+        message: 'Check your internet connection!',
+        type: 'info',
+        backgroundColor: 'indianred',
+      });
+    }
+  });
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!');
+      console.log(remoteMessage);
+      if (
+        state_here.CurrentChannelReducer.current_channel ===
+        remoteMessage.data.channel
+      ) {
+      } else {
+        showMessage({
+          message: remoteMessage.notification.title,
+          description: remoteMessage.notification.body,
+          type: 'info',
+          backgroundColor: 'skyblue',
+        });
+      }
     });
 
+    netinfo();
     return unsubscribe;
   }, []);
 
@@ -80,7 +106,6 @@ function RootStack() {
     };
 
     useEffect(() => {
-      console.log('bad effect needed');
       initMixpanel();
     }, []);
 

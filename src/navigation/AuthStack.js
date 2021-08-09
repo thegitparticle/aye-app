@@ -5,26 +5,14 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import EnterPhone from '../screens/EnterPhone';
-import OTPCheck from '../screens/OTPCheck';
-import SignUpDetailsInput from '../screens/SignUpDetailsInput';
-import OTPCheckRegister from '../screens/OTPCheckRegister.ios';
-import PermissionsAfterRegister from '../screens/PermissionsAfterRegister';
+import WelcomeScreen from '../buckets/Auth/screens/WelcomeScreen';
+import EnterPhone from '../buckets/Auth/screens/EnterPhone';
+import OTPCheck from '../buckets/Auth/screens/OTPCheck';
+import SignUpDetailsInput from '../buckets/Auth/screens/SignUpDetailsInput';
+import OTPCheckRegister from '../buckets/Auth/screens/OTPCheckRegister';
+import PermissionsAfterRegister from '../buckets/Auth/screens/PermissionsAfterRegister';
 
 const StackMain = createSharedElementStackNavigator();
-
-const test_config = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
 
 function AuthStack() {
   return (

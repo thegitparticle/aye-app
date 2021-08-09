@@ -5,25 +5,32 @@ import {
   CardStyleInterpolators,
   TransitionPresets,
 } from '@react-navigation/stack';
-import RootStackScreen from '../screens/RootStackScreen';
-
-import HomeMainD from '../dummy/HomeMainD';
-import MyProfileScreen from '../screens/MyProfileScreen';
-import EditProfile from '../screens/EditProfile';
-import SettingsScreen from '../screens/SettingsScreen';
-import ClubChatScreen from '../screens/ClubChatScreen';
-import ClubFramesList from '../screens/ClubFramesList';
-import ClubHub from '../screens/ClubHub';
-import DirectFramesList from '../screens/DirectFramesList';
-import DirectChatScreen from '../screens/DirectChatScreen';
-import DirectHub from '../screens/DirectHub';
-import AddPeopleToClub from '../screens/AddPeopleToClub';
-import StartClub from '../screens/StartClub';
-import InvitePeopleToClub from '../screens/InvitePeopleToClub';
-import OtherProfile from '../screens/OtherProfile';
-import ViewOldFrameClub from '../screens/ViewOldFrameClub';
-import ViewOldFrameDirect from '../screens/ViewOldFrameDirect';
-import TheAyeScreen from '../screens/TheAyeScreen';
+import InvitePeopleToApp from '../buckets/InvitePeople/screens/InvitePeopleToApp';
+import HomeMainD from '../buckets/HomeMain/screens/HomeMainD';
+import MyProfileScreen from '../buckets/MyProfile/screens/MyProfileScreen';
+import EditProfile from '../buckets/MyProfile/screens/EditProfile';
+import SettingsScreen from '../buckets/MyProfile/screens/SettingsScreen';
+import ClubChatScreen from '../buckets/ClanChat/screens/ClubChatScreen';
+import ClubFramesList from '../buckets/ClanFrames/screens/ClubFramesList';
+import ClubHub from '../buckets/ClanHub/screens/ClubHub';
+import DirectFramesList from '../buckets/DirectFrames/screens/DirectFramesList';
+import DirectChatScreen from '../buckets/DirectChat/screens/DirectChatScreen';
+import DirectHub from '../buckets/DirectHub/screens/DirectHub';
+import AddPeopleToClub from '../buckets/AddPeople/screens/AddPeopleToClub';
+import StartClub from '../buckets/StartClan/screens/StartClub';
+import InvitePeopleToClub from '../buckets/InvitePeople/screens/InvitePeopleToClub';
+import OtherProfile from '../buckets/OtherProfile/screens/OtherProfile';
+import ViewOldFrameClub from '../buckets/ClanFrames/screens/ViewOldFrameClub';
+import ViewOldFrameDirect from '../buckets/DirectFrames/screens/ViewOldFrameDirect';
+import TheAyeScreen from '../buckets/Aye/screens/TheAyeScreen';
+import MediaModal from '../buckets/ClanChat/bits/MediaModal';
+import CameraModal from '../buckets/ClanChat/bits/CameraModal';
+import CraftCamera from '../buckets/ClanChat/chatitems/camera/CraftCamera';
+import CameraModalD from '../buckets/DirectChat/bits/CameraModal';
+import MediaModalD from '../buckets/DirectChat/bits/MediaModal';
+import ViewMessageModal from '../buckets/ClanChat/bits/ViewMessageModal';
+import ViewMessageModalD from '../buckets/DirectChat/bits/ViewMessageModal';
+// import Share from './Share';
 
 const StackMain = createStackNavigator();
 const HereStack = createStackNavigator();
@@ -60,18 +67,7 @@ function MyProfileModalScreens() {
         component={MyProfileScreen}
       />
       <MyProfileStack.Screen name="EditProfile" component={EditProfile} />
-      {/* <MyProfileStack.Screen
-        name="Network"
-        component={Network}
-        options={{
-          gestureEnabled: true,
-          transitionSpec: {
-            open: TransitionSpecs.TransitionIOSSpec,
-            close: TransitionSpecs.TransitionIOSSpec,
-          },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      /> */}
+
       <MyProfileStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </MyProfileStack.Navigator>
   );
@@ -89,6 +85,43 @@ function ClubInteractionScreens() {
   return (
     <ClubChatStack.Navigator headerMode="none">
       <ClubChatStack.Screen name="ClubChatScreen" component={ClubChatScreen} />
+      <StackMain.Screen
+        name="MediaModal"
+        component={MediaModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="CameraModal"
+        component={CameraModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="ViewMessageModal"
+        component={ViewMessageModal}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen name="CraftCamera" component={CraftCamera} />
       <ClubChatStack.Screen
         name="ClubFramesList"
         component={ClubFramesList}
@@ -142,6 +175,42 @@ function DirectInteractionScreens() {
           gestureDirection: 'horizontal-inverted',
         }}
       />
+      <StackMain.Screen
+        name="MediaModalD"
+        component={MediaModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="CameraModalD"
+        component={CameraModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="ViewMessageModalD"
+        component={ViewMessageModalD}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
       <DirectChatStack.Screen
         name="ViewOldFrameDirect"
         component={ViewOldFrameDirect}
@@ -160,18 +229,7 @@ function HomeStack() {
   return (
     <StackMain.Navigator headerMode="none">
       <StackMain.Screen name="Here" component={Here} />
-      <StackMain.Screen
-        name="RootStackScreen"
-        component={RootStackScreen}
-        options={{
-          gestureEnabled: true,
-          transitionSpec: {
-            open: TransitionSpecs.TransitionIOSSpec,
-            close: TransitionSpecs.TransitionIOSSpec,
-          },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
+
       <StackMain.Screen
         name="MyProfileModalScreens"
         component={MyProfileModalScreens}
@@ -180,7 +238,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -193,7 +250,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -206,7 +262,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -219,7 +274,18 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <StackMain.Screen
+        name="InvitePeopleToApp"
+        component={InvitePeopleToApp}
+        options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardOverlayEnabled: true,
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -232,7 +298,6 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
@@ -245,11 +310,11 @@ function HomeStack() {
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardOverlayEnabled: true,
-          //cardStyle: {backgroundColor: '#f1f4f9'},
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
+
       <StackMain.Screen
         name="ClubInteractionScreens"
         component={ClubInteractionScreens}

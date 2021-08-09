@@ -7,6 +7,7 @@ export const GetClubHubDetails = club_id => {
 
     axios
       .get('https://apisayepirates.life/api/clubs/' + String(club_id))
+      // .get('https://run.mocky.io/v3/030af608-3974-40be-a6cf-88a89b3d7845')
       .then(response => (res = response.data))
       //.then(() => console.log(JSON.parse(res)))
       .then(() =>

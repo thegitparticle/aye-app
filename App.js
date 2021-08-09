@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import type {Node} from 'react';
 import RootStack from './src/navigation/RootStack';
 import {Provider} from 'react-redux';
@@ -9,6 +9,12 @@ import * as Sentry from '@sentry/react-native';
 import FlashMessage from 'react-native-flash-message';
 import {ThemeProvider} from './src/themes/Theme';
 import {ButterTheme} from './src/themes/ButterTheme';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs([
+  'source.uri should not be an empty string',
+  'Warning: Each child in a list should have a unique "key" prop.',
+]);
 
 Sentry.init({
   dsn:
@@ -20,6 +26,10 @@ const App: () => Node = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
     });
+  }, []);
+
+  useEffect(() => {
+    console.log('use effect in app is working');
   }, []);
 
   return (

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Aye</string>
+	<string>Aye!</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,6 +20,18 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>org.reactjs.native.example.toastgo-go</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSMinimumSystemVersion</key>
@@ -40,11 +52,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>share moments with your friends</string>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>To help you find your friends</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>To help you find your friends. By giving access, you agree for your contacts to be uploaded onto our highly encrypted secure server.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To send photos to your friends.</string>
 	<key>UIAppFonts</key>
@@ -81,6 +93,8 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
