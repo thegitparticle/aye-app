@@ -6,7 +6,7 @@ Aye lets you send visual messages to your friends. As you type, our app recomend
 
 It's a React Native app built to run on iOS and Android phones. It has been heavily tested on all latest iPhones (as of 2021) and Samsung, OnePlus android phones.
 
-##### to run bombay, follow the below steps
+##### to run, follow the below steps
 1. clone the repo
 2. `yarn`
 3. `npx pod-install ios`
